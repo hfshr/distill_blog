@@ -1,0 +1,51 @@
+---
+title: "Analysing running data with rStrava"
+description: |
+  A short description of the post.
+author:
+  - name: Harry Fisher
+    url: {}
+date: 03-08-2020
+output:
+  distill::distill_article:
+    self_contained: false
+draft: true    
+---
+
+```{r setup, include=FALSE}
+library(rStrava)
+library(tidyverse)
+app_name <- 'datagetter'
+app_client_id <- '44400'
+app_secret <- '87856e001305fdfb54bb8698ac146d20b93238c1'
+
+# create strava token
+my_token <- httr::config(token = strava_oauth(app_name, app_client_id, app_secret, cache = TRUE, app_scope = "activity:read_all"))
+
+
+my_acts <- get_activity_list(my_token)
+my_acts <- compile_activities(my_acts)
+
+
+desired_columns <- c('distance', 'elapsed_time', 'moving_time', 'start_date', 'start_date_local', 'type', 'map.summary_polyline', 'upload_id', 'start_latitude', 'start_longitude')
+
+# keep only desired columns
+my_acts <- dplyr::select(my_acts, desired_columns)
+
+my_acts <- mutate(my_acts,
+                  activity_no = seq(1,n(), 1),
+                  elapsed_time = elapsed_time/60/60,
+                  moving_time = moving_time/60/60, 
+                  date = gsub("T.*$", '', start_date) %>%
+                    as.POSIXct(., format = '%Y-%m-%d'),
+                  EUdate = format(date, '%d/%m/%Y'),
+                  month = format(date, "%m"),
+                  day = format(date, "%d"),
+                  year = format(date, "%Y")) %>%
+  mutate_at(., c('month', 'day'), as.numeric)
+
+
+
+```
+
+

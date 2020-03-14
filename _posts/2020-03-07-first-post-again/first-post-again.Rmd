@@ -1,0 +1,30 @@
+---
+title: "First post"
+description: |
+  A fresh start (again)
+author: "Harry Fisher"
+
+date: 03-01-2020
+preview: images/start.png 
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+I have made a couple of attempts to get a consistent blog going, however all have failed for one reason or another. 
+This is my latest attempt which was inspired by the great [`distill`](https://rstudio.github.io/distill/) package by the Rstudio team. 
+I often found I would spend a disproportionate amount of time fiddling with how the site looked, rather than putting time and effort into the content. 
+Distill provides a clean and simple style which really appealed to me straight out of the box, so I'm hoping that I'll be able to focus more on the content this time around.
+I have a few ideas in the pipeline that I'll hopefully share over the coming months.
+
+Will this time be different? Only time will tell...
+
+
+```{r fig.align='center', out.width="40%"}
+knitr::include_graphics("images/Tick_tock.png")
+```
+

@@ -1,0 +1,32 @@
+[
+  {
+    "path": "posts/2020-03-08-athletics-rankings/",
+    "title": "Athletics rankings",
+    "description": "Using R tools to gather data from an athletics rankings website.",
+    "author": [
+      {
+        "name": "Harry Fisher",
+        "url": {}
+      }
+    ],
+    "date": "2020-03-08",
+    "categories": [],
+    "preview": "posts/2020-03-08-athletics-rankings/images/powerof10homepage.PNG",
+    "last_modified": "2020-03-14T11:04:16+00:00"
+  },
+  {
+    "path": "posts/2020-03-07-first-post-again/",
+    "title": "First post",
+    "description": "A fresh start (again)",
+    "author": [
+      {
+        "name": "Harry Fisher",
+        "url": {}
+      }
+    ],
+    "date": "2020-03-01",
+    "categories": [],
+    "preview": "posts/2020-03-07-first-post-again/images/start.png",
+    "last_modified": "2020-03-07T16:32:21+00:00"
+  }
+]

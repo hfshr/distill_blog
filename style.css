@@ -1,0 +1,13 @@
+.distill-site-nav {
+  color: rgba(255, 255, 255, 0.8);
+  background-color: #444b4f;
+  font-size: 15px;
+  font-weight: 300;
+}
+
+.posts-list .post-preview .thumbnail img { 
+  width: 60%;
+  height: auto;
+  display: block; 
+  
+}

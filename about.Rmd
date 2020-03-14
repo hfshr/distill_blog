@@ -1,0 +1,25 @@
+---
+title: "Hello World"
+description: "> whoami"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+Hello! Thanks for visiting my site. I have a passion for Data Science (especially all things **R**) and wanted to a place to document my learning and share thing I discover along the way.
+
+I currently work for LexisNexis Risk Solutions as a statistical modeller in Cardiff, Wales. Before starting at LexisNexis, I completed my PhD at Cardiff Metropolitan University in December 2019.
+
+
+<details>
+  <summary>Academic Publications (click to expand)</summary>
+  
+* Fisher et al. In press. An interdisciplinary examination of stress and injury in athletes.
+  
+* Fisher et al. 2016. Relationship between Force Production during Isometric Squats and Knee Flexion Angles during Landing. Journal of Strength and Conditioning. [[pdf]](data/pdfs/fisher-2016.pdf)
+
+</details>
+
+
+
