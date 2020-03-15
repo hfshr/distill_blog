@@ -23,6 +23,7 @@
 
 <meta property="description" itemprop="description" content="Using R tools to gather data from an athletics rankings website."/>
 
+<link rel="canonical" href="https://hfshr.netlify.com/posts/2020-03-08-athletics-rankings/"/>
 
 <!--  https://schema.org/Article -->
 <meta property="article:published" itemprop="datePublished" content="2020-03-08"/>
@@ -33,24 +34,38 @@
 <meta property="og:title" content="Harry Fisher: Athletics rankings"/>
 <meta property="og:type" content="article"/>
 <meta property="og:description" content="Using R tools to gather data from an athletics rankings website."/>
+<meta property="og:url" content="https://hfshr.netlify.com/posts/2020-03-08-athletics-rankings/"/>
+<meta property="og:image" content="https://hfshr.netlify.com/posts/2020-03-08-athletics-rankings/images/rr.png"/>
+<meta property="og:image:width" content="570"/>
+<meta property="og:image:height" content="450"/>
 <meta property="og:locale" content="en_US"/>
 <meta property="og:site_name" content="Harry Fisher"/>
 
 <!--  https://dev.twitter.com/cards/types/summary -->
-<meta property="twitter:card" content="summary"/>
+<meta property="twitter:card" content="summary_large_image"/>
 <meta property="twitter:title" content="Harry Fisher: Athletics rankings"/>
 <meta property="twitter:description" content="Using R tools to gather data from an athletics rankings website."/>
+<meta property="twitter:url" content="https://hfshr.netlify.com/posts/2020-03-08-athletics-rankings/"/>
+<meta property="twitter:image" content="https://hfshr.netlify.com/posts/2020-03-08-athletics-rankings/images/rr.png"/>
+<meta property="twitter:image:width" content="570"/>
+<meta property="twitter:image:height" content="450"/>
 
+<!--  https://scholar.google.com/intl/en/scholar/inclusion.html#indexing -->
+<meta name="citation_title" content="Harry Fisher: Athletics rankings"/>
+<meta name="citation_fulltext_html_url" content="https://hfshr.netlify.com/posts/2020-03-08-athletics-rankings/"/>
+<meta name="citation_online_date" content="2020/03/08"/>
+<meta name="citation_publication_date" content="2020/03/08"/>
+<meta name="citation_author" content="Harry Fisher"/>
 <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
 
 <script type="text/json" id="radix-rmarkdown-metadata">
-{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output","draft"]}},"value":[{"type":"character","attributes":{},"value":["Athletics rankings"]},{"type":"character","attributes":{},"value":["Using R tools to gather data from an athletics rankings website."]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Harry Fisher"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":[]}},"value":[]}]}]},{"type":"character","attributes":{},"value":["03-08-2020"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"logical","attributes":{},"value":[false]}]}
+{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","preview","date","output","draft","citation_url","canonical_url"]}},"value":[{"type":"character","attributes":{},"value":["Athletics rankings"]},{"type":"character","attributes":{},"value":["Using R tools to gather data from an athletics rankings website."]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Harry Fisher"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":[]}},"value":[]}]}]},{"type":"character","attributes":{},"value":["images/rr.png"]},{"type":"character","attributes":{},"value":["03-08-2020"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"logical","attributes":{},"value":[false]},{"type":"character","attributes":{},"value":["https://hfshr.netlify.com/posts/2020-03-08-athletics-rankings/"]},{"type":"character","attributes":{},"value":["https://hfshr.netlify.com/posts/2020-03-08-athletics-rankings/"]}]}
 </script>
 <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["athletics-rankings_files/bowser-1.9.3/bowser.min.js","athletics-rankings_files/distill-2.2.21/template.v2.js","athletics-rankings_files/jquery-1.11.3/jquery.min.js","athletics-rankings_files/webcomponents-2.0.0/webcomponents.js","images/po10_window.png","images/po10id.png","images/powerof10homepage.PNG"]}
+  {"type":"character","attributes":{},"value":["athletics-rankings_files/bowser-1.9.3/bowser.min.js","athletics-rankings_files/distill-2.2.21/template.v2.js","athletics-rankings_files/jquery-1.11.3/jquery.min.js","athletics-rankings_files/webcomponents-2.0.0/webcomponents.js","images/po10_window.png","images/po10id.png","images/powerof10homepage.PNG","images/rr.png"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
 
@@ -1282,7 +1297,47 @@ document.addEventListener('DOMContentLoaded', function() {
   width: 60%;
   height: auto;
   display: block; 
+  margin-left: auto;
+  margin-right: auto
   
+}
+
+/* https://codepen.io/sdthornton/pen/wBZdXq */
+.distill-site-header {
+   box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+}
+
+/* thunder animation */
+/* from http://jsrocks.org/ */
+.fab:hover, .fa:hover {
+    animation-name: thunder;
+    animation-duration: 1s;
+    animation-fill-mode: both;
+    animation-iteration-count: infinite;
+
+    -webkit-animation-name: thunder;
+    -webkit-animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    -webkit-animation-iteration-count: infinite;
+     transition: all 150ms ease 0s;
+}
+
+@keyframes thunder{
+    0%, 20%, 40%, 60%, 80%, 100% {
+        transform: rotate3d(0, 0, 1, -5deg);
+    }
+    10%, 30%, 50%, 70%, 90% {
+        transform: rotate3d(0, 0, 1, 5deg);
+    }
+}
+
+@-webkit-keyframes thunder{
+    0%, 20%, 40%, 60%, 80%, 100% {
+        transform: rotate3d(0, 0, 1, -5deg);
+    }
+    10%, 30%, 50%, 70%, 90% {
+        transform: rotate3d(0, 0, 1, 5deg);
+    }
 }
 </style>
 <!--/radix_placeholder_site_in_header-->
@@ -1309,6 +1364,9 @@ document.addEventListener('DOMContentLoaded', function() {
 <a href="../../index.html">Home</a>
 <a href="../../about.html">About</a>
 <a href="../../data/cv/cv_main.pdf">CV</a>
+<a href="https://github.com/hfshr/distill_blog">
+<i class="fab fa-github"></i>
+</a>
 <a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
 </div>
 </nav>
@@ -1670,10 +1728,27 @@ head(ids)</code></pre>
 <!--radix_placeholder_site_after_body-->
 <!--/radix_placeholder_site_after_body-->
 <!--radix_placeholder_appendices-->
-<div class="appendix-bottom"></div>
+<div class="appendix-bottom">
+  <h3 id="updates-and-corrections">Corrections</h3>
+  <p>If you see mistakes or want to suggest changes, please <a href="https://github.com/hfshr/distill_blog/issues/new">create an issue</a> on the source repository.</p>
+  <h3 id="citation">Citation</h3>
+  <p>For attribution, please cite this work as</p>
+  <pre class="citation-appendix short">Fisher (2020, March 8). Harry Fisher: Athletics rankings. Retrieved from https://hfshr.netlify.com/posts/2020-03-08-athletics-rankings/</pre>
+  <p>BibTeX citation</p>
+  <pre class="citation-appendix long">@misc{fisher2020athletics,
+  author = {Fisher, Harry},
+  title = {Harry Fisher: Athletics rankings},
+  url = {https://hfshr.netlify.com/posts/2020-03-08-athletics-rankings/},
+  year = {2020}
+}</pre>
+</div>
 <!--/radix_placeholder_appendices-->
 <!--radix_placeholder_navigation_after_body-->
+<div class="distill-site-nav distill-site-footer">
+
+</div>
 <!--/radix_placeholder_navigation_after_body-->
+
 
 </body>
 

@@ -7,6 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
   <meta name="generator" content="distill" />
+  <link rel="alternate" type="application/rss+xml" href="https://hfshr.netlify.com/index.xml" />
 
   <style type="text/css">
   /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
@@ -1271,7 +1272,47 @@
     width: 60%;
     height: auto;
     display: block; 
+    margin-left: auto;
+    margin-right: auto
     
+  }
+  
+  /* https://codepen.io/sdthornton/pen/wBZdXq */
+  .distill-site-header {
+     box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+  }
+  
+  /* thunder animation */
+  /* from http://jsrocks.org/ */
+  .fab:hover, .fa:hover {
+      animation-name: thunder;
+      animation-duration: 1s;
+      animation-fill-mode: both;
+      animation-iteration-count: infinite;
+  
+      -webkit-animation-name: thunder;
+      -webkit-animation-duration: 1s;
+      -webkit-animation-fill-mode: both;
+      -webkit-animation-iteration-count: infinite;
+       transition: all 150ms ease 0s;
+  }
+  
+  @keyframes thunder{
+      0%, 20%, 40%, 60%, 80%, 100% {
+          transform: rotate3d(0, 0, 1, -5deg);
+      }
+      10%, 30%, 50%, 70%, 90% {
+          transform: rotate3d(0, 0, 1, 5deg);
+      }
+  }
+  
+  @-webkit-keyframes thunder{
+      0%, 20%, 40%, 60%, 80%, 100% {
+          transform: rotate3d(0, 0, 1, -5deg);
+      }
+      10%, 30%, 50%, 70%, 90% {
+          transform: rotate3d(0, 0, 1, 5deg);
+      }
   }
   </style>
   <!--/radix_placeholder_site_in_header-->
@@ -1299,6 +1340,9 @@
 <a href="index.html">Home</a>
 <a href="about.html">About</a>
 <a href="data/cv/cv_main.pdf">CV</a>
+<a href="https://github.com/hfshr/distill_blog">
+<i class="fab fa-github"></i>
+</a>
 <a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
 </div>
 </nav>
@@ -1623,16 +1667,29 @@ function init_posts_list() {
 
 
 
-<div class="posts-container posts-apply-limit l-page">
+<div class="posts-container posts-with-sidebar posts-apply-limit l-screen-inset">
 <div class="posts-list">
 <h1 class="posts-list-caption">Posts</h1>
+<a href="posts/2020-03-14-writing-a-thesis-in-r-markdown/" class="post-preview">
+<script class="post-metadata" type="text/json">{"categories":["thesis","rmarkdown"]}</script>
+<div class="metadata">
+<div class="publishedDate">March 14, 2020</div>
+</div>
+<div class="thumbnail">
+<img data-src="posts/2020-03-14-writing-a-thesis-in-r-markdown/images/quill.png"/>
+</div>
+<div class="description">
+<h2>Writing a thesis in R Markdown</h2>
+<p>A short discussion about my experiences using R Markdown to write my PhD thesis</p>
+</div>
+</a>
 <a href="posts/2020-03-08-athletics-rankings/" class="post-preview">
 <script class="post-metadata" type="text/json">{"categories":[]}</script>
 <div class="metadata">
 <div class="publishedDate">March 8, 2020</div>
 </div>
 <div class="thumbnail">
-<img data-src="posts/2020-03-08-athletics-rankings/images/powerof10homepage.PNG"/>
+<img data-src="posts/2020-03-08-athletics-rankings/images/rr.png"/>
 </div>
 <div class="description">
 <h2>Athletics rankings</h2>
@@ -1652,6 +1709,21 @@ function init_posts_list() {
 <p>A fresh start (again)</p>
 </div>
 </a>
+</div>
+<div class="posts-sidebar">
+<div class="sidebar-section categories">
+<h3>Categories</h3>
+<ul>
+<li>
+<a href="#rmarkdown">rmarkdown</a>
+<span class="category-count">(1)</span>
+</li>
+<li>
+<a href="#thesis">thesis</a>
+<span class="category-count">(1)</span>
+</li>
+</ul>
+</div>
 </div>
 <div class="posts-more">
 <a href="#">More articles &raquo;</a>
@@ -1678,9 +1750,15 @@ function init_posts_list() {
 <!--radix_placeholder_site_after_body-->
 <!--/radix_placeholder_site_after_body-->
 <!--radix_placeholder_appendices-->
-<div class="appendix-bottom"></div>
+<div class="appendix-bottom">
+<h3 id="updates-and-corrections">Corrections</h3>
+<p>If you see mistakes or want to suggest changes, please <a href="https://github.com/hfshr/distill_blog/issues/new">create an issue</a> on the source repository.</p>
+</div>
 <!--/radix_placeholder_appendices-->
 <!--radix_placeholder_navigation_after_body-->
+<div class="distill-site-nav distill-site-footer">
+
+</div>
 <!--/radix_placeholder_navigation_after_body-->
 
 </body>

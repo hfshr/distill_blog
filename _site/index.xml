@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0">
+  <channel>
+    <title>Harry Fisher</title>
+    <link>https://hfshr.netlify.com/</link>
+    <atom:link href="https://hfshr.netlify.com/index.xml" rel="self" type="application/rss+xml"/>
+    <description>My Blog
+</description>
+    <generator>Distill</generator>
+    <lastBuildDate>Sat, 14 Mar 2020 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Writing a thesis in R Markdown</title>
+      <dc:creator>Harry Fisher</dc:creator>
+      <link>https://hfshr.netlify.com/posts/2020-03-14-writing-a-thesis-in-r-markdown</link>
+      <description>A short discussion about my experiences using R Markdown to write my PhD thesis</description>
+      <guid>https://hfshr.netlify.com/posts/2020-03-14-writing-a-thesis-in-r-markdown</guid>
+      <pubDate>Sat, 14 Mar 2020 00:00:00 +0000</pubDate>
+      <media:content url="https://hfshr.netlify.com/posts/2020-03-14-writing-a-thesis-in-r-markdown/images/quill.png" medium="image" type="image/png" width="1000" height="1000"/>
+    </item>
+    <item>
+      <title>Athletics rankings</title>
+      <dc:creator>Harry Fisher</dc:creator>
+      <link>https://hfshr.netlify.com/posts/2020-03-08-athletics-rankings</link>
+      <description>Using R tools to gather data from an athletics rankings website.</description>
+      <guid>https://hfshr.netlify.com/posts/2020-03-08-athletics-rankings</guid>
+      <pubDate>Sun, 08 Mar 2020 00:00:00 +0000</pubDate>
+      <media:content url="https://hfshr.netlify.com/posts/2020-03-08-athletics-rankings/images/rr.png" medium="image" type="image/png" width="570" height="450"/>
+    </item>
+    <item>
+      <title>First post</title>
+      <dc:creator>Harry Fisher</dc:creator>
+      <link>https://hfshr.netlify.com/posts/2020-03-07-first-post-again</link>
+      <description>A fresh start (again)</description>
+      <guid>https://hfshr.netlify.com/posts/2020-03-07-first-post-again</guid>
+      <pubDate>Sun, 01 Mar 2020 00:00:00 +0000</pubDate>
+      <media:content url="https://hfshr.netlify.com/posts/2020-03-07-first-post-again/images/start.png" medium="image" type="image/png" width="250" height="183"/>
+    </item>
+  </channel>
+</rss>

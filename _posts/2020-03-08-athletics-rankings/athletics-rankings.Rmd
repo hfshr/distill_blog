@@ -5,6 +5,7 @@ description: |
 author:
   - name: Harry Fisher
     url: {}
+preview: images/rr.png    
 date: 03-08-2020
 output:
   distill::distill_article:

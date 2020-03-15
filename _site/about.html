@@ -1274,7 +1274,47 @@
     width: 60%;
     height: auto;
     display: block; 
+    margin-left: auto;
+    margin-right: auto
     
+  }
+  
+  /* https://codepen.io/sdthornton/pen/wBZdXq */
+  .distill-site-header {
+     box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+  }
+  
+  /* thunder animation */
+  /* from http://jsrocks.org/ */
+  .fab:hover, .fa:hover {
+      animation-name: thunder;
+      animation-duration: 1s;
+      animation-fill-mode: both;
+      animation-iteration-count: infinite;
+  
+      -webkit-animation-name: thunder;
+      -webkit-animation-duration: 1s;
+      -webkit-animation-fill-mode: both;
+      -webkit-animation-iteration-count: infinite;
+       transition: all 150ms ease 0s;
+  }
+  
+  @keyframes thunder{
+      0%, 20%, 40%, 60%, 80%, 100% {
+          transform: rotate3d(0, 0, 1, -5deg);
+      }
+      10%, 30%, 50%, 70%, 90% {
+          transform: rotate3d(0, 0, 1, 5deg);
+      }
+  }
+  
+  @-webkit-keyframes thunder{
+      0%, 20%, 40%, 60%, 80%, 100% {
+          transform: rotate3d(0, 0, 1, -5deg);
+      }
+      10%, 30%, 50%, 70%, 90% {
+          transform: rotate3d(0, 0, 1, 5deg);
+      }
   }
   </style>
   <!--/radix_placeholder_site_in_header-->
@@ -1302,6 +1342,9 @@
 <a href="index.html">Home</a>
 <a href="about.html">About</a>
 <a href="data/cv/cv_main.pdf">CV</a>
+<a href="https://github.com/hfshr/distill_blog">
+<i class="fab fa-github"></i>
+</a>
 <a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
 </div>
 </nav>
@@ -1319,7 +1362,6 @@
 <div class="d-article">
 <p>Hello! Thanks for visiting my site. I have a passion for Data Science (especially all things <strong>R</strong>) and wanted to a place to document my learning and share thing I discover along the way.</p>
 <p>I currently work for LexisNexis Risk Solutions as a statistical modeller in Cardiff, Wales. Before starting at LexisNexis, I completed my PhD at Cardiff Metropolitan University in December 2019.</p>
-<p>Feel free to get in touch though any of the links below.</p>
 <details>
 <p><summary>Academic Publications (click to expand)</summary></p>
 <ul>
@@ -1338,9 +1380,15 @@
 <!--radix_placeholder_site_after_body-->
 <!--/radix_placeholder_site_after_body-->
 <!--radix_placeholder_appendices-->
-<div class="appendix-bottom"></div>
+<div class="appendix-bottom">
+<h3 id="updates-and-corrections">Corrections</h3>
+<p>If you see mistakes or want to suggest changes, please <a href="https://github.com/hfshr/distill_blog/issues/new">create an issue</a> on the source repository.</p>
+</div>
 <!--/radix_placeholder_appendices-->
 <!--radix_placeholder_navigation_after_body-->
+<div class="distill-site-nav distill-site-footer">
+
+</div>
 <!--/radix_placeholder_navigation_after_body-->
 
 </body>
