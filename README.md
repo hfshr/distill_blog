@@ -2,4 +2,4 @@
 
 # Blog
 
-My personal website / blog. Based on the `distill` team by Rstudio.
+My personal website / blog. Based on the `distill` theme by Rstudio.

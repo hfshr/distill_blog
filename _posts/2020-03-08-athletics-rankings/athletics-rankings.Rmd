@@ -7,6 +7,9 @@ author:
     url: {}
 preview: images/rr.png    
 date: 03-08-2020
+categories: 
+  - athletics
+  - shiny
 output:
   distill::distill_article:
     self_contained: false
@@ -23,12 +26,13 @@ However, I wondered if it might be possible to explore some alternative ways of 
 Initially, I had to figure out a way to first gather the data from the power of 10 website. 
 As you can see in the screenshot below, the rankings are already in a table format, so thankfully it wasn't too difficult to figure something out.
 
-```{r}
+```{r layout = "l-page", fig.cap="Figure from https://www.thepowerof10.info", out.extra="class=external"}
 knitr::include_graphics("images/powerof10homepage.PNG")
 ```
 
 
-This was my first time using the [`rvest`](http://rvest.tidyverse.org/) package, so I'm sure this code can be improved somewhat... It does, however, seem to do the trick! To start, I identified a url from one of the ranking pages that would serve as a starting point to access the site.
+This was my first time using the [`rvest`](http://rvest.tidyverse.org/) package, so I'm sure this code can be improved somewhat... It does, however, seem to do the trick.
+To start, I identified a url from one of the ranking pages that would serve as a starting point to access the site.
 
 ```{r echo=TRUE} 
 url <- "https://www.thepowerof10.info/rankings/rankinglist.aspx?event=100&agegroup=ALL&sex=M&year=2012"
@@ -76,7 +80,7 @@ print(head(urls, 3))
 Next, I had to figure out a way to actually get the data. 
 Inspecting the html code on the page helped to identify the labels for the tables that I needed.
 
-```{r layout="l-body", fig.align='center'}
+```{r layout = "l-page", fig.cap="Figure from https://www.thepowerof10.info", out.extra="class=external"}
 knitr::include_graphics("images/po10_window.png")
 ```
 
@@ -160,7 +164,7 @@ With this number I could get each athletes individual rankings when required usi
 The screenshot below shows how the code that I needed to extract
 
 
-```{r}
+```{r layout = "l-page", fig.cap="Figure from https://www.thepowerof10.info", out.extra="class=external"}
 knitr::include_graphics("images/po10id.png")
 ```
 

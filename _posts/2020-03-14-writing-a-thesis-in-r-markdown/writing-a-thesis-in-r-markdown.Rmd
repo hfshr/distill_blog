@@ -32,7 +32,7 @@ However, thanks in part to the numerous amount of resources out there showing wh
 
 The purpose of this post is to pay homage to the resources I used throughout writing my PhD and highlight some of the issues I came across while doing so, in the hope that a future reader may find something useful... 
 
-My only advice to someone who was considering using R Markdown to write a thesis would be just go for it - there are ample resources out there to help, and the process is incredibly rewarding!
+My only advice to someone who was considering using R Markdown to write a thesis would be just go for it - there are ample resources out there to help, and the process is incredibly rewarding.
 
 <aside>
 For those interested, the repository of my completed thesis can be found here: https://github.com/hfshr/phd-thesis

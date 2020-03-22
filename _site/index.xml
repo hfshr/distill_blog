@@ -7,7 +7,16 @@
     <description>My Blog
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>Sat, 14 Mar 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 22 Mar 2020 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Exploring the recent Bitcoin crash with tidyqaunt and gganimate</title>
+      <dc:creator>Harry Fisher</dc:creator>
+      <link>https://hfshr.netlify.com/posts/2020-03-22-bitcoin</link>
+      <description>Bitcoin recently had a significant sell off, crashing 50% in a matter of hours. This undoubtly was due to the uncertainty in markets surrounding the economic impacts of COVID-19, and the consequent reduction in liquidity faced by many different assets. The volatile price action does however make for an interesting case study which this post will explore.</description>
+      <guid>https://hfshr.netlify.com/posts/2020-03-22-bitcoin</guid>
+      <pubDate>Sun, 22 Mar 2020 00:00:00 +0000</pubDate>
+      <media:content url="https://media.giphy.com/media/RgxAkfVQWwkjS/giphy.gif" medium="image" type="image/gif"/>
+    </item>
     <item>
       <title>Writing a thesis in R Markdown</title>
       <dc:creator>Harry Fisher</dc:creator>

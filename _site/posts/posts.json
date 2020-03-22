@@ -1,5 +1,23 @@
 [
   {
+    "path": "posts/2020-03-22-bitcoin/",
+    "title": "Exploring the recent Bitcoin crash with tidyqaunt and gganimate",
+    "description": "Bitcoin recently had a significant sell off, crashing 50% in a matter of hours. This undoubtly was due to the uncertainty in markets surrounding the economic impacts of COVID-19, and the consequent reduction in liquidity faced by many different assets. The volatile price action does however make for an interesting case study which this post will explore.",
+    "author": [
+      {
+        "name": "Harry Fisher",
+        "url": "https://hfshr.netlify.com/"
+      }
+    ],
+    "date": "2020-03-22",
+    "categories": [
+      "Bitcoin",
+      "gganimate"
+    ],
+    "preview": "https://media.giphy.com/media/RgxAkfVQWwkjS/giphy.gif",
+    "last_modified": "2020-03-22T15:28:06+00:00"
+  },
+  {
     "path": "posts/2020-03-14-writing-a-thesis-in-r-markdown/",
     "title": "Writing a thesis in R Markdown",
     "description": "A short discussion about my experiences using R Markdown to write my PhD thesis",
@@ -30,9 +48,12 @@
       }
     ],
     "date": "2020-03-08",
-    "categories": [],
+    "categories": [
+      "athletics",
+      "shiny"
+    ],
     "preview": "posts/2020-03-08-athletics-rankings/images/rr.png",
-    "last_modified": "2020-03-14T17:13:32+00:00",
+    "last_modified": "2020-03-15T12:17:49+00:00",
     "preview_width": 570,
     "preview_height": 450
   },
