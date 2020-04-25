@@ -14,10 +14,10 @@ navbar:
     - text: "CV"
       href: data/cv/cv_main.pdf
     - icon: fab fa-github
-      href: https://github.com/hfshr/distill_blog  
+      href: https://github.com/hfshr/distill_blog
     - icon: fa fa-rss
       href: index.xml
-google_analytics: "UA-145834792-2 "     
+google_analytics: "UA-145834792-2"
 collections:
   posts:
     feed_items_max: false

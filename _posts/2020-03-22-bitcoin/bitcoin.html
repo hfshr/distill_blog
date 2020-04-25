@@ -52,7 +52,7 @@
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["bitcoin_files/bowser-1.9.3/bowser.min.js","bitcoin_files/distill-2.2.21/template.v2.js","bitcoin_files/figure-html5/unnamed-chunk-3-1.gif","bitcoin_files/figure-html5/unnamed-chunk-4-1.gif","bitcoin_files/figure-html5/unnamed-chunk-4-1.png","bitcoin_files/jquery-1.11.3/jquery.min.js","bitcoin_files/webcomponents-2.0.0/webcomponents.js","r-references.bib"]}
+  {"type":"character","attributes":{},"value":["bitcoin_files/bowser-1.9.3/bowser.min.js","bitcoin_files/distill-2.2.21/template.v2.js","bitcoin_files/figure-html5/unnamed-chunk-3-1.gif","bitcoin_files/figure-html5/unnamed-chunk-3-1.png","bitcoin_files/figure-html5/unnamed-chunk-4-1.gif","bitcoin_files/figure-html5/unnamed-chunk-4-1.png","bitcoin_files/jquery-1.11.3/jquery.min.js","bitcoin_files/webcomponents-2.0.0/webcomponents.js","r-references.bib"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1014,15 +1014,19 @@ xbt %&gt;%
                    colour_up = &quot;green&quot;,
                    colour_down = &quot;red&quot;) +
   scale_x_datetime(date_breaks = &quot;12 hour&quot;, date_labels = &quot;%H%M&quot;) +
-  labs(y = &quot;Price (UDS)&quot;, 
+  scale_y_continuous(labels = scales::dollar)</code></pre>
+<p><img src="bitcoin_files/figure-html5/unnamed-chunk-3-1.png" width="624" /></p>
+<pre class="r"><code>
+  labs(y = &quot;Price (USD)&quot;, 
        x = &quot;Time&quot;)  +
   transition_time(timestamp) +
   shadow_mark() +
   theme_minimal()</code></pre>
-<p><img src="bitcoin_files/figure-html5/unnamed-chunk-3-1.gif" /><!-- --></p>
+<pre><code>
+NULL</code></pre>
 </div>
 <p>As can be seen, this was a dramatic sell of with price dropping from almost 8000 USD to the low 3000 USD mark within a matter of hours, before recovery slightly to around the 5000 USD level.</p>
-<h1 id="ddos-attack">DDOS attack</h1>
+<h1 id="ddos-attack">DDoS attack</h1>
 <p>What makes this price action all the more intriguing is the reported DDoS attacks suffered by Bitmex on the 13th March. Bitmex reported two attacks, taking place at 02:16 UTC and 12:56 UTC. The first attack also happened to coincide with the lowest price during the drop which has caused some suspicion giving the timing of the attacks… However, speculation aside, these attacks can be clearly visualised using the trade data.</p>
 <aside>
 More information on the DDoS attacks can be found here: <a href="https://blog.bitmex.com/how-we-are-responding-to-last-weeks-ddos-attacks" class="uri">https://blog.bitmex.com/how-we-are-responding-to-last-weeks-ddos-attacks</a>

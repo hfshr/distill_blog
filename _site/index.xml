@@ -7,7 +7,16 @@
     <description>My Blog
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>Sun, 22 Mar 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 13 Apr 2020 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>bitmexr: An R client for BitMEX cryptocurrency exchange.</title>
+      <dc:creator>Harry Fisher</dc:creator>
+      <link>https://hfshr.netlify.com/posts/2020-04-13-bitmexr</link>
+      <description>How `bitmexr` came to be.</description>
+      <guid>https://hfshr.netlify.com/posts/2020-04-13-bitmexr</guid>
+      <pubDate>Mon, 13 Apr 2020 00:00:00 +0000</pubDate>
+      <media:content url="https://hfshr.netlify.com/posts/2020-04-13-bitmexr/images/price.gif" medium="image" type="image/gif"/>
+    </item>
     <item>
       <title>Exploring the recent Bitcoin crash with tidyqaunt and gganimate</title>
       <dc:creator>Harry Fisher</dc:creator>

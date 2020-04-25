@@ -1,5 +1,22 @@
 [
   {
+    "path": "posts/2020-04-13-bitmexr/",
+    "title": "bitmexr: An R client for BitMEX cryptocurrency exchange.",
+    "description": "How `bitmexr` came to be.",
+    "author": [
+      {
+        "name": "Harry Fisher",
+        "url": "https://hfshr.netlify.com/"
+      }
+    ],
+    "date": "2020-04-13",
+    "categories": [
+      "Bitcoin"
+    ],
+    "preview": "posts/2020-04-13-bitmexr/images/price.gif",
+    "last_modified": "2020-04-25T11:41:40+01:00"
+  },
+  {
     "path": "posts/2020-03-22-bitcoin/",
     "title": "Exploring the recent Bitcoin crash with tidyqaunt and gganimate",
     "description": "Bitcoin recently had a significant sell off, crashing 50% in a matter of hours. This undoubtly was due to the uncertainty in markets surrounding the economic impacts of COVID-19, and the consequent reduction in liquidity faced by many different assets. The volatile price action does however make for an interesting case study which this post will explore.",
@@ -15,7 +32,7 @@
       "gganimate"
     ],
     "preview": "https://media.giphy.com/media/RgxAkfVQWwkjS/giphy.gif",
-    "last_modified": "2020-03-22T15:28:06+00:00"
+    "last_modified": "2020-04-13T09:39:28+01:00"
   },
   {
     "path": "posts/2020-03-14-writing-a-thesis-in-r-markdown/",

@@ -84,7 +84,8 @@ xbt %>%
                    colour_up = "green",
                    colour_down = "red") +
   scale_x_datetime(date_breaks = "12 hour", date_labels = "%H%M") +
-  labs(y = "Price (UDS)", 
+  scale_y_continuous(labels = scales::dollar) +
+  labs(y = "Price (USD)", 
        x = "Time")  +
   transition_time(timestamp) +
   shadow_mark() +
@@ -97,7 +98,7 @@ xbt %>%
 As can be seen, this was a dramatic sell of with price dropping from almost 8000 USD to the low 3000 USD mark within a matter of hours, before recovery slightly to around the 5000 USD level.
 
 
-# DDOS attack
+# DDoS attack
 
 What makes this price action all the more intriguing is the reported DDoS attacks suffered by Bitmex on the 13th March. 
 Bitmex reported two attacks, taking place at 02:16 UTC and 12:56 UTC. 
@@ -129,6 +130,7 @@ p1 <- xbt_lower %>%
                    colour_up = "green",
                    colour_down = "red")  +
   facet_wrap(~ddos, scales = "free") +
+  scale_y_continuous(labels = scales::dollar)+
   labs(x = "", y = "Price (USD)") +
   theme_minimal()
 

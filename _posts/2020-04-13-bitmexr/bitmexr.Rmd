@@ -1,0 +1,220 @@
+---
+title: "bitmexr: An R client for BitMEX cryptocurrency exchange."
+description: |
+  How `bitmexr` came to be.
+author:
+  - name: Harry Fisher
+    url: https://hfshr.netlify.com/
+date: 04-13-2020
+output:
+  distill::distill_article:
+    self_contained: false
+categories:
+  - Bitcoin
+bibliography: r-references.bib  
+preview: images/price.gif
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(bitmexr)
+library(dplyr)
+library(rmarkdown)
+library(knitr)
+library(tidyquant)
+library(purrr)
+library(gganimate)
+papaja::r_refs(file = "r-references.bib")
+```
+
+While writing my previous post, I was surprised to find that there was no R related package for the cryptocurrency exchange BitMEX. 
+While cryptocurrency itself is a somewhat niche area, BitMEX is one of the largest and most popular exchanges, so I had assumed someone would have already put together something in R for accessing data through BitEMX's API. 
+As I could find no such package, I drew inspiration from the few 'crypto' related packages that _do_ exist, and set about creating a package that would provide a R users with a set of tools to obtain historic trade data from the exchange..
+
+BitMEX has a very detailed API that allows users to perform essentially every action possible on the site through the API. This ranges from simple queries about historic price data through to executing trades on the platform. 
+Initially, I just wanted the package to be able to easily access historic data for research purposes, however it would be relatively straightforward to implement additional features such as executing trades through the API.
+
+And like that, `bitmexr` was born...
+
+Currently you can install `bitmexr` from github, but hopefully the package will be on CRAN soon.
+
+```{r echo=TRUE, eval=FALSE}
+
+remotes::install_github("hfshr/bitmexr")
+
+```
+
+
+# bitmexr
+
+`bitmexr` is a relatively simple package that enables the user to obtain data about trades that have been executed on the exchange. The API supports trade data to be returned in two forms:
+
+**Individual trade data**
+
+- Details about individual trades that have taken place on the exchange
+
+**Bucketed trade data**
+
+- A summarised form of individual trade data where individual trades have been "bucketed" into one of the following time intervals; 1-minute, 5-minute, 1-hour or 1-day.
+
+To access this data, `bitmexr` has two core functions:
+
+- `trades()` for individual trade data
+
+```{r layout="l-body-outset"}
+library(bitmexr)
+library(dplyr)
+library(rmarkdown)
+library(knitr)
+library(tidyquant)
+library(purrr)
+library(gganimate)
+
+
+trades(symbol = "XBTUSD", count = 5) %>% 
+  select(-trdMatchID) %>% # unique trade identifier, not particularly interesting
+  kable()
+
+```
+
+- `bucket_trades()` for bucketed trade data
+
+```{r layout="l-page"}
+bucket_trades(symbol = "XBTUSD", count = 5, binSize = "1d") %>% 
+  kable()
+```
+
+
+These functions allow the user to quickly return historic trade/price data that have been executed on the exchange.
+
+## map_* variants
+
+In addition to the core functions, the packages contains map_* variants of each function. These functions were implemented to address two restrictions within the API:
+
+1. The maximum number of rows per API call is limited to 1000
+2. The API is limited to 30 requests within a 60 second period
+
+The map_* functions are useful for when the data you wanted to return is greater than the 1000 row limit, but you want to avoid running in to the request limit (too many request timeouts may lead to an IP for up to one week).
+
+
+For example, say you want to get hourly bucketed trade data from the 2019-01-01 to 2020-01-01.
+
+```{r}
+bucket_trades(startTime = "2019-01-01", 
+              endTime = "2020-01-01", 
+              binSize = "1h",
+              symbol = "XBTUSD") %>% 
+  filter(timestamp == max(timestamp)) %>% 
+  select(timestamp) %>% 
+  kable()
+
+```
+
+The first 1000 rows have only returned data up until  2019-02-11. To obtain the rest of the data, you would need to pass in this start date and run the function again, repeating this process until you had the desired time span of data.
+
+This is where the map_* variants come in handy.
+
+```{r layout="l-page", cache=TRUE}
+map_bucket_trades(start_date = "2019-01-01", 
+                  end_date = "2020-01-01", 
+                  binSize = "1h",
+                  symbol = "XBTUSD",
+                  verbose = FALSE) %>% 
+  paged_table()
+  
+```
+
+If verbose is set to `TRUE` information about what is going on and a progress bar showing how long is left is printed to the console.
+Now the end date is what we wanted.
+
+`map_trades()` works in a similar way, however because the number of each trades for a specified time interval is not known in advance, no progress bar is printed. Instead, the last date of the most recent API call is printed to provide an indication of how long is left (relative to the inputted start and end date). This function uses a repeat loop that will keep calling the API until the start date is greater than the end date.
+
+The following example gets the every trade for "XBTUSD" between 12:00 and 12:15 on the 6th June 2019.
+
+```{r cache = TRUE, layout="l-page"}
+map_trades(symbol = "XBTUSD",
+           start_date = "2019-06-01 12:00:00",
+           end_date = "2019-06-01 12:15:00") %>% 
+  select(-trdMatchID) %>% # unique trade identifier, not particularly interesting
+  paged_table()
+
+
+```
+
+This short 15 minute time interval resulted in ~6000 trades being returned - consequently this function should only be used for very specific time intervals where you require individual trade data. 
+A warning is given if a time interval of greater than 1 day is provided. For example:
+
+```{r out.width="100%"}
+include_graphics("images/warning.png")
+```
+
+In contrast, using `bucket_trades()` with the smallest binSize setting summarises those 6000 rows into 16 - one for each minute between 12:00 and 12:15. 
+
+```{r layout="l-page"}
+bucket_trades(symbol = "XBTUSD",
+              startTime = "2019-06-01 12:00:00",
+              endTime = "2019-06-01 12:15:00",
+              binSize = "1m") %>% 
+  paged_table()
+```
+
+## Use with other packages
+
+`bitmexr` simply allows the user to _get_ the data. With data in hand, there are several fantastic packages that can be used to help explore, visualise the data further. Two personal favourites are `tidyquant`[@R-tidyquant] and `gganimate`[@R-gganimate].
+
+Combining `bitmexr` and `tidyquant` makes it easy to perform financial analysis. For example, comparing the monthly returns of the two most traded contracts on Bitmex
+
+```{r}
+btc_year <- map_dfr(c("XBTUSD", "ETHUSD"), ~map_bucket_trades(symbol = .x,
+                                                              binSize = "1d"))
+
+btc_year %>% 
+  filter(timestamp > "2018-08-01") %>% # ETHUSD only available since August 2018
+  group_by(symbol) %>% 
+  tq_transmute(select = close,
+               mutate_fun = periodReturn,
+               period = "monthly",
+               type = "log",
+               col_rename = "monthly_returns") %>% 
+  ggplot(aes(x = timestamp, y = monthly_returns, fill = symbol)) +
+  geom_bar(position = "dodge", stat = "identity") +
+  scale_y_continuous(labels = scales::percent) +
+  theme_tq()
+  
+
+```
+
+
+`gganimate` makes it easy to visualise those exciting (or worrisome, depending which side of the trade you were on...!) periods of high volatility.
+
+A personal favourite was the parabolic rise in late 2017...
+
+```{r gganimate, layout="l-body-outset", figwidth = 15, cache=TRUE}
+
+
+vol <- map_bucket_trades(start_date = "2017-08-05",
+                         end_date = "2017-12-25",
+                         symbol = "XBTUSD",
+                         binSize = "1h")
+
+
+p <- vol %>% 
+  filter(timestamp <= "2017-12-17") %>% 
+  ggplot(aes(x = timestamp, y = close)) +
+  geom_candlestick(aes(open = open, high = high, low = low, close= close),
+                   fill_up = "green",
+                   fill_down = "red",
+                   colour_up = "green",
+                   colour_down = "red") +
+  scale_y_continuous(labels = scales::dollar) +
+  transition_time(timestamp) +
+  shadow_mark() +
+  theme_minimal() +
+  view_follow()
+
+animate(p, end_pause = 5)
+
+```
+
+
+...but I'll spare the pain of showing what came next...!
