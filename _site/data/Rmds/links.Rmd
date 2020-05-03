@@ -1,7 +1,0 @@
-<!-- Add icon library --> <link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-<!-- Add font awesome icons --> <p style="text-align: center;">
-    <a href="https://twitter.com/harryfisher" target="_blank" class="fa fa-twitter" style="font-size:36px;"></a>
-    <a href="https://github.com/harrfisher1" target="_blank" class="fa fa-github"  style="font-size:36px;"></a>
-</p>
