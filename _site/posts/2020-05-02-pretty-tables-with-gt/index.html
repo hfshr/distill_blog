@@ -1,0 +1,4088 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+  <meta name="generator" content="distill" />
+
+  <style type="text/css">
+  /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
+  body {
+    visibility: hidden;
+  }
+  </style>
+
+ <!--radix_placeholder_import_source-->
+ <!--/radix_placeholder_import_source-->
+
+  <!--radix_placeholder_meta_tags-->
+<title>Harry Fisher: Pretty tables with gt</title>
+
+<meta property="description" itemprop="description" content="Traditionally I have been an ardent user of kable + kableExtra when it comes to creating tables. These packages have served me well, however the CRAN release of a new player in the table package space - gt - promted me to try it out and explore some of the features it had to offer."/>
+
+<link rel="canonical" href="https://hfshr.netlify.com/posts/2020-05-02-pretty-tables-with-gt/"/>
+
+<!--  https://schema.org/Article -->
+<meta property="article:published" itemprop="datePublished" content="2020-05-02"/>
+<meta property="article:created" itemprop="dateCreated" content="2020-05-02"/>
+<meta name="article:author" content="Harry Fisher"/>
+
+<!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
+<meta property="og:title" content="Harry Fisher: Pretty tables with gt"/>
+<meta property="og:type" content="article"/>
+<meta property="og:description" content="Traditionally I have been an ardent user of kable + kableExtra when it comes to creating tables. These packages have served me well, however the CRAN release of a new player in the table package space - gt - promted me to try it out and explore some of the features it had to offer."/>
+<meta property="og:url" content="https://hfshr.netlify.com/posts/2020-05-02-pretty-tables-with-gt/"/>
+<meta property="og:image" content="https://hfshr.netlify.com/posts/2020-05-02-pretty-tables-with-gt/nice_table.png"/>
+<meta property="og:image:width" content="1175"/>
+<meta property="og:image:height" content="633"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:site_name" content="Harry Fisher"/>
+
+<!--  https://dev.twitter.com/cards/types/summary -->
+<meta property="twitter:card" content="summary_large_image"/>
+<meta property="twitter:title" content="Harry Fisher: Pretty tables with gt"/>
+<meta property="twitter:description" content="Traditionally I have been an ardent user of kable + kableExtra when it comes to creating tables. These packages have served me well, however the CRAN release of a new player in the table package space - gt - promted me to try it out and explore some of the features it had to offer."/>
+<meta property="twitter:url" content="https://hfshr.netlify.com/posts/2020-05-02-pretty-tables-with-gt/"/>
+<meta property="twitter:image" content="https://hfshr.netlify.com/posts/2020-05-02-pretty-tables-with-gt/nice_table.png"/>
+<meta property="twitter:image:width" content="1175"/>
+<meta property="twitter:image:height" content="633"/>
+
+<!--  https://scholar.google.com/intl/en/scholar/inclusion.html#indexing -->
+<meta name="citation_title" content="Harry Fisher: Pretty tables with gt"/>
+<meta name="citation_fulltext_html_url" content="https://hfshr.netlify.com/posts/2020-05-02-pretty-tables-with-gt/"/>
+<meta name="citation_online_date" content="2020/05/02"/>
+<meta name="citation_publication_date" content="2020/05/02"/>
+<meta name="citation_author" content="Harry Fisher"/>
+<!--/radix_placeholder_meta_tags-->
+  
+  <meta name="citation_reference" content="citation_title=Bitmexr: R client for bitmex;citation_publication_date=2020;citation_author=Harry Fisher"/>
+  <meta name="citation_reference" content="citation_title=Gt: Easily create presentation-ready display tables;citation_publication_date=2020;citation_author=Richard Iannone;citation_author=Joe Cheng;citation_author=Barret Schloerke"/>
+  <!--radix_placeholder_rmarkdown_metadata-->
+
+<script type="text/json" id="radix-rmarkdown-metadata">
+{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output","draft","preview","categories","bibliography","citation_url","canonical_url"]}},"value":[{"type":"character","attributes":{},"value":["Pretty tables with gt"]},{"type":"character","attributes":{},"value":["Traditionally I have been an ardent user of kable + kableExtra when it comes to creating tables. These packages have served me well, however the CRAN release of a new player in the table package space - gt - promted me to try it out and explore some of the features it had to offer."]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Harry Fisher"]},{"type":"character","attributes":{},"value":["https://hfshr.netlify.com/"]}]}]},{"type":"character","attributes":{},"value":["05-02-2020"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"logical","attributes":{},"value":[false]},{"type":"character","attributes":{},"value":["nice_table.png"]},{"type":"character","attributes":{},"value":["Bitcoin","gt","ggplot","bitmexr"]},{"type":"character","attributes":{},"value":["r-references.bib"]},{"type":"character","attributes":{},"value":["https://hfshr.netlify.com/posts/2020-05-02-pretty-tables-with-gt/"]},{"type":"character","attributes":{},"value":["https://hfshr.netlify.com/posts/2020-05-02-pretty-tables-with-gt/"]}]}
+</script>
+<!--/radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-resource-manifest">
+  {"type":"character","attributes":{},"value":["nice_table.png","pretty-tables-with-gt_files/bowser-1.9.3/bowser.min.js","pretty-tables-with-gt_files/distill-2.2.21/template.v2.js","pretty-tables-with-gt_files/figure-html5/unnamed-chunk-8-1.png","pretty-tables-with-gt_files/jquery-1.11.3/jquery.min.js","pretty-tables-with-gt_files/webcomponents-2.0.0/webcomponents.js","r-references.bib"]}
+  </script>
+  <!--radix_placeholder_navigation_in_header-->
+
+<script type="application/javascript">
+
+  window.headroom_prevent_pin = false;
+
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+
+    // initialize headroom for banner
+    var header = $('header').get(0);
+    var headerHeight = header.offsetHeight;
+    var headroom = new Headroom(header, {
+      onPin : function() {
+        if (window.headroom_prevent_pin) {
+          window.headroom_prevent_pin = false;
+          headroom.unpin();
+        }
+      }
+    });
+    headroom.init();
+    if(window.location.hash)
+      headroom.unpin();
+    $(header).addClass('headroom--transition');
+
+    // offset scroll location for banner on hash change
+    // (see: https://github.com/WickyNilliams/headroom.js/issues/38)
+    window.addEventListener("hashchange", function(event) {
+      window.scrollTo(0, window.pageYOffset - (headerHeight + 25));
+    });
+
+    // responsive menu
+    $('.distill-site-header').each(function(i, val) {
+      var topnav = $(this);
+      var toggle = topnav.find('.nav-toggle');
+      toggle.on('click', function() {
+        topnav.toggleClass('responsive');
+      });
+    });
+
+    // nav dropdowns
+    $('.nav-dropbtn').click(function(e) {
+      $(this).next('.nav-dropdown-content').toggleClass('nav-dropdown-active');
+      $(this).parent().siblings('.nav-dropdown')
+         .children('.nav-dropdown-content').removeClass('nav-dropdown-active');
+    });
+    $("body").click(function(e){
+      $('.nav-dropdown-content').removeClass('nav-dropdown-active');
+    });
+    $(".nav-dropdown").click(function(e){
+      e.stopPropagation();
+    });
+  });
+</script>
+
+<style type="text/css">
+
+/* Theme (user-documented overrideables for nav appearance) */
+
+.distill-site-nav {
+  color: rgba(255, 255, 255, 0.8);
+  background-color: #455a64;
+  font-size: 15px;
+  font-weight: 300;
+}
+
+.distill-site-nav a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.distill-site-nav a:hover {
+  color: white;
+}
+
+@media print {
+  .distill-site-nav {
+    display: none;
+  }
+}
+
+.distill-site-header {
+
+}
+
+.distill-site-footer {
+
+}
+
+
+/* Site Header */
+
+.distill-site-header {
+  width: 100%;
+  box-sizing: border-box;
+  z-index: 3;
+}
+
+.distill-site-header .nav-left {
+  display: inline-block;
+  margin-left: 8px;
+}
+
+@media screen and (max-width: 768px) {
+  .distill-site-header .nav-left {
+    margin-left: 0;
+  }
+}
+
+
+.distill-site-header .nav-right {
+  float: right;
+  margin-right: 8px;
+}
+
+.distill-site-header a,
+.distill-site-header .title {
+  display: inline-block;
+  text-align: center;
+  padding: 14px 10px 14px 10px;
+}
+
+.distill-site-header .title {
+  font-size: 18px;
+}
+
+.distill-site-header .logo {
+  padding: 0;
+}
+
+.distill-site-header .logo img {
+  display: none;
+  max-height: 20px;
+  width: auto;
+  margin-bottom: -4px;
+}
+
+.distill-site-header .nav-image img {
+  max-height: 18px;
+  width: auto;
+  display: inline-block;
+  margin-bottom: -3px;
+}
+
+
+
+@media screen and (min-width: 1000px) {
+  .distill-site-header .logo img {
+    display: inline-block;
+  }
+  .distill-site-header .nav-left {
+    margin-left: 20px;
+  }
+  .distill-site-header .nav-right {
+    margin-right: 20px;
+  }
+  .distill-site-header .title {
+    padding-left: 12px;
+  }
+}
+
+
+.distill-site-header .nav-toggle {
+  display: none;
+}
+
+.nav-dropdown {
+  display: inline-block;
+  position: relative;
+}
+
+.nav-dropdown .nav-dropbtn {
+  border: none;
+  outline: none;
+  color: rgba(255, 255, 255, 0.8);
+  padding: 16px 10px;
+  background-color: transparent;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  margin: 0;
+  margin-top: 1px;
+  z-index: 2;
+}
+
+.nav-dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: white;
+  min-width: 200px;
+  border: 1px solid rgba(0,0,0,0.15);
+  border-radius: 4px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+  z-index: 1;
+  margin-top: 2px;
+  white-space: nowrap;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.nav-dropdown-content hr {
+  margin-top: 4px;
+  margin-bottom: 4px;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.nav-dropdown-active {
+  display: block;
+}
+
+.nav-dropdown-content a, .nav-dropdown-content .nav-dropdown-header {
+  color: black;
+  padding: 6px 24px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.nav-dropdown-content .nav-dropdown-header {
+  display: block;
+  padding: 5px 24px;
+  padding-bottom: 0;
+  text-transform: uppercase;
+  font-size: 14px;
+  color: #999999;
+  white-space: nowrap;
+}
+
+.nav-dropdown:hover .nav-dropbtn {
+  color: white;
+}
+
+.nav-dropdown-content a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.nav-right .nav-dropdown-content {
+  margin-left: -45%;
+  right: 0;
+}
+
+@media screen and (max-width: 768px) {
+  .distill-site-header a, .distill-site-header .nav-dropdown  {display: none;}
+  .distill-site-header a.nav-toggle {
+    float: right;
+    display: block;
+  }
+  .distill-site-header .title {
+    margin-left: 0;
+  }
+  .distill-site-header .nav-right {
+    margin-right: 0;
+  }
+  .distill-site-header {
+    overflow: hidden;
+  }
+  .nav-right .nav-dropdown-content {
+    margin-left: 0;
+  }
+}
+
+
+@media screen and (max-width: 768px) {
+  .distill-site-header.responsive {position: relative;}
+  .distill-site-header.responsive a.nav-toggle {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  .distill-site-header.responsive a,
+  .distill-site-header.responsive .nav-dropdown {
+    display: block;
+    text-align: left;
+  }
+  .distill-site-header.responsive .nav-left,
+  .distill-site-header.responsive .nav-right {
+    width: 100%;
+  }
+  .distill-site-header.responsive .nav-dropdown {float: none;}
+  .distill-site-header.responsive .nav-dropdown-content {position: relative;}
+  .distill-site-header.responsive .nav-dropdown .nav-dropbtn {
+    display: block;
+    width: 100%;
+    text-align: left;
+  }
+}
+
+/* Site Footer */
+
+.distill-site-footer {
+  width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+  z-index: 3;
+  margin-top: 30px;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  text-align: center;
+}
+
+/* Headroom */
+
+d-title {
+  padding-top: 6rem;
+}
+
+@media print {
+  d-title {
+    padding-top: 4rem;
+  }
+}
+
+.headroom {
+  z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.headroom--transition {
+  transition: all .4s ease-in-out;
+}
+
+.headroom--unpinned {
+  top: -100px;
+}
+
+.headroom--pinned {
+  top: 0;
+}
+
+</style>
+
+<link href="../../site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet"/>
+<link href="../../site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet"/>
+<script src="../../site_libs/headroom-0.9.4/headroom.min.js"></script>
+<!--/radix_placeholder_navigation_in_header-->
+  <!--radix_placeholder_distill-->
+
+<style type="text/css">
+
+body {
+  background-color: white;
+}
+
+.pandoc-table {
+  width: 100%;
+}
+
+.pandoc-table>caption {
+  margin-bottom: 10px;
+}
+
+.pandoc-table th:not([align]) {
+  text-align: left;
+}
+
+.pagedtable-footer {
+  font-size: 15px;
+}
+
+.html-widget {
+  margin-bottom: 2.0em;
+}
+
+.l-screen-inset {
+  padding-right: 16px;
+}
+
+.l-screen .caption {
+  margin-left: 10px;
+}
+
+.shaded {
+  background: rgb(247, 247, 247);
+  padding-top: 20px;
+  padding-bottom: 20px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.shaded .html-widget {
+  margin-bottom: 0;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.shaded .shaded-content {
+  background: white;
+}
+
+.text-output {
+  margin-top: 0;
+  line-height: 1.5em;
+}
+
+.hidden {
+  display: none !important;
+}
+
+d-article {
+  padding-bottom: 30px;
+}
+
+d-appendix {
+  padding-top: 30px;
+}
+
+d-article>p>img {
+  width: 100%;
+}
+
+d-article iframe {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  margin-bottom: 2.0em;
+  width: 100%;
+}
+
+figure img.external {
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+  padding: 18px;
+  box-sizing: border-box;
+}
+
+/* CSS for table of contents */
+
+.d-toc {
+  color: rgba(0,0,0,0.8);
+  font-size: 0.8em;
+  line-height: 1em;
+}
+
+.d-toc-header {
+  font-size: 0.6rem;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.5);
+  text-transform: uppercase;
+  margin-top: 0;
+  margin-bottom: 1.3em;
+}
+
+.d-toc a {
+  border-bottom: none;
+}
+
+.d-toc ul {
+  padding-left: 0;
+}
+
+.d-toc li>ul {
+  padding-top: 0.8em;
+  padding-left: 16px;
+  margin-bottom: 0.6em;
+}
+
+.d-toc ul,
+.d-toc li {
+  list-style-type: none;
+}
+
+.d-toc li {
+  margin-bottom: 0.9em;
+}
+
+.d-toc-separator {
+  margin-top: 20px;
+  margin-bottom: 2em;
+}
+
+.d-article-with-toc {
+  border-top: none;
+  padding-top: 0;
+}
+
+
+
+/* Tweak code blocks (note that this CSS is repeated above in an injection
+   into the d-code shadow dom) */
+
+d-code {
+  overflow-x: auto !important;
+}
+
+pre.d-code code.d-code {
+  padding-left: 10px;
+  font-size: 12px;
+  border-left: 2px solid rgba(0,0,0,0.1);
+}
+
+pre.text-output {
+
+  font-size: 12px;
+  color: black;
+  background: none;
+  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.5;
+
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
+@media(min-width: 768px) {
+
+d-code {
+  overflow-x: visible !important;
+}
+
+pre.d-code code.d-code  {
+    padding-left: 18px;
+    font-size: 14px;
+}
+pre.text-output {
+  font-size: 14px;
+}
+}
+
+/* Figure */
+
+.figure {
+  position: relative;
+  margin-bottom: 2.5em;
+  margin-top: 1.5em;
+}
+
+.figure img {
+  width: 100%;
+}
+
+.figure .caption {
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 12px;
+  line-height: 1.5em;
+}
+
+.figure img.external {
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+  padding: 18px;
+  box-sizing: border-box;
+}
+
+.figure .caption a {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.figure .caption b,
+.figure .caption strong, {
+  font-weight: 600;
+  color: rgba(0, 0, 0, 1.0);
+}
+
+
+
+/* Tweak 1000px media break to show more text */
+
+@media(min-width: 1000px) {
+  .base-grid,
+  distill-header,
+  d-title,
+  d-abstract,
+  d-article,
+  d-appendix,
+  distill-appendix,
+  d-byline,
+  d-footnote-list,
+  d-citation-list,
+  distill-footer {
+    grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
+    grid-column-gap: 16px;
+  }
+
+  .grid {
+    grid-column-gap: 16px;
+  }
+
+  d-article {
+    font-size: 1.06rem;
+    line-height: 1.7em;
+  }
+  figure .caption, .figure .caption, figure figcaption {
+    font-size: 13px;
+  }
+}
+
+@media(min-width: 1180px) {
+  .base-grid,
+  distill-header,
+  d-title,
+  d-abstract,
+  d-article,
+  d-appendix,
+  distill-appendix,
+  d-byline,
+  d-footnote-list,
+  d-citation-list,
+  distill-footer {
+    grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+    grid-column-gap: 32px;
+  }
+
+  .grid {
+    grid-column-gap: 32px;
+  }
+}
+
+
+/* Get the citation styles for the appendix (not auto-injected on render since
+   we do our own rendering of the citation appendix) */
+
+d-appendix .citation-appendix,
+.d-appendix .citation-appendix {
+  font-size: 11px;
+  line-height: 15px;
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
+  padding-left: 18px;
+  border: 1px solid rgba(0,0,0,0.1);
+  background: rgba(0, 0, 0, 0.02);
+  padding: 10px 18px;
+  border-radius: 3px;
+  color: rgba(150, 150, 150, 1);
+  overflow: hidden;
+  margin-top: -12px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+
+/* Social footer */
+
+.social_footer {
+  margin-top: 30px;
+  margin-bottom: 0;
+  color: rgba(0,0,0,0.67);
+}
+
+.disqus-comments {
+  margin-right: 30px;
+}
+
+.disqus-comment-count {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+}
+
+#disqus_thread {
+  margin-top: 30px;
+}
+
+.article-sharing a {
+  border-bottom: none;
+  margin-right: 8px;
+}
+
+.article-sharing a:hover {
+  border-bottom: none;
+}
+
+.sidebar-section.subscribe {
+  font-size: 12px;
+  line-height: 1.6em;
+}
+
+.subscribe p {
+  margin-bottom: 0.5em;
+}
+
+
+.article-footer .subscribe {
+  font-size: 15px;
+  margin-top: 45px;
+}
+
+
+/* Improve display for browsers without grid (IE/Edge <= 15) */
+
+.downlevel {
+  line-height: 1.6em;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+  margin: 0;
+}
+
+.downlevel .d-title {
+  padding-top: 6rem;
+  padding-bottom: 1.5rem;
+}
+
+.downlevel .d-title h1 {
+  font-size: 50px;
+  font-weight: 700;
+  line-height: 1.1em;
+  margin: 0 0 0.5rem;
+}
+
+.downlevel .d-title p {
+  font-weight: 300;
+  font-size: 1.2rem;
+  line-height: 1.55em;
+  margin-top: 0;
+}
+
+.downlevel .d-byline {
+  padding-top: 0.8em;
+  padding-bottom: 0.8em;
+  font-size: 0.8rem;
+  line-height: 1.8em;
+}
+
+.downlevel .section-separator {
+  border: none;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.downlevel .d-article {
+  font-size: 1.06rem;
+  line-height: 1.7em;
+  padding-top: 1rem;
+  padding-bottom: 2rem;
+}
+
+
+.downlevel .d-appendix {
+  padding-left: 0;
+  padding-right: 0;
+  max-width: none;
+  font-size: 0.8em;
+  line-height: 1.7em;
+  margin-bottom: 0;
+  color: rgba(0,0,0,0.5);
+  padding-top: 40px;
+  padding-bottom: 48px;
+}
+
+.downlevel .footnotes ol {
+  padding-left: 13px;
+}
+
+.downlevel .base-grid,
+.downlevel .distill-header,
+.downlevel .d-title,
+.downlevel .d-abstract,
+.downlevel .d-article,
+.downlevel .d-appendix,
+.downlevel .distill-appendix,
+.downlevel .d-byline,
+.downlevel .d-footnote-list,
+.downlevel .d-citation-list,
+.downlevel .distill-footer,
+.downlevel .appendix-bottom,
+.downlevel .posts-container {
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+@media(min-width: 768px) {
+  .downlevel .base-grid,
+  .downlevel .distill-header,
+  .downlevel .d-title,
+  .downlevel .d-abstract,
+  .downlevel .d-article,
+  .downlevel .d-appendix,
+  .downlevel .distill-appendix,
+  .downlevel .d-byline,
+  .downlevel .d-footnote-list,
+  .downlevel .d-citation-list,
+  .downlevel .distill-footer,
+  .downlevel .appendix-bottom,
+  .downlevel .posts-container {
+  padding-left: 150px;
+  padding-right: 150px;
+  max-width: 900px;
+}
+}
+
+.downlevel pre code {
+  display: block;
+  border-left: 2px solid rgba(0, 0, 0, .1);
+  padding: 0 0 0 20px;
+  font-size: 14px;
+}
+
+.downlevel code, .downlevel pre {
+  color: black;
+  background: none;
+  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.5;
+
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
+</style>
+
+<script type="application/javascript">
+
+function is_downlevel_browser() {
+  if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
+                                 window.navigator.userAgent)) {
+    return true;
+  } else {
+    return window.load_distill_framework === undefined;
+  }
+}
+
+// show body when load is complete
+function on_load_complete() {
+
+  // set body to visible
+  document.body.style.visibility = 'visible';
+
+  // force redraw for leaflet widgets
+  if (window.HTMLWidgets) {
+    var maps = window.HTMLWidgets.findAll(".leaflet");
+    $.each(maps, function(i, el) {
+      var map = this.getMap();
+      map.invalidateSize();
+      map.eachLayer(function(layer) {
+        if (layer instanceof L.TileLayer)
+          layer.redraw();
+      });
+    });
+  }
+
+  // trigger 'shown' so htmlwidgets resize
+  $('d-article').trigger('shown');
+}
+
+function init_distill() {
+
+  init_common();
+
+  // create front matter
+  var front_matter = $('<d-front-matter></d-front-matter>');
+  $('#distill-front-matter').wrap(front_matter);
+
+  // create d-title
+  $('.d-title').changeElementType('d-title');
+
+  // create d-byline
+  var byline = $('<d-byline></d-byline>');
+  $('.d-byline').replaceWith(byline);
+
+  // create d-article
+  var article = $('<d-article></d-article>');
+  $('.d-article').wrap(article).children().unwrap();
+
+  // move posts container into article
+  $('.posts-container').appendTo($('d-article'));
+
+  // create d-appendix
+  $('.d-appendix').changeElementType('d-appendix');
+
+  // create d-bibliography
+  var bibliography = $('<d-bibliography></d-bibliography>');
+  $('#distill-bibliography').wrap(bibliography);
+
+  // flag indicating that we have appendix items
+  var appendix = $('.appendix-bottom').children('h3').length > 0;
+
+  // replace citations with <d-cite>
+  $('.citation').each(function(i, val) {
+    appendix = true;
+    var cites = $(this).attr('data-cites').split(" ");
+    var dt_cite = $('<d-cite></d-cite>');
+    dt_cite.attr('key', cites.join());
+    $(this).replaceWith(dt_cite);
+  });
+  // remove refs
+  $('#refs').remove();
+
+  // replace footnotes with <d-footnote>
+  $('.footnote-ref').each(function(i, val) {
+    appendix = true;
+    var href = $(this).attr('href');
+    var id = href.replace('#', '');
+    var fn = $('#' + id);
+    var fn_p = $('#' + id + '>p');
+    fn_p.find('.footnote-back').remove();
+    var text = fn_p.html();
+    var dtfn = $('<d-footnote></d-footnote>');
+    dtfn.html(text);
+    $(this).replaceWith(dtfn);
+  });
+  // remove footnotes
+  $('.footnotes').remove();
+
+  $('h1.appendix, h2.appendix').each(function(i, val) {
+    $(this).changeElementType('h3');
+  });
+  $('h3.appendix').each(function(i, val) {
+    var id = $(this).attr('id');
+    $('.d-toc a[href="#' + id + '"]').parent().remove();
+    appendix = true;
+    $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
+  });
+
+  // show d-appendix if we have appendix content
+  $("d-appendix").css('display', appendix ? 'grid' : 'none');
+
+  // replace code blocks with d-code
+  $('pre>code').each(function(i, val) {
+    var code = $(this);
+    var pre = code.parent();
+    var clz = "";
+    var language = pre.attr('class');
+    if (language) {
+      // map unknown languages to "clike" (without this they just dissapear)
+      if ($.inArray(language, ["bash", "clike", "css", "go", "html",
+                               "javascript", "js", "julia", "lua", "markdown",
+                               "markup", "mathml", "python", "svg", "xml"]) == -1)
+        language = "clike";
+      language = ' language="' + language + '"';
+      var dt_code = $('<d-code block' + language + clz + '></d-code>');
+      dt_code.text(code.text());
+      pre.replaceWith(dt_code);
+    } else {
+      code.addClass('text-output').unwrap().changeElementType('pre');
+    }
+  });
+
+  // localize layout chunks to just output
+  $('.layout-chunk').each(function(i, val) {
+
+    // capture layout
+    var layout = $(this).attr('data-layout');
+
+    // apply layout to markdown level block elements
+    var elements = $(this).children().not('d-code, pre.text-output, script');
+    elements.each(function(i, el) {
+      var layout_div = $('<div class="' + layout + '"></div>');
+      if (layout_div.hasClass('shaded')) {
+        var shaded_content = $('<div class="shaded-content"></div>');
+        $(this).wrap(shaded_content);
+        $(this).parent().wrap(layout_div);
+      } else {
+        $(this).wrap(layout_div);
+      }
+    });
+
+
+    // unwrap the layout-chunk div
+    $(this).children().unwrap();
+  });
+
+  // load distill framework
+  load_distill_framework();
+
+  // wait for window.distillRunlevel == 4 to do post processing
+  function distill_post_process() {
+
+    if (!window.distillRunlevel || window.distillRunlevel < 4)
+      return;
+
+    // hide author/affiliations entirely if we have no authors
+    var front_matter = JSON.parse($("#distill-front-matter").html());
+    var have_authors = front_matter.authors && front_matter.authors.length > 0;
+    if (!have_authors)
+      $('d-byline').addClass('hidden');
+
+    // table of contents
+    if (have_authors) // adjust border if we are in authors
+      $('.d-toc').parent().addClass('d-article-with-toc');
+
+    // strip links that point to #
+    $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
+
+    // hide elements of author/affiliations grid that have no value
+    function hide_byline_column(caption) {
+      $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
+    }
+
+    // affiliations
+    var have_affiliations = false;
+    for (var i = 0; i<front_matter.authors.length; ++i) {
+      var author = front_matter.authors[i];
+      if (author.affiliation !== "&nbsp;") {
+        have_affiliations = true;
+        break;
+      }
+    }
+    if (!have_affiliations)
+      $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
+
+    // published date
+    if (!front_matter.publishedDate)
+      hide_byline_column("Published");
+
+    // document object identifier
+    var doi = $('d-byline').find('h3:contains("DOI")');
+    var doi_p = doi.next().empty();
+    if (!front_matter.doi) {
+      // if we have a citation and valid citationText then link to that
+      if ($('#citation').length > 0 && front_matter.citationText) {
+        doi.html('Citation');
+        $('<a href="#citation"></a>')
+          .text(front_matter.citationText)
+          .appendTo(doi_p);
+      } else {
+        hide_byline_column("DOI");
+      }
+    } else {
+      $('<a></a>')
+         .attr('href', "https://doi.org/" + front_matter.doi)
+         .html(front_matter.doi)
+         .appendTo(doi_p);
+    }
+
+     // change plural form of authors/affiliations
+    if (front_matter.authors.length === 1) {
+      var grid = $('.authors-affiliations');
+      grid.children('h3:contains("Authors")').text('Author');
+      grid.children('h3:contains("Affiliations")').text('Affiliation');
+    }
+
+    // inject pre code styles (can't do this with a global stylesheet b/c a shadow root is used)
+    $('d-code').each(function(i, val) {
+      var style = document.createElement('style');
+      style.innerHTML = 'pre code { padding-left: 10px; font-size: 12px; border-left: 2px solid rgba(0,0,0,0.1); } ' +
+                        '@media(min-width: 768px) { pre code { padding-left: 18px; font-size: 14px; } }';
+      if (this.shadowRoot)
+        this.shadowRoot.appendChild(style);
+    });
+
+    // move appendix-bottom entries to the bottom
+    $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
+    $('.appendix-bottom').remove();
+
+    // clear polling timer
+    clearInterval(tid);
+
+    // show body now that everything is ready
+    on_load_complete();
+  }
+
+  var tid = setInterval(distill_post_process, 50);
+  distill_post_process();
+
+}
+
+function init_downlevel() {
+
+  init_common();
+
+   // insert hr after d-title
+  $('.d-title').after($('<hr class="section-separator"/>'));
+
+  // check if we have authors
+  var front_matter = JSON.parse($("#distill-front-matter").html());
+  var have_authors = front_matter.authors && front_matter.authors.length > 0;
+
+  // manage byline/border
+  if (!have_authors)
+    $('.d-byline').remove();
+  $('.d-byline').after($('<hr class="section-separator"/>'));
+  $('.d-byline a').remove();
+
+  // remove toc
+  $('.d-toc-header').remove();
+  $('.d-toc').remove();
+  $('.d-toc-separator').remove();
+
+  // move appendix elements
+  $('h1.appendix, h2.appendix').each(function(i, val) {
+    $(this).changeElementType('h3');
+  });
+  $('h3.appendix').each(function(i, val) {
+    $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
+  });
+
+
+  // inject headers into references and footnotes
+  var refs_header = $('<h3></h3>');
+  refs_header.text('References');
+  $('#refs').prepend(refs_header);
+
+  var footnotes_header = $('<h3></h3');
+  footnotes_header.text('Footnotes');
+  $('.footnotes').children('hr').first().replaceWith(footnotes_header);
+
+  // move appendix-bottom entries to the bottom
+  $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
+  $('.appendix-bottom').remove();
+
+  // remove appendix if it's empty
+  if ($('.d-appendix').children().length === 0)
+    $('.d-appendix').remove();
+
+  // prepend separator above appendix
+  $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
+
+  // trim code
+  $('pre>code').each(function(i, val) {
+    $(this).html($.trim($(this).html()));
+  });
+
+  // move posts-container right before article
+  $('.posts-container').insertBefore($('.d-article'));
+
+  $('body').addClass('downlevel');
+
+  on_load_complete();
+}
+
+
+function init_common() {
+
+  // jquery plugin to change element types
+  (function($) {
+    $.fn.changeElementType = function(newType) {
+      var attrs = {};
+
+      $.each(this[0].attributes, function(idx, attr) {
+        attrs[attr.nodeName] = attr.nodeValue;
+      });
+
+      this.replaceWith(function() {
+        return $("<" + newType + "/>", attrs).append($(this).contents());
+      });
+    };
+  })(jQuery);
+
+  // prevent underline for linked images
+  $('a > img').parent().css({'border-bottom' : 'none'});
+
+  // mark non-body figures created by knitr chunks as 100% width
+  $('.layout-chunk').each(function(i, val) {
+    var figures = $(this).find('img, .html-widget');
+    if ($(this).attr('data-layout') !== "l-body") {
+      figures.css('width', '100%');
+    } else {
+      figures.css('max-width', '100%');
+      figures.filter("[width]").each(function(i, val) {
+        var fig = $(this);
+        fig.css('width', fig.attr('width') + 'px');
+      });
+
+    }
+  });
+
+  // auto-append index.html to post-preview links in file: protocol
+  // and in rstudio ide preview
+  $('.post-preview').each(function(i, val) {
+    if (window.location.protocol === "file:")
+      $(this).attr('href', $(this).attr('href') + "index.html");
+  });
+
+  // get rid of index.html references in header
+  if (window.location.protocol !== "file:") {
+    $('.distill-site-header a[href]').each(function(i,val) {
+      $(this).attr('href', $(this).attr('href').replace("index.html", "./"));
+    });
+  }
+
+  // add class to pandoc style tables
+  $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
+  $('.kable-table').children('table').addClass('pandoc-table');
+
+  // add figcaption style to table captions
+  $('caption').parent('table').addClass("figcaption");
+
+  // initialize posts list
+  if (window.init_posts_list)
+    window.init_posts_list();
+
+  // implmement disqus comment link
+  $('.disqus-comment-count').click(function() {
+    window.headroom_prevent_pin = true;
+    $('#disqus_thread').toggleClass('hidden');
+    if (!$('#disqus_thread').hasClass('hidden')) {
+      var offset = $(this).offset();
+      $(window).resize();
+      $('html, body').animate({
+        scrollTop: offset.top - 35
+      });
+    }
+  });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  if (is_downlevel_browser())
+    init_downlevel();
+  else
+    window.addEventListener('WebComponentsReady', init_distill);
+});
+
+</script>
+
+<!--/radix_placeholder_distill-->
+  <script src="../../site_libs/jquery-1.11.3/jquery.min.js"></script>
+  <script src="../../site_libs/bowser-1.9.3/bowser.min.js"></script>
+  <script src="../../site_libs/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="../../site_libs/distill-2.2.21/template.v2.js"></script>
+  <!--radix_placeholder_site_in_header-->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-145834792-2"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'UA-145834792-2');
+</script>
+<style type="text/css">
+.distill-site-nav {
+  color: rgba(255, 255, 255, 0.8);
+  background-color: #444b4f;
+  font-size: 15px;
+  font-weight: 300;
+}
+
+.posts-list .post-preview .thumbnail img { 
+  width: 60%;
+  height: auto;
+  display: block; 
+  margin-left: auto;
+  margin-right: auto
+  
+}
+
+/* https://codepen.io/sdthornton/pen/wBZdXq */
+.distill-site-header {
+   box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+}
+
+/* thunder animation */
+/* from http://jsrocks.org/ */
+.fab:hover, .fa:hover {
+    animation-name: thunder;
+    animation-duration: 1s;
+    animation-fill-mode: both;
+    animation-iteration-count: infinite;
+
+    -webkit-animation-name: thunder;
+    -webkit-animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    -webkit-animation-iteration-count: infinite;
+     transition: all 150ms ease 0s;
+}
+
+@keyframes thunder{
+    0%, 20%, 40%, 60%, 80%, 100% {
+        transform: rotate3d(0, 0, 1, -5deg);
+    }
+    10%, 30%, 50%, 70%, 90% {
+        transform: rotate3d(0, 0, 1, 5deg);
+    }
+}
+
+@-webkit-keyframes thunder{
+    0%, 20%, 40%, 60%, 80%, 100% {
+        transform: rotate3d(0, 0, 1, -5deg);
+    }
+    10%, 30%, 50%, 70%, 90% {
+        transform: rotate3d(0, 0, 1, 5deg);
+    }
+}
+</style>
+<!--/radix_placeholder_site_in_header-->
+
+
+</head>
+
+<body>
+
+<!--radix_placeholder_front_matter-->
+
+<script id="distill-front-matter" type="text/json">
+{"title":"Pretty tables with gt","description":"Traditionally I have been an ardent user of kable + kableExtra when it comes to creating tables. These packages have served me well, however the CRAN release of a new player in the table package space - gt - promted me to try it out and explore some of the features it had to offer.","authors":[{"author":"Harry Fisher","authorURL":"https://hfshr.netlify.com/","affiliation":"&nbsp;","affiliationURL":"#"}],"publishedDate":"2020-05-02T00:00:00.000+01:00","citationText":"Fisher, 2020"}
+</script>
+
+<!--/radix_placeholder_front_matter-->
+<!--radix_placeholder_navigation_before_body-->
+<header class="header header--fixed" role="banner">
+<nav class="distill-site-nav distill-site-header">
+<div class="nav-left">
+<a href="../../index.html" class="title">Harry Fisher</a>
+</div>
+<div class="nav-right">
+<a href="../../index.html">Home</a>
+<a href="../../about.html">About</a>
+<a href="../../data/cv/cv_main.pdf">CV</a>
+<a href="https://github.com/hfshr/distill_blog">
+<i class="fab fa-github"></i>
+</a>
+<a href="../../index.xml">
+<i class="fa fa-rss"></i>
+</a>
+<a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
+</div>
+</nav>
+</header>
+<!--/radix_placeholder_navigation_before_body-->
+<!--radix_placeholder_site_before_body-->
+<!--/radix_placeholder_site_before_body-->
+
+<div class="d-title">
+<h1>Pretty tables with gt</h1>
+<p><p>Traditionally I have been an ardent user of kable + kableExtra when it comes to creating tables. These packages have served me well, however the CRAN release of a new player in the table package space - gt - promted me to try it out and explore some of the features it had to offer.</p></p>
+</div>
+
+<div class="d-byline">
+  Harry Fisher <a href="https://hfshr.netlify.com/" class="uri">https://hfshr.netlify.com/</a> 
+  
+<br/>05-02-2020
+</div>
+
+<div class="d-article">
+<p><code>gt</code> <span class="citation" data-cites="R-gt">(Iannone, Cheng, and Schloerke <a href="#ref-R-gt" role="doc-biblioref">2020</a>)</span> has been under development for a while, but a stable version has recently been released to CRAN. In order to try the package out we first need some data for creating tables. I’ll be using some Bitcoin price data (shameless self plug for my <code>bitmexr</code> <span class="citation" data-cites="R-bitmexr">(Fisher <a href="#ref-R-bitmexr" role="doc-biblioref">2020</a>)</span> package that has just landed on CRAN - check it out <a href="https://cran.r-project.org/web/packages/bitmexr/index.html">here</a>).</p>
+<p>For demonstration purposes, I pulled the OHLC prices for the last 10 days.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+bitcoin &lt;- bucket_trades(
+  binSize = &quot;1d&quot;,
+  startTime = &quot;2020-04-23&quot;,
+  endTime = &quot;2020-05-02&quot;
+) %&gt;%
+  select(1:8) %&gt;%
+  select(-symbol)
+
+
+head(bitcoin)</code></pre>
+<pre><code>
+   timestamp   open   high    low  close trades     volume
+1 2020-04-23 6848.5 7189.0 6822.0 7133.5 572398 1450803027
+2 2020-04-24 7133.5 7802.0 7023.5 7492.0 935125 2488032747
+3 2020-04-25 7492.0 7610.0 7380.0 7503.5 621057 1473830307
+4 2020-04-26 7503.5 7745.0 7431.0 7542.0 641738 1362595381
+5 2020-04-27 7542.0 7720.0 7450.0 7702.5 674889 1432590477
+6 2020-04-28 7702.5 7836.5 7625.0 7788.0 811266 1663495897</code></pre>
+</div>
+<p>The most basic table without any formatting applied looks like this:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+bitcoin %&gt;%
+  gt()</code></pre>
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#zqrmrhptem .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#zqrmrhptem .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#zqrmrhptem .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#zqrmrhptem .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 4px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#zqrmrhptem .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#zqrmrhptem .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#zqrmrhptem .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#zqrmrhptem .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#zqrmrhptem .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#zqrmrhptem .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#zqrmrhptem .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#zqrmrhptem .gt_group_heading {
+  padding: 8px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#zqrmrhptem .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#zqrmrhptem .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#zqrmrhptem .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#zqrmrhptem .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#zqrmrhptem .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#zqrmrhptem .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 12px;
+}
+
+#zqrmrhptem .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#zqrmrhptem .gt_first_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+}
+
+#zqrmrhptem .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#zqrmrhptem .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#zqrmrhptem .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#zqrmrhptem .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#zqrmrhptem .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding: 4px;
+}
+
+#zqrmrhptem .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#zqrmrhptem .gt_sourcenote {
+  font-size: 90%;
+  padding: 4px;
+}
+
+#zqrmrhptem .gt_left {
+  text-align: left;
+}
+
+#zqrmrhptem .gt_center {
+  text-align: center;
+}
+
+#zqrmrhptem .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#zqrmrhptem .gt_font_normal {
+  font-weight: normal;
+}
+
+#zqrmrhptem .gt_font_bold {
+  font-weight: bold;
+}
+
+#zqrmrhptem .gt_font_italic {
+  font-style: italic;
+}
+
+#zqrmrhptem .gt_super {
+  font-size: 65%;
+}
+
+#zqrmrhptem .gt_footnote_marks {
+  font-style: italic;
+  font-size: 65%;
+}
+</style>
+<div id="zqrmrhptem" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
+  
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">timestamp</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">open</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">high</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">low</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">close</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">trades</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">volume</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr>
+      <td class="gt_row gt_left">2020-04-23</td>
+      <td class="gt_row gt_right">6848.5</td>
+      <td class="gt_row gt_right">7189.0</td>
+      <td class="gt_row gt_right">6822.0</td>
+      <td class="gt_row gt_right">7133.5</td>
+      <td class="gt_row gt_center">572398</td>
+      <td class="gt_row gt_right">1450803027</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">2020-04-24</td>
+      <td class="gt_row gt_right">7133.5</td>
+      <td class="gt_row gt_right">7802.0</td>
+      <td class="gt_row gt_right">7023.5</td>
+      <td class="gt_row gt_right">7492.0</td>
+      <td class="gt_row gt_center">935125</td>
+      <td class="gt_row gt_right">2488032747</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">2020-04-25</td>
+      <td class="gt_row gt_right">7492.0</td>
+      <td class="gt_row gt_right">7610.0</td>
+      <td class="gt_row gt_right">7380.0</td>
+      <td class="gt_row gt_right">7503.5</td>
+      <td class="gt_row gt_center">621057</td>
+      <td class="gt_row gt_right">1473830307</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">2020-04-26</td>
+      <td class="gt_row gt_right">7503.5</td>
+      <td class="gt_row gt_right">7745.0</td>
+      <td class="gt_row gt_right">7431.0</td>
+      <td class="gt_row gt_right">7542.0</td>
+      <td class="gt_row gt_center">641738</td>
+      <td class="gt_row gt_right">1362595381</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">2020-04-27</td>
+      <td class="gt_row gt_right">7542.0</td>
+      <td class="gt_row gt_right">7720.0</td>
+      <td class="gt_row gt_right">7450.0</td>
+      <td class="gt_row gt_right">7702.5</td>
+      <td class="gt_row gt_center">674889</td>
+      <td class="gt_row gt_right">1432590477</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">2020-04-28</td>
+      <td class="gt_row gt_right">7702.5</td>
+      <td class="gt_row gt_right">7836.5</td>
+      <td class="gt_row gt_right">7625.0</td>
+      <td class="gt_row gt_right">7788.0</td>
+      <td class="gt_row gt_center">811266</td>
+      <td class="gt_row gt_right">1663495897</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">2020-04-29</td>
+      <td class="gt_row gt_right">7788.0</td>
+      <td class="gt_row gt_right">7795.5</td>
+      <td class="gt_row gt_right">7651.0</td>
+      <td class="gt_row gt_right">7752.0</td>
+      <td class="gt_row gt_center">520240</td>
+      <td class="gt_row gt_right">1154456663</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">2020-04-30</td>
+      <td class="gt_row gt_right">7752.0</td>
+      <td class="gt_row gt_right">8978.0</td>
+      <td class="gt_row gt_right">7706.0</td>
+      <td class="gt_row gt_right">8794.0</td>
+      <td class="gt_row gt_center">2384499</td>
+      <td class="gt_row gt_right">5110631297</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">2020-05-01</td>
+      <td class="gt_row gt_right">8794.0</td>
+      <td class="gt_row gt_right">9481.0</td>
+      <td class="gt_row gt_right">8407.0</td>
+      <td class="gt_row gt_right">8627.5</td>
+      <td class="gt_row gt_center">3661752</td>
+      <td class="gt_row gt_right">5794365072</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">2020-05-02</td>
+      <td class="gt_row gt_right">8627.5</td>
+      <td class="gt_row gt_right">9065.0</td>
+      <td class="gt_row gt_right">8622.5</td>
+      <td class="gt_row gt_right">8832.0</td>
+      <td class="gt_row gt_center">2085264</td>
+      <td class="gt_row gt_right">2573647732</td>
+    </tr>
+  </tbody>
+  
+  
+</table></div>
+</div>
+<p>To get started, I borrowed some ideas straight from an example on <a href="https://gt.rstudio.com/" class="uri">https://gt.rstudio.com/</a> and applied some simple formatting to the raw data in the table.</p>
+<ul>
+<li>Added a header containing the title and subtitle of the table</li>
+<li>Format the price columns with the appropriate currency symbol</li>
+<li>Format the date column</li>
+<li>Format the trades and volume column with appropriate suffixes</li>
+</ul>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+start_date &lt;- format(min(bitcoin$timestamp), &quot;%d/%m/%Y&quot;)
+end_date &lt;- format(max(bitcoin$timestamp), &quot;%d/%m/%Y&quot;)
+
+tab &lt;- bitcoin %&gt;%
+  mutate(timestamp = as.character(timestamp)) %&gt;%
+  gt() %&gt;%
+  tab_header(
+    title = md(&quot;**Bitcoin price**&quot;),
+    subtitle = glue::glue(&quot;{start_date} to {end_date}&quot;)
+  ) %&gt;%
+  fmt_currency(
+    columns = vars(open, high, low, close),
+    currency = &quot;USD&quot;
+  ) %&gt;%
+  fmt_number(
+    columns = vars(trades, volume),
+    suffixing = TRUE
+  ) %&gt;%
+  fmt_date(
+    columns = vars(timestamp),
+    date_style = 9
+  )
+
+tab</code></pre>
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#wsnrrkcjce .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#wsnrrkcjce .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#wsnrrkcjce .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#wsnrrkcjce .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 4px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#wsnrrkcjce .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#wsnrrkcjce .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#wsnrrkcjce .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#wsnrrkcjce .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#wsnrrkcjce .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#wsnrrkcjce .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#wsnrrkcjce .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#wsnrrkcjce .gt_group_heading {
+  padding: 8px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#wsnrrkcjce .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#wsnrrkcjce .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#wsnrrkcjce .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#wsnrrkcjce .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#wsnrrkcjce .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#wsnrrkcjce .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 12px;
+}
+
+#wsnrrkcjce .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#wsnrrkcjce .gt_first_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+}
+
+#wsnrrkcjce .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#wsnrrkcjce .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#wsnrrkcjce .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#wsnrrkcjce .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#wsnrrkcjce .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding: 4px;
+}
+
+#wsnrrkcjce .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#wsnrrkcjce .gt_sourcenote {
+  font-size: 90%;
+  padding: 4px;
+}
+
+#wsnrrkcjce .gt_left {
+  text-align: left;
+}
+
+#wsnrrkcjce .gt_center {
+  text-align: center;
+}
+
+#wsnrrkcjce .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#wsnrrkcjce .gt_font_normal {
+  font-weight: normal;
+}
+
+#wsnrrkcjce .gt_font_bold {
+  font-weight: bold;
+}
+
+#wsnrrkcjce .gt_font_italic {
+  font-style: italic;
+}
+
+#wsnrrkcjce .gt_super {
+  font-size: 65%;
+}
+
+#wsnrrkcjce .gt_footnote_marks {
+  font-style: italic;
+  font-size: 65%;
+}
+</style>
+<div id="wsnrrkcjce" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
+  <thead class="gt_header">
+    <tr>
+      <th colspan="7" class="gt_heading gt_title gt_font_normal" style><strong>Bitcoin price</strong></th>
+    </tr>
+    <tr>
+      <th colspan="7" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style>23/04/2020 to 02/05/2020</th>
+    </tr>
+  </thead>
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">timestamp</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">open</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">high</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">low</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">close</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">trades</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">volume</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr>
+      <td class="gt_row gt_left">23 April</td>
+      <td class="gt_row gt_right">$6,848.50</td>
+      <td class="gt_row gt_right">$7,189.00</td>
+      <td class="gt_row gt_right">$6,822.00</td>
+      <td class="gt_row gt_right">$7,133.50</td>
+      <td class="gt_row gt_center">572.40K</td>
+      <td class="gt_row gt_right">1.45B</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">24 April</td>
+      <td class="gt_row gt_right">$7,133.50</td>
+      <td class="gt_row gt_right">$7,802.00</td>
+      <td class="gt_row gt_right">$7,023.50</td>
+      <td class="gt_row gt_right">$7,492.00</td>
+      <td class="gt_row gt_center">935.12K</td>
+      <td class="gt_row gt_right">2.49B</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">25 April</td>
+      <td class="gt_row gt_right">$7,492.00</td>
+      <td class="gt_row gt_right">$7,610.00</td>
+      <td class="gt_row gt_right">$7,380.00</td>
+      <td class="gt_row gt_right">$7,503.50</td>
+      <td class="gt_row gt_center">621.06K</td>
+      <td class="gt_row gt_right">1.47B</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">26 April</td>
+      <td class="gt_row gt_right">$7,503.50</td>
+      <td class="gt_row gt_right">$7,745.00</td>
+      <td class="gt_row gt_right">$7,431.00</td>
+      <td class="gt_row gt_right">$7,542.00</td>
+      <td class="gt_row gt_center">641.74K</td>
+      <td class="gt_row gt_right">1.36B</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">27 April</td>
+      <td class="gt_row gt_right">$7,542.00</td>
+      <td class="gt_row gt_right">$7,720.00</td>
+      <td class="gt_row gt_right">$7,450.00</td>
+      <td class="gt_row gt_right">$7,702.50</td>
+      <td class="gt_row gt_center">674.89K</td>
+      <td class="gt_row gt_right">1.43B</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">28 April</td>
+      <td class="gt_row gt_right">$7,702.50</td>
+      <td class="gt_row gt_right">$7,836.50</td>
+      <td class="gt_row gt_right">$7,625.00</td>
+      <td class="gt_row gt_right">$7,788.00</td>
+      <td class="gt_row gt_center">811.27K</td>
+      <td class="gt_row gt_right">1.66B</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">29 April</td>
+      <td class="gt_row gt_right">$7,788.00</td>
+      <td class="gt_row gt_right">$7,795.50</td>
+      <td class="gt_row gt_right">$7,651.00</td>
+      <td class="gt_row gt_right">$7,752.00</td>
+      <td class="gt_row gt_center">520.24K</td>
+      <td class="gt_row gt_right">1.15B</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">30 April</td>
+      <td class="gt_row gt_right">$7,752.00</td>
+      <td class="gt_row gt_right">$8,978.00</td>
+      <td class="gt_row gt_right">$7,706.00</td>
+      <td class="gt_row gt_right">$8,794.00</td>
+      <td class="gt_row gt_center">2.38M</td>
+      <td class="gt_row gt_right">5.11B</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">1 May</td>
+      <td class="gt_row gt_right">$8,794.00</td>
+      <td class="gt_row gt_right">$9,481.00</td>
+      <td class="gt_row gt_right">$8,407.00</td>
+      <td class="gt_row gt_right">$8,627.50</td>
+      <td class="gt_row gt_center">3.66M</td>
+      <td class="gt_row gt_right">5.79B</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">2 May</td>
+      <td class="gt_row gt_right">$8,627.50</td>
+      <td class="gt_row gt_right">$9,065.00</td>
+      <td class="gt_row gt_right">$8,622.50</td>
+      <td class="gt_row gt_right">$8,832.00</td>
+      <td class="gt_row gt_center">2.09M</td>
+      <td class="gt_row gt_right">2.57B</td>
+    </tr>
+  </tbody>
+  
+  
+</table></div>
+</div>
+<p>Starting to look a little more presentable. Next, I</p>
+<ul>
+<li>Added some colour to highlight changes in the trades and volume columns</li>
+<li>Applied some formatting to the column names.</li>
+<li>I also changed the number of decimal places to 0 (2 decimal places seemd overkill for this example).</li>
+</ul>
+<p>A cool feature of <code>gt</code> is that you can rename the column labels to something different, but refer to the original labels for any further manipulation.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+tab &lt;- tab %&gt;%
+  tab_spanner(
+    label = &quot;Price&quot;,
+    columns = vars(open, high, low, close)
+  ) %&gt;%
+  data_color(
+    columns = vars(trades, volume),
+    colors = scales::col_numeric(&quot;Greens&quot;, domain = NULL)
+  ) %&gt;%
+  cols_align(
+    align = &quot;center&quot;,
+    columns = vars(trades, volume)
+  ) %&gt;%
+  cols_label(
+    timestamp = &quot;Date&quot;,
+    open = md(&quot;**Open**&quot;),
+    high = &quot;High&quot;,
+    low = &quot;Low&quot;,
+    close = md(&quot;**Close**&quot;),
+    trades = &quot;Trades&quot;,
+    volume = &quot;Volume&quot;
+  ) %&gt;%
+  fmt_currency(
+    columns = vars(open, high, low, close),
+    currency = &quot;USD&quot;,
+    decimals = 0
+  )
+
+
+tab</code></pre>
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#kjddaxulgx .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#kjddaxulgx .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#kjddaxulgx .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#kjddaxulgx .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 4px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#kjddaxulgx .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#kjddaxulgx .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#kjddaxulgx .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#kjddaxulgx .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#kjddaxulgx .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#kjddaxulgx .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#kjddaxulgx .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#kjddaxulgx .gt_group_heading {
+  padding: 8px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#kjddaxulgx .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#kjddaxulgx .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#kjddaxulgx .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#kjddaxulgx .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#kjddaxulgx .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#kjddaxulgx .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 12px;
+}
+
+#kjddaxulgx .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#kjddaxulgx .gt_first_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+}
+
+#kjddaxulgx .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#kjddaxulgx .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#kjddaxulgx .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#kjddaxulgx .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#kjddaxulgx .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding: 4px;
+}
+
+#kjddaxulgx .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#kjddaxulgx .gt_sourcenote {
+  font-size: 90%;
+  padding: 4px;
+}
+
+#kjddaxulgx .gt_left {
+  text-align: left;
+}
+
+#kjddaxulgx .gt_center {
+  text-align: center;
+}
+
+#kjddaxulgx .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#kjddaxulgx .gt_font_normal {
+  font-weight: normal;
+}
+
+#kjddaxulgx .gt_font_bold {
+  font-weight: bold;
+}
+
+#kjddaxulgx .gt_font_italic {
+  font-style: italic;
+}
+
+#kjddaxulgx .gt_super {
+  font-size: 65%;
+}
+
+#kjddaxulgx .gt_footnote_marks {
+  font-style: italic;
+  font-size: 65%;
+}
+</style>
+<div id="kjddaxulgx" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
+  <thead class="gt_header">
+    <tr>
+      <th colspan="7" class="gt_heading gt_title gt_font_normal" style><strong>Bitcoin price</strong></th>
+    </tr>
+    <tr>
+      <th colspan="7" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style>23/04/2020 to 02/05/2020</th>
+    </tr>
+  </thead>
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_center gt_columns_bottom_border" rowspan="2" colspan="1">Date</th>
+      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="4">
+        <span class="gt_column_spanner">Price</span>
+      </th>
+      <th class="gt_col_heading gt_center gt_columns_bottom_border" rowspan="2" colspan="1">Trades</th>
+      <th class="gt_col_heading gt_center gt_columns_bottom_border" rowspan="2" colspan="1">Volume</th>
+    </tr>
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1"><strong>Open</strong></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">High</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">Low</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1"><strong>Close</strong></th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr>
+      <td class="gt_row gt_left">23 April</td>
+      <td class="gt_row gt_right">$6,848</td>
+      <td class="gt_row gt_right">$7,189</td>
+      <td class="gt_row gt_right">$6,822</td>
+      <td class="gt_row gt_right">$7,134</td>
+      <td class="gt_row gt_center" style="background-color: #F5FBF2; color: #000000;">572.40K</td>
+      <td class="gt_row gt_center" style="background-color: #EEF8EA; color: #000000;">1.45B</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">24 April</td>
+      <td class="gt_row gt_right">$7,134</td>
+      <td class="gt_row gt_right">$7,802</td>
+      <td class="gt_row gt_right">$7,024</td>
+      <td class="gt_row gt_right">$7,492</td>
+      <td class="gt_row gt_center" style="background-color: #E3F4DE; color: #000000;">935.12K</td>
+      <td class="gt_row gt_center" style="background-color: #BCE4B5; color: #000000;">2.49B</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">25 April</td>
+      <td class="gt_row gt_right">$7,492</td>
+      <td class="gt_row gt_right">$7,610</td>
+      <td class="gt_row gt_right">$7,380</td>
+      <td class="gt_row gt_right">$7,504</td>
+      <td class="gt_row gt_center" style="background-color: #F2FAF0; color: #000000;">621.06K</td>
+      <td class="gt_row gt_center" style="background-color: #EDF8E9; color: #000000;">1.47B</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">26 April</td>
+      <td class="gt_row gt_right">$7,504</td>
+      <td class="gt_row gt_right">$7,745</td>
+      <td class="gt_row gt_right">$7,431</td>
+      <td class="gt_row gt_right">$7,542</td>
+      <td class="gt_row gt_center" style="background-color: #F1FAEE; color: #000000;">641.74K</td>
+      <td class="gt_row gt_center" style="background-color: #F1F9ED; color: #000000;">1.36B</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">27 April</td>
+      <td class="gt_row gt_right">$7,542</td>
+      <td class="gt_row gt_right">$7,720</td>
+      <td class="gt_row gt_right">$7,450</td>
+      <td class="gt_row gt_right">$7,702</td>
+      <td class="gt_row gt_center" style="background-color: #F0F9ED; color: #000000;">674.89K</td>
+      <td class="gt_row gt_center" style="background-color: #EEF9EB; color: #000000;">1.43B</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">28 April</td>
+      <td class="gt_row gt_right">$7,702</td>
+      <td class="gt_row gt_right">$7,836</td>
+      <td class="gt_row gt_right">$7,625</td>
+      <td class="gt_row gt_right">$7,788</td>
+      <td class="gt_row gt_center" style="background-color: #EAF7E5; color: #000000;">811.27K</td>
+      <td class="gt_row gt_center" style="background-color: #E7F6E3; color: #000000;">1.66B</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">29 April</td>
+      <td class="gt_row gt_right">$7,788</td>
+      <td class="gt_row gt_right">$7,796</td>
+      <td class="gt_row gt_right">$7,651</td>
+      <td class="gt_row gt_right">$7,752</td>
+      <td class="gt_row gt_center" style="background-color: #F7FCF5; color: #000000;">520.24K</td>
+      <td class="gt_row gt_center" style="background-color: #F7FCF5; color: #000000;">1.15B</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">30 April</td>
+      <td class="gt_row gt_right">$7,752</td>
+      <td class="gt_row gt_right">$8,978</td>
+      <td class="gt_row gt_right">$7,706</td>
+      <td class="gt_row gt_right">$8,794</td>
+      <td class="gt_row gt_center" style="background-color: #4FB163; color: #000000;">2.38M</td>
+      <td class="gt_row gt_center" style="background-color: #077230; color: #FFFFFF;">5.11B</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">1 May</td>
+      <td class="gt_row gt_right">$8,794</td>
+      <td class="gt_row gt_right">$9,481</td>
+      <td class="gt_row gt_right">$8,407</td>
+      <td class="gt_row gt_right">$8,628</td>
+      <td class="gt_row gt_center" style="background-color: #00441B; color: #FFFFFF;">3.66M</td>
+      <td class="gt_row gt_center" style="background-color: #00441B; color: #FFFFFF;">5.79B</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">2 May</td>
+      <td class="gt_row gt_right">$8,628</td>
+      <td class="gt_row gt_right">$9,065</td>
+      <td class="gt_row gt_right">$8,622</td>
+      <td class="gt_row gt_right">$8,832</td>
+      <td class="gt_row gt_center" style="background-color: #75C477; color: #000000;">2.09M</td>
+      <td class="gt_row gt_center" style="background-color: #B6E2AF; color: #000000;">2.57B</td>
+    </tr>
+  </tbody>
+  
+  
+</table></div>
+</div>
+<p>Finally, it is also very easy to add custom html to the tables using the <code>text_transformations()</code> function (again inspired by <a href="https://gt.rstudio.com/" class="uri">https://gt.rstudio.com/</a>). The rocket and sad face indicate whether the closing price was greater or less than the opening price for each dat</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+rocket &lt;- &quot;&lt;span style=\&quot;color:green\&quot;&gt;&amp;#128640;&lt;/span&gt;&quot;
+sadface &lt;- &quot;&lt;span style=\&quot;color:red\&quot;&gt;&amp;#128546;&lt;/span&gt;&quot;
+
+tab &lt;- tab %&gt;%
+  text_transform(
+    locations = cells_body(
+      columns = &quot;close&quot;,
+      rows = close &gt; open
+    ),
+    fn = function(x) paste(x, rocket)
+  ) %&gt;%
+  text_transform(
+    locations = cells_body(
+      columns = &quot;close&quot;,
+      rows = close &lt; open
+    ),
+    fn = function(x) paste(x, sadface)
+  )
+
+tab</code></pre>
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#exjicdgiql .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#exjicdgiql .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#exjicdgiql .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#exjicdgiql .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 4px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#exjicdgiql .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#exjicdgiql .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#exjicdgiql .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#exjicdgiql .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#exjicdgiql .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#exjicdgiql .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#exjicdgiql .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#exjicdgiql .gt_group_heading {
+  padding: 8px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#exjicdgiql .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#exjicdgiql .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#exjicdgiql .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#exjicdgiql .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#exjicdgiql .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#exjicdgiql .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 12px;
+}
+
+#exjicdgiql .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#exjicdgiql .gt_first_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+}
+
+#exjicdgiql .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#exjicdgiql .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#exjicdgiql .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#exjicdgiql .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#exjicdgiql .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding: 4px;
+}
+
+#exjicdgiql .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#exjicdgiql .gt_sourcenote {
+  font-size: 90%;
+  padding: 4px;
+}
+
+#exjicdgiql .gt_left {
+  text-align: left;
+}
+
+#exjicdgiql .gt_center {
+  text-align: center;
+}
+
+#exjicdgiql .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#exjicdgiql .gt_font_normal {
+  font-weight: normal;
+}
+
+#exjicdgiql .gt_font_bold {
+  font-weight: bold;
+}
+
+#exjicdgiql .gt_font_italic {
+  font-style: italic;
+}
+
+#exjicdgiql .gt_super {
+  font-size: 65%;
+}
+
+#exjicdgiql .gt_footnote_marks {
+  font-style: italic;
+  font-size: 65%;
+}
+</style>
+<div id="exjicdgiql" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
+  <thead class="gt_header">
+    <tr>
+      <th colspan="7" class="gt_heading gt_title gt_font_normal" style><strong>Bitcoin price</strong></th>
+    </tr>
+    <tr>
+      <th colspan="7" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style>23/04/2020 to 02/05/2020</th>
+    </tr>
+  </thead>
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_center gt_columns_bottom_border" rowspan="2" colspan="1">Date</th>
+      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="4">
+        <span class="gt_column_spanner">Price</span>
+      </th>
+      <th class="gt_col_heading gt_center gt_columns_bottom_border" rowspan="2" colspan="1">Trades</th>
+      <th class="gt_col_heading gt_center gt_columns_bottom_border" rowspan="2" colspan="1">Volume</th>
+    </tr>
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1"><strong>Open</strong></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">High</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">Low</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1"><strong>Close</strong></th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr>
+      <td class="gt_row gt_left">23 April</td>
+      <td class="gt_row gt_right">$6,848</td>
+      <td class="gt_row gt_right">$7,189</td>
+      <td class="gt_row gt_right">$6,822</td>
+      <td class="gt_row gt_right">$7,134 <span style="color:green">&#128640;</span></td>
+      <td class="gt_row gt_center" style="background-color: #F5FBF2; color: #000000;">572.40K</td>
+      <td class="gt_row gt_center" style="background-color: #EEF8EA; color: #000000;">1.45B</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">24 April</td>
+      <td class="gt_row gt_right">$7,134</td>
+      <td class="gt_row gt_right">$7,802</td>
+      <td class="gt_row gt_right">$7,024</td>
+      <td class="gt_row gt_right">$7,492 <span style="color:green">&#128640;</span></td>
+      <td class="gt_row gt_center" style="background-color: #E3F4DE; color: #000000;">935.12K</td>
+      <td class="gt_row gt_center" style="background-color: #BCE4B5; color: #000000;">2.49B</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">25 April</td>
+      <td class="gt_row gt_right">$7,492</td>
+      <td class="gt_row gt_right">$7,610</td>
+      <td class="gt_row gt_right">$7,380</td>
+      <td class="gt_row gt_right">$7,504 <span style="color:green">&#128640;</span></td>
+      <td class="gt_row gt_center" style="background-color: #F2FAF0; color: #000000;">621.06K</td>
+      <td class="gt_row gt_center" style="background-color: #EDF8E9; color: #000000;">1.47B</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">26 April</td>
+      <td class="gt_row gt_right">$7,504</td>
+      <td class="gt_row gt_right">$7,745</td>
+      <td class="gt_row gt_right">$7,431</td>
+      <td class="gt_row gt_right">$7,542 <span style="color:green">&#128640;</span></td>
+      <td class="gt_row gt_center" style="background-color: #F1FAEE; color: #000000;">641.74K</td>
+      <td class="gt_row gt_center" style="background-color: #F1F9ED; color: #000000;">1.36B</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">27 April</td>
+      <td class="gt_row gt_right">$7,542</td>
+      <td class="gt_row gt_right">$7,720</td>
+      <td class="gt_row gt_right">$7,450</td>
+      <td class="gt_row gt_right">$7,702 <span style="color:green">&#128640;</span></td>
+      <td class="gt_row gt_center" style="background-color: #F0F9ED; color: #000000;">674.89K</td>
+      <td class="gt_row gt_center" style="background-color: #EEF9EB; color: #000000;">1.43B</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">28 April</td>
+      <td class="gt_row gt_right">$7,702</td>
+      <td class="gt_row gt_right">$7,836</td>
+      <td class="gt_row gt_right">$7,625</td>
+      <td class="gt_row gt_right">$7,788 <span style="color:green">&#128640;</span></td>
+      <td class="gt_row gt_center" style="background-color: #EAF7E5; color: #000000;">811.27K</td>
+      <td class="gt_row gt_center" style="background-color: #E7F6E3; color: #000000;">1.66B</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">29 April</td>
+      <td class="gt_row gt_right">$7,788</td>
+      <td class="gt_row gt_right">$7,796</td>
+      <td class="gt_row gt_right">$7,651</td>
+      <td class="gt_row gt_right">$7,752 <span style="color:red">&#128546;</span></td>
+      <td class="gt_row gt_center" style="background-color: #F7FCF5; color: #000000;">520.24K</td>
+      <td class="gt_row gt_center" style="background-color: #F7FCF5; color: #000000;">1.15B</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">30 April</td>
+      <td class="gt_row gt_right">$7,752</td>
+      <td class="gt_row gt_right">$8,978</td>
+      <td class="gt_row gt_right">$7,706</td>
+      <td class="gt_row gt_right">$8,794 <span style="color:green">&#128640;</span></td>
+      <td class="gt_row gt_center" style="background-color: #4FB163; color: #000000;">2.38M</td>
+      <td class="gt_row gt_center" style="background-color: #077230; color: #FFFFFF;">5.11B</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">1 May</td>
+      <td class="gt_row gt_right">$8,794</td>
+      <td class="gt_row gt_right">$9,481</td>
+      <td class="gt_row gt_right">$8,407</td>
+      <td class="gt_row gt_right">$8,628 <span style="color:red">&#128546;</span></td>
+      <td class="gt_row gt_center" style="background-color: #00441B; color: #FFFFFF;">3.66M</td>
+      <td class="gt_row gt_center" style="background-color: #00441B; color: #FFFFFF;">5.79B</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">2 May</td>
+      <td class="gt_row gt_right">$8,628</td>
+      <td class="gt_row gt_right">$9,065</td>
+      <td class="gt_row gt_right">$8,622</td>
+      <td class="gt_row gt_right">$8,832 <span style="color:green">&#128640;</span></td>
+      <td class="gt_row gt_center" style="background-color: #75C477; color: #000000;">2.09M</td>
+      <td class="gt_row gt_center" style="background-color: #B6E2AF; color: #000000;">2.57B</td>
+    </tr>
+  </tbody>
+  
+  
+</table></div>
+</div>
+<p>Looks good! I’ve barely scratched the surface of what <code>gt</code> can do here and the <a href="https://gt.rstudio.com/">package website</a> is well worth a look if you are interested.</p>
+<h2 id="bonus-table">Bonus table</h2>
+<p>One experimental feature in <code>gt</code> is the ability to add a ggplot (or any image for that matter) to a table. Yes thats right, a ggplot in a table. I did have to do a bit of rummaging in the package repo to get this to work, but the idea is really cool.</p>
+<p>To demonstrate this functionality I pulled some new Bitcoin price data - the hourly OHLC for the whole on April 2020. The goal is to summarise this information for weekly intervals, with the total volume and trades and a plot of the price action for that week.</p>
+<p>First I define a few functions that will help in creating the table/plot combo.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+# helper for summary data
+oc &lt;- function(name, df) {
+  df %&gt;%
+    summarise(
+      open = dplyr::first(open),
+      close = dplyr::last(close),
+      volume = sum(volume),
+      trades = sum(trades),
+      date = dplyr::first(timestamp)
+    )
+}
+
+# ggplot for each week
+plot_group &lt;- function(name, df) {
+  plot_object &lt;-
+    ggplot(
+      data = df,
+      aes(x = timestamp, y = close)
+    ) +
+    geom_barchart(
+      aes(open = open, high = high, low = low, close = close),
+      fill_up = &quot;green&quot;,
+      fill_down = &quot;red&quot;,
+      colour_up = &quot;green&quot;,
+      colour_down = &quot;red&quot;
+    ) +
+    theme_minimal() +
+    theme(
+      legend.position = &quot;none&quot;,
+      axis.title = element_blank(),
+      axis.text = element_blank()
+    )
+  return(plot_object)
+}
+
+# combine ggplot within table
+fmt_ggplot &lt;- fmt_gg &lt;- function(
+  data,
+  columns,
+  rows = NULL,
+  height = 100,
+  aspect_ratio = 1.0
+) {
+  rows &lt;- rlang::enquo(rows)
+
+  fmt(
+    data = data,
+    columns = columns,
+    rows = !!rows,
+    fns = list(
+      html = function(x) {
+        map(
+          x,
+          ggplot_image,
+          height = height,
+          aspect_ratio = aspect_ratio
+        )
+      }
+    )
+  )
+}</code></pre>
+</div>
+<ol type="1">
+<li><p>The first is just a simple helper function which generates some summary information for the final table</p></li>
+<li><p>The second is the ggplot object that will be used to visualise each weeks data.</p></li>
+<li><p>The third was borrowed straight from gt’s repo <a href="https://github.com/rstudio/gt/pull/155/commits/fb862bdd16a8c7236727e51ddeff700cd2540b75">here</a>. I think some of this functionality is still under development, so is not yet available in the CRAN release.</p></li>
+</ol>
+<p>We’re now ready to prepare the data for the table.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+newdata &lt;- map_bucket_trades(
+  start_date = &quot;2020-04-01&quot;,
+  end_date = &quot;2020-04-28&quot;,
+  binSize = &quot;1h&quot;
+) %&gt;%
+  mutate(week = lubridate::week(timestamp)) %&gt;%
+  select(week, timestamp, open, high, low, close, volume, trades) %&gt;%
+  group_by(week) %&gt;%
+  nest() %&gt;%
+  mutate(
+    plot = map2(week, data, plot_group),
+    info = map2(week, data, oc)
+  ) %&gt;%
+  unnest(info)
+
+head(newdata)</code></pre>
+<pre><code>
+# A tibble: 4 x 8
+# Groups:   week [4]
+   week data     plot    open close  volume trades date               
+  &lt;dbl&gt; &lt;list&gt;   &lt;list&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;  &lt;int&gt; &lt;dttm&gt;             
+1    14 &lt;tibble~ &lt;gg&gt;   6440. 7166  1.45e10 5.35e6 2020-04-01 00:00:00
+2    15 &lt;tibble~ &lt;gg&gt;   7166  6880. 1.21e10 4.67e6 2020-04-08 00:00:00
+3    16 &lt;tibble~ &lt;gg&gt;   6880. 6898. 1.20e10 4.24e6 2020-04-15 00:00:00
+4    17 &lt;tibble~ &lt;gg&gt;   6898. 7788  9.93e 9 4.28e6 2020-04-22 00:00:00</code></pre>
+</div>
+<p>Now the data is ready, we can make the table.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+newdata %&gt;%
+  ungroup() %&gt;%
+  select(date, volume, trades, open, close, plot) %&gt;%
+  mutate(date = as.character(date)) %&gt;%
+  gt() %&gt;%
+  fmt_ggplot(
+    columns = vars(plot),
+    height = 170,
+    aspect_ratio = 1
+  ) %&gt;%
+  fmt_number(
+    columns = vars(trades, volume),
+    suffixing = TRUE
+  ) %&gt;%
+  fmt_date(
+    columns = vars(date),
+    date_style = 8
+  ) %&gt;%
+  cols_align(
+    align = &quot;center&quot;
+  ) %&gt;%
+  fmt_currency(
+    columns = vars(open, close)
+  ) %&gt;%
+  tab_header(
+    title = md(&quot;**Price action summary for April 2020**&quot;)
+  ) %&gt;%
+  cols_label(
+    date = &quot;Week beginning&quot;,
+    open = &quot;Open&quot;,
+    close = &quot;Close&quot;,
+    trades = &quot;Trades&quot;,
+    volume = &quot;Volume&quot;,
+    plot = &quot;Price action&quot;
+  ) %&gt;%
+  tab_spanner(
+    label = &quot;Summary&quot;,
+    columns = vars(volume, trades, open, close)
+  )</code></pre>
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#eceehmtwqn .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#eceehmtwqn .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#eceehmtwqn .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#eceehmtwqn .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 4px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#eceehmtwqn .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#eceehmtwqn .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#eceehmtwqn .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#eceehmtwqn .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#eceehmtwqn .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#eceehmtwqn .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#eceehmtwqn .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#eceehmtwqn .gt_group_heading {
+  padding: 8px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#eceehmtwqn .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#eceehmtwqn .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#eceehmtwqn .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#eceehmtwqn .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#eceehmtwqn .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#eceehmtwqn .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 12px;
+}
+
+#eceehmtwqn .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#eceehmtwqn .gt_first_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+}
+
+#eceehmtwqn .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#eceehmtwqn .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#eceehmtwqn .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#eceehmtwqn .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#eceehmtwqn .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding: 4px;
+}
+
+#eceehmtwqn .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#eceehmtwqn .gt_sourcenote {
+  font-size: 90%;
+  padding: 4px;
+}
+
+#eceehmtwqn .gt_left {
+  text-align: left;
+}
+
+#eceehmtwqn .gt_center {
+  text-align: center;
+}
+
+#eceehmtwqn .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#eceehmtwqn .gt_font_normal {
+  font-weight: normal;
+}
+
+#eceehmtwqn .gt_font_bold {
+  font-weight: bold;
+}
+
+#eceehmtwqn .gt_font_italic {
+  font-style: italic;
+}
+
+#eceehmtwqn .gt_super {
+  font-size: 65%;
+}
+
+#eceehmtwqn .gt_footnote_marks {
+  font-style: italic;
+  font-size: 65%;
+}
+</style>
+<div id="eceehmtwqn" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
+  <thead class="gt_header">
+    <tr>
+      <th colspan="6" class="gt_heading gt_title gt_font_normal" style><strong>Price action summary for April 2020</strong></th>
+    </tr>
+    <tr>
+      <th colspan="6" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style></th>
+    </tr>
+  </thead>
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_center gt_columns_bottom_border" rowspan="2" colspan="1">Week beginning</th>
+      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="4">
+        <span class="gt_column_spanner">Summary</span>
+      </th>
+      <th class="gt_col_heading gt_center gt_columns_bottom_border" rowspan="2" colspan="1">Price action</th>
+    </tr>
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">Volume</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">Trades</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">Open</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">Close</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr>
+      <td class="gt_row gt_center">1 April 2020</td>
+      <td class="gt_row gt_center">14.53B</td>
+      <td class="gt_row gt_center">5.35M</td>
+      <td class="gt_row gt_center">$6,440.50</td>
+      <td class="gt_row gt_center">$7,166.00</td>
+      <td class="gt_row gt_center"><img cid="uofebwgjqrni__temp_ggplot.png" src="data:image/png;base64,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dMEcdMEcdMH8dnTb0Yd93KbOQRfMQRfMQRfMQRfMQRfMQRfMQRfMffSf5uPaX5KpnxT65a+Y0+GZPmQOumAOumAOumAOumAOumAOumAOumAOumAOumAOumAOumAOumAOumAOumAOumB+jl79f3tcQR80B10wB10wL0GvZwd9yBx0wRx0wRx0wRx0wfxGdAf6oDnogvlt6A70YXPQBfOSb7iA/rIcdMEcdMEcdMEcdMEcdMEcdMEcdMEcdMH8Cvql/4s36OPmoAvmF9HLf6UHfdwcdMEcdMH8XvTj3QUz7OM2dQ66YA66YA66YA66YA66YA66YN4CPfnB/cKgj5dfRk8Igz5ZDrpgXokeZKBPll/+1iro8+fV6J406JPloAvmoAvm5ejuD30Bfe68EH3JoC9/P+QuDPp4+RX03wF9/tyCvoA+Zw66YA66YG5Gz33rDfRxc9AFc9AFc9AFc9AF85q/n+6h519DBfq4eSX65y3o8+WgC+agC+agC+agC+Zm9BX06fJm6PEzHvRx8xr0eECfLAddMAddMAddMAddMPfRfypn+feD297u42qvxtw2KfTLXzHbLNt3XnmmT5KDLpiDLpi3RffYQR83B10wB10wB10wb4m+/1Zu/8Oawty2nPx6fg+6A33kvDm6A334HHTBHHTBHHTBvBn69jPQJ8hvQy/PbcvJr+ct0FfQ58pBF8xBF8zvQF9BHzsHXTAHXTAHXTAHXTAHXTC/B/1ibltOfjVvg74P6FPkzdEteeuaPD2gC+agC+agC+agC+agC+agC+agC+Zt0Zvnwz5uU+egC+agC+agC+agC+agC+agC+agC+agC+agC+agC+agC+agC+agC+agC+agC+agC+agC+agC+agC+agC+agC+bn6MzrBnTBAV1wQBcc0AUHdMEBXXBAFxzQBQd0wQFdcEAXnP8BtdcYYhOGpkYAAAAASUVORK5CYII=" style="height:170px;"></td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_center">8 April 2020</td>
+      <td class="gt_row gt_center">12.10B</td>
+      <td class="gt_row gt_center">4.67M</td>
+      <td class="gt_row gt_center">$7,166.00</td>
+      <td class="gt_row gt_center">$6,880.50</td>
+      <td class="gt_row gt_center"><img cid="wcjireasyutf__temp_ggplot.png" src="data:image/png;base64,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" style="height:170px;"></td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_center">15 April 2020</td>
+      <td class="gt_row gt_center">12.03B</td>
+      <td class="gt_row gt_center">4.24M</td>
+      <td class="gt_row gt_center">$6,880.50</td>
+      <td class="gt_row gt_center">$6,897.50</td>
+      <td class="gt_row gt_center"><img cid="pjfevszhqmwy__temp_ggplot.png" src="data:image/png;base64,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" style="height:170px;"></td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_center">22 April 2020</td>
+      <td class="gt_row gt_center">9.93B</td>
+      <td class="gt_row gt_center">4.28M</td>
+      <td class="gt_row gt_center">$6,897.50</td>
+      <td class="gt_row gt_center">$7,788.00</td>
+      <td class="gt_row gt_center"><img cid="zrvwstijnycd__temp_ggplot.png" src="data:image/png;base64,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" style="height:170px;"></td>
+    </tr>
+  </tbody>
+  
+  
+</table></div>
+</div>
+<p>Pretty cool! The possibilities are endless with this and it was good fun trying to get it to work.</p>
+<div id="refs" class="references" role="doc-bibliography">
+<div id="ref-R-bitmexr">
+<p>Fisher, Harry. 2020. <em>Bitmexr: R Client for Bitmex</em>. <a href="https://CRAN.R-project.org/package=bitmexr">https://CRAN.R-project.org/package=bitmexr</a>.</p>
+</div>
+<div id="ref-R-gt">
+<p>Iannone, Richard, Joe Cheng, and Barret Schloerke. 2020. <em>Gt: Easily Create Presentation-Ready Display Tables</em>. <a href="https://github.com/rstudio/gt">https://github.com/rstudio/gt</a>.</p>
+</div>
+</div>
+<!--radix_placeholder_article_footer-->
+<div class="article-footer">
+  <p class="social_footer">
+    <span class="disqus-comments">
+      <i class="fas fa-comments"></i>
+      &nbsp;
+      <span class="disqus-comment-count" data-disqus-identifier="posts/2020-05-02-pretty-tables-with-gt/">Comment on this article</span>
+    </span>
+    <span class="article-sharing">
+      Share: &nbsp;
+      <a href="https://twitter.com/share?text=Pretty%20tables%20with%20gt&amp;url=https%3A%2F%2Fhfshr.netlify.com%2Fposts%2F2020-05-02-pretty-tables-with-gt%2F">
+        <i class="fab fa-twitter"></i>
+      </a>
+    </span>
+  </p>
+  <script id="dsq-count-scr" src="https://hfshr-disqus.disqus.com/count.js" async></script>
+  <div id="disqus_thread" class="hidden"></div>
+  <script>
+var disqus_config = function () {
+  this.page.url = 'https://hfshr.netlify.com/posts/2020-05-02-pretty-tables-with-gt/';
+  this.page.identifier = 'posts/2020-05-02-pretty-tables-with-gt/';
+};
+(function() {
+  var d = document, s = d.createElement('script');
+  s.src = 'https://hfshr-disqus.disqus.com/embed.js';
+  s.setAttribute('data-timestamp', +new Date());
+  (d.head || d.body).appendChild(s);
+})();
+</script>
+</div>
+<!--/radix_placeholder_article_footer-->
+</div>
+
+<div class="d-appendix">
+</div>
+
+
+<!--radix_placeholder_site_after_body-->
+<!--/radix_placeholder_site_after_body-->
+<!--radix_placeholder_appendices-->
+<div class="appendix-bottom">
+  <h3 id="updates-and-corrections">Corrections</h3>
+  <p>If you see mistakes or want to suggest changes, please <a href="https://github.com/hfshr/distill_blog/issues/new">create an issue</a> on the source repository.</p>
+  <h3 id="citation">Citation</h3>
+  <p>For attribution, please cite this work as</p>
+  <pre class="citation-appendix short">Fisher (2020, May 2). Harry Fisher: Pretty tables with gt. Retrieved from https://hfshr.netlify.com/posts/2020-05-02-pretty-tables-with-gt/</pre>
+  <p>BibTeX citation</p>
+  <pre class="citation-appendix long">@misc{fisher2020pretty,
+  author = {Fisher, Harry},
+  title = {Harry Fisher: Pretty tables with gt},
+  url = {https://hfshr.netlify.com/posts/2020-05-02-pretty-tables-with-gt/},
+  year = {2020}
+}</pre>
+</div>
+<script id="distill-bibliography" type="text/bibtex">
+@Manual{R-base,
+  title = {R: A Language and Environment for Statistical Computing},
+  author = {{R Core Team}},
+  organization = {R Foundation for Statistical Computing},
+  address = {Vienna, Austria},
+  year = {2020},
+  url = {https://www.R-project.org/},
+}
+@Manual{R-bitmexr,
+  title = {bitmexr: R Client for BitMEX},
+  author = {Harry Fisher},
+  year = {2020},
+  note = {R package version 0.2.3},
+  url = {https://CRAN.R-project.org/package=bitmexr},
+}
+@Manual{R-dplyr,
+  title = {dplyr: A Grammar of Data Manipulation},
+  author = {Hadley Wickham and Romain FranÃ§ois and Lionel Henry and Kirill MÃ¼ller},
+  year = {2020},
+  note = {https://dplyr.tidyverse.org, https://github.com/tidyverse/dplyr},
+}
+@Manual{R-forcats,
+  title = {forcats: Tools for Working with Categorical Variables (Factors)},
+  author = {Hadley Wickham},
+  year = {2020},
+  note = {R package version 0.5.0},
+  url = {https://CRAN.R-project.org/package=forcats},
+}
+@Book{R-ggplot2,
+  author = {Hadley Wickham},
+  title = {ggplot2: Elegant Graphics for Data Analysis},
+  publisher = {Springer-Verlag New York},
+  year = {2016},
+  isbn = {978-3-319-24277-4},
+  url = {https://ggplot2.tidyverse.org},
+}
+@Manual{R-gt,
+  title = {gt: Easily Create Presentation-Ready Display Tables},
+  author = {Richard Iannone and Joe Cheng and Barret Schloerke},
+  year = {2020},
+  note = {R package version 0.2.0.9000},
+  url = {https://github.com/rstudio/gt},
+}
+@Article{R-lubridate,
+  title = {Dates and Times Made Easy with {lubridate}},
+  author = {Garrett Grolemund and Hadley Wickham},
+  journal = {Journal of Statistical Software},
+  year = {2011},
+  volume = {40},
+  number = {3},
+  pages = {1--25},
+  url = {http://www.jstatsoft.org/v40/i03/},
+}
+@Manual{R-PerformanceAnalytics,
+  title = {PerformanceAnalytics: Econometric Tools for Performance and Risk Analysis},
+  author = {Brian G. Peterson and Peter Carl},
+  year = {2020},
+  note = {R package version 2.0.4},
+  url = {https://CRAN.R-project.org/package=PerformanceAnalytics},
+}
+@Manual{R-purrr,
+  title = {purrr: Functional Programming Tools},
+  author = {Lionel Henry and Hadley Wickham},
+  year = {2020},
+  note = {R package version 0.3.4},
+  url = {https://CRAN.R-project.org/package=purrr},
+}
+@Manual{R-quantmod,
+  title = {quantmod: Quantitative Financial Modelling Framework},
+  author = {Jeffrey A. Ryan and Joshua M. Ulrich},
+  year = {2020},
+  note = {R package version 0.4.17},
+  url = {https://CRAN.R-project.org/package=quantmod},
+}
+@Manual{R-readr,
+  title = {readr: Read Rectangular Text Data},
+  author = {Hadley Wickham and Jim Hester and Romain Francois},
+  year = {2018},
+  note = {R package version 1.3.1},
+  url = {https://CRAN.R-project.org/package=readr},
+}
+@Manual{R-stringr,
+  title = {stringr: Simple, Consistent Wrappers for Common String Operations},
+  author = {Hadley Wickham},
+  year = {2019},
+  note = {R package version 1.4.0},
+  url = {https://CRAN.R-project.org/package=stringr},
+}
+@Manual{R-tibble,
+  title = {tibble: Simple Data Frames},
+  author = {Kirill MÃ¼ller and Hadley Wickham},
+  year = {2020},
+  note = {R package version 3.0.1},
+  url = {https://CRAN.R-project.org/package=tibble},
+}
+@Manual{R-tidyquant,
+  title = {tidyquant: Tidy Quantitative Financial Analysis},
+  author = {Matt Dancho and Davis Vaughan},
+  year = {2020},
+  note = {R package version 1.0.0},
+  url = {https://CRAN.R-project.org/package=tidyquant},
+}
+@Manual{R-tidyr,
+  title = {tidyr: Tidy Messy Data},
+  author = {Hadley Wickham and Lionel Henry},
+  year = {2020},
+  note = {R package version 1.0.2},
+  url = {https://CRAN.R-project.org/package=tidyr},
+}
+@Article{R-tidyverse,
+  title = {Welcome to the {tidyverse}},
+  author = {Hadley Wickham and Mara Averick and Jennifer Bryan and Winston Chang and Lucy D'Agostino McGowan and Romain FranÃ§ois and Garrett Grolemund and Alex Hayes and Lionel Henry and Jim Hester and Max Kuhn and Thomas Lin Pedersen and Evan Miller and Stephan Milton Bache and Kirill MÃ¼ller and Jeroen Ooms and David Robinson and Dana Paige Seidel and Vitalie Spinu and Kohske Takahashi and Davis Vaughan and Claus Wilke and Kara Woo and Hiroaki Yutani},
+  year = {2019},
+  journal = {Journal of Open Source Software},
+  volume = {4},
+  number = {43},
+  pages = {1686},
+  doi = {10.21105/joss.01686},
+}
+@Manual{R-TTR,
+  title = {TTR: Technical Trading Rules},
+  author = {Joshua Ulrich},
+  year = {2019},
+  note = {R package version 0.23-6},
+  url = {https://CRAN.R-project.org/package=TTR},
+}
+@Manual{R-xts,
+  title = {xts: eXtensible Time Series},
+  author = {Jeffrey A. Ryan and Joshua M. Ulrich},
+  year = {2020},
+  note = {R package version 0.12-0},
+  url = {https://CRAN.R-project.org/package=xts},
+}
+@Article{R-zoo,
+  title = {zoo: S3 Infrastructure for Regular and Irregular Time Series},
+  author = {Achim Zeileis and Gabor Grothendieck},
+  journal = {Journal of Statistical Software},
+  year = {2005},
+  volume = {14},
+  number = {6},
+  pages = {1--27},
+  doi = {10.18637/jss.v014.i06},
+}
+</script>
+<!--/radix_placeholder_appendices-->
+<!--radix_placeholder_navigation_after_body-->
+<div class="distill-site-nav distill-site-footer">
+
+</div>
+<!--/radix_placeholder_navigation_after_body-->
+
+
+</body>
+
+</html>

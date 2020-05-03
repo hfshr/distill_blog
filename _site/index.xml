@@ -7,7 +7,16 @@
     <description>My Blog
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>Mon, 13 Apr 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 02 May 2020 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Pretty tables with gt</title>
+      <dc:creator>Harry Fisher</dc:creator>
+      <link>https://hfshr.netlify.com/posts/2020-05-02-pretty-tables-with-gt</link>
+      <description>Traditionally I have been an ardent user of kable + kableExtra when it comes to creating tables. These packages have served me well, however the CRAN release of a new player in the table package space - gt - promted me to try it out and explore some of the features it had to offer.</description>
+      <guid>https://hfshr.netlify.com/posts/2020-05-02-pretty-tables-with-gt</guid>
+      <pubDate>Sat, 02 May 2020 00:00:00 +0000</pubDate>
+      <media:content url="https://hfshr.netlify.com/posts/2020-05-02-pretty-tables-with-gt/nice_table.png" medium="image" type="image/png" width="1175" height="633"/>
+    </item>
     <item>
       <title>bitmexr: An R client for BitMEX cryptocurrency exchange.</title>
       <dc:creator>Harry Fisher</dc:creator>
