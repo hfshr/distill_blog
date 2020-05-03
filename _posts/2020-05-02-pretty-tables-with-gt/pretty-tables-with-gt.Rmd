@@ -16,6 +16,7 @@ categories:
   - gt
   - ggplot
   - bitmexr
+  - R
 bibliography: r-references.bib  
 ---
 

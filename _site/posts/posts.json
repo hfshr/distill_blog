@@ -14,10 +14,11 @@
       "Bitcoin",
       "gt",
       "ggplot",
-      "bitmexr"
+      "bitmexr",
+      "R"
     ],
     "preview": "posts/2020-05-02-pretty-tables-with-gt/nice_table.png",
-    "last_modified": "2020-05-03T12:18:48+01:00",
+    "last_modified": "2020-05-03T12:39:14+01:00",
     "preview_width": 1175,
     "preview_height": 633
   },
@@ -33,10 +34,11 @@
     ],
     "date": "2020-04-13",
     "categories": [
-      "Bitcoin"
+      "Bitcoin",
+      "R"
     ],
     "preview": "posts/2020-04-13-bitmexr/images/price.gif",
-    "last_modified": "2020-04-25T11:41:40+01:00"
+    "last_modified": "2020-05-03T12:38:55+01:00"
   },
   {
     "path": "posts/2020-03-22-bitcoin/",

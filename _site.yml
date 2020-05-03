@@ -1,4 +1,8 @@
 name: "distill_blog"
+rss:
+  full_content: TRUE
+  categories:
+    - R    
 title: "Harry Fisher"
 description: |
   My Blog

@@ -11,6 +11,7 @@ output:
     self_contained: false
 categories:
   - Bitcoin
+  - R
 bibliography: r-references.bib  
 preview: images/price.gif
 ---
