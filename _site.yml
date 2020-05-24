@@ -17,14 +17,9 @@ navbar:
       href: https://github.com/hfshr/distill_blog
     - icon: fa fa-rss
       href: index.xml
-rss:
-  full_content: TRUE
-  categories:
-    - R          
 google_analytics: "UA-145834792-2"
 collections:
   posts:
-    feed_items_max: false
     disqus: hfshr-disqus
     share: [twitter]
 output: 

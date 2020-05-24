@@ -1,0 +1,262 @@
+---
+title: "tidymodels workflow with Bayesian optimisation"
+description: |
+  I've been collecting a few notes on using the tidymodels workflow for modelling, and thought it might be worth sharing them here. More for personal reference than anything, but someone might find my ramblings useful! 
+author:
+  - name: Harry Fisher
+    url: https://hfshr.netlify.com/
+date: 05-23-2020
+preview: tidymodel.png
+draft: false
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+load("data.RData")
+```
+
+For demonstration purposes I'm going to use the `credit_data` dataset from the `modeldata` package. This is a fairly simple data set that doesn't require too much wrangling to get going.
+
+```{r message=FALSE}
+library(modeldata)
+library(tidymodels)
+library(tidyverse)
+library(doParallel)
+library(probably)
+library(gt)
+
+data("credit_data")
+glimpse(credit_data)
+```
+
+First, I'll split the sample into training and testing sets using `rsample`. As well as create v-fold cross-validation set for use in the tuning step later.
+
+```{r eval=FALSE}
+set.seed(122)
+
+credit_data <- credit_data %>%
+  drop_na(Status)
+
+# initial split
+split <- initial_split(credit_data, prop = 0.75, strata = "Status")
+
+# train/test sets
+train <- training(split)
+test <- testing(split)
+
+# cross validation set
+folds <- vfold_cv(train, v = 5)
+
+```
+
+<aside>
+I've dropped NA's in outcome as these caused problems in later steps (think I was doing something wrong...)
+</aside>
+
+Next, I'll set up the recipe using `recipies`. As well as defining the formula for the model, I've created two preprocessing steps:
+
+1. Impute the missing values.  
+2. One-hot encode the factor variables in the data.
+
+```{r eval=FALSE}
+rec <- recipe(Status ~ ., data = train) %>%
+  step_bagimpute(Home, Marital, Job, Income, Assets, Debt) %>%
+  step_dummy(Home, Marital, Records, Job, one_hot = T) 
+
+```
+
+Now I'll prepare the model specification using `parsnip`. Here I'm using an xgboost model and specify the parameters I want to tune using Bayesian optimisation. 
+The `mtry` parameter requires one additional step to finalise the range of possible values (because it depends on the number of variables in the data and a suitable range of values to test can't be estimated without that information).
+
+```{r eval=FALSE}
+
+mod <- boost_tree(
+  trees = tune(),
+  min_n = tune(),
+  learn_rate = tune(),
+  loss_reduction = tune(),
+  sample_size = tune(),
+  mtry = tune(),
+  tree_depth = tune()
+) %>%
+  set_engine("xgboost") %>%
+  set_mode("classification")
+
+
+params <- parameters(mod) %>%
+  finalize(train)
+
+```
+
+In this step I've bundled all the above steps into a workflow. This avoids the need to use the `juice`, `bake` and `prep` functions (which I never quite got my head around...!). 
+
+```{r}
+xgboost_wflow <- workflow() %>%
+  add_recipe(rec) %>%
+  add_model(mod)
+```
+
+Now we are ready to **OPTIMISE**. I'm going to use an iterative search through Bayesian optimisation to predict what parameters to try next (as opposed to a grid search where we need to specific parameters values in advance).
+
+First I set up some addition works so the tests can be run in parallel, and then use the `tune_bayes()` function to set up the tuning. 
+Here I've decided to:
+
+- Limit the number of iterations to 30
+- Use precision-recall as the metric I want to optimise
+- Start off with an initial grid of 10 combinations.
+- Stop early is no improvements are made after 10 iterations. 
+
+```{r eval=FALSE}
+options(tidymodels.dark = TRUE)
+
+
+cl <- makePSOCKcluster(5)
+registerDoParallel(cl)
+
+tuned <- tune_bayes(
+  object = xgboost_wflow,
+  resamples = folds,
+  param_info = params,
+  iter = 30,
+  metrics = metric_set(pr_auc),
+  initial = 10,
+  control = control_bayes(
+    verbose = TRUE,
+    no_improve = 10,
+    seed = 123
+  )
+)
+
+stopCluster(cl)
+```
+
+<aside>
+The options(tidymodels.dark = TRUE) makes the text _much_ clear if you're using a dark theme in Rstudio.
+</aside>
+
+After a little while, we're done! The top combinations were:
+
+```{r layout="l-body-outset"}
+show_best(tuned, "pr_auc") %>% 
+  select(1:7, 11) %>% 
+  gt()
+```
+
+<aside>
+mean here is the average `pr_auc` across the resamples.
+</aside>
+
+Now we can create our final model using these parameters.
+
+```{r eval=FALSE}
+
+mod_tuned <- update(mod, select_best(tuned, "pr_auc"))
+
+xgboost_wkflow_tuned <- workflow() %>%
+  add_recipe(recipe = rec) %>%
+  add_model(
+    boost_tree() %>%
+      set_mode("classification") %>%
+      set_engine("xgboost") %>%
+      set_args(select_best(tuned, "pr_auc"))
+  )
+
+```
+
+Finally we can fit the model.
+
+```{r eval=FALSE}
+final_res <- fit(xgboost_wkflow_tuned, train)
+```
+
+With our model in hand we can make some predictions to evaluate performance
+
+```{r}
+
+preds <- tibble(truth = test$Status) %>% 
+  bind_cols(., predict(final_res, new_data = test[,-1])) %>% 
+  bind_cols(., predict(final_res, new_data = test[,-1], type = "prob"))
+
+```
+
+Now we can use the `yardstick` package to evaluate how the model performed.
+
+```{r}
+conf_mat(preds, truth, .pred_class)
+
+preds %>%
+  gain_curve(truth, .pred_bad) %>%
+  autoplot()
+
+preds %>%
+  pr_curve(truth, .pred_bad) %>%
+  autoplot()
+
+```
+
+<aside>
+The `autoplot()` feature is great for quickly visualising these curves
+</aside>
+
+
+hmmm... That confusion matrix doesn't look too great. Quite a large number "good" predictions were actually "bad" (false negatives). Maybe when can improve the class prediction by using `probably`. 
+
+Here we use `threshold_perf()` to evaluate different thresholds to make our class predictions. One methods to determine the "best" cut point is to use the j-index (maximum value of 1 when there are no false positives and no false negatives).
+
+```{r message=FALSE}
+
+threshold_data <- preds %>%
+  threshold_perf(truth, .pred_bad, thresholds = seq(0.2, 1, by = 0.0025))
+
+
+max_j_index_threshold <- threshold_data %>%
+  filter(.metric == "j_index") %>%
+  filter(.estimate == max(.estimate)) %>%
+  pull(.threshold)
+
+
+preds_new <- preds %>% 
+  mutate(new_class_pred = factor(ifelse(.pred_bad >= max_j_index_threshold, "bad", "good"), levels = c("bad", "good"))) 
+  
+max_j_index_threshold
+```
+
+Now we have a new prediction based on our new threshold of `r cat(max_j_index_threshold)` vs the default threshold of 0.50. We can compare the performance on a range of different binary classification metrics by calling `summay()` on the `conf_mat()` object for both the old and new predicted classes.
+
+```{r}
+summary(conf_mat(preds, truth, .pred_class)) %>%
+  select(-.estimator) %>%
+  rename(old_threshold = .estimate) %>%
+  bind_cols(.,
+            summary(conf_mat(preds_new, truth, new_class_pred)) %>%
+              select(.estimate) %>%
+              rename(new_threshold = .estimate)) %>%
+  gt() %>%
+  fmt_number(columns = c(2, 3),
+             decimals = 3) %>%
+  tab_style(
+    style = cell_fill(color = "indianred3"),
+    locations = cells_body(columns = 3,
+                           rows = new_threshold < old_threshold)
+  )  %>%
+  tab_style(
+    style = cell_fill(color = "springgreen3"),
+    locations = cells_body(columns = 3,
+                           rows = new_threshold > old_threshold)
+  ) %>% 
+  cols_align(align = "center")
+
+```
+
+Lowering the threshold to .27 seems to have had a positive impact on quite a few of the binary classification metrics. There is always going to be a trade off between maximising some metrics over others, and will of course depend on what you are trying to achieve with your model. 
+
+...and that is a very quick tour of `tidymodels`! There are obviously some additional steps you would want to carry out out in the "real" world. You'd probably want to compare a range of different models and maybe do some additional feature engineering based on the data you have, but the code above is a good initial starting point for a `tidymodels` orientated workflow. 
+
+<aside>
+There are many other features in `tidymodels` and I've barely scratched the surface here!
+</aside>
+
+Thanks for reading!

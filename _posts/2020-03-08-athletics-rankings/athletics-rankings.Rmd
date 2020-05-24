@@ -4,7 +4,7 @@ description: |
     Using R tools to gather data from an athletics rankings website.
 author:
   - name: Harry Fisher
-    url: {}
+    url: https://hfshr.netlify.com/
 preview: images/rr.png    
 date: 03-08-2020
 categories: 
@@ -13,7 +13,6 @@ categories:
 output:
   distill::distill_article:
     self_contained: false
-draft: false
 ---
 
 As a keen athlete I spent many hours on athletics rankings website 

@@ -47,12 +47,12 @@
   <!--radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","preview","categories","output","draft","bibliography"]}},"value":[{"type":"character","attributes":{},"value":["Exploring the recent Bitcoin crash with tidyqaunt and gganimate"]},{"type":"character","attributes":{},"value":["Bitcoin recently had a significant sell off, crashing 50% in a matter of hours. This undoubtly was due to the uncertainty in markets surrounding the economic impacts of COVID-19, and the consequent reduction in liquidity faced by many different assets. The volatile price action does however make for an interesting case study which this post will explore.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Harry Fisher"]},{"type":"character","attributes":{},"value":["https://hfshr.netlify.com/"]}]}]},{"type":"character","attributes":{},"value":["03-22-2020"]},{"type":"character","attributes":{},"value":["https://media.giphy.com/media/RgxAkfVQWwkjS/giphy.gif"]},{"type":"character","attributes":{},"value":["Bitcoin","gganimate"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"logical","attributes":{},"value":[false]},{"type":"character","attributes":{},"value":["r-references.bib"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","preview","categories","output","bibliography"]}},"value":[{"type":"character","attributes":{},"value":["Exploring the recent Bitcoin crash with tidyqaunt and gganimate"]},{"type":"character","attributes":{},"value":["Bitcoin recently had a significant sell off, crashing 50% in a matter of hours. This undoubtly was due to the uncertainty in markets surrounding the economic impacts of COVID-19, and the consequent reduction in liquidity faced by many different assets. The volatile price action does however make for an interesting case study which this post will explore.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Harry Fisher"]},{"type":"character","attributes":{},"value":["https://hfshr.netlify.com/"]}]}]},{"type":"character","attributes":{},"value":["03-22-2020"]},{"type":"character","attributes":{},"value":["https://media.giphy.com/media/RgxAkfVQWwkjS/giphy.gif"]},{"type":"character","attributes":{},"value":["Bitcoin","gganimate"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"character","attributes":{},"value":["r-references.bib"]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["bitcoin_files/bowser-1.9.3/bowser.min.js","bitcoin_files/distill-2.2.21/template.v2.js","bitcoin_files/figure-html5/unnamed-chunk-3-1.gif","bitcoin_files/figure-html5/unnamed-chunk-3-1.png","bitcoin_files/figure-html5/unnamed-chunk-4-1.gif","bitcoin_files/figure-html5/unnamed-chunk-4-1.png","bitcoin_files/jquery-1.11.3/jquery.min.js","bitcoin_files/webcomponents-2.0.0/webcomponents.js","r-references.bib"]}
+  {"type":"character","attributes":{},"value":["bitcoin_files/figure-html5/unnamed-chunk-3-1.gif","bitcoin_files/figure-html5/unnamed-chunk-4-1.png","r-references.bib"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1014,16 +1014,13 @@ xbt %&gt;%
                    colour_up = &quot;green&quot;,
                    colour_down = &quot;red&quot;) +
   scale_x_datetime(date_breaks = &quot;12 hour&quot;, date_labels = &quot;%H%M&quot;) +
-  scale_y_continuous(labels = scales::dollar)</code></pre>
-<p><img src="bitcoin_files/figure-html5/unnamed-chunk-3-1.png" width="624" /></p>
-<pre class="r"><code>
+  scale_y_continuous(labels = scales::dollar) +
   labs(y = &quot;Price (USD)&quot;, 
        x = &quot;Time&quot;)  +
   transition_time(timestamp) +
   shadow_mark() +
   theme_minimal()</code></pre>
-<pre><code>
-NULL</code></pre>
+<p><img src="bitcoin_files/figure-html5/unnamed-chunk-3-1.gif" /><!-- --></p>
 </div>
 <p>As can be seen, this was a dramatic sell of with price dropping from almost 8000 USD to the low 3000 USD mark within a matter of hours, before recovery slightly to around the 5000 USD level.</p>
 <h1 id="ddos-attack">DDoS attack</h1>
@@ -1051,6 +1048,7 @@ p1 &lt;- xbt_lower %&gt;%
                    colour_up = &quot;green&quot;,
                    colour_down = &quot;red&quot;)  +
   facet_wrap(~ddos, scales = &quot;free&quot;) +
+  scale_y_continuous(labels = scales::dollar)+
   labs(x = &quot;&quot;, y = &quot;Price (USD)&quot;) +
   theme_minimal()
 

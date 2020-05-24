@@ -3,7 +3,6 @@ title: "First post"
 description: |
   A fresh start (again)
 author: "Harry Fisher"
-
 date: 03-01-2020
 preview: images/start.png 
 output:
@@ -27,4 +26,3 @@ Will this time be different? Only time will tell...
 ```{r fig.align='center', out.width="40%"}
 knitr::include_graphics("images/Tick_tock.png")
 ```
-

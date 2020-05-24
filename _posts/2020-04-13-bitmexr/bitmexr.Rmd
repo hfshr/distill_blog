@@ -1,7 +1,7 @@
 ---
 title: "bitmexr: An R client for BitMEX cryptocurrency exchange."
 description: |
-  How `bitmexr` came to be.
+  How bitmexr came to be.
 author:
   - name: Harry Fisher
     url: https://hfshr.netlify.com/
@@ -29,7 +29,7 @@ papaja::r_refs(file = "r-references.bib")
 ```
 
 While writing my previous post, I was surprised to find that there was no R related package for the cryptocurrency exchange BitMEX. 
-While cryptocurrency itself is a somewhat niche area, BitMEX is one of the largest and most popular exchanges, so I had assumed someone would have already put together something in R for accessing data through BitEMX's API. 
+While cryptocurrency itself is a somewhat niche area, BitMEX is one of the largest and most popular exchanges, so I had assumed someone would have already put together something in R for accessing data through BitMEX's API. 
 As I could find no such package, I drew inspiration from the few 'crypto' related packages that _do_ exist, and set about creating a package that would provide a R users with a set of tools to obtain historic trade data from the exchange..
 
 BitMEX has a very detailed API that allows users to perform essentially every action possible on the site through the API. This ranges from simple queries about historic price data through to executing trades on the platform. 
