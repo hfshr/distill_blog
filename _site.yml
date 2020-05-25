@@ -18,10 +18,17 @@ navbar:
     - icon: fa fa-rss
       href: index.xml
 google_analytics: "UA-145834792-2"
+rss:
+  full_content: TRUE
+  categories:
+    - R
+    - Releases
 collections:
   posts:
     disqus: hfshr-disqus
     share: [twitter]
+    subscribe: _subscribe.html
+    creative_commons: CC BY
 output: 
   distill::distill_article:
     css: style.css

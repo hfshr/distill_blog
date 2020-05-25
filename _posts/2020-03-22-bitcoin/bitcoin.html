@@ -52,7 +52,7 @@
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["bitcoin_files/figure-html5/unnamed-chunk-3-1.gif","bitcoin_files/figure-html5/unnamed-chunk-4-1.png","r-references.bib"]}
+  {"type":"character","attributes":{},"value":["bitcoin_files/bowser-1.9.3/bowser.min.js","bitcoin_files/distill-2.2.21/template.v2.js","bitcoin_files/figure-html5/unnamed-chunk-3-1.gif","bitcoin_files/figure-html5/unnamed-chunk-4-1.png","bitcoin_files/jquery-1.11.3/jquery.min.js","bitcoin_files/webcomponents-2.0.0/webcomponents.js","r-references.bib"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -967,9 +967,9 @@
 
 <div class="d-article">
 <h1 id="introduction">Introduction</h1>
-<p><a href="www.bitmex.com">Bitmex</a> is one of the largest cryptocurrency exchanges where Bitcoin is traded. Bitmex provides a great API that can be used to gather all kinds of data from the site regarding trades and orders, and even allows you to build your own trading bot if you’re feeling confident in your programming ability to make a profitable algorithm… However this post will simply collect data from the most recent crash in price and explore what happened using some great R packages including <code>tidyqaunt</code> <span class="citation" data-cites="R-tidyquant">(Dancho and Vaughan <a href="#ref-R-tidyquant" role="doc-biblioref">2020</a>)</span> and <code>gganimate</code> <span class="citation" data-cites="R-gganimate">(Pedersen and Robinson <a href="#ref-R-gganimate" role="doc-biblioref">2020</a>)</span> as well as the usual suspects in the <code>tidyverse</code>.</p>
+<p><a href="www.bitmex.com">Bitmex</a> is one of the largest cryptocurrency exchanges where Bitcoin is traded. BitMEX provides a great API that can be used to gather all kinds of data from the site regarding trades and orders, and even allows you to build your own trading bot if you’re feeling confident in your programming ability to make a profitable algorithm… However this post will simply collect data from the most recent crash in price and explore what happened using some great R packages including <code>tidyqaunt</code> <span class="citation" data-cites="R-tidyquant">(Dancho and Vaughan <a href="#ref-R-tidyquant" role="doc-biblioref">2020</a>)</span> and <code>gganimate</code> <span class="citation" data-cites="R-gganimate">(Pedersen and Robinson <a href="#ref-R-gganimate" role="doc-biblioref">2020</a>)</span> as well as the usual suspects in the <code>tidyverse</code>.</p>
 <h1 id="getting-the-data">Getting the data</h1>
-<p>To obtain the necessary data, I first defined a quick function based on the information found on the Bitmex API explorer page (<a href="https://www.bitmex.com/api/explorer" class="uri">https://www.bitmex.com/api/explorer</a>). This function barely scratches the surface at the possible requests available - but does get the data needed.</p>
+<p>To obtain the necessary data, I first defined a quick function based on the information found on the BitMEX API explorer page (<a href="https://www.bitmex.com/api/explorer" class="uri">https://www.bitmex.com/api/explorer</a>). This function barely scratches the surface at the possible requests available - but does get the data needed.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 xbt_reader &lt;- function(symbol = &quot;XBT&quot;, 

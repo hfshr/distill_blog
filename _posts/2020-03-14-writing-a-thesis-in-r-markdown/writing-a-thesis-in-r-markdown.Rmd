@@ -6,9 +6,6 @@ author:
   - name: Harry Fisher
     url: https://hfshr.netlify.com/
 date: 03-14-2020
-categories: 
-  - thesis
-  - rmarkdown
 preview: images/quill.png
 output:
   distill::distill_article:

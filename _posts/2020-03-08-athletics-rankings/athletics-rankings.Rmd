@@ -9,7 +9,6 @@ preview: images/rr.png
 date: 03-08-2020
 categories: 
   - athletics
-  - shiny
 output:
   distill::distill_article:
     self_contained: false

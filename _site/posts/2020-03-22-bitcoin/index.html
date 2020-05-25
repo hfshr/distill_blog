@@ -24,6 +24,7 @@
 <meta property="description" itemprop="description" content="Bitcoin recently had a significant sell off, crashing 50% in a matter of hours. This undoubtly was due to the uncertainty in markets surrounding the economic impacts of COVID-19, and the consequent reduction in liquidity faced by many different assets. The volatile price action does however make for an interesting case study which this post will explore."/>
 
 <link rel="canonical" href="https://hfshr.netlify.com/posts/2020-03-22-bitcoin/"/>
+<link rel="license" href="https://creativecommons.org/licenses/by/4.0/"/>
 
 <!--  https://schema.org/Article -->
 <meta property="article:published" itemprop="datePublished" content="2020-03-22"/>
@@ -47,6 +48,7 @@
 <!--  https://scholar.google.com/intl/en/scholar/inclusion.html#indexing -->
 <meta name="citation_title" content="Harry Fisher: Exploring the recent Bitcoin crash with tidyqaunt and gganimate"/>
 <meta name="citation_fulltext_html_url" content="https://hfshr.netlify.com/posts/2020-03-22-bitcoin/"/>
+<meta name="citation_fulltext_world_readable" content=""/>
 <meta name="citation_online_date" content="2020/03/22"/>
 <meta name="citation_publication_date" content="2020/03/22"/>
 <meta name="citation_author" content="Harry Fisher"/>
@@ -57,12 +59,12 @@
   <!--radix_placeholder_rmarkdown_metadata-->
 
 <script type="text/json" id="radix-rmarkdown-metadata">
-{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","preview","categories","output","bibliography","citation_url","canonical_url"]}},"value":[{"type":"character","attributes":{},"value":["Exploring the recent Bitcoin crash with tidyqaunt and gganimate"]},{"type":"character","attributes":{},"value":["Bitcoin recently had a significant sell off, crashing 50% in a matter of hours. This undoubtly was due to the uncertainty in markets surrounding the economic impacts of COVID-19, and the consequent reduction in liquidity faced by many different assets. The volatile price action does however make for an interesting case study which this post will explore."]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Harry Fisher"]},{"type":"character","attributes":{},"value":["https://hfshr.netlify.com/"]}]}]},{"type":"character","attributes":{},"value":["03-22-2020"]},{"type":"character","attributes":{},"value":["https://media.giphy.com/media/RgxAkfVQWwkjS/giphy.gif"]},{"type":"character","attributes":{},"value":["Bitcoin","gganimate"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"character","attributes":{},"value":["r-references.bib"]},{"type":"character","attributes":{},"value":["https://hfshr.netlify.com/posts/2020-03-22-bitcoin/"]},{"type":"character","attributes":{},"value":["https://hfshr.netlify.com/posts/2020-03-22-bitcoin/"]}]}
+{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["creative_commons","title","description","author","date","preview","categories","output","bibliography","citation_url","canonical_url"]}},"value":[{"type":"character","attributes":{},"value":["CC BY"]},{"type":"character","attributes":{},"value":["Exploring the recent Bitcoin crash with tidyqaunt and gganimate"]},{"type":"character","attributes":{},"value":["Bitcoin recently had a significant sell off, crashing 50% in a matter of hours. This undoubtly was due to the uncertainty in markets surrounding the economic impacts of COVID-19, and the consequent reduction in liquidity faced by many different assets. The volatile price action does however make for an interesting case study which this post will explore."]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Harry Fisher"]},{"type":"character","attributes":{},"value":["https://hfshr.netlify.com/"]}]}]},{"type":"character","attributes":{},"value":["03-22-2020"]},{"type":"character","attributes":{},"value":["https://media.giphy.com/media/RgxAkfVQWwkjS/giphy.gif"]},{"type":"character","attributes":{},"value":["Bitcoin","gganimate"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"character","attributes":{},"value":["r-references.bib"]},{"type":"character","attributes":{},"value":["https://hfshr.netlify.com/posts/2020-03-22-bitcoin/"]},{"type":"character","attributes":{},"value":["https://hfshr.netlify.com/posts/2020-03-22-bitcoin/"]}]}
 </script>
 <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["bitcoin_files/figure-html5/unnamed-chunk-3-1.gif","bitcoin_files/figure-html5/unnamed-chunk-4-1.png","r-references.bib"]}
+  {"type":"character","attributes":{},"value":["bitcoin_files/bowser-1.9.3/bowser.min.js","bitcoin_files/distill-2.2.21/template.v2.js","bitcoin_files/figure-html5/unnamed-chunk-3-1.gif","bitcoin_files/figure-html5/unnamed-chunk-4-1.png","bitcoin_files/jquery-1.11.3/jquery.min.js","bitcoin_files/webcomponents-2.0.0/webcomponents.js","r-references.bib"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
 
@@ -1395,9 +1397,9 @@ gtag('config', 'UA-145834792-2');
 
 <div class="d-article">
 <h1 id="introduction">Introduction</h1>
-<p><a href="www.bitmex.com">Bitmex</a> is one of the largest cryptocurrency exchanges where Bitcoin is traded. Bitmex provides a great API that can be used to gather all kinds of data from the site regarding trades and orders, and even allows you to build your own trading bot if you’re feeling confident in your programming ability to make a profitable algorithm… However this post will simply collect data from the most recent crash in price and explore what happened using some great R packages including <code>tidyqaunt</code> <span class="citation" data-cites="R-tidyquant">(Dancho and Vaughan <a href="#ref-R-tidyquant" role="doc-biblioref">2020</a>)</span> and <code>gganimate</code> <span class="citation" data-cites="R-gganimate">(Pedersen and Robinson <a href="#ref-R-gganimate" role="doc-biblioref">2020</a>)</span> as well as the usual suspects in the <code>tidyverse</code>.</p>
+<p><a href="www.bitmex.com">Bitmex</a> is one of the largest cryptocurrency exchanges where Bitcoin is traded. BitMEX provides a great API that can be used to gather all kinds of data from the site regarding trades and orders, and even allows you to build your own trading bot if you’re feeling confident in your programming ability to make a profitable algorithm… However this post will simply collect data from the most recent crash in price and explore what happened using some great R packages including <code>tidyqaunt</code> <span class="citation" data-cites="R-tidyquant">(Dancho and Vaughan <a href="#ref-R-tidyquant" role="doc-biblioref">2020</a>)</span> and <code>gganimate</code> <span class="citation" data-cites="R-gganimate">(Pedersen and Robinson <a href="#ref-R-gganimate" role="doc-biblioref">2020</a>)</span> as well as the usual suspects in the <code>tidyverse</code>.</p>
 <h1 id="getting-the-data">Getting the data</h1>
-<p>To obtain the necessary data, I first defined a quick function based on the information found on the Bitmex API explorer page (<a href="https://www.bitmex.com/api/explorer" class="uri">https://www.bitmex.com/api/explorer</a>). This function barely scratches the surface at the possible requests available - but does get the data needed.</p>
+<p>To obtain the necessary data, I first defined a quick function based on the information found on the BitMEX API explorer page (<a href="https://www.bitmex.com/api/explorer" class="uri">https://www.bitmex.com/api/explorer</a>). This function barely scratches the surface at the possible requests available - but does get the data needed.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 xbt_reader &lt;- function(symbol = &quot;XBT&quot;, 
@@ -1540,6 +1542,9 @@ var disqus_config = function () {
   (d.head || d.body).appendChild(s);
 })();
 </script>
+  <p>
+    <div class="subscribe">Subscribe to <a href="https://rweekly.org">rweekly</a> for updates on this blog and many other sources.</div>
+  </p>
 </div>
 <!--/radix_placeholder_article_footer-->
 </div>
@@ -1554,6 +1559,8 @@ var disqus_config = function () {
 <div class="appendix-bottom">
   <h3 id="updates-and-corrections">Corrections</h3>
   <p>If you see mistakes or want to suggest changes, please <a href="https://github.com/hfshr/distill_blog/issues/new">create an issue</a> on the source repository.</p>
+  <h3 id="reuse">Reuse</h3>
+  <p>Text and figures are licensed under Creative Commons Attribution <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. Source code is available at <a href="https://github.com/hfshr/distill_blog">https://github.com/hfshr/distill_blog</a>, unless otherwise noted. The figures that have been reused from other sources don't fall under this license and can be recognized by a note in their caption: "Figure from ...".</p>
   <h3 id="citation">Citation</h3>
   <p>For attribution, please cite this work as</p>
   <pre class="citation-appendix short">Fisher (2020, March 22). Harry Fisher: Exploring the recent Bitcoin crash with tidyqaunt and gganimate. Retrieved from https://hfshr.netlify.com/posts/2020-03-22-bitcoin/</pre>

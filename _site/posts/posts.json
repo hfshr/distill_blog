@@ -10,10 +10,13 @@
       }
     ],
     "date": "2020-05-23",
-    "categories": [],
+    "categories": [
+      "R",
+      "Machine learning"
+    ],
     "preview": "posts/2020-05-23-tidymodel-notes/tidymodel.png",
-    "last_modified": "2020-05-24T20:16:40+01:00",
-    "input_file": "tidymodel-notes.utf8.md",
+    "last_modified": "2020-05-25T10:08:28+01:00",
+    "input_file": {},
     "preview_width": 426,
     "preview_height": 395
   },
@@ -76,7 +79,7 @@
       "gganimate"
     ],
     "preview": "https://media.giphy.com/media/RgxAkfVQWwkjS/giphy.gif",
-    "last_modified": "2020-05-03T20:06:01+01:00",
+    "last_modified": "2020-05-25T10:01:26+01:00",
     "input_file": {}
   },
   {
@@ -90,12 +93,9 @@
       }
     ],
     "date": "2020-03-14",
-    "categories": [
-      "thesis",
-      "rmarkdown"
-    ],
+    "categories": [],
     "preview": "posts/2020-03-14-writing-a-thesis-in-r-markdown/images/quill.png",
-    "last_modified": "2020-05-03T20:06:07+01:00",
+    "last_modified": "2020-05-25T09:58:15+01:00",
     "input_file": {},
     "preview_width": 1000,
     "preview_height": 1000
@@ -112,11 +112,10 @@
     ],
     "date": "2020-03-08",
     "categories": [
-      "athletics",
-      "shiny"
+      "athletics"
     ],
     "preview": "posts/2020-03-08-athletics-rankings/images/rr.png",
-    "last_modified": "2020-05-03T20:06:30+01:00",
+    "last_modified": "2020-05-25T09:59:29+01:00",
     "input_file": {},
     "preview_width": 570,
     "preview_height": 450

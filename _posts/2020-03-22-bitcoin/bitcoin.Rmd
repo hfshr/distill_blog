@@ -29,11 +29,11 @@ papaja::r_refs(file = "r-references.bib")
 
 # Introduction
 
-[Bitmex](www.bitmex.com) is one of the largest cryptocurrency exchanges where Bitcoin is traded. Bitmex provides a great API that can be used to gather all kinds of data from the site regarding trades and orders, and even allows you to build your own trading bot if you're feeling confident in your programming ability to make a profitable algorithm... However this post will simply collect data from the most recent crash in price and explore what happened using some great R packages including `tidyqaunt` [@R-tidyquant] and `gganimate` [@R-gganimate] as well as the usual suspects in the `tidyverse`.
+[Bitmex](www.bitmex.com) is one of the largest cryptocurrency exchanges where Bitcoin is traded. BitMEX provides a great API that can be used to gather all kinds of data from the site regarding trades and orders, and even allows you to build your own trading bot if you're feeling confident in your programming ability to make a profitable algorithm... However this post will simply collect data from the most recent crash in price and explore what happened using some great R packages including `tidyqaunt` [@R-tidyquant] and `gganimate` [@R-gganimate] as well as the usual suspects in the `tidyverse`.
 
 # Getting the data 
 
-To obtain the necessary data, I first defined a quick function based on the information found on the Bitmex API explorer page (https://www.bitmex.com/api/explorer). 
+To obtain the necessary data, I first defined a quick function based on the information found on the BitMEX API explorer page (https://www.bitmex.com/api/explorer). 
 This function barely scratches the surface at the possible requests available - but does get the data needed.
 
 ```{r}
