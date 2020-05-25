@@ -10,7 +10,7 @@
     <lastBuildDate>Fri, 22 May 2020 00:00:00 +0000</lastBuildDate>
     <item>
       <title>tidymodels workflow with Bayesian optimisation</title>
-      <dc:creator>Harry Fisher</dc:creator>
+      <dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Harry Fisher</dc:creator>
       <link>https://hfshr.netlify.com/posts/2020-05-23-tidymodel-notes</link>
       <description>
 
@@ -1082,16 +1082,16 @@ $(document).ready(function () {
 &lt;/script&gt;
 
 </description>
-      <distill:md5>b2fc29356530c829e62cb7cafcca27b6</distill:md5>
+      <distill:md5 xmlns:distill="https://distill.pub/journal/">b2fc29356530c829e62cb7cafcca27b6</distill:md5>
       <category>R</category>
       <category>Machine learning</category>
       <guid>https://hfshr.netlify.com/posts/2020-05-23-tidymodel-notes</guid>
       <pubDate>Fri, 22 May 2020 00:00:00 +0000</pubDate>
-      <media:content url="https://hfshr.netlify.com/posts/2020-05-23-tidymodel-notes/tidymodel.png" medium="image" type="image/png" width="426" height="395"/>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://hfshr.netlify.com/posts/2020-05-23-tidymodel-notes/tidymodel.png" medium="image" type="image/png" width="426" height="395"/>
     </item>
     <item>
       <title>Pretty tables with gt</title>
-      <dc:creator>Harry Fisher</dc:creator>
+      <dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Harry Fisher</dc:creator>
       <link>https://hfshr.netlify.com/posts/2020-05-02-pretty-tables-with-gt</link>
       <description>Traditionally I have been an ardent user of kable + kableExtra when it comes to creating tables. These packages have served me well, however the CRAN release of a new player in the table package space - gt - promted me to try it out and explore some of the features it had to offer.</description>
       <category>Bitcoin</category>
@@ -1101,57 +1101,18 @@ $(document).ready(function () {
       <category>R</category>
       <guid>https://hfshr.netlify.com/posts/2020-05-02-pretty-tables-with-gt</guid>
       <pubDate>Sat, 02 May 2020 00:00:00 +0000</pubDate>
-      <media:content url="https://hfshr.netlify.com/posts/2020-05-02-pretty-tables-with-gt/nice_table.png" medium="image" type="image/png" width="1175" height="633"/>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://hfshr.netlify.com/posts/2020-05-02-pretty-tables-with-gt/nice_table.png" medium="image" type="image/png" width="1175" height="633"/>
     </item>
     <item>
       <title>bitmexr: An R client for BitMEX cryptocurrency exchange.</title>
-      <dc:creator>Harry Fisher</dc:creator>
+      <dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Harry Fisher</dc:creator>
       <link>https://hfshr.netlify.com/posts/2020-04-13-bitmexr</link>
       <description>How bitmexr came to be.</description>
       <category>Bitcoin</category>
       <category>R</category>
       <guid>https://hfshr.netlify.com/posts/2020-04-13-bitmexr</guid>
       <pubDate>Mon, 13 Apr 2020 00:00:00 +0000</pubDate>
-      <media:content url="https://hfshr.netlify.com/posts/2020-04-13-bitmexr/images/price.gif" medium="image" type="image/gif"/>
-    </item>
-    <item>
-      <title>Exploring the recent Bitcoin crash with tidyqaunt and gganimate</title>
-      <dc:creator>Harry Fisher</dc:creator>
-      <link>https://hfshr.netlify.com/posts/2020-03-22-bitcoin</link>
-      <description>Bitcoin recently had a significant sell off, crashing 50% in a matter of hours. This undoubtly was due to the uncertainty in markets surrounding the economic impacts of COVID-19, and the consequent reduction in liquidity faced by many different assets. The volatile price action does however make for an interesting case study which this post will explore.</description>
-      <category>Bitcoin</category>
-      <category>gganimate</category>
-      <guid>https://hfshr.netlify.com/posts/2020-03-22-bitcoin</guid>
-      <pubDate>Sun, 22 Mar 2020 00:00:00 +0000</pubDate>
-      <media:content url="https://media.giphy.com/media/RgxAkfVQWwkjS/giphy.gif" medium="image" type="image/gif"/>
-    </item>
-    <item>
-      <title>Writing a thesis in R Markdown</title>
-      <dc:creator>Harry Fisher</dc:creator>
-      <link>https://hfshr.netlify.com/posts/2020-03-14-writing-a-thesis-in-r-markdown</link>
-      <description>A short discussion about my experiences using R Markdown to write my PhD thesis</description>
-      <guid>https://hfshr.netlify.com/posts/2020-03-14-writing-a-thesis-in-r-markdown</guid>
-      <pubDate>Sat, 14 Mar 2020 00:00:00 +0000</pubDate>
-      <media:content url="https://hfshr.netlify.com/posts/2020-03-14-writing-a-thesis-in-r-markdown/images/quill.png" medium="image" type="image/png" width="1000" height="1000"/>
-    </item>
-    <item>
-      <title>Athletics rankings</title>
-      <dc:creator>Harry Fisher</dc:creator>
-      <link>https://hfshr.netlify.com/posts/2020-03-08-athletics-rankings</link>
-      <description>Using R tools to gather data from an athletics rankings website.</description>
-      <category>athletics</category>
-      <guid>https://hfshr.netlify.com/posts/2020-03-08-athletics-rankings</guid>
-      <pubDate>Sun, 08 Mar 2020 00:00:00 +0000</pubDate>
-      <media:content url="https://hfshr.netlify.com/posts/2020-03-08-athletics-rankings/images/rr.png" medium="image" type="image/png" width="570" height="450"/>
-    </item>
-    <item>
-      <title>First post</title>
-      <dc:creator>Harry Fisher</dc:creator>
-      <link>https://hfshr.netlify.com/posts/2020-03-07-first-post-again</link>
-      <description>A fresh start (again)</description>
-      <guid>https://hfshr.netlify.com/posts/2020-03-07-first-post-again</guid>
-      <pubDate>Sun, 01 Mar 2020 00:00:00 +0000</pubDate>
-      <media:content url="https://hfshr.netlify.com/posts/2020-03-07-first-post-again/images/start.png" medium="image" type="image/png" width="250" height="183"/>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://hfshr.netlify.com/posts/2020-04-13-bitmexr/images/price.gif" medium="image" type="image/gif"/>
     </item>
   </channel>
 </rss>
