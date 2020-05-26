@@ -1,0 +1,22 @@
+---
+title: "bitmexr 0.3.0 updates"
+description: |
+  bitmexr 0.3.0 brings some new features to the package. The biggest change is the
+  package now supports placing, editing and cancelling orders on the exchange.
+  In addition the testnet version of the API is no supported. This means you can try out
+  managing orders using the package in a risk free environment!
+author:
+  - name: Harry Fisher
+    url: https://hfshr.netlify.com/
+date: 05-25-2020
+preview: update.jpg
+draft: true
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
