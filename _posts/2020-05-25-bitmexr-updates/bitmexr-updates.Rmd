@@ -25,6 +25,12 @@ library(bitmexr)
 
 # bitmexr 0.3.0 - Whats new?
 
+Install the latest release from CRAN:
+
+```{r eval=FALSE}
+install.packages("bitmexr")
+```
+
 The latest CRAN release of `bitmexr` supports placing, editing and cancelling orders on the BitMEX exchange. These actions are supported by the following functions:
 
 - `place_order()`
