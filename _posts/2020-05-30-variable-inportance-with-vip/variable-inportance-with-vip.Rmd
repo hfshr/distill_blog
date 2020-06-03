@@ -1,0 +1,130 @@
+---
+title: "Opening the black box: Exploring xgboost models with {fastshap} in R."
+description: |
+  An important step in any modelling workflow is exploring the effect each variable
+  has in the model. 
+author:
+  - name: Harry Fisher
+    url: https://hfshr.netlify.com/
+date: 05-30-2020
+draft: true
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+library(modeldata)
+library(tidymodels)
+library(tidyverse)
+library(doParallel)
+library(probably)
+library(gt)
+```
+
+Often, 
+
+```{r}
+data("credit_data")
+credit_data <- credit_data %>% 
+  drop_na()
+
+# initial split
+split <- initial_split(credit_data, prop = 0.75, strata = "Status")
+
+# train/test sets
+train <- training(split)
+test <- testing(split)
+
+rec <- recipe(Status ~ ., data = train) %>%
+  step_bagimpute(Home, Marital, Job, Income, Assets, Debt) %>% 
+  step_dummy(Home, Marital, Records, Job, one_hot = T) 
+
+mod <- boost_tree() %>%
+  set_engine("xgboost") %>%
+  set_mode("classification")
+
+xgboost_wflow <- workflow() %>%
+  add_recipe(rec) %>%
+  add_model(mod) %>% 
+  fit(train)
+
+xg_res <- last_fit(xgboost_wflow,
+                   split)
+
+xg_mod <- pull_workflow_fit(xgboost_wflow)
+
+y <- xg_res %>% 
+  collect_predictions()
+
+X <- prep(rec, train) %>% 
+  juice() %>% 
+  select(-Status) %>% 
+  as.matrix()
+
+pred <- 
+
+shap <- explain(xg_mod$fit, X = X, nsim = 10, pred_wrapper = )
+
+force_plot(object = shap[18L,], feature_values = Xx[18L, ], display = "html") 
+
+
+autoplot(shap, "dependence", feature = "Status", X = Xx, smooth = TRUE, color_by = "Age")
+
+tibble(y = shap$Age,
+       x = Xx$Age) %>% 
+  ggplot(aes(x = x, y = y)) +
+  geom_point()
+
+
+shap %>% 
+  gather(var, val) %>% 
+  bind_cols(., Xx %>% 
+              select(-Status) %>% 
+              gather(varr, vall)) %>% 
+  
+
+%>% 
+  ggplot(aes(x = vall, y = val)) +
+  facet_wrap(~var, scales = "free")
+
+```
+
+
+```{r}
+predict(xg_mod, X, type = "prob")
+
+Xx <- prep(rec, train) %>% 
+  juice()
+
+%>% 
+  as.matrix()
+
+library(vip)
+xnames <- prep(rec, train) %>% 
+  juice() %>% 
+  select(-Status) %>% 
+  select(Age) %>% 
+  names()
+
+yy <- vi_shap(xg_mod$fit, train = X, nsim = 10, exact = TRUE)
+
+
+autoplot(shap, type = "dependence", feature = "Age", X = Xx, color_by = "Status")
+
+
+
+
+logit2prob <- function(logit){
+  odds <- exp(logit)
+  prob <- odds / (1 + odds)
+  return(prob)
+}
+
+predict.
+
+logit2prob(-1.98)
+```
+

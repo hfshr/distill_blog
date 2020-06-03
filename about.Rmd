@@ -1,6 +1,6 @@
 ---
 title: "Hello World"
-description: "> whoami"
+description: "\\> whoami"
 ---
 
 ```{r setup, include=FALSE}

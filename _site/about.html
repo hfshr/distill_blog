@@ -21,27 +21,27 @@
   <!--radix_placeholder_meta_tags-->
   <title>Harry Fisher: Hello World</title>
 
-  <meta property="description" itemprop="description" content="&gt; whoami"/>
+  <meta property="description" itemprop="description" content="\&gt; whoami"/>
 
 
 
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
   <meta property="og:title" content="Harry Fisher: Hello World"/>
   <meta property="og:type" content="article"/>
-  <meta property="og:description" content="&gt; whoami"/>
+  <meta property="og:description" content="\&gt; whoami"/>
   <meta property="og:locale" content="en_US"/>
   <meta property="og:site_name" content="Harry Fisher"/>
 
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
   <meta property="twitter:title" content="Harry Fisher: Hello World"/>
-  <meta property="twitter:description" content="&gt; whoami"/>
+  <meta property="twitter:description" content="\&gt; whoami"/>
 
   <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description"]}},"value":[{"type":"character","attributes":{},"value":["Hello World"]},{"type":"character","attributes":{},"value":["> whoami"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description"]}},"value":[{"type":"character","attributes":{},"value":["Hello World"]},{"type":"character","attributes":{},"value":["\\> whoami"]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -1324,6 +1324,34 @@
           transform: rotate3d(0, 0, 1, 5deg);
       }
   }
+
+  @import url('https://fonts.googleapis.com/css2?family=Lato');
+  @import url('https://fonts.googleapis.com/css2?family=Fira+Mono');
+
+
+  html, body, p {
+    
+    font-family: 'Lato', sans-serif;
+    font-weight: 200;
+    line-height: 1.3; 
+    font-size: 1.0em;
+    color: #333333;
+    font-style: normal;
+    
+  }
+
+  code {
+    font-family: 'Fira Mono', sans-serif;
+    color: #383838;
+    background: #F5F5F5;
+    font-weight: 400;
+    font-size: 0.9em;
+  }
+
+
+  h1, h2, h3, h4, h5 {
+    font-family: 'Fira Mono', sans-serif;
+  }
   </style>
   <!--/radix_placeholder_site_in_header-->
 
@@ -1336,7 +1364,7 @@
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Hello World","description":"> whoami","authors":[]}
+{"title":"Hello World","description":"\\> whoami","authors":[]}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -1366,9 +1394,7 @@
 
 <div class="d-title">
 <h1>Hello World</h1>
-<p><blockquote>
-<p>whoami</p>
-</blockquote></p>
+<p>&gt; whoami</p>
 </div>
 
 

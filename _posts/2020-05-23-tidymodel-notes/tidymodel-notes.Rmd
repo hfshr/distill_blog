@@ -18,7 +18,7 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-load("data.RData")
+load("~/Downloads/ProjectR/distill_blog/data.RData")
 ```
 
 For demonstration purposes I'm going to use the `credit_data` dataset from the `modeldata` package. This is a fairly simple data set that doesn't require too much wrangling to get going.
@@ -56,7 +56,7 @@ folds <- vfold_cv(train, v = 5)
 ```
 
 <aside>
-I've dropped NA's in outcome as these caused problems in later steps (think I was doing something wrong...)
+I've dropped NA's in outcome as these caused problems in later steps...
 </aside>
 
 Next, I'll set up the recipe using `recipies`. As well as defining the formula for the model, I've created two preprocessing steps:
@@ -77,7 +77,7 @@ The `mtry` parameter requires one additional step to finalise the range of possi
 ```{r eval=FALSE}
 
 mod <- boost_tree(
-  trees = tune(),
+  trees = 1000,
   min_n = tune(),
   learn_rate = tune(),
   loss_reduction = tune(),
@@ -156,46 +156,42 @@ Now we can create our final model using these parameters.
 
 ```{r eval=FALSE}
 
-mod_tuned <- update(mod, select_best(tuned, "pr_auc"))
-
-xgboost_wkflow_tuned <- workflow() %>%
-  add_recipe(recipe = rec) %>%
-  add_model(
-    boost_tree() %>%
-      set_mode("classification") %>%
-      set_engine("xgboost") %>%
-      set_args(select_best(tuned, "pr_auc"))
-  )
+xgboost_wkflow_tuned <- finalize_workflow(
+  xgboost_wflow,
+  select_best(tuned, "pr_auc")
+)
 
 ```
 
 Finally we can fit the model.
 
 ```{r eval=FALSE}
-final_res <- fit(xgboost_wkflow_tuned, train)
+final_res <- last_fit(
+  xgboost_wkflow_tuned,
+  split
+)
 ```
 
 With our model in hand we can make some predictions to evaluate performance
 
 ```{r}
 
-preds <- tibble(truth = test$Status) %>% 
-  bind_cols(., predict(final_res, new_data = test[,-1])) %>% 
-  bind_cols(., predict(final_res, new_data = test[,-1], type = "prob"))
+preds <- final_res %>% 
+  collect_predictions()
 
 ```
 
 Now we can use the `yardstick` package to evaluate how the model performed.
 
 ```{r}
-conf_mat(preds, truth, .pred_class)
+conf_mat(preds, Status, .pred_class)
 
 preds %>%
-  gain_curve(truth, .pred_bad) %>%
+  gain_curve(Status, .pred_bad) %>%
   autoplot()
 
 preds %>%
-  pr_curve(truth, .pred_bad) %>%
+  pr_curve(Status, .pred_bad) %>%
   autoplot()
 
 ```
@@ -212,7 +208,7 @@ Here we use `threshold_perf()` to evaluate different thresholds to make our clas
 ```{r message=FALSE}
 
 threshold_data <- preds %>%
-  threshold_perf(truth, .pred_bad, thresholds = seq(0.2, 1, by = 0.0025))
+  threshold_perf(Status, .pred_bad, thresholds = seq(0.2, 1, by = 0.0025))
 
 
 max_j_index_threshold <- threshold_data %>%
@@ -222,19 +218,21 @@ max_j_index_threshold <- threshold_data %>%
 
 
 preds_new <- preds %>% 
-  mutate(new_class_pred = factor(ifelse(.pred_bad >= max_j_index_threshold, "bad", "good"), levels = c("bad", "good"))) 
+  mutate(new_class_pred = factor(ifelse(.pred_bad >= max_j_index_threshold, "bad", "good"), 
+                                 levels = c("bad", "good"))) 
   
+
 max_j_index_threshold
 ```
 
 Now we have a new prediction based on our new threshold of `r cat(max_j_index_threshold)` vs the default threshold of 0.50. We can compare the performance on a range of different binary classification metrics by calling `summay()` on the `conf_mat()` object for both the old and new predicted classes.
 
 ```{r}
-summary(conf_mat(preds, truth, .pred_class)) %>%
+summary(conf_mat(preds, Status, .pred_class)) %>%
   select(-.estimator) %>%
   rename(old_threshold = .estimate) %>%
   bind_cols(.,
-            summary(conf_mat(preds_new, truth, new_class_pred)) %>%
+            summary(conf_mat(preds_new, Status, new_class_pred)) %>%
               select(.estimate) %>%
               rename(new_threshold = .estimate)) %>%
   gt() %>%
