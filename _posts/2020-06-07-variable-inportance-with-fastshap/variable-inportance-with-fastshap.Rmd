@@ -194,10 +194,10 @@ An extension of this type of plot is the visually appealing "force plot" as show
 
 **Likely bad**
 
-```{r layout="l-page"}
+```{r layout="l-screen-inset"}
 force_plot(object = shap[1541,], 
            feature_values = X[1541,], 
-           display = "htm", 
+           display = "html", 
            link = "logit") 
 
 ```
@@ -206,7 +206,7 @@ Our bad example shows the features and specific values that move the predicted p
 
 **Likely good**
 
-```{r layout="l-page"}
+```{r layout="l-screen-inset"}
 force_plot(object = shap[1806,], 
            feature_values = X[1806,], 
            display = "html", 
