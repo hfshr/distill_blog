@@ -1,0 +1,296 @@
+---
+title: "Opening the black box: Exploring xgboost models with {fastshap} in R"
+description: |
+  Being able to understand and explain why a model makes certain predictions is
+  important, particularly if your model is being used to make important business decisions. This post takes a look into the inner workings of a xgboost model by using the {fastshap} package to compute shapely values for the different features in the dataset, allowing deeper insight into the models predictions.  
+author:
+  - name: Harry Fisher
+    url: https://hfshr.netlify.app/
+repository_url: https://github.com/hfshr/distill_blog  
+date: 07-06-2020
+preview: funky.png
+categories:
+  - R
+bibliography: r-references.bib    
+draft: false
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(modeldata)
+library(tidymodels)
+library(tidyverse)
+library(gt)
+library(vip)
+```
+
+While maximising a models performance is often desirable, it can sometimes limit the _explainability_. Being able to understand why your model is making certain predictions is important, particularly if you are using a model to make important business decision. This post is going to explore how we can use [SHapley Additive exPlanations](https://github.com/slundberg/shap) to dig a little deeper into complex models in an attempt to understand _why_ certain predictions are made.
+
+### Initial model
+
+First we'll need a model to explain. The code below is borrowed from a previous post using the `tidymodels` workflow (see [here](https://hfshr.netlify.app/posts/2020-05-23-tidymodel-notes/)). 
+
+```{r}
+data("credit_data")
+
+credit_data <- credit_data %>% 
+  drop_na()
+
+set.seed(12)
+
+# initial split
+split <- initial_split(credit_data, prop = 0.75, strata = "Status")
+
+# train/test sets
+train <- training(split)
+test <- testing(split)
+
+rec <- recipe(Status ~ ., data = train) %>%
+  step_bagimpute(Home, Marital, Job, Income, Assets, Debt) %>% 
+  step_dummy(Home, Marital, Records, Job, one_hot = T) 
+
+# Just some sensible values, not optimised by any means!
+mod <- boost_tree(trees = 500, 
+                  mtry = 6, 
+                  min_n = 10,
+                  tree_depth = 5) %>%
+  set_engine("xgboost") %>%
+  set_mode("classification")
+
+xgboost_wflow <- workflow() %>%
+  add_recipe(rec) %>%
+  add_model(mod) %>% 
+  fit(train)
+
+xg_res <- last_fit(xgboost_wflow,
+                   split,
+                   metrics = metric_set(roc_auc, pr_auc, accuracy))
+
+preds <- xg_res %>% 
+  collect_predictions()
+
+```
+
+Quick check of our hastily thrown together model:
+
+```{r}
+xg_res %>% 
+  collect_metrics()
+```
+
+Not bad! We can now begin unpicking the model to understand the predictions further.
+
+## Variable importance
+
+Before getting to SHAP, we can do a quick check of what variables are most important. The [`vip`](https://koalaverse.github.io/vip/articles/vip.html) package is an excellent choice for this, providing a "model agnostic" approach to assess variable importance [@R-vip].
+
+```{r}
+library(vip)
+
+# Get our model object
+xg_mod <- pull_workflow_fit(xgboost_wflow)
+
+vip(xg_mod$fit)
+
+```
+
+This gives us a good first insight into what variables are contributing the most within the model. "Income" and "Price" appear to be strong predictors in the model, but we can dig a little deeper with `fastshap`.
+
+## Fastshap
+
+For a brief introduction to SHAP, Scott Lundberg (developer of the SHAP approach and `shap` python package) has a great talk [here](https://www.youtube.com/watch?v=ngOBhhINWb8) that gives a shortish (~18mins) overview of the main concepts. You can also review the paper [@Lundberg2017] for a more in-depth look into the theory underpinning SHAP. As a very high level explanation, the SHAP method allows you to see what features in the model caused the predictions to move above or below the "baseline" prediction. Importantly this can be done on a row by row basis, enabling insight into any observation within the data.
+
+While there a a couple of packages out there that can calculate shapley values (See R packages [iml](https://christophm.github.io/iml/) and [iBreakdown](https://modeloriented.github.io/iBreakDown/); python package [shap](https://github.com/slundberg/shap)), the `fastshap` package [@R-fastshap] provides a fast (hence the name!) way of obtaining the values and scales well when models become increasingly complex. Below, we'll walk through some of the main functions in the package and how they can help aid explanations.
+
+<aside>
+You can actually access fastshap directly from the `vip` package using `vip::vi_shap()` which uses `fastshap` under the hood.
+</aside>
+
+First, we need to supply the `fastshap::explain()` function with the features we used to train the model. As we used some preprocessing steps, we'll need to prep and juice our training data to ensure it is the same as the data that was used in the model.
+
+```{r}
+library(fastshap)
+
+# Apply the preprocessing steps with prep and juice to the training data
+X <- prep(rec, train) %>% 
+  juice() %>% 
+  select(-Status) %>% 
+  as.matrix()
+
+# Compute shapley values 
+shap <- explain(xg_mod$fit, X = X, exact = TRUE)
+
+```
+
+With our shapley values calculated, we can explore the values in several ways. `fastshap` has a great autoplot ability to quickly visualise the different plots available.
+
+**Shapley importance**
+
+```{r}
+autoplot(shap)
+```
+
+Interestingly, "Amount" is clearly the most important feature when using shapely values, whereas it was only the 4th most important when using xgboost importance in our earlier plot.
+
+**Dependence plot**
+
+We can focus on on attributes by using a dependence plot. This allows us to see the relationship between shapely values and a particular feature.
+
+```{r}
+# Create a dataframe of our training data
+feat <- prep(rec, train) %>% 
+  juice()
+
+autoplot(shap, 
+         type = "dependence", 
+         feature = "Amount", 
+         X = feat,
+         smooth = TRUE, 
+         color_by = "Status")
+
+```
+
+**Contribution plots**
+
+Contribution plots provide and insight into individual predictions. I've identified two extreme cases where the prediction probability is almost 100% for each class:
+
+```{r}
+predict(xgboost_wflow, train, type = "prob") %>% 
+  rownames_to_column("rowid") %>% 
+  filter(.pred_bad == min(.pred_bad) | .pred_bad == max(.pred_bad)) %>% 
+  gt()%>% 
+  fmt_number(columns = 2:3,
+             decimals = 3)
+  
+```
+
+We can visualise what features made these extreme predictions like so:
+
+```{r layout="l-body-outset"}
+library(patchwork)
+p1 <- autoplot(shap, type = "contribution", row_num = 1541) +
+  ggtitle("Likely bad")
+
+p2 <- autoplot(shap, type = "contribution", row_num = 1806) +
+  ggtitle("Likely good")
+
+p1+p2
+
+```
+
+In the "likely bad" case, we can see "Income" and "Amount" having a negative impact on prediction, whereas in the "likely good" case, "Amount" and "Seniority" having a positive impact. However, these plots still are not telling us _why_ these features had the impact they did.
+
+<aside>
+You can of course recreate these plots from the original `explain()` output without using autoplot if needed.
+</aside>
+
+Enter **Force plots**.
+
+An extension of this type of plot is the visually appealing "force plot" as shown [here](https://github.com/slundberg/shap) and in @lundberg2018explainable. With `reticulate` installed, `fastshap` uses the python shap package under the hood to replicate these plots in R. What these plots show is how different features contribute to moving the predicted value away from the "baseline" value. The baseline being the average of all predictions (Note: in this case, the baseline score is the average probability of the "good" class).
+
+**Likely bad**
+
+```{r layout="l-body-outset"}
+force_plot(object = shap[1541,], 
+           feature_values = X[1541,], 
+           display = "html", 
+           link = "logit") 
+
+```
+
+Our bad example shows the features and specific values that move the predicted probability lower from the baseline probability. The combination of a relatively low income and high loan amount seem to indicate a much higher probability of a "bad" outcome (or in this case a lower probability of "good" outcome).
+
+**Likely good**
+
+```{r layout="l-body-outset"}
+force_plot(object = shap[1806,], 
+           feature_values = X[1806,], 
+           display = "html", 
+           link = "logit") 
+```
+
+In the good example, "Amount" and "Seniority" act to increase the probably of a "good" outcome.
+
+A final approach we can use is to pass multiple values into the `force_plot()` function. By taking a selection of observations, rotating them 90 degrees and stacking them horizontally, it is possible view explanations for multiple observations. Here I've just taken the first 50 values ^[I think the output isn't quite complete here... seems to have cut off the right side of the plot - maybe due to saving the original python output to html and reading back into R?]. The plot is also interactive, so you can explore the effects of each different features across the 50 samples. 
+
+```{r layout="l-screen-inset"}
+force_plot(object = shap[c(1:50),], 
+           feature_values = X[c(1:50),], 
+           display = "html", 
+           link = "logit") 
+```
+
+
+## Summary
+
+So that was a quick look at the excellent `fastshap` package and what it has to offer. As models become increasingly complex, the tools to help explain them become even more important and SHAP provides a great way to shine a light into the "black box" of the inner workings of complex models.
+
+Thanks for reading!
+
+
+
+<!-- ## Comparison to python? {.Appendix} -->
+
+<!-- Out of interest, I wanted to compare the results from the above to what we would get using the "native" shap package. -->
+
+<!-- ```{r} -->
+<!-- library(reticulate) -->
+<!-- use_condaenv("r-reticulate") -->
+
+<!-- y_train <-  prep(rec, train) %>%  -->
+<!--   juice() %>%  -->
+<!--    select(Status) %>%  -->
+<!--    mutate(Status = ifelse(Status == "good", 0, 1)) %>%  -->
+<!--   as.matrix() -->
+
+<!-- X_train = r_to_py(X) -->
+<!-- y_train = r_to_py(y_train) -->
+<!-- ``` -->
+
+
+<!-- ```{python} -->
+<!-- import xgboost -->
+<!-- import shap -->
+
+<!-- # train XGBoost model -->
+<!-- X,y = shap.datasets.boston() -->
+<!-- model = xgboost.train({"learning_rate": 0.01}, xgboost.DMatrix(X, label=y), 100) -->
+
+<!-- # explain the model's predictions using SHAP -->
+<!-- # (same syntax works for LightGBM, CatBoost, scikit-learn and spark models) -->
+<!-- explainer = shap.TreeExplainer(model) -->
+<!-- shap_values = explainer.shap_values(X) -->
+<!-- plot = shap.force_plot(explainer.expected_value, shap_values[1806,:], X[1806,:]) -->
+<!-- shap.save_html("test.html", plot_html=plot) -->
+
+<!-- ``` -->
+
+<!-- ```{python} -->
+<!-- import xgboost -->
+<!-- import shap -->
+
+<!-- xgb_train =  xgboost.DMatrix(r.X_train, label=r.y_train) -->
+
+<!-- params = { -->
+<!--     "eta": 0.3, -->
+<!--     "max_depth": 5, -->
+<!--     "objective": "binary:logistic", -->
+<!--     "subsample": 1 -->
+<!-- } -->
+<!-- model_train = xgboost.train(params, xgb_train, 500) -->
+<!-- explainer = shap.TreeExplainer(model_train) -->
+<!-- shap_values = explainer.shap_values(r.X_train) -->
+<!-- plot = shap.force_plot(explainer.expected_value, shap_values[0,:], r.X_train[0,:], link="logit") -->
+<!-- shap.save_html("test.html", plot_html=plot) -->
+<!-- ``` -->
+
+
+<!-- ```{r layout="l-screen-inset"} -->
+<!-- htmltools::includeHTML("test.html") -->
+<!-- ``` -->
+
+

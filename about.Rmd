@@ -3,23 +3,27 @@ title: "Hello World"
 description: "\\> whoami"
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
-```
 
-Hello! Thanks for visiting my site. I have a passion for Data Science (especially all things **R**) and wanted to a place to document my learning and share thing I discover along the way.
-
-I currently work for LexisNexis Risk Solutions as a statistical modeller in Cardiff, Wales. Before starting at LexisNexis, I completed my PhD at Cardiff Metropolitan University in December 2019.
+<!-- ```{r out.width="25%", fig.align='center'} -->
+<!-- knitr::include_graphics("data/images/profile.png") -->
+<!-- ``` -->
 
 
-<details>
-  <summary>Academic Publications (click to expand)</summary>
+Hi! My name is Harry Fisher. Thanks for visiting my site. I have a passion for data science (especially all things **R**) and wanted to a place to document my learning and share thing I discover along the way.
+
+I currently work at a big data company as a statistical modeller in Cardiff, Wales. Previously, I completed my PhD at Cardiff Metropolitan University in December 2019, investigating risk factors associated with sports injury.
+
+Feel free to get in touch if anything catches your interest!
+
+### R packages
+
+bitmexr: R Client for the BitMEX Exchange [![CRAN status](https://www.r-pkg.org/badges/version/bitmexr)](https://CRAN.R-project.org/package=bitmexr)
+
+### Research
   
 * Fisher et al. In press. An interdisciplinary examination of stress and injury in athletes.
   
 * Fisher et al. 2016. Relationship between Force Production during Isometric Squats and Knee Flexion Angles during Landing. Journal of Strength and Conditioning. [[pdf]](data/pdfs/fisher-2016.pdf)
-
-</details>
 
 
 

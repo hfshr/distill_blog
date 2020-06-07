@@ -732,6 +732,16 @@
   }
 
 
+  .sidebar-section.custom {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+
+  .custom p {
+    margin-bottom: 0.5em;
+  }
+
+
   /* Improve display for browsers without grid (IE/Edge <= 15) */
 
   .downlevel {
@@ -1257,7 +1267,7 @@
   </script>
 
   <!--/radix_placeholder_distill-->
-  <script src="site_libs/header-attrs-2.1/header-attrs.js"></script>
+  <script src="site_libs/header-attrs-2.2/header-attrs.js"></script>
   <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
   <script src="site_libs/bowser-1.9.3/bowser.min.js"></script>
   <script src="site_libs/webcomponents-2.0.0/webcomponents.js"></script>
@@ -1271,6 +1281,9 @@
   gtag('config', 'UA-145834792-2');
   </script>
   <style type="text/css">
+  @import url('https://fonts.googleapis.com/css2?family=Lato');
+  @import url('https://fonts.googleapis.com/css2?family=Roboto');
+
   .distill-site-nav {
     color: rgba(255, 255, 255, 0.8);
     background-color: #444b4f;
@@ -1279,7 +1292,7 @@
   }
 
   .posts-list .post-preview .thumbnail img { 
-    width: 60%;
+    width: 70%;
     height: auto;
     display: block; 
     margin-left: auto;
@@ -1325,33 +1338,24 @@
       }
   }
 
-  @import url('https://fonts.googleapis.com/css2?family=Lato');
-  @import url('https://fonts.googleapis.com/css2?family=Fira+Mono');
-
 
   html, body, p {
     
     font-family: 'Lato', sans-serif;
     font-weight: 200;
-    line-height: 1.3; 
+    line-height: 1.7; 
     font-size: 1.0em;
     color: #333333;
     font-style: normal;
     
   }
 
-  code {
-    font-family: 'Fira Mono', sans-serif;
-    color: #383838;
-    background: #F5F5F5;
-    font-weight: 400;
-    font-size: 0.9em;
-  }
-
 
   h1, h2, h3, h4, h5 {
-    font-family: 'Fira Mono', sans-serif;
+    font-family: 'Roboto', sans-serif;
   }
+
+
   </style>
   <!--/radix_placeholder_site_in_header-->
 
@@ -1399,15 +1403,19 @@
 
 
 <div class="d-article">
-<p>Hello! Thanks for visiting my site. I have a passion for Data Science (especially all things <strong>R</strong>) and wanted to a place to document my learning and share thing I discover along the way.</p>
-<p>I currently work for LexisNexis Risk Solutions as a statistical modeller in Cardiff, Wales. Before starting at LexisNexis, I completed my PhD at Cardiff Metropolitan University in December 2019.</p>
-<details>
-<p><summary>Academic Publications (click to expand)</summary></p>
+<!-- ```{r out.width="25%", fig.align='center'} -->
+<!-- knitr::include_graphics("data/images/profile.png") -->
+<!-- ``` -->
+<p>Hi! My name is Harry Fisher. Thanks for visiting my site. I have a passion for data science (especially all things <strong>R</strong>) and wanted to a place to document my learning and share thing I discover along the way.</p>
+<p>I currently work at a big data company as a statistical modeller in Cardiff, Wales. Previously, I completed my PhD at Cardiff Metropolitan University in December 2019, investigating risk factors associated with sports injury.</p>
+<p>Feel free to get in touch if anything catches your interest!</p>
+<h3 id="r-packages">R packages</h3>
+<p>bitmexr: R Client for the BitMEX Exchange <a href="https://CRAN.R-project.org/package=bitmexr"><img src="https://www.r-pkg.org/badges/version/bitmexr" alt="CRAN status" /></a></p>
+<h3 id="research">Research</h3>
 <ul>
 <li><p>Fisher et al. In press. An interdisciplinary examination of stress and injury in athletes.</p></li>
 <li><p>Fisher et al. 2016. Relationship between Force Production during Isometric Squats and Knee Flexion Angles during Landing. Journal of Strength and Conditioning. <a href="data/pdfs/fisher-2016.pdf">[pdf]</a></p></li>
 </ul>
-</details>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

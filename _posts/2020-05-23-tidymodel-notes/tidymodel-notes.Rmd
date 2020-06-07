@@ -143,7 +143,7 @@ The options(tidymodels.dark = TRUE) makes the text _much_ clear if you're using 
 After a little while, we're done! The top combinations were:
 
 ```{r layout="l-body-outset"}
-show_best(tuned, "pr_auc") %>% 
+show_best(tuned, "pr_auc")%>% 
   select(1:7, 11) %>% 
   gt()
 ```
