@@ -2,7 +2,7 @@
   {
     "path": "posts/2020-06-07-variable-inportance-with-fastshap/",
     "title": "Opening the black box: Exploring xgboost models with {fastshap} in R",
-    "description": "Being able to understand and explain why a model makes certain predictions is\nimportant, particularly if your model is being used to make important business decisions. This post takes a look into the inner workings of a xgboost model by using the {fastshap} package to compute shapely values for the different features in the dataset, allowing deeper insight into the models predictions.",
+    "description": "Being able to understand and explain why a model makes certain predictions is\nimportant, particularly if your model is being used to make critical business decisions. This post takes a look into the inner workings of a xgboost model by using the {fastshap} package to compute shapely values for the different features in the dataset, allowing deeper insight into the models predictions.",
     "author": [
       {
         "name": "Harry Fisher",
@@ -14,7 +14,7 @@
       "R"
     ],
     "preview": "posts/2020-06-07-variable-inportance-with-fastshap/funky.png",
-    "last_modified": "2020-06-07T21:09:50+01:00",
+    "last_modified": "2020-06-08T12:01:02+01:00",
     "input_file": {},
     "preview_width": 492,
     "preview_height": 367

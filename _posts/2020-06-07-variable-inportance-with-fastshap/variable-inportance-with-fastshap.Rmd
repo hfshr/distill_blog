@@ -2,7 +2,7 @@
 title: "Opening the black box: Exploring xgboost models with {fastshap} in R"
 description: |
   Being able to understand and explain why a model makes certain predictions is
-  important, particularly if your model is being used to make important business decisions. This post takes a look into the inner workings of a xgboost model by using the {fastshap} package to compute shapely values for the different features in the dataset, allowing deeper insight into the models predictions.  
+  important, particularly if your model is being used to make critical business decisions. This post takes a look into the inner workings of a xgboost model by using the {fastshap} package to compute shapely values for the different features in the dataset, allowing deeper insight into the models predictions.  
 author:
   - name: Harry Fisher
     url: https://hfshr.netlify.app/
@@ -28,7 +28,7 @@ library(gt)
 library(vip)
 ```
 
-While maximising a models performance is often desirable, it can sometimes limit the _explainability_. Being able to understand why your model is making certain predictions is important, particularly if you are using a model to make important business decision. This post is going to explore how we can use [SHapley Additive exPlanations](https://github.com/slundberg/shap) to dig a little deeper into complex models in an attempt to understand _why_ certain predictions are made.
+While maximising a models performance is often desirable, it can sometimes limit the _explainability_. Being able to understand why your model is making certain predictions is vital if the model is going to be used to make important business decision that will need to be explained. This post is going to explore how we can use [SHapley Additive exPlanations](https://github.com/slundberg/shap) (SHAP) to dig a little deeper into complex models in an attempt to understand _why_ certain predictions are made.
 
 ### Initial model
 
@@ -110,7 +110,7 @@ While there a a couple of packages out there that can calculate shapley values (
 You can actually access fastshap directly from the `vip` package using `vip::vi_shap()` which uses `fastshap` under the hood.
 </aside>
 
-First, we need to supply the `fastshap::explain()` function with the features we used to train the model. As we used some preprocessing steps, we'll need to prep and juice our training data to ensure it is the same as the data that was used in the model.
+First, we need to supply the `fastshap::explain()` function with the model and the features we used to train the model. As we used some preprocessing steps, we'll need to prep and juice our training data to ensure it is the same as the data that was used in the model.
 
 ```{r}
 library(fastshap)
@@ -192,6 +192,10 @@ Enter **Force plots**.
 
 An extension of this type of plot is the visually appealing "force plot" as shown [here](https://github.com/slundberg/shap) and in @lundberg2018explainable. With `reticulate` installed, `fastshap` uses the python shap package under the hood to replicate these plots in R. What these plots show is how different features contribute to moving the predicted value away from the "baseline" value. The baseline being the average of all predictions (Note: in this case, the baseline score is the average probability of the "good" class).
 
+<aside>
+I had to stretch these out so they didn't get squished when rendering the markdown document...
+</aside>
+
 **Likely bad**
 
 ```{r layout="l-screen-inset"}
@@ -227,9 +231,9 @@ force_plot(object = shap[c(1:50),],
 
 ## Summary
 
-So that was a quick look at the excellent `fastshap` package and what it has to offer. As models become increasingly complex, the tools to help explain them become even more important and SHAP provides a great way to shine a light into the "black box" of the inner workings of complex models.
+So that was a quick look at the excellent `fastshap` package and what it has to offer. I'm still learning the ins and outs of SHAP this was by no means a comprehensive overview of the topic. As models  become increasingly complex, the tools to help explain them become even more important and SHAP seems to provides a great way to shine a light into the "black box" of the inner workings of complex models. 
 
-Thanks for reading!
+Any feedback is more than welcome and thanks for reading!
 
 
 
