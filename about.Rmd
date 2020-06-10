@@ -25,5 +25,9 @@ bitmexr: R Client for the BitMEX Exchange [![CRAN status](https://www.r-pkg.org/
   
 * Fisher et al. 2016. Relationship between Force Production during Isometric Squats and Knee Flexion Angles during Landing. Journal of Strength and Conditioning. [[pdf]](data/pdfs/fisher-2016.pdf)
 
+### Contact
+
+```{r child="./data/Rmds/links.Rmd"}
+```
 
 
