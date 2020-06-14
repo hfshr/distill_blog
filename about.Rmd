@@ -9,11 +9,9 @@ description: "\\> whoami"
 <!-- ``` -->
 
 
-Hi! My name is Harry Fisher. Thanks for visiting my site. I have a passion for data science (especially all things **R**) and wanted to a place to document my learning and share thing I discover along the way.
+Hi! My name is Harry Fisher. Thanks for visiting my site. I have a passion for data science (especially all things **R**) and this site is a place where I try to document new things I learn, or things I find interesting and think are worth sharing. I currently work at a big data company as a statistical modeller in Cardiff, Wales. Previously, I completed my PhD at Cardiff Metropolitan University in December 2019, investigating risk factors associated with sports injury.
 
-I currently work at a big data company as a statistical modeller in Cardiff, Wales. Previously, I completed my PhD at Cardiff Metropolitan University in December 2019, investigating risk factors associated with sports injury.
-
-Feel free to get in touch if anything catches your interest!
+Feel free to get in touch if any of the posts catch your interest!
 
 ### R packages
 

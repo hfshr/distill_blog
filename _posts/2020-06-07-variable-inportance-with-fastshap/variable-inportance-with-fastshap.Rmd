@@ -11,6 +11,7 @@ date: 07-06-2020
 preview: funky.png
 categories:
   - R
+  - Machine learning
 bibliography: r-references.bib    
 draft: false
 output:
