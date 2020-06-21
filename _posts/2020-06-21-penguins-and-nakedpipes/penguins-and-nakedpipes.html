@@ -19,369 +19,42 @@
  <!--/radix_placeholder_import_source-->
 
   <!--radix_placeholder_meta_tags-->
-  <title>Harry Fisher: Hello World</title>
+  <title>Penguins and nakedpipes</title>
 
-  <meta property="description" itemprop="description" content="\&gt; whoami"/>
+  <meta property="description" itemprop="description" content="Exploring the new {palmerpenguins} dataset with {nakedpipe}..."/>
 
 
+  <!--  https://schema.org/Article -->
+  <meta property="article:published" itemprop="datePublished" content="2020-06-21"/>
+  <meta property="article:created" itemprop="dateCreated" content="2020-06-21"/>
+  <meta name="article:author" content="Harry Fisher"/>
 
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content="Harry Fisher: Hello World"/>
+  <meta property="og:title" content="Penguins and nakedpipes"/>
   <meta property="og:type" content="article"/>
-  <meta property="og:description" content="\&gt; whoami"/>
+  <meta property="og:description" content="Exploring the new {palmerpenguins} dataset with {nakedpipe}..."/>
   <meta property="og:locale" content="en_US"/>
-  <meta property="og:site_name" content="Harry Fisher"/>
 
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content="Harry Fisher: Hello World"/>
-  <meta property="twitter:description" content="\&gt; whoami"/>
+  <meta property="twitter:title" content="Penguins and nakedpipes"/>
+  <meta property="twitter:description" content="Exploring the new {palmerpenguins} dataset with {nakedpipe}..."/>
 
   <!--/radix_placeholder_meta_tags-->
+  
+  <meta name="citation_reference" content="citation_title=Magrittr: A forward-pipe operator for r;citation_publication_date=2014;citation_author=Stefan Milton Bache;citation_author=Hadley Wickham"/>
+  <meta name="citation_reference" content="citation_title=Ecological sexual dimorphism and environmental variability within a community of antarctic penguins (genus pygoscelis);citation_publication_date=2014;citation_volume=9(3);citation_author=Gorman KB;citation_author=Williams TD;citation_author=Fraser WR"/>
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description"]}},"value":[{"type":"character","attributes":{},"value":["Hello World"]},{"type":"character","attributes":{},"value":["\\> whoami"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","repository_url","date","bibliography","draft","preview","output"]}},"value":[{"type":"character","attributes":{},"value":["Penguins and nakedpipes"]},{"type":"character","attributes":{},"value":["Exploring the new {palmerpenguins} dataset with {nakedpipe}...\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Harry Fisher"]},{"type":"character","attributes":{},"value":["https://hfshr.netlify.app/"]}]}]},{"type":"character","attributes":{},"value":["https://github.com/hfshr/distill_blog"]},{"type":"character","attributes":{},"value":["06-21-2020"]},{"type":"character","attributes":{},"value":["r-refs.bib"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["preview.png"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
-  <!--radix_placeholder_navigation_in_header-->
-
-  <script type="application/javascript">
-
-    window.headroom_prevent_pin = false;
-
-    window.document.addEventListener("DOMContentLoaded", function (event) {
-
-      // initialize headroom for banner
-      var header = $('header').get(0);
-      var headerHeight = header.offsetHeight;
-      var headroom = new Headroom(header, {
-        onPin : function() {
-          if (window.headroom_prevent_pin) {
-            window.headroom_prevent_pin = false;
-            headroom.unpin();
-          }
-        }
-      });
-      headroom.init();
-      if(window.location.hash)
-        headroom.unpin();
-      $(header).addClass('headroom--transition');
-
-      // offset scroll location for banner on hash change
-      // (see: https://github.com/WickyNilliams/headroom.js/issues/38)
-      window.addEventListener("hashchange", function(event) {
-        window.scrollTo(0, window.pageYOffset - (headerHeight + 25));
-      });
-
-      // responsive menu
-      $('.distill-site-header').each(function(i, val) {
-        var topnav = $(this);
-        var toggle = topnav.find('.nav-toggle');
-        toggle.on('click', function() {
-          topnav.toggleClass('responsive');
-        });
-      });
-
-      // nav dropdowns
-      $('.nav-dropbtn').click(function(e) {
-        $(this).next('.nav-dropdown-content').toggleClass('nav-dropdown-active');
-        $(this).parent().siblings('.nav-dropdown')
-           .children('.nav-dropdown-content').removeClass('nav-dropdown-active');
-      });
-      $("body").click(function(e){
-        $('.nav-dropdown-content').removeClass('nav-dropdown-active');
-      });
-      $(".nav-dropdown").click(function(e){
-        e.stopPropagation();
-      });
-    });
+  
+  <script type="text/json" id="radix-resource-manifest">
+  {"type":"character","attributes":{},"value":["logo.png","penguins-and-nakedpipes_files/bowser-1.9.3/bowser.min.js","penguins-and-nakedpipes_files/distill-2.2.21/template.v2.js","penguins-and-nakedpipes_files/figure-html5/unnamed-chunk-10-1.png","penguins-and-nakedpipes_files/header-attrs-2.2/header-attrs.js","penguins-and-nakedpipes_files/jquery-1.11.3/jquery.min.js","penguins-and-nakedpipes_files/webcomponents-2.0.0/webcomponents.js","penguins.png","preview.png","r-refs.bib"]}
   </script>
-
-  <style type="text/css">
-
-  /* Theme (user-documented overrideables for nav appearance) */
-
-  .distill-site-nav {
-    color: rgba(255, 255, 255, 0.8);
-    background-color: #455a64;
-    font-size: 15px;
-    font-weight: 300;
-  }
-
-  .distill-site-nav a {
-    color: inherit;
-    text-decoration: none;
-  }
-
-  .distill-site-nav a:hover {
-    color: white;
-  }
-
-  @media print {
-    .distill-site-nav {
-      display: none;
-    }
-  }
-
-  .distill-site-header {
-
-  }
-
-  .distill-site-footer {
-
-  }
-
-
-  /* Site Header */
-
-  .distill-site-header {
-    width: 100%;
-    box-sizing: border-box;
-    z-index: 3;
-  }
-
-  .distill-site-header .nav-left {
-    display: inline-block;
-    margin-left: 8px;
-  }
-
-  @media screen and (max-width: 768px) {
-    .distill-site-header .nav-left {
-      margin-left: 0;
-    }
-  }
-
-
-  .distill-site-header .nav-right {
-    float: right;
-    margin-right: 8px;
-  }
-
-  .distill-site-header a,
-  .distill-site-header .title {
-    display: inline-block;
-    text-align: center;
-    padding: 14px 10px 14px 10px;
-  }
-
-  .distill-site-header .title {
-    font-size: 18px;
-  }
-
-  .distill-site-header .logo {
-    padding: 0;
-  }
-
-  .distill-site-header .logo img {
-    display: none;
-    max-height: 20px;
-    width: auto;
-    margin-bottom: -4px;
-  }
-
-  .distill-site-header .nav-image img {
-    max-height: 18px;
-    width: auto;
-    display: inline-block;
-    margin-bottom: -3px;
-  }
-
-
-
-  @media screen and (min-width: 1000px) {
-    .distill-site-header .logo img {
-      display: inline-block;
-    }
-    .distill-site-header .nav-left {
-      margin-left: 20px;
-    }
-    .distill-site-header .nav-right {
-      margin-right: 20px;
-    }
-    .distill-site-header .title {
-      padding-left: 12px;
-    }
-  }
-
-
-  .distill-site-header .nav-toggle {
-    display: none;
-  }
-
-  .nav-dropdown {
-    display: inline-block;
-    position: relative;
-  }
-
-  .nav-dropdown .nav-dropbtn {
-    border: none;
-    outline: none;
-    color: rgba(255, 255, 255, 0.8);
-    padding: 16px 10px;
-    background-color: transparent;
-    font-family: inherit;
-    font-size: inherit;
-    font-weight: inherit;
-    margin: 0;
-    margin-top: 1px;
-    z-index: 2;
-  }
-
-  .nav-dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: white;
-    min-width: 200px;
-    border: 1px solid rgba(0,0,0,0.15);
-    border-radius: 4px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
-    z-index: 1;
-    margin-top: 2px;
-    white-space: nowrap;
-    padding-top: 4px;
-    padding-bottom: 4px;
-  }
-
-  .nav-dropdown-content hr {
-    margin-top: 4px;
-    margin-bottom: 4px;
-    border: none;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  }
-
-  .nav-dropdown-active {
-    display: block;
-  }
-
-  .nav-dropdown-content a, .nav-dropdown-content .nav-dropdown-header {
-    color: black;
-    padding: 6px 24px;
-    text-decoration: none;
-    display: block;
-    text-align: left;
-  }
-
-  .nav-dropdown-content .nav-dropdown-header {
-    display: block;
-    padding: 5px 24px;
-    padding-bottom: 0;
-    text-transform: uppercase;
-    font-size: 14px;
-    color: #999999;
-    white-space: nowrap;
-  }
-
-  .nav-dropdown:hover .nav-dropbtn {
-    color: white;
-  }
-
-  .nav-dropdown-content a:hover {
-    background-color: #ddd;
-    color: black;
-  }
-
-  .nav-right .nav-dropdown-content {
-    margin-left: -45%;
-    right: 0;
-  }
-
-  @media screen and (max-width: 768px) {
-    .distill-site-header a, .distill-site-header .nav-dropdown  {display: none;}
-    .distill-site-header a.nav-toggle {
-      float: right;
-      display: block;
-    }
-    .distill-site-header .title {
-      margin-left: 0;
-    }
-    .distill-site-header .nav-right {
-      margin-right: 0;
-    }
-    .distill-site-header {
-      overflow: hidden;
-    }
-    .nav-right .nav-dropdown-content {
-      margin-left: 0;
-    }
-  }
-
-
-  @media screen and (max-width: 768px) {
-    .distill-site-header.responsive {position: relative;}
-    .distill-site-header.responsive a.nav-toggle {
-      position: absolute;
-      right: 0;
-      top: 0;
-    }
-    .distill-site-header.responsive a,
-    .distill-site-header.responsive .nav-dropdown {
-      display: block;
-      text-align: left;
-    }
-    .distill-site-header.responsive .nav-left,
-    .distill-site-header.responsive .nav-right {
-      width: 100%;
-    }
-    .distill-site-header.responsive .nav-dropdown {float: none;}
-    .distill-site-header.responsive .nav-dropdown-content {position: relative;}
-    .distill-site-header.responsive .nav-dropdown .nav-dropbtn {
-      display: block;
-      width: 100%;
-      text-align: left;
-    }
-  }
-
-  /* Site Footer */
-
-  .distill-site-footer {
-    width: 100%;
-    overflow: hidden;
-    box-sizing: border-box;
-    z-index: 3;
-    margin-top: 30px;
-    padding-top: 30px;
-    padding-bottom: 30px;
-    text-align: center;
-  }
-
-  /* Headroom */
-
-  d-title {
-    padding-top: 6rem;
-  }
-
-  @media print {
-    d-title {
-      padding-top: 4rem;
-    }
-  }
-
-  .headroom {
-    z-index: 1000;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-  }
-
-  .headroom--transition {
-    transition: all .4s ease-in-out;
-  }
-
-  .headroom--unpinned {
-    top: -100px;
-  }
-
-  .headroom--pinned {
-    top: 0;
-  }
-
-  </style>
-
-  <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet"/>
-  <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet"/>
-  <script src="site_libs/headroom-0.9.4/headroom.min.js"></script>
+  <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
   <!--radix_placeholder_distill-->
 
@@ -1267,107 +940,14 @@
   </script>
 
   <!--/radix_placeholder_distill-->
-  <script src="site_libs/header-attrs-2.2/header-attrs.js"></script>
-  <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
-  <script src="site_libs/bowser-1.9.3/bowser.min.js"></script>
-  <script src="site_libs/webcomponents-2.0.0/webcomponents.js"></script>
-  <script src="site_libs/distill-2.2.21/template.v2.js"></script>
+  <script src="penguins-and-nakedpipes_files/header-attrs-2.2/header-attrs.js"></script>
+  <script src="penguins-and-nakedpipes_files/jquery-1.11.3/jquery.min.js"></script>
+  <script src="penguins-and-nakedpipes_files/bowser-1.9.3/bowser.min.js"></script>
+  <script src="penguins-and-nakedpipes_files/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="penguins-and-nakedpipes_files/distill-2.2.21/template.v2.js"></script>
   <!--radix_placeholder_site_in_header-->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-145834792-2"></script>
-  <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'UA-145834792-2');
-  </script>
-  <style type="text/css">
-  @import url('https://fonts.googleapis.com/css2?family=Lato');
-  @import url('https://fonts.googleapis.com/css2?family=Roboto');
-  @import url('https://fonts.googleapis.com/css2?family=Fira+Mono');
-
-  .distill-site-nav {
-    color: rgba(255, 255, 255, 0.8);
-    background-color: #444b4f;
-    font-size: 15px;
-    font-weight: 300;
-  }
-
-  .posts-list .post-preview .thumbnail img { 
-    width: 70%;
-    height: auto;
-    display: block; 
-    margin-left: auto;
-    margin-right: auto
-    
-  }
-
-  /* https://codepen.io/sdthornton/pen/wBZdXq */
-  .distill-site-header {
-     box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
-  }
-
-  /* thunder animation */
-  /* from http://jsrocks.org/ */
-  .fab:hover, .fa:hover {
-      animation-name: thunder;
-      animation-duration: 1s;
-      animation-fill-mode: both;
-      animation-iteration-count: infinite;
-
-      -webkit-animation-name: thunder;
-      -webkit-animation-duration: 1s;
-      -webkit-animation-fill-mode: both;
-      -webkit-animation-iteration-count: infinite;
-       transition: all 150ms ease 0s;
-  }
-
-  @keyframes thunder{
-      0%, 20%, 40%, 60%, 80%, 100% {
-          transform: rotate3d(0, 0, 1, -5deg);
-      }
-      10%, 30%, 50%, 70%, 90% {
-          transform: rotate3d(0, 0, 1, 5deg);
-      }
-  }
-
-  @-webkit-keyframes thunder{
-      0%, 20%, 40%, 60%, 80%, 100% {
-          transform: rotate3d(0, 0, 1, -5deg);
-      }
-      10%, 30%, 50%, 70%, 90% {
-          transform: rotate3d(0, 0, 1, 5deg);
-      }
-  }
-
-
-  html, body, p {
-    
-    font-family: 'Lato', sans-serif;
-    font-weight: 200;
-    line-height: 1.7; 
-    font-size: 1.0em;
-    color: #333333;
-    font-style: normal;
-    
-  }
-
-
-  h1, h2, h3, h4, h5 {
-    font-family: 'Roboto', sans-serif;
-  }
-
-
-  code {
-    font-family: 'Fira Mono', sans-serif;
-    color: #383838;
-    background: #F5F5F5;
-    font-weight: 400;
-    font-size: 0.9em;
-  }
-  </style>
   <!--/radix_placeholder_site_in_header-->
 
-  <link rel="stylesheet" href="style.css" type="text/css"/>
 
 </head>
 
@@ -1376,62 +956,223 @@
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Hello World","description":"\\> whoami","authors":[]}
+{"title":"Penguins and nakedpipes","description":"Exploring the new {palmerpenguins} dataset with {nakedpipe}...","authors":[{"author":"Harry Fisher","authorURL":"https://hfshr.netlify.app/","affiliation":"&nbsp;","affiliationURL":"#"}],"publishedDate":"2020-06-21T00:00:00.000+01:00","citationText":"Fisher, 2020"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
 <!--radix_placeholder_navigation_before_body-->
-<header class="header header--fixed" role="banner">
-<nav class="distill-site-nav distill-site-header">
-<div class="nav-left">
-<a href="index.html" class="title">Harry Fisher</a>
-</div>
-<div class="nav-right">
-<a href="index.html">Home</a>
-<a href="about.html">About</a>
-<a href="data/cv/cv_main.pdf">CV</a>
-<a href="https://github.com/hfshr/distill_blog">
-<i class="fab fa-github" aria-hidden="true"></i>
-</a>
-<a href="index.xml">
-<i class="fa fa-rss" aria-hidden="true"></i>
-</a>
-<a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
-</div>
-</nav>
-</header>
 <!--/radix_placeholder_navigation_before_body-->
 <!--radix_placeholder_site_before_body-->
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>Hello World</h1>
-<p>&gt; whoami</p>
+<h1>Penguins and nakedpipes</h1>
+<p><p>Exploring the new {palmerpenguins} dataset with {nakedpipe}…</p></p>
 </div>
 
+<div class="d-byline">
+  Harry Fisher <a href="https://hfshr.netlify.app/" class="uri">https://hfshr.netlify.app/</a> 
+  
+<br/>06-21-2020
+</div>
 
 <div class="d-article">
-<!-- ```{r out.width="25%", fig.align='center'} -->
-<!-- knitr::include_graphics("data/images/profile.png") -->
-<!-- ``` -->
-<p>Hi! My name is Harry Fisher. Thanks for visiting my site. I have a passion for data science (especially all things <strong>R</strong>) and this site is a place where I try to document new things I learn, or things I find interesting and think are worth sharing. I currently work at a big data company as a statistical modeller in Cardiff, Wales. Previously, I completed my PhD at Cardiff Metropolitan University in December 2019, investigating risk factors associated with sports injury.</p>
-<p>Feel free to get in touch if any of the posts catch your interest!</p>
-<h3 id="r-packages">R packages</h3>
-<p>bitmexr: R Client for the BitMEX Exchange <a href="https://CRAN.R-project.org/package=bitmexr"><img src="https://www.r-pkg.org/badges/version/bitmexr" alt="CRAN status" /></a></p>
-<h3 id="research">Research</h3>
-<ul>
-<li><p>Fisher et al. In press. An interdisciplinary examination of stress and injury in athletes.</p></li>
-<li><p>Fisher et al. 2016. Relationship between Force Production during Isometric Squats and Knee Flexion Angles during Landing. Journal of Strength and Conditioning. <a href="data/pdfs/fisher-2016.pdf">[pdf]</a></p></li>
-</ul>
-<h3 id="contact">Contact</h3>
-<!-- Add icon library -->
-<p><link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></p>
-<!-- Add font awesome icons -->
-<p style="text-align: center;">
-<a href="https://github.com/hfshr" target="_blank" class="fa fa-github"  style="font-size:36px;"></a> <a href="mailto:harryfisher21@gmail.com" target="_blank" class="fa fa-envelope"  style="font-size:36px;"></a>
-</p>
-<!-- <a href="https://twitter.com/hfshr" target="_blank" class="fa fa-twitter" style="font-size:36px;"></a> -->
+<p>Recently I came across <a href="https://github.com/moodymudskipper/nakedpipe"><code>nakedpipe</code></a> on github - an R package with an intriguing name to say the least… After checking out the repo, I was very impressed and thought I’d share my notes here!</p>
+<p>So what does <code>nakedpipe</code> <em>do</em>?</p>
+<p>I’m sure most R users are familiar with <code>magrittr</code>’s pipe (%&gt;%) operator. The %&gt;% allows you to chain together multiple commands by piping forward an expression into a function like <code>x %&gt;% f</code>, rather than <code>f(x)</code> <span class="citation" data-cites="R-magrittr">Bache and Wickham (<a href="#ref-R-magrittr" role="doc-biblioref">2014</a>)</span>. The resulting code is usually very readable and easy to debug. <code>nakedpipe</code> adopts a similar style, but removes the need to use %&gt;% after every function, and adds some additional logging/debugging features as well as being slightly faster than the <code>magrittr</code> implementation.</p>
+<p>In order to try out the features in <code>nakedpipe</code> I used the new <code>palmerpenguins</code> dataset <span class="citation" data-cites="R-palmerpenguins">(KB, TD, and WR <a href="#ref-R-palmerpenguins" role="doc-biblioref">2014</a>)</span> which provides a great test dataset and is a refreshing alternative the usual suspects, <code>mtcars</code> et al…</p>
+<h3 id="getting-started">Getting started</h3>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+#remotes::install_github(&quot;allisonhorst/palmerpenguins&quot;)
+#remotes::install_github(&quot;moodymudskipper/nakedpipe&quot;)
+
+library(tidyverse)
+library(palmerpenguins) 
+library(nakedpipe)
+library(magrittr)
+
+penguins &lt;- penguins</code></pre>
+</div>
+<p>A basic example looks like this:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+penguins %.% {
+  filter(sex == &quot;female&quot;) 
+  select(1:5) 
+  head(5)
+}   </code></pre>
+<pre><code>
+# A tibble: 5 x 5
+  species island    bill_length_mm bill_depth_mm flipper_length_mm
+  &lt;fct&gt;   &lt;fct&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;
+1 Adelie  Torgersen           39.5          17.4               186
+2 Adelie  Torgersen           40.3          18                 195
+3 Adelie  Torgersen           36.7          19.3               193
+4 Adelie  Torgersen           38.9          17.8               181
+5 Adelie  Torgersen           41.1          17.6               182</code></pre>
+</div>
+<p>You use the <code>%.%</code> operator to “pipe” into a sequence of functions, which are within {}. You can reduce the code further by removing the subset / filter argument like:</p>
+<aside>
+Any call to &lt; &gt; &lt;= &gt;= == != %in% &amp; | will work in this way
+</aside>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+penguins %.% {
+  sex == &quot;female&quot;
+  select(1:5) 
+  head(5)
+}  </code></pre>
+<pre><code>
+# A tibble: 5 x 5
+  species island    bill_length_mm bill_depth_mm flipper_length_mm
+  &lt;fct&gt;   &lt;fct&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;
+1 Adelie  Torgersen           39.5          17.4               186
+2 Adelie  Torgersen           40.3          18                 195
+3 Adelie  Torgersen           36.7          19.3               193
+4 Adelie  Torgersen           38.9          17.8               181
+5 Adelie  Torgersen           41.1          17.6               182</code></pre>
+</div>
+<p>Similarly, this works with transform / mutate calls. The use of the <code>=</code> sign implies a new column is being created, for example:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+penguins %.% {
+  sex == &quot;female&quot;
+  body_mass_kg = body_mass_g/1000
+  select(body_mass_g, body_mass_kg)
+  head(5)
+}  </code></pre>
+<pre><code>
+  body_mass_g body_mass_kg
+1        3800        3.800
+2        3250        3.250
+3        3450        3.450
+4        3625        3.625
+5        3200        3.200</code></pre>
+</div>
+<p>Assigning the result of a sequence of function can be done by using <code>-&gt;</code> at the end of the sequence (outside of the {}) or using the <code>%&lt;.%</code> operator at the start of the sequence.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+penguins %.% {
+  sex == &quot;female&quot;
+  arrange(body_mass_g)
+  select(1,2,6) 
+  head(5)
+} -&gt; small_penguins
+
+# Or
+
+small_penguins &lt;- penguins
+
+small_penguins %&lt;.% {
+  sex == &quot;female&quot;
+  arrange(body_mass_g)
+  select(1,2,6) 
+  head(5)
+} </code></pre>
+</div>
+<p>Additionally, you can create outputs midway through the sequence of functions by using <code>~~</code>:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+penguins %.% {
+  sex == &quot;female&quot;
+  ~~ . -&gt; female_penguins
+  select(1:5) 
+  head(5) 
+} -&gt; x
+
+head(female_penguins)</code></pre>
+<pre><code>
+# A tibble: 6 x 7
+  species island bill_length_mm bill_depth_mm flipper_length_…
+  &lt;fct&gt;   &lt;fct&gt;           &lt;dbl&gt;         &lt;dbl&gt;            &lt;int&gt;
+1 Adelie  Torge…           39.5          17.4              186
+2 Adelie  Torge…           40.3          18                195
+3 Adelie  Torge…           36.7          19.3              193
+4 Adelie  Torge…           38.9          17.8              181
+5 Adelie  Torge…           41.1          17.6              182
+6 Adelie  Torge…           36.6          17.8              185
+# … with 2 more variables: body_mass_g &lt;int&gt;, sex &lt;fct&gt;</code></pre>
+</div>
+<h3 id="additional-operators">Additional operators</h3>
+<p>You can use <code>%P.%</code> to print the output of each step:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+penguins %P.% {
+  sex == &quot;female&quot;
+  select(1:5) 
+  head(5)
+}</code></pre>
+</div>
+<p><code>%L.%</code> prints out timings of each step in the sequence (Not particularly useful for this toy example, but would be for longer running code)</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+penguins %L.% {
+  sex == &quot;female&quot;
+  select(1:5) 
+  head(5)
+} -&gt; y</code></pre>
+<pre><code>
+penguins %L.% {</code></pre>
+<pre><code>
+  sex == &quot;female&quot;</code></pre>
+<pre><code>
+   user  system elapsed 
+  0.001   0.000   0.001 </code></pre>
+<pre><code>
+  select(1:5)</code></pre>
+<pre><code>
+   user  system elapsed 
+  0.004   0.000   0.004 </code></pre>
+<pre><code>
+  head(5)</code></pre>
+<pre><code>
+   user  system elapsed 
+  0.001   0.000   0.001 </code></pre>
+<pre><code>
+}</code></pre>
+</div>
+<p><code>%F.%</code> lets you assign a function using the <code>nakedpipe</code> syntax:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+penguin_func &lt;- . %F.% {
+  group_by(species)
+  summarise(across(where(is.numeric), ~mean(., na.rm = TRUE)))
+  mutate(across(where(is.numeric), round, 2))
+}
+
+penguin_func(penguins)</code></pre>
+<pre><code>
+# A tibble: 3 x 5
+  species   bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+  &lt;fct&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;dbl&gt;       &lt;dbl&gt;
+1 Adelie              38.8          18.4              190.       3701.
+2 Chinstrap           48.8          18.4              196.       3733.
+3 Gentoo              47.5          15.0              217.       5076.</code></pre>
+</div>
+<h3 id="ggplot">ggplot</h3>
+<p><code>nakedpipe</code> also plays well with ggplot:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+penguins %.% {
+  body_mass_kg = body_mass_g / 1000
+  ggplot(aes(body_mass_kg, flipper_length_mm, shape = species, colour = species))
+  + geom_point() 
+  + labs(y = &quot;Flipper length&quot;, x = &quot;Body mass (kg)&quot;)
+  + theme_minimal()
+}</code></pre>
+<p><img src="penguins-and-nakedpipes_files/figure-html5/unnamed-chunk-10-1.png" width="624" /></p>
+</div>
+<p>There are some other useful things that <code>nakepipe</code> can do that I haven’t included here, such as <code>%D.%</code> operator for debugging, <code>%..%</code> for even faster performance and even a RStudio addin to convert your <code>magrittr</code> style code to the <code>nakepipe</code> syntax. Pretty cool!</p>
+<p>If you’ve found any of these examples interesting, I’d highly recommend you check you that package repo (<a href="https://github.com/moodymudskipper/nakedpipe" class="uri">https://github.com/moodymudskipper/nakedpipe</a>) and give it a try.</p>
+<div id="refs" class="references hanging-indent" role="doc-bibliography">
+<div id="ref-R-magrittr">
+<p>Bache, Stefan Milton, and Hadley Wickham. 2014. <em>Magrittr: A Forward-Pipe Operator for R</em>. <a href="https://CRAN.R-project.org/package=magrittr">https://CRAN.R-project.org/package=magrittr</a>.</p>
+</div>
+<div id="ref-R-palmerpenguins">
+<p>KB, Gorman, Williams TD, and Fraser WR. 2014. “Ecological Sexual Dimorphism and Environmental Variability Within a Community of Antarctic Penguins (Genus Pygoscelis).” <em>PLoS ONE</em> 9(3) (e90081): –13. <a href="https://doi.org/10.1371/journal.pone.0090081">https://doi.org/10.1371/journal.pone.0090081</a>.</p>
+</div>
+</div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
@@ -1447,13 +1188,110 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome
 <h3 id="updates-and-corrections">Corrections</h3>
 <p>If you see mistakes or want to suggest changes, please <a href="https://github.com/hfshr/distill_blog/issues/new">create an issue</a> on the source repository.</p>
 </div>
+<script id="distill-bibliography" type="text/bibtex">
+@Manual{R-base,
+  title = {R: A Language and Environment for Statistical Computing},
+  author = {{R Core Team}},
+  organization = {R Foundation for Statistical Computing},
+  address = {Vienna, Austria},
+  year = {2020},
+  url = {https://www.R-project.org/},
+}
+@Manual{R-dplyr,
+  title = {dplyr: A Grammar of Data Manipulation},
+  author = {Hadley Wickham and Romain François and Lionel Henry and Kirill Müller},
+  year = {2020},
+  note = {R package version 1.0.0},
+  url = {https://CRAN.R-project.org/package=dplyr},
+}
+@Manual{R-forcats,
+  title = {forcats: Tools for Working with Categorical Variables (Factors)},
+  author = {Hadley Wickham},
+  year = {2020},
+  note = {R package version 0.5.0},
+  url = {https://CRAN.R-project.org/package=forcats},
+}
+@Book{R-ggplot2,
+  author = {Hadley Wickham},
+  title = {ggplot2: Elegant Graphics for Data Analysis},
+  publisher = {Springer-Verlag New York},
+  year = {2016},
+  isbn = {978-3-319-24277-4},
+  url = {https://ggplot2.tidyverse.org},
+}
+@Manual{R-magrittr,
+  title = {magrittr: A Forward-Pipe Operator for R},
+  author = {Stefan Milton Bache and Hadley Wickham},
+  year = {2014},
+  note = {R package version 1.5},
+  url = {https://CRAN.R-project.org/package=magrittr},
+}
+@Manual{R-nakedpipe,
+  title = {nakedpipe: Pipe into a Sequence of Calls Without Repeating the Pipe Symbol},
+  author = {Antoine Fabri},
+  year = {2020},
+  note = {R package version 0.1.0},
+  url = {https://github.com/moodymudskipper/nakedpipe},
+}
+@Article{R-palmerpenguins,
+  title = {Ecological Sexual Dimorphism and Environmental Variability within a Community of Antarctic Penguins (Genus Pygoscelis)},
+  author = {Gorman KB and Williams TD and Fraser WR},
+  journal = {PLoS ONE},
+  year = {2014},
+  volume = {9(3)},
+  number = {e90081},
+  pages = {-13},
+  url = {https://doi.org/10.1371/journal.pone.0090081},
+}
+@Manual{R-purrr,
+  title = {purrr: Functional Programming Tools},
+  author = {Lionel Henry and Hadley Wickham},
+  year = {2020},
+  note = {R package version 0.3.4},
+  url = {https://CRAN.R-project.org/package=purrr},
+}
+@Manual{R-readr,
+  title = {readr: Read Rectangular Text Data},
+  author = {Hadley Wickham and Jim Hester and Romain Francois},
+  year = {2018},
+  note = {R package version 1.3.1},
+  url = {https://CRAN.R-project.org/package=readr},
+}
+@Manual{R-stringr,
+  title = {stringr: Simple, Consistent Wrappers for Common String Operations},
+  author = {Hadley Wickham},
+  year = {2019},
+  note = {R package version 1.4.0},
+  url = {https://CRAN.R-project.org/package=stringr},
+}
+@Manual{R-tibble,
+  title = {tibble: Simple Data Frames},
+  author = {Kirill Müller and Hadley Wickham},
+  year = {2020},
+  note = {R package version 3.0.1},
+  url = {https://CRAN.R-project.org/package=tibble},
+}
+@Manual{R-tidyr,
+  title = {tidyr: Tidy Messy Data},
+  author = {Hadley Wickham and Lionel Henry},
+  year = {2020},
+  note = {R package version 1.1.0},
+  url = {https://CRAN.R-project.org/package=tidyr},
+}
+@Article{R-tidyverse,
+  title = {Welcome to the {tidyverse}},
+  author = {Hadley Wickham and Mara Averick and Jennifer Bryan and Winston Chang and Lucy D'Agostino McGowan and Romain François and Garrett Grolemund and Alex Hayes and Lionel Henry and Jim Hester and Max Kuhn and Thomas Lin Pedersen and Evan Miller and Stephan Milton Bache and Kirill Müller and Jeroen Ooms and David Robinson and Dana Paige Seidel and Vitalie Spinu and Kohske Takahashi and Davis Vaughan and Claus Wilke and Kara Woo and Hiroaki Yutani},
+  year = {2019},
+  journal = {Journal of Open Source Software},
+  volume = {4},
+  number = {43},
+  pages = {1686},
+  doi = {10.21105/joss.01686},
+}
+</script>
 <!--/radix_placeholder_appendices-->
 <!--radix_placeholder_navigation_after_body-->
-<div class="distill-site-nav distill-site-footer">
-
-</div>
 <!--/radix_placeholder_navigation_after_body-->
-
 
 </body>
 

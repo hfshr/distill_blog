@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato');
 @import url('https://fonts.googleapis.com/css2?family=Roboto');
+@import url('https://fonts.googleapis.com/css2?family=Fira+Mono');
 
 .distill-site-nav {
   color: rgba(255, 255, 255, 0.8);
@@ -72,3 +73,11 @@ h1, h2, h3, h4, h5 {
   font-family: 'Roboto', sans-serif;
 }
 
+
+code {
+  font-family: 'Fira Mono', sans-serif;
+  color: #383838;
+  background: #F5F5F5;
+  font-weight: 400;
+  font-size: 0.9em;
+}

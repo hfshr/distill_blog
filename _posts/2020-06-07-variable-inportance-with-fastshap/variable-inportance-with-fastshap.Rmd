@@ -7,7 +7,7 @@ author:
   - name: Harry Fisher
     url: https://hfshr.netlify.app/
 repository_url: https://github.com/hfshr/distill_blog  
-date: 07-06-2020
+date: 06-07-2020
 preview: funky.png
 categories:
   - R
