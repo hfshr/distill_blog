@@ -1,14 +1,16 @@
 ---
 title: "Penguins and nakedpipes"
 description: |
-  Exploring the new {palmerpenguins} dataset with {nakedpipe}...
+  Exploring the new {palmerpenguins} dataset with {nakedpipe} - An alternative to using {magrittr}'s %>%.
 author:
   - name: Harry Fisher
     url: https://hfshr.netlify.app/
 repository_url: https://github.com/hfshr/distill_blog
 date: 06-21-2020
 bibliography: r-refs.bib  
-draft: true
+categories:
+  - R
+draft: false
 preview: preview.png
 output:
   distill::distill_article:
@@ -21,7 +23,7 @@ library(nakedpipe)
 library(magrittr)
 ```
 
-Recently I came across [`nakedpipe`](https://github.com/moodymudskipper/nakedpipe) on github - an R package with an intriguing name to say the least... After checking out the repo, I was very impressed and thought I'd share my notes here!
+Recently I came across [`nakedpipe`](https://github.com/moodymudskipper/nakedpipe) @R-nakedpipe on github - an R package with an intriguing name to say the least... After checking out the repo, I was very impressed and thought I'd share my notes here!
 
 So what does `nakedpipe` _do_?
 
@@ -120,12 +122,12 @@ head(female_penguins)
 
 You can use `%P.%` to print the output of each step:
 
-```{r eval=FALSE, message=TRUE}
+```{r, message=TRUE}
 penguins %P.% {
   sex == "female"
   select(1:5) 
   head(5)
-}
+} -> y
 ```
 
 `%L.%` prints out timings of each step in the sequence (Not particularly useful for this toy example, but would be for longer running code)
@@ -135,7 +137,7 @@ penguins %L.% {
   sex == "female"
   select(1:5) 
   head(5)
-} -> y
+} -> z
 ```
 
 `%F.%` lets you assign a function using the `nakedpipe` syntax:
@@ -168,4 +170,4 @@ penguins %.% {
 
 There are some other useful things that `nakepipe` can do that I haven't included here, such as `%D.%` operator for debugging, `%..%` for even faster performance and even a RStudio addin to convert your `magrittr` style code to the `nakepipe` syntax. Pretty cool!
 
-If you've found any of these examples interesting, I'd highly recommend you check you that package repo (https://github.com/moodymudskipper/nakedpipe) and give it a try. 
+If you've found any of these examples interesting, I'd highly recommend you check out the package (https://github.com/moodymudskipper/nakedpipe) and give it a try!

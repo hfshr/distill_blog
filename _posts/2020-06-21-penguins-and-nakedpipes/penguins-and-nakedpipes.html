@@ -21,7 +21,7 @@
   <!--radix_placeholder_meta_tags-->
   <title>Penguins and nakedpipes</title>
 
-  <meta property="description" itemprop="description" content="Exploring the new {palmerpenguins} dataset with {nakedpipe}..."/>
+  <meta property="description" itemprop="description" content="Exploring the new {palmerpenguins} dataset with {nakedpipe} - An alternative to using {magrittr}&#39;s %&gt;%."/>
 
 
   <!--  https://schema.org/Article -->
@@ -32,22 +32,23 @@
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
   <meta property="og:title" content="Penguins and nakedpipes"/>
   <meta property="og:type" content="article"/>
-  <meta property="og:description" content="Exploring the new {palmerpenguins} dataset with {nakedpipe}..."/>
+  <meta property="og:description" content="Exploring the new {palmerpenguins} dataset with {nakedpipe} - An alternative to using {magrittr}&#39;s %&gt;%."/>
   <meta property="og:locale" content="en_US"/>
 
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
   <meta property="twitter:title" content="Penguins and nakedpipes"/>
-  <meta property="twitter:description" content="Exploring the new {palmerpenguins} dataset with {nakedpipe}..."/>
+  <meta property="twitter:description" content="Exploring the new {palmerpenguins} dataset with {nakedpipe} - An alternative to using {magrittr}&#39;s %&gt;%."/>
 
   <!--/radix_placeholder_meta_tags-->
   
   <meta name="citation_reference" content="citation_title=Magrittr: A forward-pipe operator for r;citation_publication_date=2014;citation_author=Stefan Milton Bache;citation_author=Hadley Wickham"/>
+  <meta name="citation_reference" content="citation_title=Nakedpipe: Pipe into a sequence of calls without repeating the pipe symbol;citation_publication_date=2020;citation_author=Antoine Fabri"/>
   <meta name="citation_reference" content="citation_title=Ecological sexual dimorphism and environmental variability within a community of antarctic penguins (genus pygoscelis);citation_publication_date=2014;citation_volume=9(3);citation_author=Gorman KB;citation_author=Williams TD;citation_author=Fraser WR"/>
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","repository_url","date","bibliography","draft","preview","output"]}},"value":[{"type":"character","attributes":{},"value":["Penguins and nakedpipes"]},{"type":"character","attributes":{},"value":["Exploring the new {palmerpenguins} dataset with {nakedpipe}...\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Harry Fisher"]},{"type":"character","attributes":{},"value":["https://hfshr.netlify.app/"]}]}]},{"type":"character","attributes":{},"value":["https://github.com/hfshr/distill_blog"]},{"type":"character","attributes":{},"value":["06-21-2020"]},{"type":"character","attributes":{},"value":["r-refs.bib"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["preview.png"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","repository_url","date","bibliography","categories","draft","preview","output"]}},"value":[{"type":"character","attributes":{},"value":["Penguins and nakedpipes"]},{"type":"character","attributes":{},"value":["Exploring the new {palmerpenguins} dataset with {nakedpipe} - An alternative to using {magrittr}'s %>%.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Harry Fisher"]},{"type":"character","attributes":{},"value":["https://hfshr.netlify.app/"]}]}]},{"type":"character","attributes":{},"value":["https://github.com/hfshr/distill_blog"]},{"type":"character","attributes":{},"value":["06-21-2020"]},{"type":"character","attributes":{},"value":["r-refs.bib"]},{"type":"character","attributes":{},"value":["R"]},{"type":"logical","attributes":{},"value":[false]},{"type":"character","attributes":{},"value":["preview.png"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   
@@ -956,7 +957,7 @@
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Penguins and nakedpipes","description":"Exploring the new {palmerpenguins} dataset with {nakedpipe}...","authors":[{"author":"Harry Fisher","authorURL":"https://hfshr.netlify.app/","affiliation":"&nbsp;","affiliationURL":"#"}],"publishedDate":"2020-06-21T00:00:00.000+01:00","citationText":"Fisher, 2020"}
+{"title":"Penguins and nakedpipes","description":"Exploring the new {palmerpenguins} dataset with {nakedpipe} - An alternative to using {magrittr}'s %>%.","authors":[{"author":"Harry Fisher","authorURL":"https://hfshr.netlify.app/","affiliation":"&nbsp;","affiliationURL":"#"}],"publishedDate":"2020-06-21T00:00:00.000+01:00","citationText":"Fisher, 2020"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -967,7 +968,7 @@
 
 <div class="d-title">
 <h1>Penguins and nakedpipes</h1>
-<p><p>Exploring the new {palmerpenguins} dataset with {nakedpipe}…</p></p>
+<p><p>Exploring the new {palmerpenguins} dataset with {nakedpipe} - An alternative to using {magrittr}’s %&gt;%.</p></p>
 </div>
 
 <div class="d-byline">
@@ -977,7 +978,7 @@
 </div>
 
 <div class="d-article">
-<p>Recently I came across <a href="https://github.com/moodymudskipper/nakedpipe"><code>nakedpipe</code></a> on github - an R package with an intriguing name to say the least… After checking out the repo, I was very impressed and thought I’d share my notes here!</p>
+<p>Recently I came across <a href="https://github.com/moodymudskipper/nakedpipe"><code>nakedpipe</code></a> <span class="citation" data-cites="R-nakedpipe">Fabri (<a href="#ref-R-nakedpipe" role="doc-biblioref">2020</a>)</span> on github - an R package with an intriguing name to say the least… After checking out the repo, I was very impressed and thought I’d share my notes here!</p>
 <p>So what does <code>nakedpipe</code> <em>do</em>?</p>
 <p>I’m sure most R users are familiar with <code>magrittr</code>’s pipe (%&gt;%) operator. The %&gt;% allows you to chain together multiple commands by piping forward an expression into a function like <code>x %&gt;% f</code>, rather than <code>f(x)</code> <span class="citation" data-cites="R-magrittr">Bache and Wickham (<a href="#ref-R-magrittr" role="doc-biblioref">2014</a>)</span>. The resulting code is usually very readable and easy to debug. <code>nakedpipe</code> adopts a similar style, but removes the need to use %&gt;% after every function, and adds some additional logging/debugging features as well as being slightly faster than the <code>magrittr</code> implementation.</p>
 <p>In order to try out the features in <code>nakedpipe</code> I used the new <code>palmerpenguins</code> dataset <span class="citation" data-cites="R-palmerpenguins">(KB, TD, and WR <a href="#ref-R-palmerpenguins" role="doc-biblioref">2014</a>)</span> which provides a great test dataset and is a refreshing alternative the usual suspects, <code>mtcars</code> et al…</p>
@@ -1102,6 +1103,56 @@ penguins %P.% {
   sex == &quot;female&quot;
   select(1:5) 
   head(5)
+} -&gt; y</code></pre>
+<pre><code>
+penguins %P.% {</code></pre>
+<pre><code>
+  sex == &quot;female&quot;</code></pre>
+<pre><code>
+# A tibble: 165 x 7
+   species island bill_length_mm bill_depth_mm flipper_length_…
+   &lt;fct&gt;   &lt;fct&gt;           &lt;dbl&gt;         &lt;dbl&gt;            &lt;int&gt;
+ 1 Adelie  Torge…           39.5          17.4              186
+ 2 Adelie  Torge…           40.3          18                195
+ 3 Adelie  Torge…           36.7          19.3              193
+ 4 Adelie  Torge…           38.9          17.8              181
+ 5 Adelie  Torge…           41.1          17.6              182
+ 6 Adelie  Torge…           36.6          17.8              185
+ 7 Adelie  Torge…           38.7          19                195
+ 8 Adelie  Torge…           34.4          18.4              184
+ 9 Adelie  Biscoe           37.8          18.3              174
+10 Adelie  Biscoe           35.9          19.2              189
+# … with 155 more rows, and 2 more variables: body_mass_g &lt;int&gt;,
+#   sex &lt;fct&gt;</code></pre>
+<pre><code>
+  select(1:5)</code></pre>
+<pre><code>
+# A tibble: 165 x 5
+   species island    bill_length_mm bill_depth_mm flipper_length_mm
+   &lt;fct&gt;   &lt;fct&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;
+ 1 Adelie  Torgersen           39.5          17.4               186
+ 2 Adelie  Torgersen           40.3          18                 195
+ 3 Adelie  Torgersen           36.7          19.3               193
+ 4 Adelie  Torgersen           38.9          17.8               181
+ 5 Adelie  Torgersen           41.1          17.6               182
+ 6 Adelie  Torgersen           36.6          17.8               185
+ 7 Adelie  Torgersen           38.7          19                 195
+ 8 Adelie  Torgersen           34.4          18.4               184
+ 9 Adelie  Biscoe              37.8          18.3               174
+10 Adelie  Biscoe              35.9          19.2               189
+# … with 155 more rows</code></pre>
+<pre><code>
+  head(5)</code></pre>
+<pre><code>
+# A tibble: 5 x 5
+  species island    bill_length_mm bill_depth_mm flipper_length_mm
+  &lt;fct&gt;   &lt;fct&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;
+1 Adelie  Torgersen           39.5          17.4               186
+2 Adelie  Torgersen           40.3          18                 195
+3 Adelie  Torgersen           36.7          19.3               193
+4 Adelie  Torgersen           38.9          17.8               181
+5 Adelie  Torgersen           41.1          17.6               182</code></pre>
+<pre><code>
 }</code></pre>
 </div>
 <p><code>%L.%</code> prints out timings of each step in the sequence (Not particularly useful for this toy example, but would be for longer running code)</p>
@@ -1111,14 +1162,14 @@ penguins %L.% {
   sex == &quot;female&quot;
   select(1:5) 
   head(5)
-} -&gt; y</code></pre>
+} -&gt; z</code></pre>
 <pre><code>
 penguins %L.% {</code></pre>
 <pre><code>
   sex == &quot;female&quot;</code></pre>
 <pre><code>
    user  system elapsed 
-  0.001   0.000   0.001 </code></pre>
+  0.000   0.000   0.001 </code></pre>
 <pre><code>
   select(1:5)</code></pre>
 <pre><code>
@@ -1164,10 +1215,13 @@ penguins %.% {
 <p><img src="penguins-and-nakedpipes_files/figure-html5/unnamed-chunk-10-1.png" width="624" /></p>
 </div>
 <p>There are some other useful things that <code>nakepipe</code> can do that I haven’t included here, such as <code>%D.%</code> operator for debugging, <code>%..%</code> for even faster performance and even a RStudio addin to convert your <code>magrittr</code> style code to the <code>nakepipe</code> syntax. Pretty cool!</p>
-<p>If you’ve found any of these examples interesting, I’d highly recommend you check you that package repo (<a href="https://github.com/moodymudskipper/nakedpipe" class="uri">https://github.com/moodymudskipper/nakedpipe</a>) and give it a try.</p>
+<p>If you’ve found any of these examples interesting, I’d highly recommend you check out the package (<a href="https://github.com/moodymudskipper/nakedpipe" class="uri">https://github.com/moodymudskipper/nakedpipe</a>) and give it a try!</p>
 <div id="refs" class="references hanging-indent" role="doc-bibliography">
 <div id="ref-R-magrittr">
 <p>Bache, Stefan Milton, and Hadley Wickham. 2014. <em>Magrittr: A Forward-Pipe Operator for R</em>. <a href="https://CRAN.R-project.org/package=magrittr">https://CRAN.R-project.org/package=magrittr</a>.</p>
+</div>
+<div id="ref-R-nakedpipe">
+<p>Fabri, Antoine. 2020. <em>Nakedpipe: Pipe into a Sequence of Calls Without Repeating the Pipe Symbol</em>. <a href="https://github.com/moodymudskipper/nakedpipe">https://github.com/moodymudskipper/nakedpipe</a>.</p>
 </div>
 <div id="ref-R-palmerpenguins">
 <p>KB, Gorman, Williams TD, and Fraser WR. 2014. “Ecological Sexual Dimorphism and Environmental Variability Within a Community of Antarctic Penguins (Genus Pygoscelis).” <em>PLoS ONE</em> 9(3) (e90081): –13. <a href="https://doi.org/10.1371/journal.pone.0090081">https://doi.org/10.1371/journal.pone.0090081</a>.</p>

@@ -1,5 +1,25 @@
 [
   {
+    "path": "posts/2020-06-21-penguins-and-nakedpipes/",
+    "title": "Penguins and nakedpipes",
+    "description": "Exploring the new {palmerpenguins} dataset with {nakedpipe} - An alternative to using {magrittr}'s %>%.",
+    "author": [
+      {
+        "name": "Harry Fisher",
+        "url": "https://hfshr.netlify.app/"
+      }
+    ],
+    "date": "2020-06-21",
+    "categories": [
+      "R"
+    ],
+    "preview": "posts/2020-06-21-penguins-and-nakedpipes/preview.png",
+    "last_modified": "2020-06-23T21:42:16+01:00",
+    "input_file": {},
+    "preview_width": 1377,
+    "preview_height": 800
+  },
+  {
     "path": "posts/2020-06-07-variable-inportance-with-fastshap/",
     "title": "Opening the black box: Exploring xgboost models with {fastshap} in R",
     "description": "Being able to understand and explain why a model makes certain predictions is\nimportant, particularly if your model is being used to make critical business decisions. This post takes a look into the inner workings of a xgboost model by using the {fastshap} package to compute shapely values for the different features in the dataset, allowing deeper insight into the models predictions.",

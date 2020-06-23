@@ -7,7 +7,17 @@
     <description>My Blog
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>Sun, 07 Jun 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 21 Jun 2020 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Penguins and nakedpipes</title>
+      <dc:creator>Harry Fisher</dc:creator>
+      <link>https://hfshr.netlify.app/posts/2020-06-21-penguins-and-nakedpipes</link>
+      <description>Exploring the new {palmerpenguins} dataset with {nakedpipe} - An alternative to using {magrittr}'s %&gt;%.</description>
+      <category>R</category>
+      <guid>https://hfshr.netlify.app/posts/2020-06-21-penguins-and-nakedpipes</guid>
+      <pubDate>Sun, 21 Jun 2020 00:00:00 +0000</pubDate>
+      <media:content url="https://hfshr.netlify.app/posts/2020-06-21-penguins-and-nakedpipes/preview.png" medium="image" type="image/png" width="1377" height="800"/>
+    </item>
     <item>
       <title>Opening the black box: Exploring xgboost models with {fastshap} in R</title>
       <dc:creator>Harry Fisher</dc:creator>
