@@ -11,8 +11,8 @@ navbar:
       href: index.html
     - text: "About"
       href: about.html
-    - text: "CV"
-      href: data/cv/cv_main.pdf
+    # - text: "CV"
+    #   href: data/cv/cv_main.pdf
     - icon: fab fa-github
       href: https://github.com/hfshr/distill_blog
     - icon: fa fa-rss

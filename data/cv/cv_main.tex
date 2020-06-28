@@ -1,0 +1,304 @@
+%% Template for a CV
+%% Author: Rob J Hyndman
+
+\documentclass[10pt,a4paper,]{article}
+\usepackage[scaled=0.86]{DejaVuSansMono}
+\usepackage[sfdefault,lf,t]{carlito}
+
+% Change color to blue
+\usepackage{color,xcolor}
+\definecolor{headcolor}{HTML}{000088}
+
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage[]{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\PassOptionsToPackage{hyphens}{url} % url is loaded by hyperref
+\usepackage[unicode=true,hidelinks]{hyperref}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{geometry}
+\geometry{left=1.75cm,right=1.75cm,top=2.2cm,bottom=2cm}
+
+\usepackage{longtable,booktabs}
+% Fix footnotes in tables (requires footnote package)
+\IfFileExists{footnote.sty}{\usepackage{footnote}\makesavenoteenv{long table}}{}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{5}
+
+% set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+
+
+
+\date{June 2020}
+
+\usepackage[none]{hyphenat}
+\usepackage{ragged2e}
+
+
+\usepackage{paralist,ragged2e,datetime}
+\usepackage[hyphens]{url}
+\usepackage{fancyhdr,enumitem,pifont}
+\usepackage[compact,small,sf,bf]{titlesec}
+
+\RaggedRight
+\sloppy
+
+% Header and footer
+\pagestyle{fancy}
+\makeatletter
+\lhead{\sf\textcolor[gray]{0.4}{Curriculum Vitae: \@name}}
+\rhead{\sf\textcolor[gray]{0.4}{\thepage}}
+\cfoot{}
+\def\headrule{{\color[gray]{0.4}\hrule\@height\headrulewidth\@width\headwidth \vskip-\headrulewidth}}
+\makeatother
+
+% Header box
+\usepackage{tabularx}
+
+\makeatletter
+\def\name#1{\def\@name{#1}}
+\def\info#1{\def\@info{#1}}
+\makeatother
+\newcommand{\shadebox}[3][.9]{\fcolorbox[gray]{0}{#1}{\parbox{#2}{#3}}}
+
+\usepackage{calc}
+\newlength{\headerboxwidth}
+\setlength{\headerboxwidth}{\textwidth}
+%\addtolength{\headerboxwidth}{0.2cm}
+\makeatletter
+\def\maketitle{
+\thispagestyle{plain}
+\vspace*{-1.4cm}
+\shadebox[0.9]{\headerboxwidth}{\sf\color{headcolor}\hfil
+\hbox to 0.98\textwidth{\begin{tabular}{l}
+\\[-0.3cm]
+\LARGE\textbf{\@name}
+\\[0.1cm]\large Academic Associate\\[0.6cm]
+\normalsize\textbf{Curriculum Vitae}\\
+\normalsize June 2020
+\end{tabular}
+\hfill\hbox{\fontsize{9}{12}\sf
+\begin{tabular}{@{}rl@{}}
+\@info
+\end{tabular}}}\hfil
+}
+\vspace*{0.2cm}}
+\makeatother
+
+% Section headings
+\titlelabel{}
+\titlespacing{\section}{0pt}{1.5ex}{0.5ex}
+\titleformat*{\section}{\color{headcolor}\large\sf\bfseries}
+\titleformat*{\subsection}{\color{headcolor}\sf\bfseries}
+\titlespacing{\subsection}{0pt}{1ex}{0.5ex}
+
+% Miscellaneous dimensions
+\setlength{\parskip}{0ex}
+\setlength{\parindent}{0em}
+\setlength{\headheight}{15pt}
+\setlength{\tabcolsep}{0.15cm}
+\clubpenalty = 10000
+\widowpenalty = 10000
+\setlist{itemsep=1pt}
+\setdescription{labelwidth=1.2cm,leftmargin=1.5cm,labelindent=1.5cm,font=\rm}
+
+% Make nicer bullets
+\renewcommand{\labelitemi}{\ding{228}}
+
+\usepackage{booktabs,fontawesome}
+%\usepackage[t1,scale=0.86]{sourcecodepro}
+
+\name{Harry Fisher}
+\def\imagetop#1{\vtop{\null\hbox{#1}}}
+\info{%
+\raisebox{-0.05cm}{\imagetop{\faicon{map-marker}}} &  \imagetop{\begin{tabular}{@{}l@{}}11 Thorley Cardiff\end{tabular}}\\ %
+% %
+\faicon{phone} & 07716891305\\%
+\faicon{envelope} & \href{mailto:harryfisher21@gmail.com}{\nolinkurl{harryfisher21@gmail.com}}\\%
+%
+\faicon{github} & \href{https://github.com/hfshr}{hfshr}\\%
+%
+%
+%
+}
+
+
+%\usepackage{inconsolata}
+
+\usepackage{setspace}
+
+
+% Templates for detailed entries
+% Arguments: what when with where why
+\usepackage{etoolbox}
+
+% Templates for detailed entries
+% Arguments: what when with where why
+\def\detaileditem#1#2#3#4#5{
+#2 & \parbox[t]{0.85\textwidth}{%
+      \textbf{#1}\hfill{\footnotesize #3}\\
+      \ifx#4\empty\else#4\par\fi%
+      \ifx#5\empty\else{%
+        \vspace{0.1cm}\begin{minipage}{0.7\textwidth}%
+        \begin{itemize}#5\end{itemize}%
+        \end{minipage}}\fi%
+      \vspace{\parsep}}\\}
+%\def\detailedsection#1{\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}ll}#1\end{tabular*}}
+\setlength\LTleft{0pt}
+\setlength\LTright{0pt}
+\def\detailedsection#1{\begin{longtable}{@{\extracolsep{\fill}}ll}#1\end{longtable}}
+
+% Templates for brief entries
+% Arguments: what when with
+\def\briefitem#1#2#3{
+#2 & \parbox[t]{0.85\textwidth}{%
+      \textbf{#1}\\[-0.1cm]{\footnotesize #3}}\\[0.4cm]}
+%\def\briefsection#1{\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}ll}#1\end{tabular*}}
+\def\briefsection#1{\begin{longtable}{@{\extracolsep{\fill}}ll}#1\end{longtable}}
+
+\def\endfirstpage{\newpage}
+
+\begin{document}
+\maketitle
+\setstretch{1.25}
+
+
+\hypertarget{profile}{%
+\section{Profile}\label{profile}}
+
+\justify
+
+\emph{I am finishing my Ph.D.~at Cardiff Metropolitan University (completion August 2019) where my focus has been using statistical modelling techniques to predict sports injuries in athletes. Getting to this stage has required dedication and determination, as well as efficient time management and excellent organisational skills. I am able to work effectively within a team environment, but also excel when working independently. I have a keen interest in data science and believe the skills I have developed during my Ph.D.~are highly transferable to other areas of data modelling. I also have a passion for athletics, where I have competed at a high level for several years.}
+
+\hypertarget{key-skills-and-attributes}{%
+\section{Key skills and Attributes}\label{key-skills-and-attributes}}
+
+\textbf{Data science \textbar{} Predictive modelling \textbar{} R \textbar{} Python \textbar{} Spark \textbar{} Interactive dashboards \textbar{} Adaptable \textbar{} Driven \textbar{} Problem solving}
+
+\hypertarget{education}{%
+\section{Education}\label{education}}
+
+\detailedsection{\detaileditem{Ph.D.}{2016 - 2019}{}{Cardiff Metropolitan University}{\empty}\detaileditem{M.Sc}{2013 - 2015}{}{University of Wyoming}{\empty}\detaileditem{B.Sc.(Hons)}{2011 - 2013}{}{Cardiff Metropolitan University}{\empty}}
+
+\hypertarget{skills-developed-from-ph.d.}{%
+\section{Skills developed from Ph.D.}\label{skills-developed-from-ph.d.}}
+
+\begin{itemize}
+\tightlist
+\item
+  Substantial experience using R and R Markdown (self taught) to run complex statistical models and produce high quality technical documents throughout my Ph.D.
+\item
+  Proficient in a number of data cleaning, wrangling and visualisation techniques using a wide variety of methods in R.
+\item
+  Strong statistical knowledge using several different techniques including Bayesian multilevel modelling, generalised linear models and probabilistic network analysis.
+\item
+  Experience using the CARET (Kuhn et al., 2018) package in R for fitting random forests and naive Bayes classifiers as part of exploratory data analysis for my Ph.D.~results.
+\item
+  Basic understanding of key libraries in python including NumPy, Pandas and BeautifulSoup as well as using R package sparklyr for accessing Apache Spark to work with large data sets.
+\item
+  Experience using GIT and Github for my own version control during my Ph.D.~write-up and for sharing reports with my supervisory team.
+\item
+  Collaboration with other Ph.D.~students to work on research projects involving large datasets of rugby injuries, requiring a high level of communication and effective team work to ensure timely data analysis and dissemination of results.
+\item
+  Strong ability to plan and work independently, while remaining flexible to honour other commitments such as coaching and voluntary work.
+\end{itemize}
+
+\hypertarget{employment}{%
+\section{Employment}\label{employment}}
+
+\detailedsection{\detaileditem{Academic Associate}{2016 - Current}{}{Cardiff Metropolitan University}{\empty}\detaileditem{Sports Science Support}{2017-2018}{}{Sport Wales (Voluntary role)}{\empty}\detaileditem{Athletics Coach}{2015 - 2016}{}{Cardiff Metropolitan University}{\empty}}
+
+\hypertarget{skills-developed-from-employment}{%
+\section{Skills developed from employment}\label{skills-developed-from-employment}}
+
+\begin{itemize}
+\item
+  My role as an academic associate included:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Planning and delivery of lead lectures and seminars for first and second year students.
+  \item
+    Administrative roles including marking coursework and examinations.
+  \item
+    Collaboration with the module leader to ensure high standards of teaching were met, maintaining high levels of student satisfaction on the modules which I was responsible for.
+  \end{itemize}
+\item
+  My voluntary role with Sport Wales included:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Collaboration with several members of the sport science support team to record, analyse and disseminate data to relevant parties on athletes' performance and injury status in a timely manner.
+  \item
+    Critically review the information that was available and use it to inform future training or competition.
+  \item
+    Tailor the delivery of results to suit the audience (e.g., some coaches preferred a simple report with only the key findings, whereas others preferred a detailed analysis of all relevant data).
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{achievements}{%
+\section{Achievements}\label{achievements}}
+
+\begin{itemize}
+\tightlist
+\item
+  Secured funding for my Ph.D.~through the highly competitive Research Innovation Award at Cardiff Metropolitan University (2016).
+\end{itemize}
+
+\hypertarget{projects-on-github}{%
+\section{Projects on Github}\label{projects-on-github}}
+
+\begin{itemize}
+\tightlist
+\item
+  Interactive dashboard for visualising athletics results: \textcolor{blue}{https://bit.ly/2KbpTdu}
+\item
+  Summary of Ph.D.~study using Bayesian Networks:\textcolor{blue}{https://bit.ly/31aqkM1}
+\item
+  Discussion of analysis techniques considered in Ph.D.:\textcolor{blue}{https://bit.ly/316nDuy}
+\end{itemize}
+
+\hypertarget{publications}{%
+\section{Publications}\label{publications}}
+
+\detailedsection{\detaileditem{Relationship between force production during isometric squats and knee flexion angles during landing}{2016}{H Fisher, ML Stephenson, KK Graves, TJ Hinshaw, DT Smith, Q Zhu, ...}{Journal of strength and conditioning research, 30 (6), 1670-1679}{\empty}}
+
+\hypertarget{references}{%
+\section{References}\label{references}}
+
+\emph{References are available upon request}
+
+\end{document}

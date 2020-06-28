@@ -1,0 +1,121 @@
+---
+name: Harry Fisher
+position: "Academic Associate"
+address: "11 Thorley Cardiff"
+phone: "07716891305"
+email: "harryfisher21@gmail.com"
+github: hfshr
+date: "`r format(Sys.time(), '%B %Y')`"
+headcolor: "000088"
+output: 
+  vitae::hyndman:
+    keep_tex: TRUE
+linestretch: 1.25
+header-includes:
+  - \usepackage[none]{hyphenat}
+  - \usepackage{ragged2e}
+bibliography: refs.bib
+nocite: |
+  @Fisher2016
+citation_package: natbib
+urlcolor: blue
+---
+ 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE, cache = TRUE)
+library(vitae)
+library(rorcid)
+library(scholar)
+library(tidyverse)
+```
+
+# Profile
+
+\justify
+
+About me - Currently a statistical modeller
+
+# Key skills and Attributes
+
+__Data science | Predictive modelling | R | Python | Spark | Interactive dashboards | Adaptable | Driven | Problem solving__
+
+# Education
+
+```{r education}
+
+tribble(
+  ~year, ~degree, ~institution,
+  "2016 - 2019", "Ph.D.", "Cardiff Metropolitan University",
+  "2013 - 2015", "M.Sc", "University of Wyoming",
+  "2011 - 2013", "B.Sc.(Hons)", "Cardiff Metropolitan University"
+  ) %>%
+  detailed_entries(degree, year, where = institution)
+```
+
+
+# Skills developed from Ph.D.
+
+- Substantial experience using R and R Markdown (self taught) to run complex statistical models and produce high quality technical documents throughout my Ph.D.
+- Proficient in a number of data cleaning, wrangling and visualisation techniques using a wide variety of methods in R.
+- Strong statistical knowledge using several different techniques including Bayesian multilevel modelling, generalised linear models and probabilistic network analysis.
+- Experience using the CARET (Kuhn et al., 2018) package in R for fitting random forests and naive Bayes classifiers as part of exploratory data analysis for my Ph.D. results.
+- Basic understanding of key libraries in python including NumPy, Pandas and BeautifulSoup as well as using R package sparklyr for accessing Apache Spark to work with large data sets.
+- Experience using GIT and Github for my own version control during my Ph.D. write-up and for sharing reports with my supervisory team.
+- Collaboration with other Ph.D. students to work on research projects involving large datasets of rugby injuries, requiring a high level of communication and effective team work to ensure timely data analysis and dissemination of results.
+- Strong ability to plan and work independently, while remaining flexible to honour other commitments such as coaching and voluntary work.
+
+# Employment
+
+```{r employment}
+
+tribble(
+  ~year, ~role, ~loc,
+  "2016 - Current", "Academic Associate", "Cardiff Metropolitan University",
+  "2017-2018", "Sports Science Support", "Sport Wales (Voluntary role)",
+  "2015 - 2016", "Athletics Coach", "Cardiff Metropolitan University"
+) %>% 
+  detailed_entries(year, what = role, where = loc)
+
+```
+
+
+# Skills developed from employment
+
+- My role as an academic associate included:
+
+    - Planning and delivery of lead lectures and seminars for first and second year students.
+    - Administrative roles including marking coursework and examinations.
+    - Collaboration with the module leader to ensure high standards of teaching were met, maintaining high levels of student satisfaction on the modules which I was responsible for.
+    
+- My voluntary role with Sport Wales included: 
+
+     - Collaboration with several members of the sport science support team to record, analyse and disseminate data to relevant parties on athletes' performance and injury status in a timely manner. 
+     - Critically review the information that was available and use it to inform future training or competition. 
+     - Tailor the delivery of results to suit the audience (e.g., some coaches preferred a simple report with only the key findings, whereas others preferred a detailed analysis of all relevant data). 
+
+# Achievements
+
+- Secured funding for my Ph.D. through the highly competitive Research Innovation Award at Cardiff Metropolitan University (2016).
+
+# Projects on Github
+
+- Interactive dashboard for visualising athletics results: \textcolor{blue}{https://bit.ly/2KbpTdu}
+- Summary of Ph.D. study using Bayesian Networks:\textcolor{blue}{https://bit.ly/31aqkM1}
+- Discussion of analysis techniques considered in Ph.D.:\textcolor{blue}{https://bit.ly/316nDuy}
+
+# Publications 
+```{r}
+scholar::get_publications("4_dgVaIAAAAJ&hl")%>% 
+  head(1) %>% 
+  detailed_entries(
+    what = title,
+    when = year,
+    with = author,
+    where = glue::glue("{`journal`}, {`number`}")
+  )
+```
+
+# References
+
+_References are available upon request_
+
