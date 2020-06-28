@@ -9,10 +9,10 @@
 
 <div class="sidebar-section custom">
   <h3>Search the blog</h3>
-  <form action="https://google.com">
-    <input type="text" name="q" placeholder="Search...">
-    <input type="hidden" name="sites" 
-      value="https://hfshr.netlify.app/"> 
-    <!--<button type="submit">Search</button>-->
+  <form action="https://www.google.com/search" class="searchform" method="get" name="searchform" target="_blank">
+    <input autocomplete="on" class="form-control search" name="q" placeholder="Search..." required="required"  type="text">
+    <input type="hidden" name="searchsite" value="https://hfshr.netlify.app/"> 
+    <button class="button" type="submit">Search</button>
   </form>
 </div>
+
