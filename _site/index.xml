@@ -98,7 +98,7 @@ model = xgb_load_model(raw)
 
 # check to see if model loaded
 model&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;&amp;lt;xgboost.core.Booster object at 0x11cf15828&amp;gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;xgboost.core.Booster object at 0x11d743828&amp;gt;&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;To check the model is working and can generate predictions we can do:&lt;/p&gt;
 &lt;pre class="python"&gt;&lt;code&gt;# create some mock data
 input_variables = pd.DataFrame([[40, 20, 150]],
