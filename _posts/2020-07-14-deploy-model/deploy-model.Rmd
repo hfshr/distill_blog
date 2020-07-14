@@ -1,0 +1,374 @@
+---
+title: "Build with R, deploy with Python (and Heroku)"
+description: |
+  This post looks at a cross-language approach to model deployment - something that may come in useful when working within a large data science / production environment. 
+author:
+  - name: Harry Fisher
+    url: https://hfshr.netlify.app/
+date: 07-14-2020
+preview: preview.png
+output:
+  distill::distill_article:
+    self_contained: false
+draft: false    
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+After going through many iterations of building, evaluating and refining a model, eventually the time may come to put that model into production. There are many options when it comes to deployment - in R, `shiny` and `plumbr` come to mind - However, in this post I wanted to see if it was possible to build a model in R, but deploy it using a python framework, specifically as a web app using `flask`. 
+I also wanted to try and make the app available by using [Heroku](https://www.heroku.com/what). 
+Why you might ask? Good question! Not sure how useful this workflow is, but it was good fun getting it to work!
+
+(You can see the final app in action here: https://penguin-model.herokuapp.com/)
+
+## Building the model
+
+The code below builds a _very_ simple model that we'll use for deployment. 
+This model attempts to predict the gender of a penguin based on bill length, bill depth and flipper length (data from the `penguins` package). 
+You can imagine this model is going to be used on the local zoo's website to make it more realistic (maybe)... 
+
+```{r message=FALSE, eval=F}
+library(palmerpenguins)
+library(xgboost)
+library(tidymodels)
+library(tidyverse)
+library(reticulate)
+
+# feature engineering 
+penguins <- penguins %>% 
+  select(7, 3:5) %>% 
+  drop_na() %>% 
+  mutate(sex = ifelse(sex == "female", 1, 0))
+
+# training / testing split
+split <- initial_split(penguins, prop = .75)
+train <- training(split)
+test <- testing(split)
+
+# convert to xgboost model matrix
+dtrain = xgb.DMatrix(data = as.matrix(train[,-1]), label = as.matrix(train$sex))
+dtest = xgb.DMatrix(data = as.matrix(test[,-1]), label = as.matrix(test$sex))
+
+# fit model
+xgb <- xgb.train(data = dtrain, 
+                nrounds = 500, 
+                params = list(objective = "binary:logistic",
+                              eval_metric = "auc"),
+                verbose = 0,
+                watchlist = list(eval = dtest))
+
+# predictions
+preds <- tibble(.pred_female = predict(xgb, as.matrix(test[,-1]))) %>% 
+  bind_cols(test[,1], .) %>% 
+  mutate(sex = factor(sex, levels = c(1,0), labels = c("female", "male")))
+
+# evaluation
+eval <- metric_set(roc_auc, gain_capture)
+eval(preds, sex, .pred_female)
+
+```
+
+Next we will save the xgboost model object using the `xgb.save` function from `xgboost`. 
+
+```{r eval=F}
+# save model object
+xgboost::xgb.save(xgb, "xgmod.model")
+```
+
+
+With the model saved, we can now load it into python. Due to an issue with the python implementation of xgboost to load models from bytestring (see here: https://github.com/dmlc/xgboost/issues/3013), we have to use a workaround by defining the following function:
+
+```{python}
+import ctypes
+import xgboost
+import xgboost.core
+import pandas as pd
+
+def xgb_load_model(buf):
+    if isinstance(buf, str):
+        buf = buf.encode()
+    bst = xgboost.core.Booster()
+    n = len(buf)
+    length = xgboost.core.c_bst_ulong(n)
+    ptr = (ctypes.c_char * n).from_buffer_copy(buf)
+    xgboost.core._check_call(
+        xgboost.core._LIB.XGBoosterLoadModelFromBuffer(bst.handle, ptr, length)
+    ) 
+    return bst
+```
+
+We can now read in the xgboost model we created in R into python.
+
+```{python}
+with open('xgmod.model','rb') as f:
+    raw = f.read()
+
+model = xgb_load_model(raw)
+
+# check to see if model loaded
+model
+
+```
+
+To check the model is working and can generate predictions we can do:
+
+```{python}
+# create some mock data
+input_variables = pd.DataFrame([[40, 20, 150]],
+                                columns=['bill_length_mm', 'bill_depth_mm', 'flipper_length_mm'], 
+                                dtype=float)
+                                
+                                
+# convert test datat to xgboost matrix
+
+xgtest = xgboost.DMatrix(input_variables.values)
+
+# predict
+prediction = model.predict(xgtest)[0]
+
+print(prediction)
+```
+
+Looks good!
+
+## Setting up deploment
+
+So far we have created a model in R and loaded it to python and checked it works. So far so good. Next we can start to prepare for deployment. 
+
+For deployment, we will use `flask` to create a simple web app that lets users change the input values (bill length, bill width and flipper length) and returns the predicted probability of whether the penguin is female. 
+
+First, we will create a directory called "penguin-app" with a few sub directories. 
+
+```{r}
+library(fs)
+dir_create("penguin-app")
+dir_create("penguin-app/templates")
+dir_create("penguin-app/model")
+
+```
+
+
+Next, the python script below will define how the app works. This should be saved as app.py within the penguin-model directory.
+
+```{python, eval = FALSE}
+
+import flask
+import ctypes
+import xgboost
+import xgboost.core
+import pandas as pd
+
+# function to load R model into python
+def xgb_load_model(buf):
+    if isinstance(buf, str):
+        buf = buf.encode()
+    bst = xgboost.core.Booster()
+    n = len(buf)
+    length = xgboost.core.c_bst_ulong(n)
+    ptr = (ctypes.c_char * n).from_buffer_copy(buf)
+    xgboost.core._check_call(
+        xgboost.core._LIB.XGBoosterLoadModelFromBuffer(bst.handle, ptr, length)
+    )  # segfault
+    return bst
+
+with open('model/xgmod.model','rb') as f:
+    raw = f.read()
+
+model = xgb_load_model(raw)
+
+# define the app
+
+app = flask.Flask(__name__, template_folder='templates')
+
+@app.route('/', methods=['GET', 'POST'])
+
+def main():
+    if flask.request.method == 'GET':
+      return(flask.render_template('main.html'))
+
+    if flask.request.method == 'POST':
+      bill_length_mm = flask.request.form['bill_length_mm']
+      bill_depth_mm = flask.request.form['bill_depth_mm']
+      flipper_length_mm = flask.request.form['flipper_length_mm']
+      
+      input_variables = pd.DataFrame([[bill_length_mm, 
+                                       bill_depth_mm, 
+                                       flipper_length_mm]],
+                                      columns=['bill_length_mm', 
+                                               'bill_depth_mm', 
+                                               'flipper_length_mm'], dtype=float) 
+      
+      xgtest = xgboost.DMatrix(input_variables.values)
+      
+      prediction = round(model.predict(xgtest)[0], 7)
+        
+      return flask.render_template('main.html', 
+                                   original_input={'Bill length': bill_length_mm,
+                                                   'Bill depth': bill_depth_mm,
+                                               'Flipper length': flipper_length_mm},
+                                   result=prediction,)
+    
+if __name__ == '__main__':
+    app.run()
+
+```
+
+
+The code below is the template for our app. It includes some very simple css for style, javascript for some slider inputs to change the vales of the variables and a simple text box to output the results. This should be saved as main.html and put in the templates folder.
+
+```{r eval=F}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"</script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <script type="text/javascript">
+        function updateLengthInput(val) {
+                  document.getElementById('lengthInput').value=val; 
+                }
+        function updateDepthInput(val) {
+                  document.getElementById('depthInput').value=val; 
+                }
+        function updateFlipperInput(val) {
+                  document.getElementById('flipperInput').value=val; 
+                }
+
+  </script>
+    
+  <style>
+        form {
+            margin: auto;
+            width: 40%;
+        }
+        
+        .result {
+            margin: auto;
+            width: 40%;
+            border: 1px solid #ccc;
+        }
+  </style>
+  
+  
+  <title>Penguin model</title>
+  
+</head>
+<body>
+  <form action="{{ url_for('main') }}" method="POST">
+    <fieldset>
+        <legend>Input values:</legend>
+        Bill length (mm):
+        <input name="bill_length_mm" id="bill" type="range" min="30" max="60"
+        onchange="updateLengthInput(this.value);" required>
+        <input type="text" id="lengthInput" value="45">
+        <br>
+        <br> Bill depth (mm):
+        <input name="bill_depth_mm" type="range" min="10" max="25"
+        
+        onchange="updateDepthInput(this.value);" required>
+        <input type="text" id="depthInput" value="17">
+        <br>
+        <br> Flipper length (mm):
+        <input name="flipper_length_mm" type="range" min="170" max="240"
+        onchange="updateFlipperInput(this.value);" required>
+        <input type="text" id="flipperInput" value="200">
+        <br>
+        <br>
+        <div style="text-align:center">  
+        <input type="submit" />  
+        </div> 
+    </fieldset>
+</form>
+<br>
+<br>
+<div class="result" align="center">
+    {% if result %}
+        {% for variable, value in original_input.items() %}
+            <b>{{ variable }}</b> : {{ value }}
+        {% endfor %}
+        <br>
+        <br> Probability of female penguin:
+           <p style="font-size:50px">{{ result }}</p>
+    {% endif %}
+</div>  
+</body>
+</html>
+```
+
+We also need to move the saved model to the model directory. In the terminal we can use:
+
+`mv xgmod.model penguin-app/model/`
+
+At this stage, it is useful to check if everything is working locally. To do this we can use `flask run` inside the penguin-app directory. This should make the app available at localhost:5000 which you can check in a browser.
+
+## Final preparations 
+
+There are a few minor steps left before we can complete deployment to Heroku and make this ~~really useful~~ model available to the world.
+
+First, the following is needed:
+
+1. A Heroku account,
+2. The Heroku CLI tool 
+3. git 
+
+We also need to create the following files in the webapp directory:
+
+Procfile - This tells Heroku the type of app we are using and how to serve it to users. 
+
+```{r eval=F}
+
+web: gunicorn app:app
+
+```
+
+Requirements.txt - This tells Heroku what packages need to be installed within your app
+
+```{r eval=F}
+flask
+pandas
+gunicorn
+xgboost
+```
+
+After running all the steps so far, the final directory structure should look like this:
+
+```{r}
+dir_tree("penguin-app")
+```
+
+## Deploy!
+
+We are now ready to deploy the model. Over in the terminal, cd into the penguin-app directory (if not already there) and run:
+
+- `git init`: to initialise the git repo in the directory
+
+- `heroku login`: this should open a web browser for you to log into your Heroku account 
+
+- `heroku create penguin-model`: To create our aptly named (pun intended) penguin-model app.
+
+Now we can add the contents of our app and push to heroku:
+
+- `git add .`
+
+- `git commit -m "First deployment"`
+
+- `heroku git:remote -a penguin-model`
+
+- `git push heroku master`
+
+ 
+If all goes to plan, that should result in a successful deployment! You can see the live app here: https://penguin-model.herokuapp.com/
+
+## Summary
+
+So that was a very quick tour of a cross-language model deployment. It was good fun getting each of these elements to work, and quite satisfying to see the final product. 
+Furthermore, it was possible to get all of this woprking without ever leaving the comfort of RStudio - which is always a bonus!
+This post was heavily inspired [this post](https://blog.cambridgespark.com/deploying-a-machine-learning-model-to-the-web-725688b851c7), which provides a great introduction to the python/heroku side of deployment, and well worth a read if you're interested.
+
+Thanks for reading!

@@ -7,7 +7,371 @@
     <description>My Blog
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>Sun, 21 Jun 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 13 Jul 2020 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Build with R, deploy with Python (and Heroku)</title>
+      <dc:creator>Harry Fisher</dc:creator>
+      <link>https://hfshr.netlify.app/posts/2020-07-14-deploy-model</link>
+      <description>
+
+
+&lt;div class="container-fluid main-container"&gt;
+
+
+
+
+&lt;div class="fluid-row" id="header"&gt;
+
+
+
+
+&lt;/div&gt;
+
+
+&lt;p&gt;After going through many iterations of building, evaluating and refining a model, eventually the time may come to put that model into production. There are many options when it comes to deployment - in R, &lt;code&gt;shiny&lt;/code&gt; and &lt;code&gt;plumbr&lt;/code&gt; come to mind - However, in this post I wanted to see if it was possible to build a model in R, but deploy it using a python framework, specifically as a web app using &lt;code&gt;flask&lt;/code&gt;. I also wanted to try and make the app available by using &lt;a href="https://www.heroku.com/what"&gt;Heroku&lt;/a&gt;. Why you might ask? Good question! Not sure how useful this workflow is, but it was good fun getting it to work!&lt;/p&gt;
+&lt;p&gt;(You can see the final app in action here: &lt;a href="https://penguin-model.herokuapp.com/" class="uri"&gt;https://penguin-model.herokuapp.com/&lt;/a&gt;)&lt;/p&gt;
+&lt;div id="building-the-model" class="section level2"&gt;
+&lt;h2&gt;Building the model&lt;/h2&gt;
+&lt;p&gt;The code below builds a &lt;em&gt;very&lt;/em&gt; simple model that we’ll use for deployment. This model attempts to predict the gender of a penguin based on bill length, bill depth and flipper length (data from the &lt;code&gt;penguins&lt;/code&gt; package). You can imagine this model is going to be used on the local zoo’s website to make it more realistic (maybe)…&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;library(palmerpenguins)
+library(xgboost)
+library(tidymodels)
+library(tidyverse)
+library(reticulate)
+
+# feature engineering 
+penguins &amp;lt;- penguins %&amp;gt;% 
+  select(7, 3:5) %&amp;gt;% 
+  drop_na() %&amp;gt;% 
+  mutate(sex = ifelse(sex == &amp;quot;female&amp;quot;, 1, 0))
+
+# training / testing split
+split &amp;lt;- initial_split(penguins, prop = .75)
+train &amp;lt;- training(split)
+test &amp;lt;- testing(split)
+
+# convert to xgboost model matrix
+dtrain = xgb.DMatrix(data = as.matrix(train[,-1]), label = as.matrix(train$sex))
+dtest = xgb.DMatrix(data = as.matrix(test[,-1]), label = as.matrix(test$sex))
+
+# fit model
+xgb &amp;lt;- xgb.train(data = dtrain, 
+                nrounds = 500, 
+                params = list(objective = &amp;quot;binary:logistic&amp;quot;,
+                              eval_metric = &amp;quot;auc&amp;quot;),
+                verbose = 0,
+                watchlist = list(eval = dtest))
+
+# predictions
+preds &amp;lt;- tibble(.pred_female = predict(xgb, as.matrix(test[,-1]))) %&amp;gt;% 
+  bind_cols(test[,1], .) %&amp;gt;% 
+  mutate(sex = factor(sex, levels = c(1,0), labels = c(&amp;quot;female&amp;quot;, &amp;quot;male&amp;quot;)))
+
+# evaluation
+eval &amp;lt;- metric_set(roc_auc, gain_capture)
+eval(preds, sex, .pred_female)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Next we will save the xgboost model object using the &lt;code&gt;xgb.save&lt;/code&gt; function from &lt;code&gt;xgboost&lt;/code&gt;.&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;# save model object
+xgboost::xgb.save(xgb, &amp;quot;xgmod.model&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;With the model saved, we can now load it into python. Due to an issue with the python implementation of xgboost to load models from bytestring (see here: &lt;a href="https://github.com/dmlc/xgboost/issues/3013" class="uri"&gt;https://github.com/dmlc/xgboost/issues/3013&lt;/a&gt;), we have to use a workaround by defining the following function:&lt;/p&gt;
+&lt;pre class="python"&gt;&lt;code&gt;import ctypes
+import xgboost
+import xgboost.core
+import pandas as pd
+
+def xgb_load_model(buf):
+    if isinstance(buf, str):
+        buf = buf.encode()
+    bst = xgboost.core.Booster()
+    n = len(buf)
+    length = xgboost.core.c_bst_ulong(n)
+    ptr = (ctypes.c_char * n).from_buffer_copy(buf)
+    xgboost.core._check_call(
+        xgboost.core._LIB.XGBoosterLoadModelFromBuffer(bst.handle, ptr, length)
+    ) 
+    return bst&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We can now read in the xgboost model we created in R into python.&lt;/p&gt;
+&lt;pre class="python"&gt;&lt;code&gt;with open(&amp;#39;xgmod.model&amp;#39;,&amp;#39;rb&amp;#39;) as f:
+    raw = f.read()
+
+model = xgb_load_model(raw)
+
+# check to see if model loaded
+model&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;xgboost.core.Booster object at 0x11cf15828&amp;gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;To check the model is working and can generate predictions we can do:&lt;/p&gt;
+&lt;pre class="python"&gt;&lt;code&gt;# create some mock data
+input_variables = pd.DataFrame([[40, 20, 150]],
+                                columns=[&amp;#39;bill_length_mm&amp;#39;, &amp;#39;bill_depth_mm&amp;#39;, &amp;#39;flipper_length_mm&amp;#39;], 
+                                dtype=float)
+                                
+                                
+# convert test datat to xgboost matrix
+
+xgtest = xgboost.DMatrix(input_variables.values)
+
+# predict
+prediction = model.predict(xgtest)[0]
+
+print(prediction)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;0.003251487&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Looks good!&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id="setting-up-deploment" class="section level2"&gt;
+&lt;h2&gt;Setting up deploment&lt;/h2&gt;
+&lt;p&gt;So far we have created a model in R and loaded it to python and checked it works. So far so good. Next we can start to prepare for deployment.&lt;/p&gt;
+&lt;p&gt;For deployment, we will use &lt;code&gt;flask&lt;/code&gt; to create a simple web app that lets users change the input values (bill length, bill width and flipper length) and returns the predicted probability of whether the penguin is female.&lt;/p&gt;
+&lt;p&gt;First, we will create a directory called “penguin-app” with a few sub directories.&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;library(fs)
+dir_create(&amp;quot;penguin-app&amp;quot;)
+dir_create(&amp;quot;penguin-app/templates&amp;quot;)
+dir_create(&amp;quot;penguin-app/model&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Next, the python script below will define how the app works. This should be saved as app.py within the penguin-model directory.&lt;/p&gt;
+&lt;pre class="python"&gt;&lt;code&gt;import flask
+import ctypes
+import xgboost
+import xgboost.core
+import pandas as pd
+
+# function to load R model into python
+def xgb_load_model(buf):
+    if isinstance(buf, str):
+        buf = buf.encode()
+    bst = xgboost.core.Booster()
+    n = len(buf)
+    length = xgboost.core.c_bst_ulong(n)
+    ptr = (ctypes.c_char * n).from_buffer_copy(buf)
+    xgboost.core._check_call(
+        xgboost.core._LIB.XGBoosterLoadModelFromBuffer(bst.handle, ptr, length)
+    )  # segfault
+    return bst
+
+with open(&amp;#39;model/xgmod.model&amp;#39;,&amp;#39;rb&amp;#39;) as f:
+    raw = f.read()
+
+model = xgb_load_model(raw)
+
+# define the app
+
+app = flask.Flask(__name__, template_folder=&amp;#39;templates&amp;#39;)
+
+@app.route(&amp;#39;/&amp;#39;, methods=[&amp;#39;GET&amp;#39;, &amp;#39;POST&amp;#39;])
+
+def main():
+    if flask.request.method == &amp;#39;GET&amp;#39;:
+      return(flask.render_template(&amp;#39;main.html&amp;#39;))
+
+    if flask.request.method == &amp;#39;POST&amp;#39;:
+      bill_length_mm = flask.request.form[&amp;#39;bill_length_mm&amp;#39;]
+      bill_depth_mm = flask.request.form[&amp;#39;bill_depth_mm&amp;#39;]
+      flipper_length_mm = flask.request.form[&amp;#39;flipper_length_mm&amp;#39;]
+      
+      input_variables = pd.DataFrame([[bill_length_mm, 
+                                       bill_depth_mm, 
+                                       flipper_length_mm]],
+                                      columns=[&amp;#39;bill_length_mm&amp;#39;, 
+                                               &amp;#39;bill_depth_mm&amp;#39;, 
+                                               &amp;#39;flipper_length_mm&amp;#39;], dtype=float) 
+      
+      xgtest = xgboost.DMatrix(input_variables.values)
+      
+      prediction = round(model.predict(xgtest)[0], 7)
+        
+      return flask.render_template(&amp;#39;main.html&amp;#39;, 
+                                   original_input={&amp;#39;Bill length&amp;#39;: bill_length_mm,
+                                                   &amp;#39;Bill depth&amp;#39;: bill_depth_mm,
+                                               &amp;#39;Flipper length&amp;#39;: flipper_length_mm},
+                                   result=prediction,)
+    
+if __name__ == &amp;#39;__main__&amp;#39;:
+    app.run()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The code below is the template for our app. It includes some very simple css for style, javascript for some slider inputs to change the vales of the variables and a simple text box to output the results. This should be saved as main.html and put in the templates folder.&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;&amp;lt;!DOCTYPE html&amp;gt;
+&amp;lt;html lang=&amp;quot;en&amp;quot;&amp;gt;
+&amp;lt;head&amp;gt;
+    &amp;lt;link rel=&amp;quot;stylesheet&amp;quot; href=&amp;quot;https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css&amp;quot;&amp;gt;
+    &amp;lt;script src=&amp;quot;https://code.jquery.com/jquery-3.2.1.slim.min.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
+    &amp;lt;script src=&amp;quot;https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js&amp;quot;&amp;lt;/script&amp;gt;
+    &amp;lt;script src=&amp;quot;https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js&amp;quot;&amp;lt;/script&amp;gt;
+    &amp;lt;meta charset=&amp;quot;UTF-8&amp;quot;&amp;gt;
+    &amp;lt;meta name=&amp;quot;viewport&amp;quot; content=&amp;quot;width=device-width, initial-scale=1.0&amp;quot;&amp;gt;
+  
+  &amp;lt;script type=&amp;quot;text/javascript&amp;quot;&amp;gt;
+        function updateLengthInput(val) {
+                  document.getElementById(&amp;#39;lengthInput&amp;#39;).value=val; 
+                }
+        function updateDepthInput(val) {
+                  document.getElementById(&amp;#39;depthInput&amp;#39;).value=val; 
+                }
+        function updateFlipperInput(val) {
+                  document.getElementById(&amp;#39;flipperInput&amp;#39;).value=val; 
+                }
+
+  &amp;lt;/script&amp;gt;
+    
+  &amp;lt;style&amp;gt;
+        form {
+            margin: auto;
+            width: 40%;
+        }
+        
+        .result {
+            margin: auto;
+            width: 40%;
+            border: 1px solid #ccc;
+        }
+  &amp;lt;/style&amp;gt;
+  
+  
+  &amp;lt;title&amp;gt;Penguin model&amp;lt;/title&amp;gt;
+  
+&amp;lt;/head&amp;gt;
+&amp;lt;body&amp;gt;
+  &amp;lt;form action=&amp;quot;{{ url_for(&amp;#39;main&amp;#39;) }}&amp;quot; method=&amp;quot;POST&amp;quot;&amp;gt;
+    &amp;lt;fieldset&amp;gt;
+        &amp;lt;legend&amp;gt;Input values:&amp;lt;/legend&amp;gt;
+        Bill length (mm):
+        &amp;lt;input name=&amp;quot;bill_length_mm&amp;quot; id=&amp;quot;bill&amp;quot; type=&amp;quot;range&amp;quot; min=&amp;quot;30&amp;quot; max=&amp;quot;60&amp;quot;
+        onchange=&amp;quot;updateLengthInput(this.value);&amp;quot; required&amp;gt;
+        &amp;lt;input type=&amp;quot;text&amp;quot; id=&amp;quot;lengthInput&amp;quot; value=&amp;quot;45&amp;quot;&amp;gt;
+        &amp;lt;br&amp;gt;
+        &amp;lt;br&amp;gt; Bill depth (mm):
+        &amp;lt;input name=&amp;quot;bill_depth_mm&amp;quot; type=&amp;quot;range&amp;quot; min=&amp;quot;10&amp;quot; max=&amp;quot;25&amp;quot;
+        
+        onchange=&amp;quot;updateDepthInput(this.value);&amp;quot; required&amp;gt;
+        &amp;lt;input type=&amp;quot;text&amp;quot; id=&amp;quot;depthInput&amp;quot; value=&amp;quot;17&amp;quot;&amp;gt;
+        &amp;lt;br&amp;gt;
+        &amp;lt;br&amp;gt; Flipper length (mm):
+        &amp;lt;input name=&amp;quot;flipper_length_mm&amp;quot; type=&amp;quot;range&amp;quot; min=&amp;quot;170&amp;quot; max=&amp;quot;240&amp;quot;
+        onchange=&amp;quot;updateFlipperInput(this.value);&amp;quot; required&amp;gt;
+        &amp;lt;input type=&amp;quot;text&amp;quot; id=&amp;quot;flipperInput&amp;quot; value=&amp;quot;200&amp;quot;&amp;gt;
+        &amp;lt;br&amp;gt;
+        &amp;lt;br&amp;gt;
+        &amp;lt;div style=&amp;quot;text-align:center&amp;quot;&amp;gt;  
+        &amp;lt;input type=&amp;quot;submit&amp;quot; /&amp;gt;  
+        &amp;lt;/div&amp;gt; 
+    &amp;lt;/fieldset&amp;gt;
+&amp;lt;/form&amp;gt;
+&amp;lt;br&amp;gt;
+&amp;lt;br&amp;gt;
+&amp;lt;div class=&amp;quot;result&amp;quot; align=&amp;quot;center&amp;quot;&amp;gt;
+    {% if result %}
+        {% for variable, value in original_input.items() %}
+            &amp;lt;b&amp;gt;{{ variable }}&amp;lt;/b&amp;gt; : {{ value }}
+        {% endfor %}
+        &amp;lt;br&amp;gt;
+        &amp;lt;br&amp;gt; Probability of female penguin:
+           &amp;lt;p style=&amp;quot;font-size:50px&amp;quot;&amp;gt;{{ result }}&amp;lt;/p&amp;gt;
+    {% endif %}
+&amp;lt;/div&amp;gt;  
+&amp;lt;/body&amp;gt;
+&amp;lt;/html&amp;gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We also need to move the saved model to the model directory. In the terminal we can use:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;mv xgmod.model penguin-app/model/&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;At this stage, it is useful to check if everything is working locally. To do this we can use &lt;code&gt;flask run&lt;/code&gt; inside the penguin-app directory. This should make the app available at localhost:5000 which you can check in a browser.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id="final-preparations" class="section level2"&gt;
+&lt;h2&gt;Final preparations&lt;/h2&gt;
+&lt;p&gt;There are a few minor steps left before we can complete deployment to Heroku and make this &lt;del&gt;really useful&lt;/del&gt; model available to the world.&lt;/p&gt;
+&lt;p&gt;First, the following is needed:&lt;/p&gt;
+&lt;ol style="list-style-type: decimal"&gt;
+&lt;li&gt;A Heroku account,&lt;/li&gt;
+&lt;li&gt;The Heroku CLI tool&lt;/li&gt;
+&lt;li&gt;git&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;We also need to create the following files in the webapp directory:&lt;/p&gt;
+&lt;p&gt;Procfile - This tells Heroku the type of app we are using and how to serve it to users.&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;web: gunicorn app:app&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Requirements.txt - This tells Heroku what packages need to be installed within your app&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;flask
+pandas
+gunicorn
+xgboost&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;After running all the steps so far, the final directory structure should look like this:&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;dir_tree(&amp;quot;penguin-app&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;penguin-app
+├── Procfile
+├── app.py
+├── model
+│   └── xgmod.model
+├── requirements.txt
+└── templates
+    └── main.html&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id="deploy" class="section level2"&gt;
+&lt;h2&gt;Deploy!&lt;/h2&gt;
+&lt;p&gt;We are now ready to deploy the model. Over in the terminal, cd into the penguin-app directory (if not already there) and run:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;git init&lt;/code&gt;: to initialise the git repo in the directory&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;heroku login&lt;/code&gt;: this should open a web browser for you to log into your Heroku account&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;heroku create penguin-model&lt;/code&gt;: To create our aptly named (pun intended) penguin-model app.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Now we can add the contents of our app and push to heroku:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;git add .&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;git commit -m "First deployment"&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;heroku git:remote -a penguin-model&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;git push heroku master&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;If all goes to plan, that should result in a successful deployment! You can see the live app here: &lt;a href="https://penguin-model.herokuapp.com/" class="uri"&gt;https://penguin-model.herokuapp.com/&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id="summary" class="section level2"&gt;
+&lt;h2&gt;Summary&lt;/h2&gt;
+&lt;p&gt;So that was a very quick tour of a cross-language model deployment. It was good fun getting each of these elements to work, and quite satisfying to see the final product. Furthermore, it was possible to get all of this woprking without ever leaving the comfort of RStudio - which is always a bonus! This post was heavily inspired &lt;a href="https://blog.cambridgespark.com/deploying-a-machine-learning-model-to-the-web-725688b851c7"&gt;this post&lt;/a&gt;, which provides a great introduction to the python/heroku side of deployment, and well worth a read if you’re interested.&lt;/p&gt;
+&lt;p&gt;Thanks for reading!&lt;/p&gt;
+&lt;/div&gt;
+
+
+
+
+&lt;/div&gt;
+
+&lt;script&gt;
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+&lt;/script&gt;
+
+&lt;!-- tabsets --&gt;
+
+&lt;script&gt;
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown &gt; .nav-tabs &gt; li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+&lt;/script&gt;
+
+&lt;!-- code folding --&gt;
+
+
+&lt;!-- dynamically load mathjax for compatibility with self-contained --&gt;
+&lt;script&gt;
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+&lt;/script&gt;
+
+</description>
+      <distill:md5>1e8ae168811735ee4a2aff71cc4e61e9</distill:md5>
+      <guid>https://hfshr.netlify.app/posts/2020-07-14-deploy-model</guid>
+      <pubDate>Mon, 13 Jul 2020 00:00:00 +0000</pubDate>
+      <media:content url="https://hfshr.netlify.app/posts/2020-07-14-deploy-model/preview.png" medium="image" type="image/png" width="877" height="287"/>
+    </item>
     <item>
       <title>Penguins and nakedpipes</title>
       <dc:creator>Harry Fisher</dc:creator>
