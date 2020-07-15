@@ -67,7 +67,7 @@
 <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["deploy-model_files/bowser-1.9.3/bowser.min.js","deploy-model_files/distill-2.2.21/template.v2.js","deploy-model_files/header-attrs-2.2/header-attrs.js","deploy-model_files/jquery-1.11.3/jquery.min.js","deploy-model_files/webcomponents-2.0.0/webcomponents.js","penguin-app/app.py","penguin-app/model/xgmod.model","penguin-app/Procfile","penguin-app/requirements.txt","penguin-app/templates/main.html","preview.png","xgmod.model"]}
+  {"type":"character","attributes":{},"value":["deploy-model_files/bowser-1.9.3/bowser.min.js","deploy-model_files/distill-2.2.21/template.v2.js","deploy-model_files/header-attrs-2.2/header-attrs.js","deploy-model_files/jquery-1.11.3/jquery.min.js","deploy-model_files/webcomponents-2.0.0/webcomponents.js","preview.png","xgmod.model"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
 
@@ -1413,6 +1413,7 @@ code {
 <div class="nav-right">
 <a href="../../index.html">Home</a>
 <a href="../../about.html">About</a>
+<a href="../../data/cv/cv_main.pdf">CV</a>
 <a href="https://github.com/hfshr/distill_blog">
 <i class="fab fa-github" aria-hidden="true"></i>
 </a>
@@ -1520,7 +1521,7 @@ model = xgb_load_model(raw)
 # check to see if model loaded
 model</code></pre>
 <pre><code>
-&lt;xgboost.core.Booster object at 0x112f99898&gt;</code></pre>
+&lt;xgboost.core.Booster object at 0x11bd7d898&gt;</code></pre>
 </div>
 <p>To check the model is working and can generate predictions we can do:</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -1546,13 +1547,12 @@ print(prediction)</code></pre>
 <h2 id="setting-up-deploment">Setting up deploment</h2>
 <p>So far we have created a model in R and loaded it to python and checked it works. So far so good. Next we can start to prepare for deployment.</p>
 <p>For deployment, we will use <code>flask</code> to create a simple web app that lets users change the input values (bill length, bill width and flipper length) and returns the predicted probability of whether the penguin is female.</p>
-<p>First, we will create a directory called “penguin-app” with a few sub directories.</p>
+<p>First, we will create a directory called “penguin-app” with a few sub directories. You can create this anywhere, but I’ve gone for my home directory desktop.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-library(fs)
-dir_create(&quot;penguin-app&quot;)
-dir_create(&quot;penguin-app/templates&quot;)
-dir_create(&quot;penguin-app/model&quot;)</code></pre>
+dir_create(&quot;~/Desktop/penguin-app&quot;)
+dir_create(&quot;~/Desktop/penguin-app/templates&quot;)
+dir_create(&quot;~/Desktop/penguin-app/model&quot;)</code></pre>
 </div>
 <p>Next, the python script below will define how the app works. This should be saved as app.py within the penguin-model directory.</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -1728,9 +1728,9 @@ xgboost</code></pre>
 <p>After running all the steps so far, the final directory structure should look like this:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-dir_tree(&quot;penguin-app&quot;)</code></pre>
+dir_tree(&quot;~/Desktop/penguin-app&quot;)</code></pre>
 <pre><code>
-penguin-app
+~/Desktop/penguin-app
 ├── Procfile
 ├── app.py
 ├── model
