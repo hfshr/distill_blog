@@ -1,0 +1,1312 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+  <meta name="generator" content="distill" />
+
+  <style type="text/css">
+  /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
+  body {
+    visibility: hidden;
+  }
+  </style>
+
+ <!--radix_placeholder_import_source-->
+ <!--/radix_placeholder_import_source-->
+
+  <!--radix_placeholder_meta_tags-->
+  <title>Build with R, deploy with Python (and Heroku)</title>
+
+  <meta property="description" itemprop="description" content="This post looks at a cross-language approach to model deployment - something that may come in useful when working within a large data science / production environment."/>
+
+
+  <!--  https://schema.org/Article -->
+  <meta property="article:published" itemprop="datePublished" content="2020-07-14"/>
+  <meta property="article:created" itemprop="dateCreated" content="2020-07-14"/>
+  <meta name="article:author" content="Harry Fisher"/>
+
+  <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
+  <meta property="og:title" content="Build with R, deploy with Python (and Heroku)"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:description" content="This post looks at a cross-language approach to model deployment - something that may come in useful when working within a large data science / production environment."/>
+  <meta property="og:locale" content="en_US"/>
+
+  <!--  https://dev.twitter.com/cards/types/summary -->
+  <meta property="twitter:card" content="summary"/>
+  <meta property="twitter:title" content="Build with R, deploy with Python (and Heroku)"/>
+  <meta property="twitter:description" content="This post looks at a cross-language approach to model deployment - something that may come in useful when working within a large data science / production environment."/>
+
+  <!--/radix_placeholder_meta_tags-->
+  <!--radix_placeholder_rmarkdown_metadata-->
+
+  <script type="text/json" id="radix-rmarkdown-metadata">
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","preview","output","draft"]}},"value":[{"type":"character","attributes":{},"value":["Build with R, deploy with Python (and Heroku)"]},{"type":"character","attributes":{},"value":["This post looks at a cross-language approach to model deployment - something that may come in useful when working within a large data science / production environment. \n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Harry Fisher"]},{"type":"character","attributes":{},"value":["https://hfshr.netlify.app/"]}]}]},{"type":"character","attributes":{},"value":["07-14-2020"]},{"type":"character","attributes":{},"value":["preview.png"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"logical","attributes":{},"value":[false]}]}
+  </script>
+  <!--/radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-resource-manifest">
+  {"type":"character","attributes":{},"value":["deploy-model_files/bowser-1.9.3/bowser.min.js","deploy-model_files/distill-2.2.21/template.v2.js","deploy-model_files/header-attrs-2.2/header-attrs.js","deploy-model_files/jquery-1.11.3/jquery.min.js","deploy-model_files/webcomponents-2.0.0/webcomponents.js","preview.png","xgmod.model"]}
+  </script>
+  <!--radix_placeholder_navigation_in_header-->
+  <!--/radix_placeholder_navigation_in_header-->
+  <!--radix_placeholder_distill-->
+
+  <style type="text/css">
+
+  body {
+    background-color: white;
+  }
+
+  .pandoc-table {
+    width: 100%;
+  }
+
+  .pandoc-table>caption {
+    margin-bottom: 10px;
+  }
+
+  .pandoc-table th:not([align]) {
+    text-align: left;
+  }
+
+  .pagedtable-footer {
+    font-size: 15px;
+  }
+
+  .html-widget {
+    margin-bottom: 2.0em;
+  }
+
+  .l-screen-inset {
+    padding-right: 16px;
+  }
+
+  .l-screen .caption {
+    margin-left: 10px;
+  }
+
+  .shaded {
+    background: rgb(247, 247, 247);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .shaded .html-widget {
+    margin-bottom: 0;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .shaded .shaded-content {
+    background: white;
+  }
+
+  .text-output {
+    margin-top: 0;
+    line-height: 1.5em;
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  d-article {
+    padding-bottom: 30px;
+  }
+
+  d-appendix {
+    padding-top: 30px;
+  }
+
+  d-article>p>img {
+    width: 100%;
+  }
+
+  d-article iframe {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    margin-bottom: 2.0em;
+    width: 100%;
+  }
+
+  figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+
+  /* CSS for table of contents */
+
+  .d-toc {
+    color: rgba(0,0,0,0.8);
+    font-size: 0.8em;
+    line-height: 1em;
+  }
+
+  .d-toc-header {
+    font-size: 0.6rem;
+    font-weight: 400;
+    color: rgba(0, 0, 0, 0.5);
+    text-transform: uppercase;
+    margin-top: 0;
+    margin-bottom: 1.3em;
+  }
+
+  .d-toc a {
+    border-bottom: none;
+  }
+
+  .d-toc ul {
+    padding-left: 0;
+  }
+
+  .d-toc li>ul {
+    padding-top: 0.8em;
+    padding-left: 16px;
+    margin-bottom: 0.6em;
+  }
+
+  .d-toc ul,
+  .d-toc li {
+    list-style-type: none;
+  }
+
+  .d-toc li {
+    margin-bottom: 0.9em;
+  }
+
+  .d-toc-separator {
+    margin-top: 20px;
+    margin-bottom: 2em;
+  }
+
+  .d-article-with-toc {
+    border-top: none;
+    padding-top: 0;
+  }
+
+
+
+  /* Tweak code blocks (note that this CSS is repeated above in an injection
+     into the d-code shadow dom) */
+
+  d-code {
+    overflow-x: auto !important;
+  }
+
+  pre.d-code code.d-code {
+    padding-left: 10px;
+    font-size: 12px;
+    border-left: 2px solid rgba(0,0,0,0.1);
+  }
+
+  pre.text-output {
+
+    font-size: 12px;
+    color: black;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+
+  @media(min-width: 768px) {
+
+  d-code {
+    overflow-x: visible !important;
+  }
+
+  pre.d-code code.d-code  {
+      padding-left: 18px;
+      font-size: 14px;
+  }
+  pre.text-output {
+    font-size: 14px;
+  }
+  }
+
+  /* Figure */
+
+  .figure {
+    position: relative;
+    margin-bottom: 2.5em;
+    margin-top: 1.5em;
+  }
+
+  .figure img {
+    width: 100%;
+  }
+
+  .figure .caption {
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 12px;
+    line-height: 1.5em;
+  }
+
+  .figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+
+  .figure .caption a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  .figure .caption b,
+  .figure .caption strong, {
+    font-weight: 600;
+    color: rgba(0, 0, 0, 1.0);
+  }
+
+
+
+  /* Tweak 1000px media break to show more text */
+
+  @media(min-width: 1000px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 16px;
+    }
+
+    .grid {
+      grid-column-gap: 16px;
+    }
+
+    d-article {
+      font-size: 1.06rem;
+      line-height: 1.7em;
+    }
+    figure .caption, .figure .caption, figure figcaption {
+      font-size: 13px;
+    }
+  }
+
+  @media(min-width: 1180px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 32px;
+    }
+
+    .grid {
+      grid-column-gap: 32px;
+    }
+  }
+
+
+  /* Get the citation styles for the appendix (not auto-injected on render since
+     we do our own rendering of the citation appendix) */
+
+  d-appendix .citation-appendix,
+  .d-appendix .citation-appendix {
+    font-size: 11px;
+    line-height: 15px;
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+    padding-left: 18px;
+    border: 1px solid rgba(0,0,0,0.1);
+    background: rgba(0, 0, 0, 0.02);
+    padding: 10px 18px;
+    border-radius: 3px;
+    color: rgba(150, 150, 150, 1);
+    overflow: hidden;
+    margin-top: -12px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
+
+  /* Social footer */
+
+  .social_footer {
+    margin-top: 30px;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.67);
+  }
+
+  .disqus-comments {
+    margin-right: 30px;
+  }
+
+  .disqus-comment-count {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+  }
+
+  #disqus_thread {
+    margin-top: 30px;
+  }
+
+  .article-sharing a {
+    border-bottom: none;
+    margin-right: 8px;
+  }
+
+  .article-sharing a:hover {
+    border-bottom: none;
+  }
+
+  .sidebar-section.subscribe {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+
+  .subscribe p {
+    margin-bottom: 0.5em;
+  }
+
+
+  .article-footer .subscribe {
+    font-size: 15px;
+    margin-top: 45px;
+  }
+
+
+  .sidebar-section.custom {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+
+  .custom p {
+    margin-bottom: 0.5em;
+  }
+
+
+  /* Improve display for browsers without grid (IE/Edge <= 15) */
+
+  .downlevel {
+    line-height: 1.6em;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+    margin: 0;
+  }
+
+  .downlevel .d-title {
+    padding-top: 6rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .downlevel .d-title h1 {
+    font-size: 50px;
+    font-weight: 700;
+    line-height: 1.1em;
+    margin: 0 0 0.5rem;
+  }
+
+  .downlevel .d-title p {
+    font-weight: 300;
+    font-size: 1.2rem;
+    line-height: 1.55em;
+    margin-top: 0;
+  }
+
+  .downlevel .d-byline {
+    padding-top: 0.8em;
+    padding-bottom: 0.8em;
+    font-size: 0.8rem;
+    line-height: 1.8em;
+  }
+
+  .downlevel .section-separator {
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .downlevel .d-article {
+    font-size: 1.06rem;
+    line-height: 1.7em;
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+  }
+
+
+  .downlevel .d-appendix {
+    padding-left: 0;
+    padding-right: 0;
+    max-width: none;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.5);
+    padding-top: 40px;
+    padding-bottom: 48px;
+  }
+
+  .downlevel .footnotes ol {
+    padding-left: 13px;
+  }
+
+  .downlevel .base-grid,
+  .downlevel .distill-header,
+  .downlevel .d-title,
+  .downlevel .d-abstract,
+  .downlevel .d-article,
+  .downlevel .d-appendix,
+  .downlevel .distill-appendix,
+  .downlevel .d-byline,
+  .downlevel .d-footnote-list,
+  .downlevel .d-citation-list,
+  .downlevel .distill-footer,
+  .downlevel .appendix-bottom,
+  .downlevel .posts-container {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  @media(min-width: 768px) {
+    .downlevel .base-grid,
+    .downlevel .distill-header,
+    .downlevel .d-title,
+    .downlevel .d-abstract,
+    .downlevel .d-article,
+    .downlevel .d-appendix,
+    .downlevel .distill-appendix,
+    .downlevel .d-byline,
+    .downlevel .d-footnote-list,
+    .downlevel .d-citation-list,
+    .downlevel .distill-footer,
+    .downlevel .appendix-bottom,
+    .downlevel .posts-container {
+    padding-left: 150px;
+    padding-right: 150px;
+    max-width: 900px;
+  }
+  }
+
+  .downlevel pre code {
+    display: block;
+    border-left: 2px solid rgba(0, 0, 0, .1);
+    padding: 0 0 0 20px;
+    font-size: 14px;
+  }
+
+  .downlevel code, .downlevel pre {
+    color: black;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+
+  </style>
+
+  <script type="application/javascript">
+
+  function is_downlevel_browser() {
+    if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
+                                   window.navigator.userAgent)) {
+      return true;
+    } else {
+      return window.load_distill_framework === undefined;
+    }
+  }
+
+  // show body when load is complete
+  function on_load_complete() {
+
+    // set body to visible
+    document.body.style.visibility = 'visible';
+
+    // force redraw for leaflet widgets
+    if (window.HTMLWidgets) {
+      var maps = window.HTMLWidgets.findAll(".leaflet");
+      $.each(maps, function(i, el) {
+        var map = this.getMap();
+        map.invalidateSize();
+        map.eachLayer(function(layer) {
+          if (layer instanceof L.TileLayer)
+            layer.redraw();
+        });
+      });
+    }
+
+    // trigger 'shown' so htmlwidgets resize
+    $('d-article').trigger('shown');
+  }
+
+  function init_distill() {
+
+    init_common();
+
+    // create front matter
+    var front_matter = $('<d-front-matter></d-front-matter>');
+    $('#distill-front-matter').wrap(front_matter);
+
+    // create d-title
+    $('.d-title').changeElementType('d-title');
+
+    // create d-byline
+    var byline = $('<d-byline></d-byline>');
+    $('.d-byline').replaceWith(byline);
+
+    // create d-article
+    var article = $('<d-article></d-article>');
+    $('.d-article').wrap(article).children().unwrap();
+
+    // move posts container into article
+    $('.posts-container').appendTo($('d-article'));
+
+    // create d-appendix
+    $('.d-appendix').changeElementType('d-appendix');
+
+    // create d-bibliography
+    var bibliography = $('<d-bibliography></d-bibliography>');
+    $('#distill-bibliography').wrap(bibliography);
+
+    // flag indicating that we have appendix items
+    var appendix = $('.appendix-bottom').children('h3').length > 0;
+
+    // replace citations with <d-cite>
+    $('.citation').each(function(i, val) {
+      appendix = true;
+      var cites = $(this).attr('data-cites').split(" ");
+      var dt_cite = $('<d-cite></d-cite>');
+      dt_cite.attr('key', cites.join());
+      $(this).replaceWith(dt_cite);
+    });
+    // remove refs
+    $('#refs').remove();
+
+    // replace footnotes with <d-footnote>
+    $('.footnote-ref').each(function(i, val) {
+      appendix = true;
+      var href = $(this).attr('href');
+      var id = href.replace('#', '');
+      var fn = $('#' + id);
+      var fn_p = $('#' + id + '>p');
+      fn_p.find('.footnote-back').remove();
+      var text = fn_p.html();
+      var dtfn = $('<d-footnote></d-footnote>');
+      dtfn.html(text);
+      $(this).replaceWith(dtfn);
+    });
+    // remove footnotes
+    $('.footnotes').remove();
+
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      var id = $(this).attr('id');
+      $('.d-toc a[href="#' + id + '"]').parent().remove();
+      appendix = true;
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
+    });
+
+    // show d-appendix if we have appendix content
+    $("d-appendix").css('display', appendix ? 'grid' : 'none');
+
+    // replace code blocks with d-code
+    $('pre>code').each(function(i, val) {
+      var code = $(this);
+      var pre = code.parent();
+      var clz = "";
+      var language = pre.attr('class');
+      if (language) {
+        // map unknown languages to "clike" (without this they just dissapear)
+        if ($.inArray(language, ["bash", "clike", "css", "go", "html",
+                                 "javascript", "js", "julia", "lua", "markdown",
+                                 "markup", "mathml", "python", "svg", "xml"]) == -1)
+          language = "clike";
+        language = ' language="' + language + '"';
+        var dt_code = $('<d-code block' + language + clz + '></d-code>');
+        dt_code.text(code.text());
+        pre.replaceWith(dt_code);
+      } else {
+        code.addClass('text-output').unwrap().changeElementType('pre');
+      }
+    });
+
+    // localize layout chunks to just output
+    $('.layout-chunk').each(function(i, val) {
+
+      // capture layout
+      var layout = $(this).attr('data-layout');
+
+      // apply layout to markdown level block elements
+      var elements = $(this).children().not('d-code, pre.text-output, script');
+      elements.each(function(i, el) {
+        var layout_div = $('<div class="' + layout + '"></div>');
+        if (layout_div.hasClass('shaded')) {
+          var shaded_content = $('<div class="shaded-content"></div>');
+          $(this).wrap(shaded_content);
+          $(this).parent().wrap(layout_div);
+        } else {
+          $(this).wrap(layout_div);
+        }
+      });
+
+
+      // unwrap the layout-chunk div
+      $(this).children().unwrap();
+    });
+
+    // load distill framework
+    load_distill_framework();
+
+    // wait for window.distillRunlevel == 4 to do post processing
+    function distill_post_process() {
+
+      if (!window.distillRunlevel || window.distillRunlevel < 4)
+        return;
+
+      // hide author/affiliations entirely if we have no authors
+      var front_matter = JSON.parse($("#distill-front-matter").html());
+      var have_authors = front_matter.authors && front_matter.authors.length > 0;
+      if (!have_authors)
+        $('d-byline').addClass('hidden');
+
+      // table of contents
+      if (have_authors) // adjust border if we are in authors
+        $('.d-toc').parent().addClass('d-article-with-toc');
+
+      // strip links that point to #
+      $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
+
+      // hide elements of author/affiliations grid that have no value
+      function hide_byline_column(caption) {
+        $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
+      }
+
+      // affiliations
+      var have_affiliations = false;
+      for (var i = 0; i<front_matter.authors.length; ++i) {
+        var author = front_matter.authors[i];
+        if (author.affiliation !== "&nbsp;") {
+          have_affiliations = true;
+          break;
+        }
+      }
+      if (!have_affiliations)
+        $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
+
+      // published date
+      if (!front_matter.publishedDate)
+        hide_byline_column("Published");
+
+      // document object identifier
+      var doi = $('d-byline').find('h3:contains("DOI")');
+      var doi_p = doi.next().empty();
+      if (!front_matter.doi) {
+        // if we have a citation and valid citationText then link to that
+        if ($('#citation').length > 0 && front_matter.citationText) {
+          doi.html('Citation');
+          $('<a href="#citation"></a>')
+            .text(front_matter.citationText)
+            .appendTo(doi_p);
+        } else {
+          hide_byline_column("DOI");
+        }
+      } else {
+        $('<a></a>')
+           .attr('href', "https://doi.org/" + front_matter.doi)
+           .html(front_matter.doi)
+           .appendTo(doi_p);
+      }
+
+       // change plural form of authors/affiliations
+      if (front_matter.authors.length === 1) {
+        var grid = $('.authors-affiliations');
+        grid.children('h3:contains("Authors")').text('Author');
+        grid.children('h3:contains("Affiliations")').text('Affiliation');
+      }
+
+      // inject pre code styles (can't do this with a global stylesheet b/c a shadow root is used)
+      $('d-code').each(function(i, val) {
+        var style = document.createElement('style');
+        style.innerHTML = 'pre code { padding-left: 10px; font-size: 12px; border-left: 2px solid rgba(0,0,0,0.1); } ' +
+                          '@media(min-width: 768px) { pre code { padding-left: 18px; font-size: 14px; } }';
+        if (this.shadowRoot)
+          this.shadowRoot.appendChild(style);
+      });
+
+      // move appendix-bottom entries to the bottom
+      $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
+      $('.appendix-bottom').remove();
+
+      // clear polling timer
+      clearInterval(tid);
+
+      // show body now that everything is ready
+      on_load_complete();
+    }
+
+    var tid = setInterval(distill_post_process, 50);
+    distill_post_process();
+
+  }
+
+  function init_downlevel() {
+
+    init_common();
+
+     // insert hr after d-title
+    $('.d-title').after($('<hr class="section-separator"/>'));
+
+    // check if we have authors
+    var front_matter = JSON.parse($("#distill-front-matter").html());
+    var have_authors = front_matter.authors && front_matter.authors.length > 0;
+
+    // manage byline/border
+    if (!have_authors)
+      $('.d-byline').remove();
+    $('.d-byline').after($('<hr class="section-separator"/>'));
+    $('.d-byline a').remove();
+
+    // remove toc
+    $('.d-toc-header').remove();
+    $('.d-toc').remove();
+    $('.d-toc-separator').remove();
+
+    // move appendix elements
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
+    });
+
+
+    // inject headers into references and footnotes
+    var refs_header = $('<h3></h3>');
+    refs_header.text('References');
+    $('#refs').prepend(refs_header);
+
+    var footnotes_header = $('<h3></h3');
+    footnotes_header.text('Footnotes');
+    $('.footnotes').children('hr').first().replaceWith(footnotes_header);
+
+    // move appendix-bottom entries to the bottom
+    $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
+    $('.appendix-bottom').remove();
+
+    // remove appendix if it's empty
+    if ($('.d-appendix').children().length === 0)
+      $('.d-appendix').remove();
+
+    // prepend separator above appendix
+    $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
+
+    // trim code
+    $('pre>code').each(function(i, val) {
+      $(this).html($.trim($(this).html()));
+    });
+
+    // move posts-container right before article
+    $('.posts-container').insertBefore($('.d-article'));
+
+    $('body').addClass('downlevel');
+
+    on_load_complete();
+  }
+
+
+  function init_common() {
+
+    // jquery plugin to change element types
+    (function($) {
+      $.fn.changeElementType = function(newType) {
+        var attrs = {};
+
+        $.each(this[0].attributes, function(idx, attr) {
+          attrs[attr.nodeName] = attr.nodeValue;
+        });
+
+        this.replaceWith(function() {
+          return $("<" + newType + "/>", attrs).append($(this).contents());
+        });
+      };
+    })(jQuery);
+
+    // prevent underline for linked images
+    $('a > img').parent().css({'border-bottom' : 'none'});
+
+    // mark non-body figures created by knitr chunks as 100% width
+    $('.layout-chunk').each(function(i, val) {
+      var figures = $(this).find('img, .html-widget');
+      if ($(this).attr('data-layout') !== "l-body") {
+        figures.css('width', '100%');
+      } else {
+        figures.css('max-width', '100%');
+        figures.filter("[width]").each(function(i, val) {
+          var fig = $(this);
+          fig.css('width', fig.attr('width') + 'px');
+        });
+
+      }
+    });
+
+    // auto-append index.html to post-preview links in file: protocol
+    // and in rstudio ide preview
+    $('.post-preview').each(function(i, val) {
+      if (window.location.protocol === "file:")
+        $(this).attr('href', $(this).attr('href') + "index.html");
+    });
+
+    // get rid of index.html references in header
+    if (window.location.protocol !== "file:") {
+      $('.distill-site-header a[href]').each(function(i,val) {
+        $(this).attr('href', $(this).attr('href').replace("index.html", "./"));
+      });
+    }
+
+    // add class to pandoc style tables
+    $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
+    $('.kable-table').children('table').addClass('pandoc-table');
+
+    // add figcaption style to table captions
+    $('caption').parent('table').addClass("figcaption");
+
+    // initialize posts list
+    if (window.init_posts_list)
+      window.init_posts_list();
+
+    // implmement disqus comment link
+    $('.disqus-comment-count').click(function() {
+      window.headroom_prevent_pin = true;
+      $('#disqus_thread').toggleClass('hidden');
+      if (!$('#disqus_thread').hasClass('hidden')) {
+        var offset = $(this).offset();
+        $(window).resize();
+        $('html, body').animate({
+          scrollTop: offset.top - 35
+        });
+      }
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    if (is_downlevel_browser())
+      init_downlevel();
+    else
+      window.addEventListener('WebComponentsReady', init_distill);
+  });
+
+  </script>
+
+  <!--/radix_placeholder_distill-->
+  <script src="deploy-model_files/header-attrs-2.2/header-attrs.js"></script>
+  <script src="deploy-model_files/jquery-1.11.3/jquery.min.js"></script>
+  <script src="deploy-model_files/bowser-1.9.3/bowser.min.js"></script>
+  <script src="deploy-model_files/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="deploy-model_files/distill-2.2.21/template.v2.js"></script>
+  <!--radix_placeholder_site_in_header-->
+  <!--/radix_placeholder_site_in_header-->
+
+
+</head>
+
+<body>
+
+<!--radix_placeholder_front_matter-->
+
+<script id="distill-front-matter" type="text/json">
+{"title":"Build with R, deploy with Python (and Heroku)","description":"This post looks at a cross-language approach to model deployment - something that may come in useful when working within a large data science / production environment.","authors":[{"author":"Harry Fisher","authorURL":"https://hfshr.netlify.app/","affiliation":"&nbsp;","affiliationURL":"#"}],"publishedDate":"2020-07-14T00:00:00.000+01:00","citationText":"Fisher, 2020"}
+</script>
+
+<!--/radix_placeholder_front_matter-->
+<!--radix_placeholder_navigation_before_body-->
+<!--/radix_placeholder_navigation_before_body-->
+<!--radix_placeholder_site_before_body-->
+<!--/radix_placeholder_site_before_body-->
+
+<div class="d-title">
+<h1>Build with R, deploy with Python (and Heroku)</h1>
+<p><p>This post looks at a cross-language approach to model deployment - something that may come in useful when working within a large data science / production environment.</p></p>
+</div>
+
+<div class="d-byline">
+  Harry Fisher <a href="https://hfshr.netlify.app/" class="uri">https://hfshr.netlify.app/</a> 
+  
+<br/>07-14-2020
+</div>
+
+<div class="d-article">
+<p>After going through many iterations of building, evaluating and refining a model, eventually the time may come to put that model into production. There are many options when it comes to deployment - in R, <code>shiny</code> and <code>plumbr</code> come to mind - However, in this post I wanted to see if it was possible to build a model in R, but deploy it using a python framework, specifically as a web app using <code>flask</code>. I also wanted to try and make the app available by using <a href="https://www.heroku.com/what">Heroku</a>. Why you might ask? Good question! Not sure how useful this workflow is, but it was good fun getting it to work!</p>
+<p>(You can see the final app in action here: <a href="https://penguin-model.herokuapp.com/" class="uri">https://penguin-model.herokuapp.com/</a>)</p>
+<h2 id="building-the-model">Building the model</h2>
+<p>The code below builds a <em>very</em> simple model that we’ll use for deployment. This model attempts to predict the gender of a penguin based on bill length, bill depth and flipper length (data from the <code>penguins</code> package). You can imagine this model is going to be used on the local zoo’s website to make it more realistic (maybe)…</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+library(palmerpenguins)
+library(xgboost)
+library(tidymodels)
+library(tidyverse)
+library(reticulate)
+
+# feature engineering 
+penguins &lt;- penguins %&gt;% 
+  select(7, 3:5) %&gt;% 
+  drop_na() %&gt;% 
+  mutate(sex = ifelse(sex == &quot;female&quot;, 1, 0))
+
+# training / testing split
+split &lt;- initial_split(penguins, prop = .75)
+train &lt;- training(split)
+test &lt;- testing(split)
+
+# convert to xgboost model matrix
+dtrain = xgb.DMatrix(data = as.matrix(train[,-1]), label = as.matrix(train$sex))
+dtest = xgb.DMatrix(data = as.matrix(test[,-1]), label = as.matrix(test$sex))
+
+# fit model
+xgb &lt;- xgb.train(data = dtrain, 
+                nrounds = 500, 
+                params = list(objective = &quot;binary:logistic&quot;,
+                              eval_metric = &quot;auc&quot;),
+                verbose = 0,
+                watchlist = list(eval = dtest))
+
+# predictions
+preds &lt;- tibble(.pred_female = predict(xgb, as.matrix(test[,-1]))) %&gt;% 
+  bind_cols(test[,1], .) %&gt;% 
+  mutate(sex = factor(sex, levels = c(1,0), labels = c(&quot;female&quot;, &quot;male&quot;)))
+
+# evaluation
+eval &lt;- metric_set(roc_auc, gain_capture)
+eval(preds, sex, .pred_female)</code></pre>
+</div>
+<p>Next we will save the xgboost model object using the <code>xgb.save</code> function from <code>xgboost</code>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+# save model object
+xgboost::xgb.save(xgb, &quot;xgmod.model&quot;)</code></pre>
+</div>
+<p>With the model saved, we can now load it into python. Due to an issue with the python implementation of xgboost to load models from bytestring (see here: <a href="https://github.com/dmlc/xgboost/issues/3013" class="uri">https://github.com/dmlc/xgboost/issues/3013</a>), we have to use a workaround by defining the following function:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="python"><code>
+import ctypes
+import xgboost
+import xgboost.core
+import pandas as pd
+
+def xgb_load_model(buf):
+    if isinstance(buf, str):
+        buf = buf.encode()
+    bst = xgboost.core.Booster()
+    n = len(buf)
+    length = xgboost.core.c_bst_ulong(n)
+    ptr = (ctypes.c_char * n).from_buffer_copy(buf)
+    xgboost.core._check_call(
+        xgboost.core._LIB.XGBoosterLoadModelFromBuffer(bst.handle, ptr, length)
+    ) 
+    return bst</code></pre>
+</div>
+<p>We can now read in the xgboost model we created in R into python.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="python"><code>
+with open(&#39;xgmod.model&#39;,&#39;rb&#39;) as f:
+    raw = f.read()
+
+model = xgb_load_model(raw)
+
+# check to see if model loaded
+model</code></pre>
+<pre><code>
+&lt;xgboost.core.Booster object at 0x11636d898&gt;</code></pre>
+</div>
+<p>To check the model is working and can generate predictions we can do:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="python"><code>
+# create some mock data
+input_variables = pd.DataFrame([[40, 20, 150]],
+                                columns=[&#39;bill_length_mm&#39;, &#39;bill_depth_mm&#39;, &#39;flipper_length_mm&#39;], 
+                                dtype=float)
+                                
+                                
+# convert test datat to xgboost matrix
+
+xgtest = xgboost.DMatrix(input_variables.values)
+
+# predict
+prediction = model.predict(xgtest)[0]
+
+print(prediction)</code></pre>
+<pre><code>
+0.003251487</code></pre>
+</div>
+<p>Looks good!</p>
+<h2 id="setting-up-deploment">Setting up deploment</h2>
+<p>So far we have created a model in R and loaded it to python and checked it works. So far so good. Next we can start to prepare for deployment.</p>
+<p>For deployment, we will use <code>flask</code> to create a simple web app that lets users change the input values (bill length, bill width and flipper length) and returns the predicted probability of whether the penguin is female.</p>
+<p>First, we will create a directory called “penguin-app” with a few sub directories. You can create this anywhere, but I’ve gone for my home directory desktop.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+dir_create(&quot;~/Desktop/penguin-app&quot;)
+dir_create(&quot;~/Desktop/penguin-app/templates&quot;)
+dir_create(&quot;~/Desktop/penguin-app/model&quot;)</code></pre>
+</div>
+<p>Next, the python script below will define how the app works. This should be saved as app.py within the penguin-model directory.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="python"><code>
+import flask
+import ctypes
+import xgboost
+import xgboost.core
+import pandas as pd
+
+# function to load R model into python
+def xgb_load_model(buf):
+    if isinstance(buf, str):
+        buf = buf.encode()
+    bst = xgboost.core.Booster()
+    n = len(buf)
+    length = xgboost.core.c_bst_ulong(n)
+    ptr = (ctypes.c_char * n).from_buffer_copy(buf)
+    xgboost.core._check_call(
+        xgboost.core._LIB.XGBoosterLoadModelFromBuffer(bst.handle, ptr, length)
+    )  # segfault
+    return bst
+
+with open(&#39;model/xgmod.model&#39;,&#39;rb&#39;) as f:
+    raw = f.read()
+
+model = xgb_load_model(raw)
+
+# define the app
+
+app = flask.Flask(__name__, template_folder=&#39;templates&#39;)
+
+@app.route(&#39;/&#39;, methods=[&#39;GET&#39;, &#39;POST&#39;])
+
+def main():
+    if flask.request.method == &#39;GET&#39;:
+      return(flask.render_template(&#39;main.html&#39;))
+
+    if flask.request.method == &#39;POST&#39;:
+      bill_length_mm = flask.request.form[&#39;bill_length_mm&#39;]
+      bill_depth_mm = flask.request.form[&#39;bill_depth_mm&#39;]
+      flipper_length_mm = flask.request.form[&#39;flipper_length_mm&#39;]
+      
+      input_variables = pd.DataFrame([[bill_length_mm, 
+                                       bill_depth_mm, 
+                                       flipper_length_mm]],
+                                      columns=[&#39;bill_length_mm&#39;, 
+                                               &#39;bill_depth_mm&#39;, 
+                                               &#39;flipper_length_mm&#39;], dtype=float) 
+      
+      xgtest = xgboost.DMatrix(input_variables.values)
+      
+      prediction = round(model.predict(xgtest)[0], 7)
+        
+      return flask.render_template(&#39;main.html&#39;, 
+                                   original_input={&#39;Bill length&#39;: bill_length_mm,
+                                                   &#39;Bill depth&#39;: bill_depth_mm,
+                                               &#39;Flipper length&#39;: flipper_length_mm},
+                                   result=prediction,)
+    
+if __name__ == &#39;__main__&#39;:
+    app.run()</code></pre>
+</div>
+<p>The code below is the template for our app. It includes some very simple css for style, javascript for some slider inputs to change the vales of the variables and a simple text box to output the results. This should be saved as main.html and put in the templates folder.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css&quot;&gt;
+    &lt;script src=&quot;https://code.jquery.com/jquery-3.2.1.slim.min.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js&quot;&lt;/script&gt;
+    &lt;script src=&quot;https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js&quot;&lt;/script&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+  
+  &lt;script type=&quot;text/javascript&quot;&gt;
+        function updateLengthInput(val) {
+                  document.getElementById(&#39;lengthInput&#39;).value=val; 
+                }
+        function updateDepthInput(val) {
+                  document.getElementById(&#39;depthInput&#39;).value=val; 
+                }
+        function updateFlipperInput(val) {
+                  document.getElementById(&#39;flipperInput&#39;).value=val; 
+                }
+
+  &lt;/script&gt;
+    
+  &lt;style&gt;
+        form {
+            margin: auto;
+            width: 40%;
+        }
+        
+        .result {
+            margin: auto;
+            width: 40%;
+            border: 1px solid #ccc;
+        }
+  &lt;/style&gt;
+  
+  
+  &lt;title&gt;Penguin model&lt;/title&gt;
+  
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;form action=&quot;{{ url_for(&#39;main&#39;) }}&quot; method=&quot;POST&quot;&gt;
+    &lt;fieldset&gt;
+        &lt;legend&gt;Input values:&lt;/legend&gt;
+        Bill length (mm):
+        &lt;input name=&quot;bill_length_mm&quot; id=&quot;bill&quot; type=&quot;range&quot; min=&quot;30&quot; max=&quot;60&quot;
+        onchange=&quot;updateLengthInput(this.value);&quot; required&gt;
+        &lt;input type=&quot;text&quot; id=&quot;lengthInput&quot; value=&quot;45&quot;&gt;
+        &lt;br&gt;
+        &lt;br&gt; Bill depth (mm):
+        &lt;input name=&quot;bill_depth_mm&quot; type=&quot;range&quot; min=&quot;10&quot; max=&quot;25&quot;
+        
+        onchange=&quot;updateDepthInput(this.value);&quot; required&gt;
+        &lt;input type=&quot;text&quot; id=&quot;depthInput&quot; value=&quot;17&quot;&gt;
+        &lt;br&gt;
+        &lt;br&gt; Flipper length (mm):
+        &lt;input name=&quot;flipper_length_mm&quot; type=&quot;range&quot; min=&quot;170&quot; max=&quot;240&quot;
+        onchange=&quot;updateFlipperInput(this.value);&quot; required&gt;
+        &lt;input type=&quot;text&quot; id=&quot;flipperInput&quot; value=&quot;200&quot;&gt;
+        &lt;br&gt;
+        &lt;br&gt;
+        &lt;div style=&quot;text-align:center&quot;&gt;  
+        &lt;input type=&quot;submit&quot; /&gt;  
+        &lt;/div&gt; 
+    &lt;/fieldset&gt;
+&lt;/form&gt;
+&lt;br&gt;
+&lt;br&gt;
+&lt;div class=&quot;result&quot; align=&quot;center&quot;&gt;
+    {% if result %}
+        {% for variable, value in original_input.items() %}
+            &lt;b&gt;{{ variable }}&lt;/b&gt; : {{ value }}
+        {% endfor %}
+        &lt;br&gt;
+        &lt;br&gt; Probability of female penguin:
+           &lt;p style=&quot;font-size:50px&quot;&gt;{{ result }}&lt;/p&gt;
+    {% endif %}
+&lt;/div&gt;  
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+</div>
+<p>We also need to move the saved model to the model directory. In the terminal we can use:</p>
+<p><code>mv xgmod.model penguin-app/model/</code></p>
+<p>At this stage, it is useful to check if everything is working locally. To do this we can use <code>flask run</code> inside the penguin-app directory. This should make the app available at localhost:5000 which you can check in a browser.</p>
+<h2 id="final-preparations">Final preparations</h2>
+<p>There are a few minor steps left before we can complete deployment to Heroku and make this <del>really useful</del> model available to the world.</p>
+<p>First, the following is needed:</p>
+<ol type="1">
+<li>A Heroku account,</li>
+<li>The Heroku CLI tool</li>
+<li>git</li>
+</ol>
+<p>We also need to create the following files in the webapp directory:</p>
+<p>Procfile - This tells Heroku the type of app we are using and how to serve it to users.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+web: gunicorn app:app</code></pre>
+</div>
+<p>Requirements.txt - This tells Heroku what packages need to be installed within your app</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+flask
+pandas
+gunicorn
+xgboost</code></pre>
+</div>
+<p>After running all the steps so far, the final directory structure should look like this:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+dir_tree(&quot;~/Desktop/penguin-app&quot;)</code></pre>
+<pre><code>
+~/Desktop/penguin-app
+├── Procfile
+├── app.py
+├── model
+│   └── xgmod.model
+├── requirements.txt
+└── templates
+    └── main.html</code></pre>
+</div>
+<h2 id="deploy">Deploy!</h2>
+<p>We are now ready to deploy the model. Over in the terminal, cd into the penguin-app directory (if not already there) and run:</p>
+<ul>
+<li><p><code>git init</code>: to initialise the git repo in the directory</p></li>
+<li><p><code>heroku login</code>: this should open a web browser for you to log into your Heroku account</p></li>
+<li><p><code>heroku create penguin-model</code>: To create our aptly named (pun intended) penguin-model app.</p></li>
+</ul>
+<p>Now we can add the contents of our app and push to heroku:</p>
+<ul>
+<li><p><code>git add .</code></p></li>
+<li><p><code>git commit -m "First deployment"</code></p></li>
+<li><p><code>heroku git:remote -a penguin-model</code></p></li>
+<li><p><code>git push heroku master</code></p></li>
+</ul>
+<p>If all goes to plan, that should result in a successful deployment! You can see the live app here: <a href="https://penguin-model.herokuapp.com/" class="uri">https://penguin-model.herokuapp.com/</a></p>
+<h2 id="summary">Summary</h2>
+<p>So that was a very quick tour of a cross-language model deployment. It was good fun getting each of these elements to work, and quite satisfying to see the final product. Furthermore, it was possible to get all of this woprking without ever leaving the comfort of RStudio - which is always a bonus! This post was heavily inspired <a href="https://blog.cambridgespark.com/deploying-a-machine-learning-model-to-the-web-725688b851c7">this post</a>, which provides a great introduction to the python/heroku side of deployment, and well worth a read if you’re interested.</p>
+<p>Thanks for reading!</p>
+<!--radix_placeholder_article_footer-->
+<!--/radix_placeholder_article_footer-->
+</div>
+
+<div class="d-appendix">
+</div>
+
+
+<!--radix_placeholder_site_after_body-->
+<!--/radix_placeholder_site_after_body-->
+<!--radix_placeholder_appendices-->
+<div class="appendix-bottom"></div>
+<!--/radix_placeholder_appendices-->
+<!--radix_placeholder_navigation_after_body-->
+<!--/radix_placeholder_navigation_after_body-->
+
+</body>
+
+</html>
