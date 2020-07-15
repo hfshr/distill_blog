@@ -1452,6 +1452,7 @@ library(tidymodels)
 library(tidyverse)
 library(reticulate)
 
+data(penguins)
 # feature engineering 
 penguins &lt;- penguins %&gt;% 
   select(7, 3:5) %&gt;% 
@@ -1483,6 +1484,12 @@ preds &lt;- tibble(.pred_female = predict(xgb, as.matrix(test[,-1]))) %&gt;%
 # evaluation
 eval &lt;- metric_set(roc_auc, gain_capture)
 eval(preds, sex, .pred_female)</code></pre>
+<pre><code>
+# A tibble: 2 x 3
+  .metric      .estimator .estimate
+  &lt;chr&gt;        &lt;chr&gt;          &lt;dbl&gt;
+1 roc_auc      binary         0.927
+2 gain_capture binary         0.855</code></pre>
 </div>
 <p>Next we will save the xgboost model object using the <code>xgb.save</code> function from <code>xgboost</code>.</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -1521,7 +1528,7 @@ model = xgb_load_model(raw)
 # check to see if model loaded
 model</code></pre>
 <pre><code>
-&lt;xgboost.core.Booster object at 0x11636d898&gt;</code></pre>
+&lt;xgboost.core.Booster object at 0x1236567f0&gt;</code></pre>
 </div>
 <p>To check the model is working and can generate predictions we can do:</p>
 <div class="layout-chunk" data-layout="l-body">

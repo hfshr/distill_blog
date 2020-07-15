@@ -30,13 +30,14 @@ The code below builds a _very_ simple model that we'll use for deployment.
 This model attempts to predict the gender of a penguin based on bill length, bill depth and flipper length (data from the `penguins` package). 
 You can imagine this model is going to be used on the local zoo's website to make it more realistic (maybe)... 
 
-```{r message=FALSE, eval=F}
+```{r message=FALSE}
 library(palmerpenguins)
 library(xgboost)
 library(tidymodels)
 library(tidyverse)
 library(reticulate)
 
+data(penguins)
 # feature engineering 
 penguins <- penguins %>% 
   select(7, 3:5) %>% 
@@ -68,8 +69,9 @@ preds <- tibble(.pred_female = predict(xgb, as.matrix(test[,-1]))) %>%
 # evaluation
 eval <- metric_set(roc_auc, gain_capture)
 eval(preds, sex, .pred_female)
-
 ```
+
+
 
 Next we will save the xgboost model object using the `xgb.save` function from `xgboost`. 
 
