@@ -13,6 +13,8 @@
       <dc:creator>Harry Fisher</dc:creator>
       <link>https://hfshr.netlify.app/posts/2020-07-14-deploy-model</link>
       <description>This post looks at a cross-language approach to model deployment - something that may come in useful when working within a large data science / production environment.</description>
+      <category>R</category>
+      <category>Python</category>
       <guid>https://hfshr.netlify.app/posts/2020-07-14-deploy-model</guid>
       <pubDate>Tue, 14 Jul 2020 00:00:00 +0000</pubDate>
       <media:content url="https://hfshr.netlify.app/posts/2020-07-14-deploy-model/preview.png" medium="image" type="image/png" width="877" height="287"/>

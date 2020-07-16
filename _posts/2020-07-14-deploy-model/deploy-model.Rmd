@@ -6,7 +6,11 @@ author:
   - name: Harry Fisher
     url: https://hfshr.netlify.app/
 date: 07-14-2020
+repository_url: https://github.com/hfshr/distill_blog
 preview: preview.png
+categories:
+  - R
+  - Python
 output:
   distill::distill_article:
     self_contained: false
