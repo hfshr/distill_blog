@@ -1,5 +1,5 @@
 ---
-title: "Pretty tables with gt"
+title: "Pretty tables with {gt}"
 description: |
   Traditionally I have been an ardent user of kable + kableExtra when it comes to creating tables. These packages have served me well, however the CRAN release of a new player in the table package space - gt - promted me to try it out and explore some of the features it had to offer.
 author:

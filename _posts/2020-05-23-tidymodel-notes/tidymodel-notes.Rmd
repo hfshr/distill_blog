@@ -6,7 +6,7 @@ author:
   - name: Harry Fisher
     url: https://hfshr.netlify.com/
 date: 05-23-2020
-preview: tidymodel.png
+preview: tb.jpeg
 categories:
   - R
   - Machine learning

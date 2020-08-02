@@ -7,7 +7,18 @@
     <description>My Blog
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>Tue, 14 Jul 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 02 Aug 2020 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Building a python package: Reflections from an R user</title>
+      <dc:creator>Harry Fisher</dc:creator>
+      <link>https://hfshr.netlify.app/posts/2020-08-02-python-package</link>
+      <description>In this post I note down some of my experiences with making my first python package, specifically highlighting some of the similarities and differences between R and python when it comes to package building. My hope is that R users looking to expand their pythonic horizons might find something useful!</description>
+      <category>R</category>
+      <category>Python</category>
+      <guid>https://hfshr.netlify.app/posts/2020-08-02-python-package</guid>
+      <pubDate>Sun, 02 Aug 2020 00:00:00 +0000</pubDate>
+      <media:content url="https://hfshr.netlify.app/posts/2020-08-02-python-package/pkg.jpeg" medium="image" type="image/jpeg"/>
+    </item>
     <item>
       <title>Build with R, deploy with Python (and Heroku)</title>
       <dc:creator>Harry Fisher</dc:creator>
@@ -62,10 +73,10 @@ In addition, the testnet version of the API is now supported soyou can try out  
       <category>Machine learning</category>
       <guid>https://hfshr.netlify.app/posts/2020-05-23-tidymodel-notes</guid>
       <pubDate>Sat, 23 May 2020 00:00:00 +0000</pubDate>
-      <media:content url="https://hfshr.netlify.app/posts/2020-05-23-tidymodel-notes/tidymodel.png" medium="image" type="image/png" width="426" height="395"/>
+      <media:content url="https://hfshr.netlify.app/posts/2020-05-23-tidymodel-notes/tb.jpeg" medium="image" type="image/jpeg"/>
     </item>
     <item>
-      <title>Pretty tables with gt</title>
+      <title>Pretty tables with {gt}</title>
       <dc:creator>Harry Fisher</dc:creator>
       <link>https://hfshr.netlify.app/posts/2020-05-02-pretty-tables-with-gt</link>
       <description>Traditionally I have been an ardent user of kable + kableExtra when it comes to creating tables. These packages have served me well, however the CRAN release of a new player in the table package space - gt - promted me to try it out and explore some of the features it had to offer.</description>
@@ -90,7 +101,7 @@ In addition, the testnet version of the API is now supported soyou can try out  
       <media:content url="https://hfshr.netlify.app/posts/2020-04-13-bitmexr/images/price.gif" medium="image" type="image/gif"/>
     </item>
     <item>
-      <title>Exploring the recent Bitcoin crash with tidyqaunt and gganimate</title>
+      <title>Exploring the recent Bitcoin crash with {tidyquant} and {gganimate}</title>
       <dc:creator>Harry Fisher</dc:creator>
       <link>https://hfshr.netlify.app/posts/2020-03-22-bitcoin</link>
       <description>Bitcoin recently had a significant sell off, crashing 50% in a matter of hours. This undoubtly was due to the uncertainty in markets surrounding the economic impacts of COVID-19, and the consequent reduction in liquidity faced by many different assets. The volatile price action does however make for an interesting case study which this post will explore.</description>

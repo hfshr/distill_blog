@@ -1,5 +1,5 @@
 ---
-title: "Exploring the recent Bitcoin crash with tidyqaunt and gganimate"
+title: "Exploring the recent Bitcoin crash with {tidyquant} and {gganimate}"
 description: |
   Bitcoin recently had a significant sell off, crashing 50% in a matter of hours. This undoubtly was due to the uncertainty in markets surrounding the economic impacts of COVID-19, and the consequent reduction in liquidity faced by many different assets. The volatile price action does however make for an interesting case study which this post will explore.
 author:
