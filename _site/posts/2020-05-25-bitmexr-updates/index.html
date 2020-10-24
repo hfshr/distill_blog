@@ -18,6 +18,72 @@
  <!--radix_placeholder_import_source-->
  <!--/radix_placeholder_import_source-->
 
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #545454; font-weight: bold; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #a1024a; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007faa; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #008000; } /* Char */
+code span.cn { color: #d91e18; } /* Constant */
+code span.co { color: #545454; } /* Comment */
+code span.cv { color: #545454; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #aa5d00; } /* DataType */
+code span.dv { color: #a1024a; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #a1024a; } /* Float */
+code span.fu { color: #4254a7; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #545454; font-weight: bold; } /* Information */
+code span.kw { color: #007faa; font-weight: bold; } /* Keyword */
+code span.op { color: #696969; } /* Operator */
+code span.ot { color: #007faa; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #008000; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #008000; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #008000; } /* VerbatimString */
+code span.wa { color: #545454; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
   <!--radix_placeholder_meta_tags-->
 <title>Harry Fisher: bitmexr 0.3.0: Place, modify and cancel your orders on BitMEX without leaving R! </title>
 
@@ -1951,9 +2017,10 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <!--/radix_placeholder_distill-->
-  <script src="../../site_libs/header-attrs-2.1/header-attrs.js"></script>
+  <script src="../../site_libs/header-attrs-2.4.7/header-attrs.js"></script>
   <link href="../../site_libs/font-awesome-5.3.1/css/fontawesome-all.min.css" rel="stylesheet" />
   <script src="../../site_libs/jquery-1.11.3/jquery.min.js"></script>
+  <script src="../../site_libs/anchor-4.2.2/anchor.min.js"></script>
   <script src="../../site_libs/bowser-1.9.3/bowser.min.js"></script>
   <script src="../../site_libs/webcomponents-2.0.0/webcomponents.js"></script>
   <script src="../../site_libs/distill-2.2.21/template.v2.js"></script>
@@ -2095,6 +2162,12 @@ img[alt=badge] { width: 85px; height: 20px; }
 
 <div class="d-title">
 <h1>bitmexr 0.3.0: Place, modify and cancel your orders on BitMEX without leaving R!</h1>
+<!--radix_placeholder_categories-->
+<div class="dt-tags">
+  <a href="../../index.html#category:bitmexr" class="dt-tag">bitmexr</a>
+  <a href="../../index.html#category:R" class="dt-tag">R</a>
+</div>
+<!--/radix_placeholder_categories-->
 <p><p>bitmexr 0.3.0 brings some exciting new features to the package. bitmexr now supports placing, editing and cancelling orders through BitMEX’s API. In addition, the testnet version of the API is now supported soyou can try out managing orders using the package in a risk free environment!</p></p>
 </div>
 
@@ -2107,8 +2180,10 @@ img[alt=badge] { width: 85px; height: 20px; }
 <div class="d-article">
 <p>Install the latest release from CRAN:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-install.packages(&quot;bitmexr&quot;)</code></pre>
+<div class="sourceCode">
+<pre><code><span class='fu'><a href='https://rdrr.io/r/utils/install.packages.html'>install.packages</a></span><span class='op'>(</span><span class='st'>"bitmexr"</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <p>Package site: <a href="https://hfshr.github.io/bitmexr/" class="uri">https://hfshr.github.io/bitmexr/</a></p>
 <h1 id="bitmexr-0.3.0---whats-new">bitmexr 0.3.0 - Whats new?</h1>
@@ -2122,23 +2197,25 @@ install.packages(&quot;bitmexr&quot;)</code></pre>
 <h1 id="practice-on-the-testnet">Practice on the Testnet</h1>
 <p>BitMEX has a fully functional Testnet exchange that lets you use a “practice” version of the live exchange. This is great for trying out a new trading idea or using trying these functions out in a risk free environment that is identical to the real thing. Every function in <code>bitmexr</code> has a Testnet equivalent - simply use the “tn_” prefix to access the Testnet version of the function. For example:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-place_order(symbol = &quot;XBTUSD&quot;, price = 5000, orderQty = 100)</code></pre>
+<div class="sourceCode">
+<pre><code><span class='fu'>place_order</span><span class='op'>(</span>symbol <span class='op'>=</span> <span class='st'>"XBTUSD"</span>, price <span class='op'>=</span> <span class='fl'>5000</span>, orderQty <span class='op'>=</span> <span class='fl'>100</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <p>Will place an order on the live exchange, whereas:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-tn_place_order(symbol = &quot;XBTUSD&quot;, price = 5000, orderQty = 100)</code></pre>
+<div class="sourceCode">
+<pre><code><span class='fu'>tn_place_order</span><span class='op'>(</span>symbol <span class='op'>=</span> <span class='st'>"XBTUSD"</span>, price <span class='op'>=</span> <span class='fl'>5000</span>, orderQty <span class='op'>=</span> <span class='fl'>100</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <p>Will place the order on the Testnet exchange.</p>
 <h1 id="authentication-needed">Authentication needed!</h1>
 <p>In order to use these new functions you must first obtain an API key and secret for the account you wish to use with <code>bitmexr</code>. With API key and secret in hand, you can add these to your ~/.Renviron file using:</p>
-<pre><code>
-bitmex_apikey = &quot;api key&quot;
+<pre><code>bitmex_apikey = &quot;api key&quot;
 bitmex_apisecret = &quot;api secret&quot;</code></pre>
 <p>for the live exchange or</p>
-<pre><code>
-testnet_bitmex_apikey = &quot;testnet api key&quot;
+<pre><code>testnet_bitmex_apikey = &quot;testnet api key&quot;
 testnet_bitmex_apisecret = &quot;tetsnet api secret&quot;</code></pre>
 <p>for the Testnet exchange.</p>
 <p>See the <a href="https://hfshr.github.io/bitmexr/articles/authentication.html">Authentication vignette</a> for more details.</p>
@@ -2156,10 +2233,12 @@ testnet_bitmex_apisecret = &quot;tetsnet api secret&quot;</code></pre>
 </ul>
 <p>These functions just need the path to the API endpoint and a named list of valid parameters for that endpoint. For example, you could use:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-chat &lt;- get_bitmex(path = &quot;/chat&quot;, 
-                   args = list(channelID = 1, 
-                              reverse = &quot;true&quot;))</code></pre>
+<div class="sourceCode">
+<pre><code><span class='va'>chat</span> <span class='op'>&lt;-</span> <span class='fu'>get_bitmex</span><span class='op'>(</span>path <span class='op'>=</span> <span class='st'>"/chat"</span>, 
+                   args <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>channelID <span class='op'>=</span> <span class='fl'>1</span>, 
+                              reverse <span class='op'>=</span> <span class='st'>"true"</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <p>To get the latest English trollbox chat data (not sure why anyone would want this, but it is possible!).</p>
 <h1 id="what-next">What next?</h1>
@@ -2169,6 +2248,7 @@ chat &lt;- get_bitmex(path = &quot;/chat&quot;,
 <li>Rstudio addin for easy order submission</li>
 </ul>
 <p>Of course, any feedback / ideas are more than welcome! <a href="https://www.github.com/hfshr/bitmexr"><i class="fab  fa-github "></i></a></p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <div class="article-footer">
   <p class="social_footer">

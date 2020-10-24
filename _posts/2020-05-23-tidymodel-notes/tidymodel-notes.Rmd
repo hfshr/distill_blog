@@ -18,7 +18,7 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-load("~/Downloads/ProjectR/distill_blog/data.RData")
+#load("~/Downloads/ProjectR/distill_blog/data.RData")
 ```
 
 For demonstration purposes I'm going to use the `credit_data` dataset from the `modeldata` package. This is a fairly simple data set that doesn't require too much wrangling to get going.
@@ -37,7 +37,7 @@ glimpse(credit_data)
 
 First, I'll split the sample into training and testing sets using `rsample`. As well as create v-fold cross-validation set for use in the tuning step later.
 
-```{r eval=FALSE}
+```{r eval=TRUE}
 set.seed(122)
 
 credit_data <- credit_data %>%
@@ -64,7 +64,7 @@ Next, I'll set up the recipe using `recipies`. As well as defining the formula f
 1. Impute the missing values.  
 2. One-hot encode the factor variables in the data.
 
-```{r eval=FALSE}
+```{r eval=TRUE}
 rec <- recipe(Status ~ ., data = train) %>%
   step_bagimpute(Home, Marital, Job, Income, Assets, Debt) %>%
   step_dummy(Home, Marital, Records, Job, one_hot = T) 
@@ -74,7 +74,7 @@ rec <- recipe(Status ~ ., data = train) %>%
 Now I'll prepare the model specification using `parsnip`. Here I'm using an xgboost model and specify the parameters I want to tune using Bayesian optimisation. 
 The `mtry` parameter requires one additional step to finalise the range of possible values (because it depends on the number of variables in the data and a suitable range of values to test can't be estimated without that information).
 
-```{r eval=FALSE}
+```{r eval=TRUE}
 
 mod <- boost_tree(
   trees = 1000,
@@ -112,7 +112,7 @@ Here I've decided to:
 - Start off with an initial grid of 10 combinations.
 - Stop early is no improvements are made after 10 iterations. 
 
-```{r eval=FALSE}
+```{r eval=TRUE}
 options(tidymodels.dark = TRUE)
 
 
@@ -154,7 +154,7 @@ mean here is the average `pr_auc` across the resamples.
 
 Now we can create our final model using these parameters.
 
-```{r eval=FALSE}
+```{r eval=TRUE}
 
 xgboost_wkflow_tuned <- finalize_workflow(
   xgboost_wflow,
@@ -165,7 +165,7 @@ xgboost_wkflow_tuned <- finalize_workflow(
 
 Finally we can fit the model.
 
-```{r eval=FALSE}
+```{r eval=TRUE}
 final_res <- last_fit(
   xgboost_wkflow_tuned,
   split
