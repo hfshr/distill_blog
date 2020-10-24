@@ -76,8 +76,9 @@ h1, h2, h3, h4, h5 {
 
 code {
   font-family: 'Fira Mono', sans-serif;
-  color: #383838;
-  background: #F5F5F5;
   font-weight: 400;
-  font-size: 0.9em;
+  font-size: 1em;
 }
+
+
+img[alt=badge] { width: 85px; height: 20px; }

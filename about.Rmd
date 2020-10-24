@@ -3,19 +3,20 @@ title: "Hello World"
 description: "\\> whoami"
 ---
 
+<center>
+![](data/images/pic.png){width=30%} 
+</center>
 
-<!-- ```{r out.width="25%", fig.align='center'} -->
-<!-- knitr::include_graphics("data/images/profile.png") -->
-<!-- ``` -->
-
-
-Hi! My name is Harry Fisher. Thanks for visiting my site. I have a passion for data science (especially all things **R**) and this site is a place where I try to document new things I learn, or things I find interesting and think are worth sharing. I currently work at a big data company as a statistical modeller in Cardiff, Wales. Previously, I completed my PhD at Cardiff Metropolitan University in December 2019, investigating risk factors associated with sports injury.
+<br>
+Hi! My name is Harry Fisher. Thanks for visiting my site. I have a passion for data science (especially all things **R**) and this site is a place where I like to share things I find interesting. I currently work as a data scientist in Cardiff, Wales. Previously, I completed my PhD at Cardiff Metropolitan University in December 2019, investigating risk factors associated with sports injury.
 
 Feel free to get in touch if any of the posts catch your interest!
 
 ### R packages
 
 bitmexr: R Client for the BitMEX Exchange [![CRAN status](https://www.r-pkg.org/badges/version/bitmexr)](https://CRAN.R-project.org/package=bitmexr)
+
+poweRof10: Tools to scrape data from www.thepowerof10.info [![badge](https://img.shields.io/badge/just-for%20fun-blue.svg)](https://github.com/hfshr/poweRof10) 
 
 ### Research
   
@@ -27,5 +28,4 @@ bitmexr: R Client for the BitMEX Exchange [![CRAN status](https://www.r-pkg.org/
 
 ```{r child="./data/Rmds/links.Rmd"}
 ```
-
 

@@ -7,7 +7,18 @@
     <description>My Blog
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>Sun, 02 Aug 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 24 Oct 2020 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Introducing {poweRof10}</title>
+      <dc:creator>Harry Fisher</dc:creator>
+      <link>https://hfshr.netlify.app/posts/2020-10-22-introducing-powerof10</link>
+      <description>A quick introduction to a package I created to scrape data from athletics rankings website www.thepowerof10.info.</description>
+      <category>R</category>
+      <category>athletics</category>
+      <guid>https://hfshr.netlify.app/posts/2020-10-22-introducing-powerof10</guid>
+      <pubDate>Sat, 24 Oct 2020 00:00:00 +0000</pubDate>
+      <media:content url="https://hfshr.netlify.app/posts/2020-10-22-introducing-powerof10/po10.jpg" medium="image" type="image/jpeg"/>
+    </item>
     <item>
       <title>Building a python package: Reflections from an R user</title>
       <dc:creator>Harry Fisher</dc:creator>

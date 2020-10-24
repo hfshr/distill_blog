@@ -35,7 +35,7 @@ For `bitmexpy`, I'm just going to stick to implementing the historical trade ele
 Central to any package is the code that facilitates what the package does. In R this is always included in the `R` subdirectory of the package directory. For example `bitmexr` has the following files: 
 
 ```{r eval=TRUE}
-dir_tree("~/Downloads/ProjectR/bitmexr/R/")
+dir_tree("~/Documents/ProjectR/bitmexr/R/")
 ```
 
 This is fairly similar in python, but there are a few differences. 

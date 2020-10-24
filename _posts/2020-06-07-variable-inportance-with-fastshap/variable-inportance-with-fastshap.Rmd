@@ -203,8 +203,7 @@ I had to stretch these out so they didn't get squished when rendering the markdo
 force_plot(object = shap[1541,], 
            feature_values = X[1541,], 
            display = "html", 
-           link = "logit") 
-
+           link = "logit")
 ```
 
 Our bad example shows the features and specific values that move the predicted probability lower from the baseline probability. The combination of a relatively low income and high loan amount seem to indicate a much higher probability of a "bad" outcome (or in this case a lower probability of "good" outcome).
