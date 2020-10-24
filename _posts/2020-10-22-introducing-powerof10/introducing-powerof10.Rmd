@@ -10,9 +10,11 @@ preview: po10.jpg
 categories:
   - R
   - athletics
+repository_url: https://github.com/hfshr/distill_blog  
 output:
   distill::distill_article:
     self_contained: false
+draft: false  
 ---
 
 ```{r setup, include=FALSE}
@@ -87,7 +89,7 @@ Or progression over time:
 ```{r}
 me %>% 
   filter(event == "800") %>% 
-  mutate(date = parse_date(date, format = "%d %b %y"),
+  mutate(date = as.Date(date, format = "%d %b %y"),
          perf = hms::parse_hms(paste("00:" ,perf))) %>% 
   group_by(year = year(date)) %>% 
   arrange(perf) %>% 
