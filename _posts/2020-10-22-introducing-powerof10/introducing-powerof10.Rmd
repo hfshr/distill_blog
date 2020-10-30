@@ -27,7 +27,7 @@ library(emo)
 library(lubridate)
 ```
 
-Anyone involved in athletics will likely have used www.thepowerof10.info. For those who are unfamiliar, it is basically a database of all the rankings and results for athletics in the UK. I've long been both a fan and competitor (although reluctantly admit my age is starting to show) and spent a good chunk of time on the site. In a [previous post](https://hfshr.netlify.app/posts/2020-03-08-athletics-rankings/) I made an attempt at getting some of this data into R and building a [shiny dashboard](https://harryfish.shinyapps.io/resultsdashboard/) as an alternative way of presenting the results. Since then my R skills have improved a little, especially on the package making front, so I thought I would revisit the code fromm this old post, improve it and share it in a package. 
+Anyone involved in athletics will likely have used www.thepowerof10.info. For those who are unfamiliar, it is basically a database of all the rankings and results for athletics in the UK. I've long been both a fan and competitor (although reluctantly admit my age is starting to show) and spent a good chunk of time on the site. In a [previous post](https://hfshr.netlify.app/posts/2020-03-08-athletics-rankings/) I made an attempt at getting some of this data into R and building a [shiny dashboard](https://harryfish.shinyapps.io/resultsdashboard/) as an alternative way of presenting the results. Since then my R skills have improved a little, especially on the package making front, so I thought I would revisit the code from this old post, improve it and share it in a package. 
 
 Enough chatter, show us the package!
 
@@ -37,6 +37,13 @@ You can install from github with:
 
 ```{r eval=FALSE}
 remotes::install_github("hfshr/poweRof10")
+
+# packages used
+library(poweRof10)
+library(tidyverse)
+library(gt)
+library(emo)
+library(lubridate)
 ```
 
 The package is really simple. It has two functions, the first gets the data for a individual athlete, while the second can be used to get the rankings for a given year, event and gender.

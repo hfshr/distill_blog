@@ -1447,13 +1447,20 @@ code span.wa { color: #545454; font-weight: bold; font-style: italic; } /* Warni
 </div>
 
 <div class="d-article">
-<p>Anyone involved in athletics will likely have used www.thepowerof10.info. For those who are unfamiliar, it is basically a database of all the rankings and results for athletics in the UK. I’ve long been both a fan and competitor (although reluctantly admit my age is starting to show) and spent a good chunk of time on the site. In a <a href="https://hfshr.netlify.app/posts/2020-03-08-athletics-rankings/">previous post</a> I made an attempt at getting some of this data into R and building a <a href="https://harryfish.shinyapps.io/resultsdashboard/">shiny dashboard</a> as an alternative way of presenting the results. Since then my R skills have improved a little, especially on the package making front, so I thought I would revisit the code fromm this old post, improve it and share it in a package.</p>
+<p>Anyone involved in athletics will likely have used www.thepowerof10.info. For those who are unfamiliar, it is basically a database of all the rankings and results for athletics in the UK. I’ve long been both a fan and competitor (although reluctantly admit my age is starting to show) and spent a good chunk of time on the site. In a <a href="https://hfshr.netlify.app/posts/2020-03-08-athletics-rankings/">previous post</a> I made an attempt at getting some of this data into R and building a <a href="https://harryfish.shinyapps.io/resultsdashboard/">shiny dashboard</a> as an alternative way of presenting the results. Since then my R skills have improved a little, especially on the package making front, so I thought I would revisit the code from this old post, improve it and share it in a package.</p>
 <p>Enough chatter, show us the package!</p>
 <h1 id="powerof10">poweRof10</h1>
 <p>You can install from github with:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre><code><span class='fu'>remotes</span><span class='fu'>::</span><span class='fu'><a href='https://remotes.r-lib.org/reference/install_github.html'>install_github</a></span><span class='op'>(</span><span class='st'>"hfshr/poweRof10"</span><span class='op'>)</span>
+
+<span class='co'># packages used</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>poweRof10</span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/rstudio/gt'>gt</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/hadley/emo'>emo</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://lubridate.tidyverse.org'>lubridate</a></span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
@@ -1461,7 +1468,7 @@ code span.wa { color: #545454; font-weight: bold; font-style: italic; } /* Warni
 <p>For individual athletes you can use <code>get_athlete</code>:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre><code><span class='va'>me</span> <span class='op'>&lt;-</span> <span class='fu'>get_athlete</span><span class='op'>(</span>fn <span class='op'>=</span> <span class='st'>"Harry"</span>, sn <span class='op'>=</span> <span class='st'>"Fisher"</span>, club <span class='op'>=</span> <span class='st'>"Cardiff/Cardiff Met Uni"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+<pre><code><span class='va'>me</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/poweRof10/man/get_athlete.html'>get_athlete</a></span><span class='op'>(</span>fn <span class='op'>=</span> <span class='st'>"Harry"</span>, sn <span class='op'>=</span> <span class='st'>"Fisher"</span>, club <span class='op'>=</span> <span class='st'>"Cardiff/Cardiff Met Uni"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
   <span class='fu'>select</span><span class='op'>(</span><span class='va'>event</span>, <span class='va'>perf</span>, <span class='va'>pos</span>, <span class='va'>venue</span>, <span class='va'>date</span><span class='op'>)</span> 
 </code></pre>
 </div>
@@ -1474,8 +1481,8 @@ code span.wa { color: #545454; font-weight: bold; font-style: italic; } /* Warni
   <span class='fu'>count</span><span class='op'>(</span><span class='va'>event</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
   <span class='fu'>arrange</span><span class='op'>(</span><span class='op'>-</span><span class='va'>n</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
   <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fl'>5</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'>gt</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'>cols_label</span><span class='op'>(</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/gt/man/gt.html'>gt</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'><a href='https://rdrr.io/pkg/gt/man/cols_label.html'>cols_label</a></span><span class='op'>(</span>
     n <span class='op'>=</span> <span class='st'>"Number of performances"</span>,
     event <span class='op'>=</span> <span class='st'>"Event"</span>
   <span class='op'>)</span>
@@ -1859,11 +1866,11 @@ code span.wa { color: #545454; font-weight: bold; font-style: italic; } /* Warni
   <span class='fu'>mutate</span><span class='op'>(</span>pos <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>pos</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
   <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>pos</span> <span class='op'>&lt;</span> <span class='fl'>4</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
   <span class='fu'>count</span><span class='op'>(</span><span class='va'>pos</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'>mutate</span><span class='op'>(</span>medal <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fu'>medal</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>, <span class='fu'>medal</span><span class='op'>(</span><span class='fl'>2</span><span class='op'>)</span>, <span class='fu'>medal</span><span class='op'>(</span><span class='fl'>3</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>mutate</span><span class='op'>(</span>medal <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/emo/man/medal.html'>medal</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/pkg/emo/man/medal.html'>medal</a></span><span class='op'>(</span><span class='fl'>2</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/pkg/emo/man/medal.html'>medal</a></span><span class='op'>(</span><span class='fl'>3</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
   <span class='fu'>select</span><span class='op'>(</span><span class='va'>medal</span>, <span class='va'>n</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'>gt</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'>cols_align</span><span class='op'>(</span><span class='st'>"center"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'>cols_label</span><span class='op'>(</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/gt/man/gt.html'>gt</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'><a href='https://rdrr.io/pkg/gt/man/cols_align.html'>cols_align</a></span><span class='op'>(</span><span class='st'>"center"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'><a href='https://rdrr.io/pkg/gt/man/cols_label.html'>cols_label</a></span><span class='op'>(</span>
     medal <span class='op'>=</span> <span class='st'>"Position"</span>,
     n <span class='op'>=</span> <span class='st'>"Count"</span>
   <span class='op'>)</span>
@@ -2238,7 +2245,7 @@ code span.wa { color: #545454; font-weight: bold; font-style: italic; } /* Warni
   <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>event</span> <span class='op'>==</span> <span class='st'>"800"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
   <span class='fu'>mutate</span><span class='op'>(</span>date <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/as.Date.html'>as.Date</a></span><span class='op'>(</span><span class='va'>date</span>, format <span class='op'>=</span> <span class='st'>"%d %b %y"</span><span class='op'>)</span>,
          perf <span class='op'>=</span> <span class='fu'>hms</span><span class='fu'>::</span><span class='fu'><a href='https://hms.tidyverse.org/reference/parse_hms.html'>parse_hms</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='st'>"00:"</span> ,<span class='va'>perf</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'>group_by</span><span class='op'>(</span>year <span class='op'>=</span> <span class='fu'>year</span><span class='op'>(</span><span class='va'>date</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>group_by</span><span class='op'>(</span>year <span class='op'>=</span> <span class='fu'><a href='http://lubridate.tidyverse.org/reference/year.html'>year</a></span><span class='op'>(</span><span class='va'>date</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
   <span class='fu'>arrange</span><span class='op'>(</span><span class='va'>perf</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
   <span class='fu'>slice</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
   <span class='fu'>ggplot</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>year</span>, y <span class='op'>=</span> <span class='va'>perf</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
@@ -2254,7 +2261,7 @@ code span.wa { color: #545454; font-weight: bold; font-style: italic; } /* Warni
 <p>The package also includes <code>get_event</code>, which retrieves the rankings for a specific event, age group, gender and year. For example to get the 100m rankings for 2016 for men you would use:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre><code><span class='va'>event_100</span> <span class='op'>&lt;-</span> <span class='fu'>get_event</span><span class='op'>(</span>event <span class='op'>=</span> <span class='st'>"100"</span>, agegroup <span class='op'>=</span> <span class='st'>"ALL"</span>, gender <span class='op'>=</span> <span class='st'>"M"</span>, year <span class='op'>=</span> <span class='fl'>2016</span>, top_n <span class='op'>=</span> <span class='fl'>20</span><span class='op'>)</span> 
+<pre><code><span class='va'>event_100</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/poweRof10/man/get_event.html'>get_event</a></span><span class='op'>(</span>event <span class='op'>=</span> <span class='st'>"100"</span>, agegroup <span class='op'>=</span> <span class='st'>"ALL"</span>, gender <span class='op'>=</span> <span class='st'>"M"</span>, year <span class='op'>=</span> <span class='fl'>2016</span>, top_n <span class='op'>=</span> <span class='fl'>20</span><span class='op'>)</span> 
 </code></pre>
 </div>
 </div>
@@ -2266,7 +2273,7 @@ code span.wa { color: #545454; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode">
 <pre><code><span class='va'>dates</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span>from <span class='op'>=</span> <span class='fl'>2010</span>, to <span class='op'>=</span> <span class='fl'>2020</span><span class='op'>)</span>
 
-<span class='va'>rankings</span> <span class='op'>&lt;-</span> <span class='fu'>map_dfr</span><span class='op'>(</span><span class='va'>dates</span>, <span class='op'>~</span><span class='fu'>get_event</span><span class='op'>(</span>event <span class='op'>=</span><span class='st'>"100"</span>, 
+<span class='va'>rankings</span> <span class='op'>&lt;-</span> <span class='fu'>map_dfr</span><span class='op'>(</span><span class='va'>dates</span>, <span class='op'>~</span><span class='fu'><a href='https://rdrr.io/pkg/poweRof10/man/get_event.html'>get_event</a></span><span class='op'>(</span>event <span class='op'>=</span><span class='st'>"100"</span>, 
                                       agegroup <span class='op'>=</span> <span class='st'>"ALL"</span>, 
                                       gender <span class='op'>=</span> <span class='st'>"M"</span>, 
                                       year <span class='op'>=</span> <span class='va'>.x</span>, 
