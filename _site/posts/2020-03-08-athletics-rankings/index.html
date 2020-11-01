@@ -18,6 +18,72 @@
  <!--radix_placeholder_import_source-->
  <!--/radix_placeholder_import_source-->
 
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #545454; font-weight: bold; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #a1024a; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007faa; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #008000; } /* Char */
+code span.cn { color: #d91e18; } /* Constant */
+code span.co { color: #545454; } /* Comment */
+code span.cv { color: #545454; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #aa5d00; } /* DataType */
+code span.dv { color: #a1024a; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #a1024a; } /* Float */
+code span.fu { color: #4254a7; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #545454; font-weight: bold; } /* Information */
+code span.kw { color: #007faa; font-weight: bold; } /* Keyword */
+code span.op { color: #696969; } /* Operator */
+code span.ot { color: #007faa; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #008000; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #008000; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #008000; } /* VerbatimString */
+code span.wa { color: #545454; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
   <!--radix_placeholder_meta_tags-->
 <title>Harry Fisher: Athletics rankings</title>
 
@@ -1955,7 +2021,9 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <!--/radix_placeholder_distill-->
+  <script src="../../site_libs/header-attrs-2.5/header-attrs.js"></script>
   <script src="../../site_libs/jquery-1.11.3/jquery.min.js"></script>
+  <script src="../../site_libs/anchor-4.2.2/anchor.min.js"></script>
   <script src="../../site_libs/bowser-1.9.3/bowser.min.js"></script>
   <script src="../../site_libs/webcomponents-2.0.0/webcomponents.js"></script>
   <script src="../../site_libs/distill-2.2.21/template.v2.js"></script>
@@ -2097,6 +2165,11 @@ img[alt=badge] { width: 85px; height: 20px; }
 
 <div class="d-title">
 <h1>Athletics rankings</h1>
+<!--radix_placeholder_categories-->
+<div class="dt-tags">
+  <a href="../../index.html#category:athletics" class="dt-tag">athletics</a>
+</div>
+<!--/radix_placeholder_categories-->
 <p><p>Using R tools to gather data from an athletics rankings website.</p></p>
 </div>
 
@@ -2120,8 +2193,10 @@ Figure 1: Figure from <a href="https://www.thepowerof10.info" class="uri">https:
 </div>
 <p>This was my first time using the <a href="http://rvest.tidyverse.org/"><code>rvest</code></a> package, so I’m sure this code can be improved somewhat… It does, however, seem to do the trick. To start, I identified a url from one of the ranking pages that would serve as a starting point to access the site.</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-url &lt;- &quot;https://www.thepowerof10.info/rankings/rankinglist.aspx?event=100&amp;agegroup=ALL&amp;sex=M&amp;year=2012&quot;</code></pre>
+<div class="sourceCode">
+<pre><code><span class='va'>url</span> <span class='op'>&lt;-</span> <span class='st'>"https://www.thepowerof10.info/rankings/rankinglist.aspx?event=100&amp;agegroup=ALL&amp;sex=M&amp;year=2012"</span>
+</code></pre>
+</div>
 </div>
 <p>To access other pages it was just a case of supplying new values to the arguments in the url. For example to get the 200m rankings I could just swap the “event=100” for “event=200” in the string. To do this, I wrote a simple function that would generate a vector of strings with the desired events, years and for male or female athletes.</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -2129,8 +2204,7 @@ url &lt;- &quot;https://www.thepowerof10.info/rankings/rankinglist.aspx?event=10
 </div>
 <p>I then created a string of events and years I wanted to scrape. In this instance I only wanted male athletes, so also set gender to “M”. The result was a vector of urls as character strings that I could use to access the necessary pages.</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre><code>
-[1] &quot;https://www.thepowerof10.info/rankings/rankinglist.aspx?event=100&amp;agegroup=ALL&amp;sex=M&amp;year=2006&quot;
+<pre><code>[1] &quot;https://www.thepowerof10.info/rankings/rankinglist.aspx?event=100&amp;agegroup=ALL&amp;sex=M&amp;year=2006&quot;
 [2] &quot;https://www.thepowerof10.info/rankings/rankinglist.aspx?event=100&amp;agegroup=ALL&amp;sex=M&amp;year=2007&quot;
 [3] &quot;https://www.thepowerof10.info/rankings/rankinglist.aspx?event=100&amp;agegroup=ALL&amp;sex=M&amp;year=2008&quot;</code></pre>
 </div>
@@ -2145,36 +2219,38 @@ Figure 2: Figure from <a href="https://www.thepowerof10.info" class="uri">https:
 </div>
 <p>Once I knew how the different elements on the page were identified, it was as easy as copying and pasting the table id into <code>html_nodes()</code> and converting to a table with <code>html_table()</code>. After that it was just the usual wrangling you’d expect with a messy data frame.</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-library(rvest)
+<div class="sourceCode">
+<pre><code><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://rvest.tidyverse.org/'>rvest</a></span><span class='op'>)</span>
 
-readtable &lt;- function(url) {
-  main &lt;- read_html(url)
-  rankings &lt;- main %&gt;%
-    html_nodes(xpath = &#39;//*[@id=&quot;cphBody_lblCachedRankingList&quot;]/table&#39;) %&gt;%
-    html_table() %&gt;%
-    data.frame() %&gt;%
-    select(1:13) %&gt;%
-    set_names(c(&quot;rank&quot;, 
-                &quot;perf&quot;, 
-                &quot;windy&quot;, 
-                &quot;windspeed&quot;, 
-                &quot;PB&quot;, 
-                &quot;newpb&quot;, 
-                &quot;name&quot;, 
-                &quot;agegroup&quot;, 
-                &quot;month_year&quot;, 
-                &quot;coach&quot;, 
-                &quot;club&quot;, 
-                &quot;venue&quot;, 
-                &quot;date&quot;)) %&gt;%
-    mutate(
-      year = as.numeric(str_extract_all(url, &quot;[0-9]+&quot;)[[1]][[3]]),
-      event = as.numeric(str_extract_all(url, &quot;[0-9]+&quot;)[[1]][[2]])
-    ) %&gt;%
-    mutate_at(vars(name), list(~ replace(., . == &quot;&quot;, NA))) %&gt;%
-    mutate(name = na.locf(name))
-}</code></pre>
+<span class='va'>readtable</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>url</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='va'>main</span> <span class='op'>&lt;-</span> <span class='fu'>read_html</span><span class='op'>(</span><span class='va'>url</span><span class='op'>)</span>
+  <span class='va'>rankings</span> <span class='op'>&lt;-</span> <span class='va'>main</span> <span class='op'>%&gt;%</span>
+    <span class='fu'><a href='https://rvest.tidyverse.org/reference/html_nodes.html'>html_nodes</a></span><span class='op'>(</span>xpath <span class='op'>=</span> <span class='st'>'//*[@id="cphBody_lblCachedRankingList"]/table'</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+    <span class='fu'><a href='https://rvest.tidyverse.org/reference/html_table.html'>html_table</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+    <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+    <span class='fu'>select</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>13</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+    <span class='fu'>set_names</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"rank"</span>, 
+                <span class='st'>"perf"</span>, 
+                <span class='st'>"windy"</span>, 
+                <span class='st'>"windspeed"</span>, 
+                <span class='st'>"PB"</span>, 
+                <span class='st'>"newpb"</span>, 
+                <span class='st'>"name"</span>, 
+                <span class='st'>"agegroup"</span>, 
+                <span class='st'>"month_year"</span>, 
+                <span class='st'>"coach"</span>, 
+                <span class='st'>"club"</span>, 
+                <span class='st'>"venue"</span>, 
+                <span class='st'>"date"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+    <span class='fu'>mutate</span><span class='op'>(</span>
+      year <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='fu'>str_extract_all</span><span class='op'>(</span><span class='va'>url</span>, <span class='st'>"[0-9]+"</span><span class='op'>)</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span><span class='op'>[[</span><span class='fl'>3</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span>,
+      event <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='fu'>str_extract_all</span><span class='op'>(</span><span class='va'>url</span>, <span class='st'>"[0-9]+"</span><span class='op'>)</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span><span class='op'>[[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span>
+    <span class='op'>)</span> <span class='op'>%&gt;%</span>
+    <span class='fu'>mutate_at</span><span class='op'>(</span><span class='fu'>vars</span><span class='op'>(</span><span class='va'>name</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>~</span> <span class='fu'><a href='https://rdrr.io/r/base/replace.html'>replace</a></span><span class='op'>(</span><span class='va'>.</span>, <span class='va'>.</span> <span class='op'>==</span> <span class='st'>""</span>, <span class='cn'>NA</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+    <span class='fu'>mutate</span><span class='op'>(</span>name <span class='op'>=</span> <span class='fu'>na.locf</span><span class='op'>(</span><span class='va'>name</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
+</code></pre>
+</div>
 </div>
 <p>Now I simply had to pass the url to the function, and we’ll have the table from the webpage stored as a dataframe.</p>
 <div class="layout-chunk" data-layout="l-page">
@@ -2219,11 +2295,13 @@ readtable &lt;- function(url) {
 </div>
 <p>If I wanted to scrape multiple urls at once I would use <code>map_df</code>. Here I can pass my vector of urls and <code>map_df</code> will perform the scraping function <code>readtable</code> on each element in the vector and append the result together (this can take a while to complete so I’ll just use the first 3 urls from our vector of 104 urls).</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-urls_short &lt;- urls[1:3]
+<div class="sourceCode">
+<pre><code><span class='va'>urls_short</span> <span class='op'>&lt;-</span> <span class='va'>urls</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span><span class='op'>]</span>
 
-male_rankings &lt;- urls_short %&gt;%
-  map_df(readtable)</code></pre>
+<span class='va'>male_rankings</span> <span class='op'>&lt;-</span> <span class='va'>urls_short</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>map_df</span><span class='op'>(</span><span class='va'>readtable</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <p>Now we can view the top ranked athlete for each year.</p>
 <div class="layout-chunk" data-layout="l-page">
@@ -2280,31 +2358,32 @@ Figure 3: Figure from <a href="https://www.thepowerof10.info" class="uri">https:
 </div>
 <p>The function below collects the athltes name, unique url, year and event.</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-athleteurl &lt;- function(url) {
-  main &lt;- read_html(url)
-  athleteinfo &lt;- tibble(
-    name = html_text(html_nodes(main, &quot;td:nth-child(7) a&quot;), &quot;href&quot;),
-    athleteurl = html_attr(html_nodes(main, &quot;td:nth-child(7) a&quot;), &quot;href&quot;),
-    year = as.numeric(str_extract_all(url, &quot;[0-9]+&quot;)[[1]][[3]]),
-    event = as.numeric(str_extract_all(url, &quot;[0-9]+&quot;)[[1]][[2]])
-  ) %&gt;%
-    filter(name != &quot;&quot;)
-}
+<div class="sourceCode">
+<pre><code><span class='va'>athleteurl</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>url</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='va'>main</span> <span class='op'>&lt;-</span> <span class='fu'>read_html</span><span class='op'>(</span><span class='va'>url</span><span class='op'>)</span>
+  <span class='va'>athleteinfo</span> <span class='op'>&lt;-</span> <span class='fu'>tibble</span><span class='op'>(</span>
+    name <span class='op'>=</span> <span class='fu'><a href='https://rvest.tidyverse.org/reference/html_text.html'>html_text</a></span><span class='op'>(</span><span class='fu'><a href='https://rvest.tidyverse.org/reference/html_nodes.html'>html_nodes</a></span><span class='op'>(</span><span class='va'>main</span>, <span class='st'>"td:nth-child(7) a"</span><span class='op'>)</span>, <span class='st'>"href"</span><span class='op'>)</span>,
+    athleteurl <span class='op'>=</span> <span class='fu'><a href='https://rvest.tidyverse.org/reference/html_text.html'>html_attr</a></span><span class='op'>(</span><span class='fu'><a href='https://rvest.tidyverse.org/reference/html_nodes.html'>html_nodes</a></span><span class='op'>(</span><span class='va'>main</span>, <span class='st'>"td:nth-child(7) a"</span><span class='op'>)</span>, <span class='st'>"href"</span><span class='op'>)</span>,
+    year <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='fu'>str_extract_all</span><span class='op'>(</span><span class='va'>url</span>, <span class='st'>"[0-9]+"</span><span class='op'>)</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span><span class='op'>[[</span><span class='fl'>3</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span>,
+    event <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='fu'>str_extract_all</span><span class='op'>(</span><span class='va'>url</span>, <span class='st'>"[0-9]+"</span><span class='op'>)</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span><span class='op'>[[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span>
+  <span class='op'>)</span> <span class='op'>%&gt;%</span>
+    <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>name</span> <span class='op'>!=</span> <span class='st'>""</span><span class='op'>)</span>
+<span class='op'>}</span>
 
-ids &lt;- athleteurl(url)
+<span class='va'>ids</span> <span class='op'>&lt;-</span> <span class='fu'>athleteurl</span><span class='op'>(</span><span class='va'>url</span><span class='op'>)</span>
 
-head(ids)</code></pre>
-<pre><code>
-# A tibble: 6 x 4
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>ids</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code># A tibble: 6 x 4
   name                 athleteurl                           year event
   &lt;chr&gt;                &lt;chr&gt;                               &lt;dbl&gt; &lt;dbl&gt;
-1 Dwain Chambers       /athletes/profile.aspx?athleteid=3~  2012   100
-2 Adam Gemili          /athletes/profile.aspx?athleteid=2~  2012   100
-3 James Dasaolu        /athletes/profile.aspx?athleteid=2~  2012   100
-4 Harry Aikines-Aryee~ /athletes/profile.aspx?athleteid=1~  2012   100
-5 Mark Lewis-Francis   /athletes/profile.aspx?athleteid=2~  2012   100
-6 James Alaka          /athletes/profile.aspx?athleteid=2~  2012   100</code></pre>
+1 Dwain Chambers       /athletes/profile.aspx?athleteid=3…  2012   100
+2 Adam Gemili          /athletes/profile.aspx?athleteid=2…  2012   100
+3 James Dasaolu        /athletes/profile.aspx?athleteid=2…  2012   100
+4 Harry Aikines-Aryee… /athletes/profile.aspx?athleteid=1…  2012   100
+5 Mark Lewis-Francis   /athletes/profile.aspx?athleteid=2…  2012   100
+6 James Alaka          /athletes/profile.aspx?athleteid=2…  2012   100</code></pre>
 </div>
 <p>In another function I join these two tables together so I had one data frame that had all the results and rankings as well as each athletes individual id that I could use to get their individual data. I also appended the full address to each individual athletes id.</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -2313,6 +2392,15 @@ head(ids)</code></pre>
 <p>This left me with a complete dataframe I could work with, with the options of getting individual athletes data as needed,</p>
 <div class="layout-chunk" data-layout="l-page">
 <table>
+<colgroup>
+<col style="width: 3%" />
+<col style="width: 4%" />
+<col style="width: 15%" />
+<col style="width: 3%" />
+<col style="width: 14%" />
+<col style="width: 10%" />
+<col style="width: 47%" />
+</colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">rank</th>
@@ -2388,6 +2476,15 @@ head(ids)</code></pre>
 </div>
 <div class="layout-chunk" data-layout="l-page">
 <table>
+<colgroup>
+<col style="width: 14%" />
+<col style="width: 5%" />
+<col style="width: 4%" />
+<col style="width: 8%" />
+<col style="width: 10%" />
+<col style="width: 45%" />
+<col style="width: 10%" />
+</colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">name</th>
@@ -2452,6 +2549,7 @@ head(ids)</code></pre>
 <p><a href="https://harryfish.shinyapps.io/resultsdashboard/" class="uri">https://harryfish.shinyapps.io/resultsdashboard/</a></p>
 <p>Lots of work left to do, but any comments or feedback are always welcome. The source code is on my <a href="https://github.com/HarryFisher1/power_of_10">github</a> if you want to try anything out.</p>
 <p>Thanks for reading!</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <div class="article-footer">
   <p class="social_footer">
