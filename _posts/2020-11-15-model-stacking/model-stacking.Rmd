@@ -1,0 +1,18 @@
+---
+title:  "When the world one model is not enough"
+description: |
+  A short description of the post.
+author:
+  - name: Harry Fisher
+    url: https://hfshr.netlify.app/
+date: 11-15-2020
+output:
+  distill::distill_article:
+    self_contained: false
+draft: true
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```

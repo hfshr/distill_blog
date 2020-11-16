@@ -5,7 +5,7 @@
 .distill-site-nav {
   color: rgba(255, 255, 255, 0.8);
   background-color: #444b4f;
-  font-size: 15px;
+  font-size: 20px;
   font-weight: 300;
 }
 
@@ -73,12 +73,37 @@ h1, h2, h3, h4, h5 {
   font-family: 'Roboto', sans-serif;
 }
 
-
+/*
 code {
   font-family: 'Fira Mono', sans-serif;
-  font-weight: 400;
-  font-size: 1em;
+  font-weight: 200;
+  line-height: 1.7; 
+  font-size: 1.0em;
+  font-style: normal;
+}
+*/
+
+img[alt=badge] { width: 85px; height: 20px; }
+
+.sidebar-section-custom{
+  font-size: 15px;
+  text-align: justify;
+  line-height: 1.7; 
+}
+
+.sidebar-section.subscribe {
+  font-size: 15px;
+  text-align: justify;
+  line-height: 1.7; 
+  
+}
+
+.sidebar-section.subscribe h3{
+  font-weight: bold;
+}
+
+.sidebar-section.categories h3{
+  font-weight: bold;
 }
 
 
-img[alt=badge] { width: 85px; height: 20px; }

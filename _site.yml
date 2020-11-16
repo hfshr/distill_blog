@@ -3,13 +3,13 @@ title: "Harry Fisher"
 description: |
   My Blog
 output_dir: "_site"
-base_url: https://hfshr.netlify.app/
+base_url: https://hfshr.xyz/
 repository_url: https://github.com/hfshr/distill_blog
 navbar:
   search: true
   logo:
     image: data/images/logo.png
-    href: https://www.hfshr.netlify.app
+    href: https://hfshr.xyz/
   right:
     - text: "Home"
       href: index.html
