@@ -7,7 +7,18 @@
     <description>My Blog
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>Sat, 24 Oct 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 17 Nov 2020 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Investigating sports injuries with Bayesian networks using {bnlearn}</title>
+      <dc:creator>Harry Fisher</dc:creator>
+      <link>https://hfshr.xyz/posts/2020-11-01-bayesian-networks-with-bnlearn</link>
+      <description>This post explores the use of Bayesian networks with the excellent {bnlearn} package to examine the relationship between different risk factors and the probability of sustaining a sports injury.</description>
+      <category>R</category>
+      <category>Bayesian Network</category>
+      <guid>https://hfshr.xyz/posts/2020-11-01-bayesian-networks-with-bnlearn</guid>
+      <pubDate>Tue, 17 Nov 2020 00:00:00 +0000</pubDate>
+      <media:content url="https://hfshr.xyz/posts/2020-11-01-bayesian-networks-with-bnlearn/bn.png" medium="image" type="image/png" width="954" height="689"/>
+    </item>
     <item>
       <title>Introducing {poweRof10}</title>
       <dc:creator>Harry Fisher</dc:creator>
