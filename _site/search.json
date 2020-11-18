@@ -6,20 +6,20 @@
       "description": "\\> whoami",
       "author": [],
       "contents": "\n\n\n Hi! My name is Harry Fisher. Thanks for visiting my site. I have a passion for data science (especially all things R) and this site is a place where I like to share things I find interesting. I currently work as a data scientist in Cardiff, Wales. Previously, I completed my PhD at Cardiff Metropolitan University in December 2019, investigating risk factors associated with sports injury.\nFeel free to get in touch if any of the posts catch your interest!\nR packages\nbitmexr: R Client for the BitMEX Exchange \npoweRof10: Tools to scrape data from www.thepowerof10.info \nResearch\nFisher et al. In press. An interdisciplinary examination of stress and injury in athletes.\nFisher et al. 2016. Relationship between Force Production during Isometric Squats and Knee Flexion Angles during Landing. Journal of Strength and Conditioning. [pdf]\nContact\n\n\n\n\n \n\n\n\n\n\n\n",
-      "last_modified": "2020-11-17T20:43:04+00:00"
+      "last_modified": "2020-11-18T11:36:00+00:00"
     },
     {
       "path": "index.html",
       "title": "Posts",
       "author": [],
       "contents": "\n\n\n\n",
-      "last_modified": "2020-11-17T20:43:05+00:00"
+      "last_modified": "2020-11-18T11:36:01+00:00"
     },
     {
       "path": "README.html",
       "author": [],
       "contents": "\n\nBlog\nMy personal website / blog. Based on the distill theme by Rstudio.\n\n\n",
-      "last_modified": "2020-11-17T20:43:05+00:00"
+      "last_modified": "2020-11-18T11:36:01+00:00"
     }
   ],
   "collections": ["posts/posts.json"]

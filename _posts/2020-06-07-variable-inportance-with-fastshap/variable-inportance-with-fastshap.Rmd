@@ -27,6 +27,7 @@ library(tidymodels)
 library(tidyverse)
 library(gt)
 library(vip)
+
 ```
 
 While maximising a models performance is often desirable, it can sometimes limit the _explainability_. Being able to understand why your model is making certain predictions is vital if the model is going to be used to make important business decision that will need to be explained. This post is going to explore how we can use [SHapley Additive exPlanations](https://github.com/slundberg/shap) (SHAP) to dig a little deeper into complex models in an attempt to understand _why_ certain predictions are made.
@@ -35,7 +36,14 @@ While maximising a models performance is often desirable, it can sometimes limit
 
 First we'll need a model to explain. The code below is borrowed from a previous post using the `tidymodels` workflow (see [here](https://hfshr.netlify.app/posts/2020-05-23-tidymodel-notes/)). 
 
-```{r}
+```{r message=FALSE, warning=FALSE,error=FALSE}
+# load packages
+library(modeldata)
+library(tidymodels)
+library(tidyverse)
+library(gt)
+library(vip)
+
 data("credit_data")
 
 credit_data <- credit_data %>% 
@@ -59,7 +67,7 @@ mod <- boost_tree(trees = 500,
                   mtry = 6, 
                   min_n = 10,
                   tree_depth = 5) %>%
-  set_engine("xgboost") %>%
+  set_engine("xgboost", eval_metric = 'error') %>%
   set_mode("classification")
 
 xgboost_wflow <- workflow() %>%
