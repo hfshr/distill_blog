@@ -65,14 +65,14 @@
     <item>
       <title>Opening the black box: Exploring xgboost models with {fastshap} in R</title>
       <dc:creator>Harry Fisher</dc:creator>
-      <link>https://hfshr.xyz/posts/2020-06-07-variable-importance-with-fastshap</link>
+      <link>https://hfshr.xyz/posts/2020-06-07-variable-inportance-with-fastshap</link>
       <description>Being able to understand and explain why a model makes certain predictions is
 important, particularly if your model is being used to make critical business decisions. This post takes a look into the inner workings of a xgboost model by using the {fastshap} package to compute shapely values for the different features in the dataset, allowing deeper insight into the models predictions.</description>
       <category>R</category>
       <category>Machine learning</category>
-      <guid>https://hfshr.xyz/posts/2020-06-07-variable-importance-with-fastshap</guid>
+      <guid>https://hfshr.xyz/posts/2020-06-07-variable-inportance-with-fastshap</guid>
       <pubDate>Sun, 07 Jun 2020 00:00:00 +0000</pubDate>
-      <media:content url="https://hfshr.xyz/posts/2020-06-07-variable-importance-with-fastshap/funky.png" medium="image" type="image/png" width="492" height="367"/>
+      <media:content url="https://hfshr.xyz/posts/2020-06-07-variable-inportance-with-fastshap/funky.png" medium="image" type="image/png" width="492" height="367"/>
     </item>
     <item>
       <title>bitmexr 0.3.0: Place, modify and cancel your orders on BitMEX without leaving R! </title>

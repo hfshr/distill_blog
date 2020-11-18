@@ -5,7 +5,7 @@ description: |
   important, particularly if your model is being used to make critical business decisions. This post takes a look into the inner workings of a xgboost model by using the {fastshap} package to compute shapely values for the different features in the dataset, allowing deeper insight into the models predictions.  
 author:
   - name: Harry Fisher
-    url: https://hfshr.netlify.app/
+    url: https://hfshr.xyz
 repository_url: https://github.com/hfshr/distill_blog  
 date: 06-07-2020
 preview: funky.png
