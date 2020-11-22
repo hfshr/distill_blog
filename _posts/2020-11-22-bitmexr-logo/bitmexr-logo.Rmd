@@ -1,5 +1,5 @@
 ---
-title: "bitmexr gets a hex logo!"
+title: "{bitmexr} gets a hex logo!"
 description: |
    Steps to create a simple hex logo using the {hexSticker} package.
 author:
@@ -10,6 +10,7 @@ date: 11-22-2020
 categories:
   - R
   - Bitcoin
+  - bitmexr
 output:
   distill::distill_article:
     self_contained: false

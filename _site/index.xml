@@ -9,12 +9,13 @@
     <generator>Distill</generator>
     <lastBuildDate>Sun, 22 Nov 2020 00:00:00 +0000</lastBuildDate>
     <item>
-      <title>bitmexr gets a hex logo!</title>
+      <title>{bitmexr} gets a hex logo!</title>
       <dc:creator>Harry Fisher</dc:creator>
       <link>https://hfshr.xyz/posts/2020-11-22-bitmexr-logo</link>
       <description>Steps to create a simple hex logo using the {hexSticker} package.</description>
       <category>R</category>
       <category>Bitcoin</category>
+      <category>bitmexr</category>
       <guid>https://hfshr.xyz/posts/2020-11-22-bitmexr-logo</guid>
       <pubDate>Sun, 22 Nov 2020 00:00:00 +0000</pubDate>
       <media:content url="https://hfshr.xyz/posts/2020-11-22-bitmexr-logo/hex.png" medium="image" type="image/png" width="518" height="600"/>
