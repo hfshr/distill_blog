@@ -1,0 +1,51 @@
+---
+title: "bitmexr gets a hex logo!"
+description: |
+   Steps to create a simple hex logo using the {hexSticker} package.
+author:
+  - name: Harry Fisher
+    url: https://www.hfshr.xyz
+preview: hex.png    
+date: 11-22-2020
+categories:
+  - R
+  - Bitcoin
+output:
+  distill::distill_article:
+    self_contained: false
+draft: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Hex logos are ubiquitous with R packages, and I had been meaning to create one for my `bitmexr` package for a while. For one reason or another I never quite got round to it, but that changes today! I thought I'd note down the steps I took here for future reference.
+
+A quick google of "how to create R hex logo" pointed me towards the `hexSticker` package, which I promptly installed and set to work. After having a look at some of the examples on https://github.com/GuangchuangYu/hexSticker, I opted for a really simple design (I was never much of an artist `r emo::ji("laughing")`) using the following code:
+
+```{r eval=FALSE}
+library(hexSticker)
+
+sticker("/home/harry/Desktop/Bitcoin-Logo.png",
+        package="bitmexr",
+        p_size=20,
+        s_x=1,
+        s_y=0.75,
+        s_width = 0.9,
+        s_height = 0.9,
+        h_fill = "#000000",
+        h_color = "#f2a900",
+        asp = 0.9,
+        filename="hex.png")
+
+```
+
+The end result looks like this
+
+```{r fig.align='center'}
+knitr::include_graphics("hex.png")
+```
+
+Not particularly imaginative, but I'm happy with it as a first attempt! 
+

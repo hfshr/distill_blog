@@ -19,7 +19,7 @@
  <!--/radix_placeholder_import_source-->
 
   <!--radix_placeholder_meta_tags-->
-<title>Harry Fisher: Writing a thesis in R Markdown</title>
+<title>Data, Code &amp; Coffee: Writing a thesis in R Markdown</title>
 
 <meta property="description" itemprop="description" content="A short discussion about my experiences using R Markdown to write my PhD thesis"/>
 
@@ -32,7 +32,7 @@
 <meta name="article:author" content="Harry Fisher"/>
 
 <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-<meta property="og:title" content="Harry Fisher: Writing a thesis in R Markdown"/>
+<meta property="og:title" content="Data, Code &amp; Coffee: Writing a thesis in R Markdown"/>
 <meta property="og:type" content="article"/>
 <meta property="og:description" content="A short discussion about my experiences using R Markdown to write my PhD thesis"/>
 <meta property="og:url" content="https://hfshr.xyz/posts/2020-03-14-writing-a-thesis-in-r-markdown/"/>
@@ -40,11 +40,11 @@
 <meta property="og:image:width" content="1000"/>
 <meta property="og:image:height" content="1000"/>
 <meta property="og:locale" content="en_US"/>
-<meta property="og:site_name" content="Harry Fisher"/>
+<meta property="og:site_name" content="Data, Code &amp; Coffee"/>
 
 <!--  https://dev.twitter.com/cards/types/summary -->
 <meta property="twitter:card" content="summary_large_image"/>
-<meta property="twitter:title" content="Harry Fisher: Writing a thesis in R Markdown"/>
+<meta property="twitter:title" content="Data, Code &amp; Coffee: Writing a thesis in R Markdown"/>
 <meta property="twitter:description" content="A short discussion about my experiences using R Markdown to write my PhD thesis"/>
 <meta property="twitter:url" content="https://hfshr.xyz/posts/2020-03-14-writing-a-thesis-in-r-markdown/"/>
 <meta property="twitter:image" content="https://hfshr.xyz/posts/2020-03-14-writing-a-thesis-in-r-markdown/images/quill.png"/>
@@ -52,7 +52,7 @@
 <meta property="twitter:image:height" content="1000"/>
 
 <!--  https://scholar.google.com/intl/en/scholar/inclusion.html#indexing -->
-<meta name="citation_title" content="Harry Fisher: Writing a thesis in R Markdown"/>
+<meta name="citation_title" content="Data, Code &amp; Coffee: Writing a thesis in R Markdown"/>
 <meta name="citation_fulltext_html_url" content="https://hfshr.xyz/posts/2020-03-14-writing-a-thesis-in-r-markdown/"/>
 <meta name="citation_fulltext_world_readable" content=""/>
 <meta name="citation_online_date" content="2020/03/14"/>
@@ -415,258 +415,6 @@ d-title {
 <link href="../../site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet"/>
 <link href="../../site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet"/>
 <script src="../../site_libs/headroom-0.9.4/headroom.min.js"></script>
-<script src="../../site_libs/autocomplete-0.37.1/autocomplete.min.js"></script>
-<script src="../../site_libs/fuse-6.4.1/fuse.min.js"></script>
-
-<script type="application/javascript">
-
-function getMeta(metaName) {
-  var metas = document.getElementsByTagName('meta');
-  for (let i = 0; i < metas.length; i++) {
-    if (metas[i].getAttribute('name') === metaName) {
-      return metas[i].getAttribute('content');
-    }
-  }
-  return '';
-}
-
-function offsetURL(url) {
-  var offset = getMeta('distill:offset');
-  return offset ? offset + '/' + url : url;
-}
-
-function createFuseIndex() {
-
-  // create fuse index
-  var options = {
-    keys: [
-      { name: 'title', weight: 20 },
-      { name: 'categories', weight: 15 },
-      { name: 'description', weight: 10 },
-      { name: 'contents', weight: 5 },
-    ],
-    ignoreLocation: true,
-    threshold: 0
-  };
-  var fuse = new window.Fuse([], options);
-
-  // fetch the main search.json
-  return fetch(offsetURL('search.json'))
-    .then(function(response) {
-      if (response.status == 200) {
-        return response.json().then(function(json) {
-          // index main articles
-          json.articles.forEach(function(article) {
-            fuse.add(article);
-          });
-          // download collections and index their articles
-          return Promise.all(json.collections.map(function(collection) {
-            return fetch(offsetURL(collection)).then(function(response) {
-              if (response.status === 200) {
-                return response.json().then(function(articles) {
-                  articles.forEach(function(article) {
-                    fuse.add(article);
-                  });
-                })
-              } else {
-                return Promise.reject(
-                  new Error('Unexpected status from search index request: ' +
-                            response.status)
-                );
-              }
-            });
-          })).then(function() {
-            return fuse;
-          });
-        });
-
-      } else {
-        return Promise.reject(
-          new Error('Unexpected status from search index request: ' +
-                      response.status)
-        );
-      }
-    });
-}
-
-window.document.addEventListener("DOMContentLoaded", function (event) {
-
-  // get search element (bail if we don't have one)
-  var searchEl = window.document.getElementById('distill-search');
-  if (!searchEl)
-    return;
-
-  createFuseIndex()
-    .then(function(fuse) {
-
-      // make search box visible
-      searchEl.classList.remove('hidden');
-
-      // initialize autocomplete
-      var options = {
-        autoselect: true,
-        hint: false,
-        minLength: 2,
-      };
-      window.autocomplete(searchEl, options, [{
-        source: function(query, callback) {
-          const searchOptions = {
-            isCaseSensitive: false,
-            shouldSort: true,
-            minMatchCharLength: 2,
-            limit: 10,
-          };
-          var results = fuse.search(query, searchOptions);
-          callback(results
-            .map(function(result) { return result.item; })
-            .filter(function(item) { return !!item.description; })
-          );
-        },
-        templates: {
-          suggestion: function(suggestion) {
-            var html = `
-              <div class="search-item">
-                <h3>${suggestion.title}</h3>
-                <div class="search-item-description">
-                  ${suggestion.description}
-                </div>
-                <div class="search-item-preview">
-                  <img src="${suggestion.preview ? offsetURL(suggestion.preview) : ''}"</img>
-                </div>
-              </div>
-            `;
-            return html;
-          }
-        }
-      }]).on('autocomplete:selected', function(event, suggestion) {
-        window.location.href = offsetURL(suggestion.path);
-      });
-      // remove inline display style on autocompleter (we want to
-      // manage responsive display via css)
-      $('.algolia-autocomplete').css("display", "");
-    })
-    .catch(function(error) {
-      console.log(error);
-    });
-
-});
-
-</script>
-
-<style type="text/css">
-
-/* Algolioa Autocomplete */
-
-.algolia-autocomplete {
-  display: inline-block;
-  margin-left: 10px;
-  vertical-align: sub;
-  background-color: white;
-  color: black;
-  padding: 6px;
-  padding-top: 8px;
-  padding-bottom: 0;
-  border-radius: 6px;
-  border: 1px #0F2E3D solid;
-  width: 180px;
-}
-
-
-@media screen and (max-width: 768px) {
-  .distill-site-nav .algolia-autocomplete {
-    display: none;
-    visibility: hidden;
-  }
-  .distill-site-nav.responsive .algolia-autocomplete {
-    display: inline-block;
-    visibility: visible;
-  }
-  .distill-site-nav.responsive .algolia-autocomplete .aa-dropdown-menu {
-    margin-left: 0;
-    width: 400px;
-    max-height: 400px;
-  }
-}
-
-.algolia-autocomplete .aa-input, .algolia-autocomplete .aa-hint {
-  width: 90%;
-  outline: none;
-  border: none;
-}
-
-.algolia-autocomplete .aa-hint {
-  color: #999;
-}
-.algolia-autocomplete .aa-dropdown-menu {
-  width: 550px;
-  max-height: 70vh;
-  overflow-x: visible;
-  overflow-y: scroll;
-  padding: 5px;
-  margin-top: 3px;
-  margin-left: -150px;
-  background-color: #fff;
-  border-radius: 5px;
-  border: 1px solid #999;
-  border-top: none;
-}
-
-.algolia-autocomplete .aa-dropdown-menu .aa-suggestion {
-  cursor: pointer;
-  padding: 5px 4px;
-  border-bottom: 1px solid #eee;
-}
-
-.algolia-autocomplete .aa-dropdown-menu .aa-suggestion:last-of-type {
-  border-bottom: none;
-  margin-bottom: 2px;
-}
-
-.algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item {
-  overflow: hidden;
-  font-size: 0.8em;
-  line-height: 1.4em;
-}
-
-.algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item h3 {
-  margin-block-start: 0;
-  margin-block-end: 5px;
-}
-
-.algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-description {
-  display: inline-block;
-  overflow: hidden;
-  height: 2.8em;
-  width: 80%;
-  margin-right: 4%;
-}
-
-.algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview {
-  display: inline-block;
-  width: 15%;
-}
-
-.algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview img {
-  height: 3em;
-  width: auto;
-  display: none;
-}
-
-.algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview img[src] {
-  display: initial;
-}
-
-.algolia-autocomplete .aa-dropdown-menu .aa-suggestion.aa-cursor {
-  background-color: #eee;
-}
-.algolia-autocomplete .aa-dropdown-menu .aa-suggestion em {
-  font-weight: bold;
-  font-style: normal;
-}
-
-</style>
-
-
 <!--/radix_placeholder_navigation_in_header-->
   <!--radix_placeholder_distill-->
 
@@ -2073,7 +1821,29 @@ img[alt=badge] { width: 85px; height: 20px; }
   font-weight: bold;
 }
 
+.section {
+  position: relative;
+  overflow: hidden;
+}
 
+.section-shaped {
+  position: relative;
+  overflow: hidden;
+}
+
+.page-header {
+  min-height: 75vh;
+  max-height: 999px;
+  padding: 0;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+.particles-js-canvas-el {
+	height: auto !important;
+}
 
 </style>
 <!--/radix_placeholder_site_in_header-->
@@ -2097,14 +1867,16 @@ img[alt=badge] { width: 85px; height: 20px; }
 <a class="logo" href="https://hfshr.xyz/">
 <img src="../../data/images/logo.png" alt="Logo"/>
 </a>
-<a href="../../index.html" class="title">Harry Fisher</a>
-<input id="distill-search" class="nav-search hidden" type="text" placeholder="Search..."/>
+<a href="../../index.html" class="title">Data, Code &amp; Coffee</a>
 </div>
 <div class="nav-right">
 <a href="../../index.html">Home</a>
 <a href="../../about.html">About</a>
 <a href="https://github.com/hfshr/distill_blog">
 <i class="fab fa-github" aria-hidden="true"></i>
+</a>
+<a href="https://twitter.com/harryfishr">
+<i class="fab fa-twitter" aria-hidden="true"></i>
 </a>
 <a href="../../index.xml">
 <i class="fa fa-rss" aria-hidden="true"></i>
@@ -2204,7 +1976,7 @@ var disqus_config = function () {
 })();
 </script>
   <p>
-    <div class="subscribe">Subscribe to <a href="https://rweekly.org">rweekly</a> for updates on this blog and many other sources.</div>
+    <div class="subscribe">Follow me on <a href="https://twitter.com/harryfishr">twitter</a> and subscribe to <a href="https://rweekly.org">rweekly</a> for updates on this blog.</div>
   </p>
 </div>
 <!--/radix_placeholder_article_footer-->
@@ -2226,11 +1998,11 @@ var disqus_config = function () {
   <p>Text and figures are licensed under Creative Commons Attribution <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. Source code is available at <a href="https://github.com/hfshr/distill_blog">https://github.com/hfshr/distill_blog</a>, unless otherwise noted. The figures that have been reused from other sources don't fall under this license and can be recognized by a note in their caption: "Figure from ...".</p>
   <h3 id="citation">Citation</h3>
   <p>For attribution, please cite this work as</p>
-  <pre class="citation-appendix short">Fisher (2020, March 14). Harry Fisher: Writing a thesis in R Markdown. Retrieved from https://hfshr.xyz/posts/2020-03-14-writing-a-thesis-in-r-markdown/</pre>
+  <pre class="citation-appendix short">Fisher (2020, March 14). Data, Code &amp; Coffee: Writing a thesis in R Markdown. Retrieved from https://hfshr.xyz/posts/2020-03-14-writing-a-thesis-in-r-markdown/</pre>
   <p>BibTeX citation</p>
   <pre class="citation-appendix long">@misc{fisher2020writing,
   author = {Fisher, Harry},
-  title = {Harry Fisher: Writing a thesis in R Markdown},
+  title = {Data, Code &amp; Coffee: Writing a thesis in R Markdown},
   url = {https://hfshr.xyz/posts/2020-03-14-writing-a-thesis-in-r-markdown/},
   year = {2020}
 }</pre>

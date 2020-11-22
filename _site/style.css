@@ -106,4 +106,26 @@ img[alt=badge] { width: 85px; height: 20px; }
   font-weight: bold;
 }
 
+.section {
+  position: relative;
+  overflow: hidden;
+}
 
+.section-shaped {
+  position: relative;
+  overflow: hidden;
+}
+
+.page-header {
+  min-height: 75vh;
+  max-height: 999px;
+  padding: 0;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+.particles-js-canvas-el {
+	height: auto !important;
+}

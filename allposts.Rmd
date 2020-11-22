@@ -1,0 +1,35 @@
+---
+title: "All posts"
+description: "Condensed version of all posts"
+---
+
+# 2020
+
+[2020-11-01 Bayesian networks with {bnlearn}](_posts/2020-11-01-bayesian-networks-with-bnlearn/bayesian-networks-with-bnlearn.html)
+
+[2020-10-22 Introducing {poweRof10}](_posts/2020-10-22-introducing-powerof10/introducing-powerof10.html)
+
+[2020-08-02 Python package](_posts/2020-08-02-python-package/python-package.html)
+
+[2020-07-14 Deploy model](_posts/2020-07-14-deploy-model/deploy-model.html)
+
+[2020-06-21 Penguins and nakedpipes](_posts/2020-06-21-penguins-and-nakedpipes/penguins-and-nakedpipes.html)
+
+[2020-06-07 Variable importance with {fastshap}](_posts/2020-06-07-variable-inportance-with-fastshap/variable-inportance-with-fastshap.html)
+
+[2020-05-25 {bitmexr} updates](_posts/2020-05-25-bitmexr-updates/bitmexr-updates.html)
+
+[2020-05-23 {tidymodel} notes](_posts/2020-05-23-tidymodel-notes/tidymodel-notes.html)
+
+[2020-05-02 Pretty tables with {gt}](_posts/2020-05-02-pretty-tables-with-gt/pretty-tables-with-gt.html)
+
+[2020-04-13 bitmexr](_posts/2020-04-13-bitmexr/bitmexr.html)
+
+[2020-03-22 bitcoin](_posts/2020-03-22-bitcoin/bitcoin.html)
+
+[2020-03-14 Writing a thesis in R markdown](_posts/2020-03-14-writing-a-thesis-in-r-markdown/writing-a-thesis-in-r-markdown.html)
+
+[2020-03-08 Athletics rankings](_posts/2020-03-08-athletics-rankings/athletics-rankings.html)
+
+
+

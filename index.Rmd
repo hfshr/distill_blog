@@ -3,3 +3,47 @@ title: "Posts"
 site: distill::distill_website
 listing: posts
 ---
+
+
+<!-- <div id="tsparticles"></div> -->
+<!--   <style> -->
+<!--   #tsparticles { -->
+<!--   width: 100%; -->
+<!--   height: 100%; -->
+<!--   background-size: cover; -->
+<!--   background-position: 50% 50%; -->
+<!--   background-repeat: no-repeat;} -->
+
+<!--  </style> -->
+
+<!--   <script -->
+<!--     src="https://cdnjs.cloudflare.com/ajax/libs/tsparticles/1.18.1/tsparticles.min.js" -->
+<!--     integrity="sha512-PYHWDEuXOTJ9MZ+/QHqkbgiEYZ+LImQv3i/9NyYOABFvK37e4q4Wg7aQDN1JpoGiEu1TYZh6JMrZluZox2gbDA==" -->
+<!--     crossorigin="anonymous" -->
+<!--   ></script> -->
+
+<!--   <script> -->
+<!--    tsParticles.load("tsparticles", { -->
+<!--   particles: { -->
+<!--     color: { -->
+<!--       value: "#000" -->
+<!--     }, -->
+<!--     links: { -->
+<!--       color: { -->
+<!--         value: "#000" -->
+<!--       }, -->
+<!--       enable: true, -->
+<!--       opacity: 0.5 -->
+<!--     }, -->
+<!--     move: { -->
+<!--       enable: true -->
+<!--     }, -->
+<!--     opacity: { -->
+<!--       value: 0.5 -->
+<!--     }, -->
+<!--     size: { -->
+<!--       value: 2 -->
+<!--     } -->
+<!--   } -->
+<!-- }); -->
+<!--   </script> -->

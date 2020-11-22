@@ -1,11 +1,14 @@
 ---
-title:  "When the world one model is not enough"
+title:  "When the world one model is not enough. Stacking models with {stacks}"
 description: |
-  A short description of the post.
+  A few notes on stacking models with {stacks}. 
 author:
   - name: Harry Fisher
-    url: https://hfshr.netlify.app/
+    url: https://hfshr.xyz
 date: 11-15-2020
+categories:
+  - R
+  - Machine learning
 output:
   distill::distill_article:
     self_contained: false
@@ -13,6 +16,328 @@ draft: true
 ---
 
 
-```{r setup, include=FALSE}
+```{r include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
+
+remotes::install_github("tidymodels/stacks", ref = "main")
 ```
+
+Models can sometimes make bad predictions. This is no fault of their own of course, as they can only do what they have been trained to do. _Stacking_ models can help to improve any single models performance by
+
+
+The data I am going to use here comes from
+
+
+Readers of Kuhn and Johnson's Applied Predictive Modelling 
+
+```{r}
+library(modeldata)
+library(tidyverse)
+library(tidymodels)
+library(vip)
+library(stacks)
+library(rules)
+
+data("concrete")
+
+```
+
+
+```{r}
+skimr::skim(concrete)
+```
+
+Lets have a quick look a the relationship between each of the predictor variables and compressive strength:
+
+```{r}
+concrete %>% 
+  pivot_longer(-compressive_strength) %>% 
+  ggplot(aes(x = value, y = compressive_strength)) +
+  geom_point() + 
+  geom_smooth() +
+  facet_wrap(~name, scales = "free_x")
+```
+
+
+I'm going to assume some experience with using the tidymodels workflow for modelling to avoid this post become too lengthy. For an introduction to tidymodels, I have a post [here]() which covers some of the basics, or you can check out some of the excellent tutorials available on the tidydmodels site [here](https://www.tidymodels.org/learn/).
+
+
+# Data prep
+
+```{r}
+set.seed(1)
+concrete_split <- initial_split(concrete)
+concrete_train <- training(concrete_split)
+concrete_test  <- testing(concrete_split)
+
+folds <- rsample::vfold_cv(concrete_train, v = 5)
+
+concrete_rec <- recipe(compressive_strength ~ ., data = concrete_train)
+
+metric <- metric_set(rmse, rsq)
+
+```
+
+
+```{r}
+set.seed(123)
+
+# protect your eyes!
+options(tidymodels.dark = TRUE) 
+
+# convenience function 
+ctrl_grid <- control_stack_grid()
+
+# Basic workflow
+cement_wf <- 
+  workflow() %>% 
+  add_recipe(concrete_rec)
+
+# random forest
+rand_forest_spec <- 
+  rand_forest(
+    mtry = tune(),
+    min_n = tune(),
+    trees = 500
+  ) %>%
+  set_mode("regression") %>%
+  set_engine("ranger")
+
+rand_forest_wflow <-
+  cement_wf %>%
+  add_model(rand_forest_spec)
+
+rand_forest_res <- 
+  tune_grid(
+    object = rand_forest_wflow, 
+    resamples = folds, 
+    grid = 10,
+    control = ctrl_grid
+  )
+
+# neural net
+
+nnet_spec <-
+  mlp(hidden_units = tune(), 
+      penalty = tune(), 
+      epochs = tune()) %>%
+  set_mode("regression") %>%
+  set_engine("nnet")
+
+nnet_rec <- 
+  concrete_rec %>% 
+  step_corr(all_predictors()) %>%
+  step_normalize(all_predictors())
+
+nnet_wflow <- 
+  cement_wf %>%
+  add_model(nnet_spec) %>% 
+  update_recipe(nnet_rec)
+
+nnet_res <-
+  tune_grid(
+    object = nnet_wflow, 
+    resamples = folds, 
+    grid = 10,
+    control = ctrl_grid
+  )
+
+# Cubist 
+cubist_spec <- 
+  cubist_rules(committees = tune(),
+               neighbors = tune(),
+               max_rules = tune())
+
+cubist_wflow <- 
+  cement_wf %>%
+  add_model(cubist_spec)
+
+cubist_res <-
+  tune_grid(
+    object = cubist_wflow, 
+    resamples = folds, 
+    grid = 10,
+    control = ctrl_grid
+  )
+```
+
+
+```{r}
+cubist_res %>% 
+  autoplot()
+
+cubist_final <- cubist_res %>% 
+  select_best("rmse")
+
+
+finaliser <- function(tuned, wkflow, split){
+  
+  best_mod <- tuned %>%
+  select_best("rmse")
+  
+  final_wf <- wkflow %>% 
+  finalize_workflow(best_mod)
+  
+ final_fit <- 
+  final_wf %>%
+  last_fit(split) 
+ 
+ final_fit %>%
+  collect_metrics()
+  
+}
+
+bind_rows(
+  finaliser(cubist_res, cubist_wflow, concrete_split) %>% mutate(model = "cubist"),
+  finaliser(nnet_res, nnet_wflow, concrete_split) %>% mutate(model = "nnet"),
+  finaliser(rand_forest_res, rand_forest_wflow, concrete_split) %>% mutate(model = "rand_forest")
+) %>% 
+  select(model, .metric, .estimate) %>% 
+  pivot_wider(names_from = .metric, values_from = .estimate)
+
+
+
+```
+
+
+```{r}
+cement_st <- 
+  # initialize the stack
+  stacks() %>%
+  # add candidate members
+  add_candidates(rand_forest_res) %>%
+  add_candidates(nnet_res)  %>% 
+  add_candidates(cubist_res) %>% 
+  blend_predictions() %>% 
+  fit_members()
+
+cement_st
+
+autoplot(cement_st, type = "weights")
+```
+
+
+```{r}
+cement_pred <- 
+  concrete_test %>%
+  bind_cols(predict(cement_st, .))
+```
+
+```{r}
+ggplot(cement_pred) +
+  aes(x = compressive_strength, 
+      y = .pred) +
+  geom_point()+ 
+  coord_obs_pred()
+```
+
+
+
+```{r}
+member_preds <- 
+  concrete_test %>%
+  select(compressive_strength) %>%
+  bind_cols(predict(cement_st, concrete_test, members = TRUE))
+```
+
+```{r}
+map_dfr(member_preds, rmse, truth = compressive_strength, data = member_preds) %>%
+  mutate(member = colnames(member_preds)) %>% 
+  arrange(.estimate)
+
+
+map_dfr(member_preds, rsq, truth = compressive_strength, data = member_preds) %>%
+  mutate(member = colnames(member_preds)) %>% 
+  arrange(desc(.estimate))
+```
+
+
+```{r}
+
+
+```
+
+
+
+
+
+
+
+```{r}
+ctrl_grid <- control_stack_grid()
+
+rand_forest_spec <- 
+  rand_forest(
+    mtry = tune(),
+    min_n = tune(),
+    trees = 500
+  ) %>%
+  set_mode("classification") %>%
+  set_engine("ranger")
+
+rand_forest_wflow <-
+  stackof_wf %>%
+  add_model(rand_forest_spec)
+
+rand_forest_res <- 
+  tune_grid(
+    object = rand_forest_wflow, 
+    resamples = folds, 
+    grid = 5,
+    control = ctrl_grid
+  )
+
+
+
+nnet_spec <-
+  mlp(hidden_units = tune(), penalty = tune(), epochs = tune()) %>%
+  set_mode("classification") %>%
+  set_engine("nnet")
+
+nnet_rec <- 
+  rec %>% 
+  step_normalize(all_predictors())
+
+nnet_wflow <- 
+  stackof_wf %>%
+  add_model(nnet_spec)
+
+nnet_res <-
+  tune_grid(
+    object = nnet_wflow, 
+    resamples = folds, 
+    grid = 10,
+    control = ctrl_grid
+  )
+
+stackof_st <- 
+  # initialize the stack
+  stacks() %>%
+  # add candidate members
+  add_candidates(rand_forest_res) %>%
+  add_candidates(nnet_res)  %>% 
+  blend_predictions() %>% 
+  fit_members()
+
+stackof_st
+
+autoplot(stackof_st)
+autoplot(stackof_st, type = "weights")
+
+stack_pred <-
+  test %>%
+  bind_cols(predict(stackof_st, ., type = "prob"))
+
+
+
+yardstick::roc_auc(
+  stack_pred,
+  truth = Remote,
+  .pred_Remote
+  )
+
+```
+
+
+
+
