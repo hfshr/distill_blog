@@ -394,7 +394,7 @@ bnviewer::strength.viewer(
 
 # Summary
 
-So that was a very quick intro to Bayesian Networks! As promised, below I have included some resources that I'd highly recommend if you what a more. Thanks for reading!
+So that was a very quick intro to Bayesian Networks! As promised, below I have included some resources that I'd highly recommend if you want to take a deeper dive into Bayesian networks. Thanks for reading!
 
 ## Resources {.appendix}
 

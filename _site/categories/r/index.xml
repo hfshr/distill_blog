@@ -1,0 +1,1280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:distill="https://distill.pub/journal/" version="2.0">
+  <channel>
+    <title>Data, Code &amp; Coffee</title>
+    <link>https://hfshr.xyz/</link>
+    <atom:link href="https://hfshr.xyz/index.xml" rel="self" type="application/rss+xml"/>
+    <description>My Blog
+</description>
+    <generator>Distill</generator>
+    <lastBuildDate>Sun, 22 Nov 2020 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>{bitmexr} gets a hex logo!</title>
+      <dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Harry Fisher</dc:creator>
+      <link>https://hfshr.xyz/posts/2020-11-22-bitmexr-logo</link>
+      <description>Steps to create a simple hex logo using the {hexSticker} package.</description>
+      <category>R</category>
+      <category>Bitcoin</category>
+      <category>bitmexr</category>
+      <guid>https://hfshr.xyz/posts/2020-11-22-bitmexr-logo</guid>
+      <pubDate>Sun, 22 Nov 2020 00:00:00 +0000</pubDate>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://hfshr.xyz/posts/2020-11-22-bitmexr-logo/hex.png" medium="image" type="image/png" width="518" height="600"/>
+    </item>
+    <item>
+      <title>Investigating sports injuries with Bayesian networks using {bnlearn}</title>
+      <dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Harry Fisher</dc:creator>
+      <link>https://hfshr.xyz/posts/2020-11-01-bayesian-networks-with-bnlearn</link>
+      <description>
+
+
+&lt;h1 id="introduction"&gt;Introduction&lt;/h1&gt;
+&lt;p&gt;In this post I want to share a few details about the humble Bayesian Network (BN). While not generally considered one of the “mainstream” forms of analysis, Bayesian networks have several features that make them an interesting choice, including their flexibility, interpretability and visually appealing nature. I used BNs during PhD, and was fortunate enough to receive some guidance from &lt;a href="https://www.bnlearn.com/about/"&gt;Marco Scutari&lt;/a&gt;, the author of &lt;code&gt;bnlearn&lt;/code&gt;, and who is a leading expert in the field when it comes to all things BN. From the outset, I want to clarify that I am by no means an expert in Bayesian networks (far from it!), and encourage any reader who wants to learn more about the theory underlying BNs, or to see more in depth examples, to visit Marco’s site which is a fantastic place to start. I have also included a list of resources I found helpful when learning about BNs at the end of the post. That said, in this post I hope to show a motivating example that might spark some ideas about how BNs can be used!&lt;/p&gt;
+&lt;h1 id="so-what-is-a-bayesian-network"&gt;So what is a Bayesian network?&lt;/h1&gt;
+&lt;p&gt;Wikipedia actually provides a nice overview, so I’ll &lt;del&gt;cheat&lt;/del&gt; paraphrase from there…&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;A Bayesian network is a probabilistic graphical model that represents a set of variables and their conditional dependencies via a directed acyclic graph (DAG). Bayesian networks are ideal for taking an event that occurred and predicting the likelihood that any one of several possible known causes was the contributing factor. For example, a Bayesian network could represent the probabilistic relationships between diseases and symptoms. Given symptoms, the network can be used to compute the probabilities of the presence of various diseases.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;So in really simple terms, a Bayesian network allows us to ask questions like “if the value of variable A is x and the value of variable B is y, what is the probability variable C of being value z?” Or, if the weather is looking overcast, and it rained yesterday, what is the probability the it will rain today?&lt;/p&gt;
+&lt;p&gt;There are some other important features that I am going to bullet point here for brevity:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Nodes are variables in the networks, arcs are links between nodes.&lt;/li&gt;
+&lt;li&gt;Networks can be discrete (all variables are categorical), or continuous or a hybrid of both.&lt;/li&gt;
+&lt;li&gt;The structure of a network can be specified ahead of time if it is known, or it can learnt from the data, or a hybrid approach where both “expert knowledge” and a data driven approach to learning can be combined.&lt;/li&gt;
+&lt;li&gt;There are a range of different algorithms in &lt;code&gt;bnlearn&lt;/code&gt; that can be used to learn a structure of a network from the data.&lt;/li&gt;
+&lt;li&gt;Once a network has been learnt, it can be queried or used for predictions.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;For me personally, the visual nature of Bayesian networks is really appealing, something which I’ll hopefully demonstrate in the following examples.&lt;/p&gt;
+&lt;h1 id="enough-theory-some-examples"&gt;Enough theory, some examples!&lt;/h1&gt;
+&lt;p&gt;The data I’ve used here comes from my PhD, where I was investigating the relationships between stress-related factors and the risk of sports injury. I have simplified the data slightly here just to make the examples clearer. If interested in the full study, you can find the paper in published form &lt;a href="https://www.frontiersin.org/articles/10.3389/fspor.2020.595619/abstract"&gt;&lt;strong&gt;here&lt;/strong&gt;&lt;/a&gt; and the git repo for the paper &lt;a href="https://github.com/hfshr/frontiers-paper"&gt;&lt;strong&gt;here&lt;/strong&gt;&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The data contains the following variables:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;injured: Whether an injury was sustained during the study period&lt;/li&gt;
+&lt;li&gt;pi: Previous injury, whether the participant had sustained an injury in the 6 months preceding the study&lt;/li&gt;
+&lt;li&gt;gender: Gender of the participant&lt;/li&gt;
+&lt;li&gt;ind_team: Whether the participant competes in an individual or team sport&lt;/li&gt;
+&lt;li&gt;clevel: Competitive level, The highest level the participant had reached in competition&lt;/li&gt;
+&lt;li&gt;hours: Number of hours spent training per week&lt;/li&gt;
+&lt;li&gt;nlebase: Baseline negative life events&lt;/li&gt;
+&lt;li&gt;ri: Reward Interest (personalty characteristic)&lt;/li&gt;
+&lt;li&gt;fffs: Fight-Flight-Freeze System (personalty characteristic)&lt;/li&gt;
+&lt;li&gt;bis: Behavioural Inhibition System (personalty characteristic)&lt;/li&gt;
+&lt;li&gt;stiffness: Sum of all lower body stiffness locations&lt;/li&gt;
+&lt;li&gt;balance: Score on a balance test, higher score = poorer balance.&lt;/li&gt;
+&lt;li&gt;hrv: Heart rate variability, Root mean squared difference of successive RR intervals.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Data can be found here: &lt;a href="https://raw.githubusercontent.com/hfshr/distill_blog/master/_posts/2020-11-01-bayesian-networks-with-bnlearn/injuries.csv" class="uri"&gt;https://raw.githubusercontent.com/hfshr/distill_blog/master/_posts/2020-11-01-bayesian-networks-with-bnlearn/injuries.csv&lt;/a&gt;&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;library(tidyverse)
+library(bnlearn)
+library(gt)
+
+injuries &amp;lt;- read.csv(&amp;quot;injuries.csv&amp;quot;) %&amp;gt;%
+  mutate(across(where(is.character), as.factor))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Each variable has two levels, as shown below:&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;injuries %&amp;gt;%
+  gather(var, value) %&amp;gt;%
+  count(var, value) %&amp;gt;%
+  select(-n) %&amp;gt;%
+  mutate(level = ifelse(row_number() %% 2 == 0, &amp;quot;Level 1&amp;quot;, &amp;quot;Level 2&amp;quot;)) %&amp;gt;%
+  pivot_wider(names_from = level, values_from = &amp;quot;value&amp;quot;) %&amp;gt;%
+  select(Variable = var, &amp;quot;Level 1&amp;quot;, &amp;quot;Level 2&amp;quot;) %&amp;gt;%
+  gt()&lt;/code&gt;&lt;/pre&gt;
+&lt;style&gt;html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#hlkhbymgcg .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#hlkhbymgcg .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#hlkhbymgcg .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#hlkhbymgcg .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 4px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#hlkhbymgcg .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#hlkhbymgcg .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#hlkhbymgcg .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#hlkhbymgcg .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#hlkhbymgcg .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#hlkhbymgcg .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#hlkhbymgcg .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#hlkhbymgcg .gt_group_heading {
+  padding: 8px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#hlkhbymgcg .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#hlkhbymgcg .gt_from_md &gt; :first-child {
+  margin-top: 0;
+}
+
+#hlkhbymgcg .gt_from_md &gt; :last-child {
+  margin-bottom: 0;
+}
+
+#hlkhbymgcg .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#hlkhbymgcg .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 12px;
+}
+
+#hlkhbymgcg .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#hlkhbymgcg .gt_first_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+}
+
+#hlkhbymgcg .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#hlkhbymgcg .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#hlkhbymgcg .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#hlkhbymgcg .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#hlkhbymgcg .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#hlkhbymgcg .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding: 4px;
+}
+
+#hlkhbymgcg .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#hlkhbymgcg .gt_sourcenote {
+  font-size: 90%;
+  padding: 4px;
+}
+
+#hlkhbymgcg .gt_left {
+  text-align: left;
+}
+
+#hlkhbymgcg .gt_center {
+  text-align: center;
+}
+
+#hlkhbymgcg .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#hlkhbymgcg .gt_font_normal {
+  font-weight: normal;
+}
+
+#hlkhbymgcg .gt_font_bold {
+  font-weight: bold;
+}
+
+#hlkhbymgcg .gt_font_italic {
+  font-style: italic;
+}
+
+#hlkhbymgcg .gt_super {
+  font-size: 65%;
+}
+
+#hlkhbymgcg .gt_footnote_marks {
+  font-style: italic;
+  font-size: 65%;
+}
+&lt;/style&gt;
+&lt;div id="hlkhbymgcg" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"&gt;&lt;table class="gt_table"&gt;
+  
+  &lt;thead class="gt_col_headings"&gt;
+    &lt;tr&gt;
+      &lt;th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1"&gt;Variable&lt;/th&gt;
+      &lt;th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1"&gt;Level 1&lt;/th&gt;
+      &lt;th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1"&gt;Level 2&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody class="gt_table_body"&gt;
+    &lt;tr&gt;
+      &lt;td class="gt_row gt_left"&gt;balance&lt;/td&gt;
+      &lt;td class="gt_row gt_left"&gt;Low&lt;/td&gt;
+      &lt;td class="gt_row gt_left"&gt;High&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class="gt_row gt_left"&gt;bis&lt;/td&gt;
+      &lt;td class="gt_row gt_left"&gt;Low&lt;/td&gt;
+      &lt;td class="gt_row gt_left"&gt;High&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class="gt_row gt_left"&gt;clevel&lt;/td&gt;
+      &lt;td class="gt_row gt_left"&gt;national_international&lt;/td&gt;
+      &lt;td class="gt_row gt_left"&gt;club_university_county&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class="gt_row gt_left"&gt;fffs&lt;/td&gt;
+      &lt;td class="gt_row gt_left"&gt;Low&lt;/td&gt;
+      &lt;td class="gt_row gt_left"&gt;High&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class="gt_row gt_left"&gt;gender&lt;/td&gt;
+      &lt;td class="gt_row gt_left"&gt;male&lt;/td&gt;
+      &lt;td class="gt_row gt_left"&gt;female&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class="gt_row gt_left"&gt;hours&lt;/td&gt;
+      &lt;td class="gt_row gt_left"&gt;Low&lt;/td&gt;
+      &lt;td class="gt_row gt_left"&gt;High&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class="gt_row gt_left"&gt;hrv&lt;/td&gt;
+      &lt;td class="gt_row gt_left"&gt;Low&lt;/td&gt;
+      &lt;td class="gt_row gt_left"&gt;High&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class="gt_row gt_left"&gt;ind_team&lt;/td&gt;
+      &lt;td class="gt_row gt_left"&gt;team&lt;/td&gt;
+      &lt;td class="gt_row gt_left"&gt;individual&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class="gt_row gt_left"&gt;injured&lt;/td&gt;
+      &lt;td class="gt_row gt_left"&gt;injured&lt;/td&gt;
+      &lt;td class="gt_row gt_left"&gt;healthy&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class="gt_row gt_left"&gt;nlebase&lt;/td&gt;
+      &lt;td class="gt_row gt_left"&gt;Low&lt;/td&gt;
+      &lt;td class="gt_row gt_left"&gt;High&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class="gt_row gt_left"&gt;pi&lt;/td&gt;
+      &lt;td class="gt_row gt_left"&gt;no injury&lt;/td&gt;
+      &lt;td class="gt_row gt_left"&gt;injury&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class="gt_row gt_left"&gt;ri&lt;/td&gt;
+      &lt;td class="gt_row gt_left"&gt;Low&lt;/td&gt;
+      &lt;td class="gt_row gt_left"&gt;High&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class="gt_row gt_left"&gt;stiffness&lt;/td&gt;
+      &lt;td class="gt_row gt_left"&gt;Low&lt;/td&gt;
+      &lt;td class="gt_row gt_left"&gt;High&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+  
+  
+&lt;/table&gt;&lt;/div&gt;
+&lt;h1 id="network-preparation"&gt;Network preparation&lt;/h1&gt;
+&lt;p&gt;To start, I simply extract the names of the variables into two character strings, one for the “explanatory” variables and one for the “control” variables. I’ll use these character vectors in later steps.&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;# select names of measured variables
+explanatory_vars &amp;lt;- injuries %&amp;gt;%
+  select(stiffness:fffs, injured) %&amp;gt;%
+  names()
+
+# select names of &amp;quot;explanatory&amp;quot; variables, e.g., gender
+control_vars &amp;lt;- injuries %&amp;gt;%
+  select(pi:hours) %&amp;gt;%
+  names()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Next, I create a blacklist to restrict certain arcs between specific nodes from being learnt in the network. Specifically, I restrict the direction of the arcs from control &lt;span class="math inline"&gt;\(\rightarrow\)&lt;/span&gt; explanatory and restrict some arcs between the control variables, as these are not of interest.&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;## create blacklist
+
+black_list &amp;lt;- expand.grid(
+  from = explanatory_vars,
+  to = control_vars
+) %&amp;gt;%
+  bind_rows(
+    .,
+    data.frame(
+      from = c(&amp;quot;clevel&amp;quot;, &amp;quot;nlebase&amp;quot;, &amp;quot;nlebase&amp;quot;),
+      to = c(&amp;quot;gender&amp;quot;, &amp;quot;ind_team&amp;quot;, &amp;quot;gender&amp;quot;)
+    )
+  )&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;I also enforce a relationship between &lt;code&gt;nlebase&lt;/code&gt; &lt;span class="math inline"&gt;\(\rightarrow\)&lt;/span&gt; &lt;code&gt;injured&lt;/code&gt;. This is a relationship is often found in the literature, although for reasons I won’t get into here wasn’t apparent in the data I collected, but I still wanted to include this relationship in my analysis.&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;## create whitelist
+white_list &amp;lt;- data.frame(
+  from = c(&amp;quot;nlebase&amp;quot;),
+  to = c(&amp;quot;injured&amp;quot;)
+)&lt;/code&gt;&lt;/pre&gt;
+&lt;h1 id="fitting-the-network"&gt;Fitting the network&lt;/h1&gt;
+&lt;p&gt;In bnlearn there are several algorithms available that can be used to learn the structure (for the full list see &lt;a href="https://www.bnlearn.com/" class="uri"&gt;https://www.bnlearn.com/&lt;/a&gt;). In this example, I have chosen the tabu search algorithm - a score-based algorithm that explores the search space starting from a simple network structure and adding, deleting, or reversing one arc at a time until the score can no longer be improved &lt;span class="citation"&gt;(Olmedilla et al. 2018)&lt;/span&gt;. I have also used the &lt;code&gt;boot.strength&lt;/code&gt; function that allows &lt;em&gt;n&lt;/em&gt; networks to be learnt via bootstrap samples. This enables the strength of each arc to be estimated by the number of times that particular arc is learnt during the sampling process.&lt;/p&gt;
+&lt;aside&gt;
+&lt;p&gt;I’ve only used 100 repeats here for speed, in the real world you might consider using more to ensure robustness.&lt;/p&gt;
+&lt;/aside&gt;
+&lt;pre class="r"&gt;&lt;code&gt;# set seed for reproducibility
+set.seed(122)
+
+str_network &amp;lt;- boot.strength(
+  injuries,
+  algorithm = &amp;quot;tabu&amp;quot;,
+  algorithm.args = list(
+    blacklist = black_list,
+    whitelist = white_list,
+    tabu = 100
+  )
+)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Using the &lt;code&gt;averaged.network&lt;/code&gt; function, I select all the arcs that were present in at least 30% of the learnt networks, this is equivalent to an arc strength of 0.3. An arc strength of 1 indicates that the arc was always present in the network, with the value decreasing as arcs were found in fewer networks.&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;avg30 &amp;lt;- averaged.network(str_network, threshold = 0.30)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We can now plot the network to visualise the relationships that have been learnt. I use the &lt;code&gt;strength.plot&lt;/code&gt; function which shows the strength of the relationship between arcs via different line styles in the plot. Thin, dashed arcs indicate the weakest arcs (arc strength below 0.50), whereas thick solid arcs indicate the strongest arcs (arc strengths approaching 1).&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;library(Rgraphviz)
+
+gR &amp;lt;- strength.plot(
+  avg30,
+  str_network,
+  shape = &amp;quot;rectangle&amp;quot;,
+  render = FALSE,
+  groups = list(explanatory_vars, control_vars),
+  layout = &amp;quot;dot&amp;quot;
+)
+
+# Colour the variables of interest
+nodeRenderInfo(gR)$fill[explanatory_vars] &amp;lt;- &amp;quot;deepskyblue&amp;quot;
+
+# Colour the main outcome variable
+nodeRenderInfo(gR)$fill[&amp;quot;injured&amp;quot;] &amp;lt;- &amp;quot;gold&amp;quot;
+
+# Show me the network!
+renderGraph(gR)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src="file2a5014eee075_files/figure-html/unnamed-chunk-8-1.png" width="672" /&gt;&lt;/p&gt;
+&lt;h1 id="interrogating-the-network"&gt;Interrogating the network&lt;/h1&gt;
+&lt;p&gt;Now we have learnt the network structure, we can use the network to answer queries about the probabilistic relationships in the network. This is achieved thorough using the conditional probabilities tables that give us the probability of an event, given other events. For example, take the stiffness node from the network above. We see there are two arcs linked to the stiffness node, pi &lt;span class="math inline"&gt;\(\rightarrow\)&lt;/span&gt; stiffness and gender &lt;span class="math inline"&gt;\(\rightarrow\)&lt;/span&gt; stiffness. To see these probability tables we can simple use:&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;# fit the network to the data
+fitted &amp;lt;- bn.fit(cextend(avg30), injuries)
+
+# Conditional probabilities for the stiffness node
+fitted$stiffness$prob&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;, , gender = female
+
+         pi
+stiffness    injury no injury
+     High 0.7333333 0.1304348
+     Low  0.2666667 0.8695652
+
+, , gender = male
+
+         pi
+stiffness    injury no injury
+     High 0.6336634 0.6086957
+     Low  0.3663366 0.3913043&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We can use this information to make a number of statements, for example, females with a previous injury (pi) are more likely to have “High” stiffness compared to males.&lt;/p&gt;
+&lt;p&gt;We may want to be a little more specific with our queries, for example say we want to know what the probability of an injury when stiffness == “High.” We can use &lt;code&gt;bnlearn::cpquery()&lt;/code&gt; to ask this very question.&lt;/p&gt;
+&lt;aside&gt;
+I’ve used likelihood weighting here(method = “lw”) which is an approximate inference algorithm based on Monte Carlo simulations, so you may get slightly different results when running this. Use &lt;code&gt;?bnlearn::cpquery&lt;/code&gt; to see the different options available for sampling.
+&lt;/aside&gt;
+&lt;pre class="r"&gt;&lt;code&gt;# ask the query
+cpquery(fitted,
+  event = (injured == &amp;quot;injured&amp;quot;),
+  evidence = list(stiffness = &amp;quot;High&amp;quot;),
+  method = &amp;quot;lw&amp;quot;
+)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;[1] 0.302661&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Likewise we can ask the same question for when stiffness == “Low”&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;cpquery(fitted,
+  event = (injured == &amp;quot;injured&amp;quot;),
+  evidence = list(stiffness = &amp;quot;Low&amp;quot;),
+  method = &amp;quot;lw&amp;quot;
+)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;[1] 0.1759626&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We can see that High stiffness almost doubles the probability of injury.&lt;/p&gt;
+&lt;p&gt;Now, this can get a little repetitive when you want to investigate lots of variables with different combinations, so I created a function that enables multiple variables to be passed in. It’s a bit lengthy and could probably be simplified a little, but it does the job…!&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;probability_generator &amp;lt;- function(.data, vars, outcome, state, model, repeats = 500000) {
+  all.levels &amp;lt;- if (any(length(vars) &amp;gt; 1)) {
+    lapply(.data[, (names(.data) %in% vars)], levels)
+  } else {
+    all.levels &amp;lt;- .data %&amp;gt;%
+      select(all_of(vars)) %&amp;gt;%
+      sapply(levels) %&amp;gt;%
+      as_tibble()
+  }
+  combos &amp;lt;- do.call(&amp;quot;expand.grid&amp;quot;, c(all.levels, list(stringsAsFactors = FALSE))) # al combiations
+
+  # generate character strings for all combinations
+  str1 &amp;lt;- &amp;quot;&amp;quot;
+  for (i in seq(nrow(combos))) {
+    str1[i] &amp;lt;- paste(combos %&amp;gt;% names(), &amp;quot; = &amp;#39;&amp;quot;,
+      combos[i, ] %&amp;gt;% sapply(as.character), &amp;quot;&amp;#39;&amp;quot;,
+      sep = &amp;quot;&amp;quot;, collapse = &amp;quot;, &amp;quot;
+    )
+  }
+
+  # repeat the string for more than one outcome
+  str1 &amp;lt;- rep(str1, times = length(outcome))
+  str1 &amp;lt;- paste(&amp;quot;list(&amp;quot;, str1, &amp;quot;)&amp;quot;, sep = &amp;quot;&amp;quot;)
+
+  # repeat loop for outcome variables (can have more than one outcome)
+  all.levels.outcome &amp;lt;- if (any(length(outcome) &amp;gt; 1)) {
+    lapply(.data[, (names(.data) %in% outcome)], levels)
+  } else {
+    all.levels &amp;lt;- .data %&amp;gt;%
+      select(all_of(outcome)) %&amp;gt;%
+      sapply(levels) %&amp;gt;%
+      as_tibble()
+  }
+  combos.outcome &amp;lt;- do.call(&amp;quot;expand.grid&amp;quot;, c(all.levels.outcome))
+
+  # repeat each outcome for the length of combos
+  str3 &amp;lt;- rep(paste(&amp;quot;(&amp;quot;, outcome, &amp;quot; == &amp;#39;&amp;quot;, state, &amp;quot;&amp;#39;)&amp;quot;, sep = &amp;quot;&amp;quot;), each = length(str1) / length(outcome))
+
+  # fit the model with bayes method
+  fitted &amp;lt;- bn.fit(cextend(model), .data, method = &amp;quot;bayes&amp;quot;, iss = 1)
+
+  # join all elements of string together
+  cmd &amp;lt;- paste(&amp;quot;cpquery(fitted, &amp;quot;, str3, &amp;quot;, &amp;quot;, str1, &amp;quot;, method = &amp;#39;lw&amp;#39;, n = &amp;quot;, repeats, &amp;quot;)&amp;quot;, sep = &amp;quot;&amp;quot;)
+
+  prob &amp;lt;- rep(0, length(str1)) # empty vector for probabilities
+  for (i in seq(length(cmd))) {
+    prob[i] &amp;lt;- eval(parse(text = cmd[i]))
+  } # for each combination of strings, what is the probability of outcome
+  res &amp;lt;- cbind(combos, prob)
+
+  return(res)
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now, we know that the &lt;code&gt;injured&lt;/code&gt; node is of the most interest here, so we might want to know what effect all the nodes that are connected to the injured node have on the probability of being injured. To find out what these other nodes are we can find the “Markov blanket” for the injured node. A Markov blanket contains all the nodes that make the node of interest conditionally independent from the rest of the network &lt;span class="citation"&gt;(Fuster-Parra et al. 2017)&lt;/span&gt;, and we can use the &lt;code&gt;bnlearn::mb&lt;/code&gt; to find these nodes.&lt;/p&gt;
+&lt;p&gt;For example for the injured node we can do:&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;mb(avg30, &amp;quot;injured&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;[1] &amp;quot;nlebase&amp;quot;   &amp;quot;clevel&amp;quot;    &amp;quot;hours&amp;quot;     &amp;quot;stiffness&amp;quot; &amp;quot;balance&amp;quot;  &lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;and we find five nodes of interest.&lt;/p&gt;
+&lt;p&gt;With our &lt;code&gt;probability_generator&lt;/code&gt; function, we can now pass in these nodes and find out the probability of the injured node being in the injured state for every combination of the nodes in the markov blanket. Remember each node can contains only two possible states, so we should end up with 2^5 = 32 combinations.&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;markov_blanket &amp;lt;- mb(avg30, &amp;quot;injured&amp;quot;)
+
+res &amp;lt;- probability_generator(injuries,
+  vars = markov_blanket,
+  outcome = &amp;quot;injured&amp;quot;,
+  state = &amp;quot;injured&amp;quot;,
+  model = avg30
+)
+
+# Check number of rows, should = 32
+nrow(res)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;[1] 32&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;32 combinations may be a bit much to look at, so here I make a quick function to get the top 3 highest and lowest probabilities for comparison.&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;toptail &amp;lt;- function(data, n) {
+  data %&amp;gt;%
+    top_n(n, prob) %&amp;gt;%
+    bind_rows(., data %&amp;gt;%
+      top_n(n, -prob))
+}
+
+res %&amp;gt;%
+  toptail(., 3) %&amp;gt;%
+  arrange(desc(prob)) %&amp;gt;%
+  select(Probability = prob, everything()) %&amp;gt;%
+  gt() %&amp;gt;%
+  tab_row_group(
+    group = &amp;quot;Low risk&amp;quot;,
+    rows = Probability &amp;lt;= 0.25
+  ) %&amp;gt;%
+  tab_row_group(
+    group = &amp;quot;High risk&amp;quot;,
+    rows = Probability &amp;gt; 0.25
+  ) %&amp;gt;%
+  tab_options(row_group.font.weight = &amp;quot;bold&amp;quot;) %&amp;gt;%
+  cols_align(&amp;quot;center&amp;quot;) %&amp;gt;%
+  fmt_number(columns = &amp;quot;Probability&amp;quot;, decimals = 2)&lt;/code&gt;&lt;/pre&gt;
+&lt;style&gt;html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#vhtivxcuks .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#vhtivxcuks .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#vhtivxcuks .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#vhtivxcuks .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 4px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#vhtivxcuks .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#vhtivxcuks .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#vhtivxcuks .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#vhtivxcuks .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#vhtivxcuks .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#vhtivxcuks .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#vhtivxcuks .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#vhtivxcuks .gt_group_heading {
+  padding: 8px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: bold;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#vhtivxcuks .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: bold;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#vhtivxcuks .gt_from_md &gt; :first-child {
+  margin-top: 0;
+}
+
+#vhtivxcuks .gt_from_md &gt; :last-child {
+  margin-bottom: 0;
+}
+
+#vhtivxcuks .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#vhtivxcuks .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 12px;
+}
+
+#vhtivxcuks .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#vhtivxcuks .gt_first_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+}
+
+#vhtivxcuks .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#vhtivxcuks .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#vhtivxcuks .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#vhtivxcuks .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#vhtivxcuks .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#vhtivxcuks .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding: 4px;
+}
+
+#vhtivxcuks .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#vhtivxcuks .gt_sourcenote {
+  font-size: 90%;
+  padding: 4px;
+}
+
+#vhtivxcuks .gt_left {
+  text-align: left;
+}
+
+#vhtivxcuks .gt_center {
+  text-align: center;
+}
+
+#vhtivxcuks .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#vhtivxcuks .gt_font_normal {
+  font-weight: normal;
+}
+
+#vhtivxcuks .gt_font_bold {
+  font-weight: bold;
+}
+
+#vhtivxcuks .gt_font_italic {
+  font-style: italic;
+}
+
+#vhtivxcuks .gt_super {
+  font-size: 65%;
+}
+
+#vhtivxcuks .gt_footnote_marks {
+  font-style: italic;
+  font-size: 65%;
+}
+&lt;/style&gt;
+&lt;div id="vhtivxcuks" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"&gt;&lt;table class="gt_table"&gt;
+  
+  &lt;thead class="gt_col_headings"&gt;
+    &lt;tr&gt;
+      &lt;th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1"&gt;Probability&lt;/th&gt;
+      &lt;th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1"&gt;nlebase&lt;/th&gt;
+      &lt;th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1"&gt;clevel&lt;/th&gt;
+      &lt;th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1"&gt;hours&lt;/th&gt;
+      &lt;th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1"&gt;stiffness&lt;/th&gt;
+      &lt;th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1"&gt;balance&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody class="gt_table_body"&gt;
+    &lt;tr class="gt_group_heading_row"&gt;
+      &lt;td colspan="6" class="gt_group_heading"&gt;High risk&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class="gt_row gt_center"&gt;0.51&lt;/td&gt;
+      &lt;td class="gt_row gt_center"&gt;Low&lt;/td&gt;
+      &lt;td class="gt_row gt_center"&gt;club_university_county&lt;/td&gt;
+      &lt;td class="gt_row gt_center"&gt;High&lt;/td&gt;
+      &lt;td class="gt_row gt_center"&gt;High&lt;/td&gt;
+      &lt;td class="gt_row gt_center"&gt;High&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class="gt_row gt_center"&gt;0.43&lt;/td&gt;
+      &lt;td class="gt_row gt_center"&gt;Low&lt;/td&gt;
+      &lt;td class="gt_row gt_center"&gt;national_international&lt;/td&gt;
+      &lt;td class="gt_row gt_center"&gt;High&lt;/td&gt;
+      &lt;td class="gt_row gt_center"&gt;High&lt;/td&gt;
+      &lt;td class="gt_row gt_center"&gt;Low&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class="gt_row gt_center"&gt;0.41&lt;/td&gt;
+      &lt;td class="gt_row gt_center"&gt;Low&lt;/td&gt;
+      &lt;td class="gt_row gt_center"&gt;national_international&lt;/td&gt;
+      &lt;td class="gt_row gt_center"&gt;High&lt;/td&gt;
+      &lt;td class="gt_row gt_center"&gt;High&lt;/td&gt;
+      &lt;td class="gt_row gt_center"&gt;High&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr class="gt_group_heading_row"&gt;
+      &lt;td colspan="6" class="gt_group_heading"&gt;Low risk&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class="gt_row gt_center"&gt;0.05&lt;/td&gt;
+      &lt;td class="gt_row gt_center"&gt;Low&lt;/td&gt;
+      &lt;td class="gt_row gt_center"&gt;national_international&lt;/td&gt;
+      &lt;td class="gt_row gt_center"&gt;Low&lt;/td&gt;
+      &lt;td class="gt_row gt_center"&gt;Low&lt;/td&gt;
+      &lt;td class="gt_row gt_center"&gt;Low&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class="gt_row gt_center"&gt;0.05&lt;/td&gt;
+      &lt;td class="gt_row gt_center"&gt;Low&lt;/td&gt;
+      &lt;td class="gt_row gt_center"&gt;national_international&lt;/td&gt;
+      &lt;td class="gt_row gt_center"&gt;Low&lt;/td&gt;
+      &lt;td class="gt_row gt_center"&gt;Low&lt;/td&gt;
+      &lt;td class="gt_row gt_center"&gt;High&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class="gt_row gt_center"&gt;0.04&lt;/td&gt;
+      &lt;td class="gt_row gt_center"&gt;Low&lt;/td&gt;
+      &lt;td class="gt_row gt_center"&gt;club_university_county&lt;/td&gt;
+      &lt;td class="gt_row gt_center"&gt;Low&lt;/td&gt;
+      &lt;td class="gt_row gt_center"&gt;Low&lt;/td&gt;
+      &lt;td class="gt_row gt_center"&gt;Low&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+  
+  
+&lt;/table&gt;&lt;/div&gt;
+&lt;p&gt;So from this we can conclude those athlete who have “High” combination of training hours, muscle stiffness and poor balance (“High” in this case means a worse score on a balance test) have a much higher risk of injury than those athletes with the opposite profile. Coaches or athletes could use this information to try and reduce their risk of injury by improving their balance or lowering their training hours in a run up to competition. The simple interpretations make this a particularly useful tool in applied settings, which I think is really important.&lt;/p&gt;
+&lt;h1 id="bonus-visulaisation-with-bnviewer"&gt;Bonus visulaisation with {bnviewer}&lt;/h1&gt;
+&lt;p&gt;I recently found the &lt;code&gt;bnviewer&lt;/code&gt; package which provides an alternative way to visualising networks generated in &lt;code&gt;bnlearn&lt;/code&gt; by leveraging the powerful &lt;code&gt;visNetwork&lt;/code&gt; package (that uses vis.js under the hood). Below I plot our network using &lt;code&gt;strength.viewer&lt;/code&gt; function, and the results are pretty cool!&lt;/p&gt;
+&lt;aside&gt;
+&lt;p&gt;You can drag the nodes around and hover over them for more information regarding the arcs.&lt;/p&gt;
+&lt;/aside&gt;
+&lt;pre class="r"&gt;&lt;code&gt;library(bnviewer)
+
+bnviewer::strength.viewer(
+  bayesianNetwork = avg30,
+  bayesianNetwork.boot.strength = str_network,
+  bayesianNetwork.arc.strength.threshold.expression = c(
+    &amp;quot;@threshold &amp;gt; 0 &amp;amp; @threshold &amp;lt; 0.5&amp;quot;,
+    &amp;quot;@threshold &amp;gt;= 0.5 &amp;amp; @threshold &amp;lt;= 0.8&amp;quot;,
+    &amp;quot;@threshold &amp;gt; 0.8 &amp;amp; @threshold &amp;lt;= 1&amp;quot;
+  ),
+  bayesianNetwork.arc.strength.threshold.expression.color = c(&amp;quot;red&amp;quot;, &amp;quot;yellow&amp;quot;, &amp;quot;blue&amp;quot;),
+  bayesianNetwork.arc.strength.threshold.alternative.color = &amp;quot;white&amp;quot;,
+  bayesianNetwork.arc.strength.label = TRUE,
+  bayesianNetwork.arc.strength.label.prefix = &amp;quot;&amp;quot;,
+  bayesianNetwork.arc.strength.label.color = &amp;quot;black&amp;quot;,
+  bayesianNetwork.arc.strength.tooltip = TRUE,
+  bayesianNetwork.edge.scale.min = 1,
+  bayesianNetwork.edge.scale.max = 3,
+  bayesianNetwork.edge.scale.label.min = 14,
+  bayesianNetwork.edge.scale.label.max = 14,
+  bayesianNetwork.width = &amp;quot;100%&amp;quot;,
+  bayesianNetwork.height = &amp;quot;500px&amp;quot;,
+  bayesianNetwork.layout = &amp;quot;layout_nicely&amp;quot;,
+  node.colors = list(
+    background = &amp;quot;black&amp;quot;,
+    border = &amp;quot;#2b7ce9&amp;quot;,
+    highlight = list(
+      background = &amp;quot;#e91eba&amp;quot;,
+      border = &amp;quot;#2b7ce9&amp;quot;
+    )
+  ),
+  node.font = list(color = &amp;quot;black&amp;quot;, face = &amp;quot;Arial&amp;quot;),
+  edges.dashes = FALSE
+)&lt;/code&gt;&lt;/pre&gt;
+&lt;div id="htmlwidget-e266754d946667eefa40" style="width:100%;height:500px;" class="visNetwork html-widget"&gt;&lt;/div&gt;
+&lt;script type="application/json" data-for="htmlwidget-e266754d946667eefa40"&gt;{"x":{"nodes":{"id":["injured","pi","nlebase","gender","ind_team","clevel","hours","stiffness","ri","bis","hrv","balance","fffs"],"label":[" injured"," pi"," nlebase"," gender"," ind_team"," clevel"," hours"," stiffness"," ri"," bis"," hrv"," balance"," fffs"],"x":[-0.332335621757386,-0.380689436874045,-0.318699532222308,0.859759819810445,-0.586222556619713,-0.730914607480044,-0.661993361836778,0.199542091072107,-1,0.454658471105544,-0.570106979833372,-0.904671109950046,1],"y":[0.0877016938384314,0.726601478560678,-0.441405839554369,0.35353205900637,0.0246887895853647,1,-0.499035695866826,0.518032635421694,-0.129213741092526,-0.537710770976121,-1,0.45331053093698,-0.213138531501823]},"edges":{"from":["injured","pi","pi","nlebase","nlebase","nlebase","nlebase","gender","gender","ind_team","ind_team","clevel","clevel","hours","hours","hours","stiffness","bis","balance"],"to":["balance","clevel","stiffness","injured","ri","bis","hrv","stiffness","fffs","pi","nlebase","pi","balance","injured","ind_team","hrv","injured","fffs","ri"],"smooth":[true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true],"dashes":[false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false],"value":[0.33,0.355,0.585,1,0.9,0.57,0.415,0.74,0.425,0.335,0.835,0.355,0.59,0.32,0.895,0.325,0.54,0.985,0.32],"width":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],"color":["red","red","yellow","blue","blue","yellow","red","yellow","red","red","blue","red","yellow","red","blue","red","yellow","blue","red"],"title":["&lt;br&gt;&lt;b&gt; Causal Relationships : &lt;\/b&gt;injured &amp;rarr; balance&lt;br&gt;&lt;br&gt;&lt;b&gt; Edge Strength : &lt;\/b&gt;0.33&lt;br&gt;&lt;br&gt;","&lt;br&gt;&lt;b&gt; Causal Relationships : &lt;\/b&gt;pi &amp;rarr; clevel&lt;br&gt;&lt;br&gt;&lt;b&gt; Edge Strength : &lt;\/b&gt;0.355&lt;br&gt;&lt;br&gt;","&lt;br&gt;&lt;b&gt; Causal Relationships : &lt;\/b&gt;pi &amp;rarr; stiffness&lt;br&gt;&lt;br&gt;&lt;b&gt; Edge Strength : &lt;\/b&gt;0.585&lt;br&gt;&lt;br&gt;","&lt;br&gt;&lt;b&gt; Causal Relationships : &lt;\/b&gt;nlebase &amp;rarr; injured&lt;br&gt;&lt;br&gt;&lt;b&gt; Edge Strength : &lt;\/b&gt;1&lt;br&gt;&lt;br&gt;","&lt;br&gt;&lt;b&gt; Causal Relationships : &lt;\/b&gt;nlebase &amp;rarr; ri&lt;br&gt;&lt;br&gt;&lt;b&gt; Edge Strength : &lt;\/b&gt;0.9&lt;br&gt;&lt;br&gt;","&lt;br&gt;&lt;b&gt; Causal Relationships : &lt;\/b&gt;nlebase &amp;rarr; bis&lt;br&gt;&lt;br&gt;&lt;b&gt; Edge Strength : &lt;\/b&gt;0.57&lt;br&gt;&lt;br&gt;","&lt;br&gt;&lt;b&gt; Causal Relationships : &lt;\/b&gt;nlebase &amp;rarr; hrv&lt;br&gt;&lt;br&gt;&lt;b&gt; Edge Strength : &lt;\/b&gt;0.415&lt;br&gt;&lt;br&gt;","&lt;br&gt;&lt;b&gt; Causal Relationships : &lt;\/b&gt;gender &amp;rarr; stiffness&lt;br&gt;&lt;br&gt;&lt;b&gt; Edge Strength : &lt;\/b&gt;0.74&lt;br&gt;&lt;br&gt;","&lt;br&gt;&lt;b&gt; Causal Relationships : &lt;\/b&gt;gender &amp;rarr; fffs&lt;br&gt;&lt;br&gt;&lt;b&gt; Edge Strength : &lt;\/b&gt;0.425&lt;br&gt;&lt;br&gt;","&lt;br&gt;&lt;b&gt; Causal Relationships : &lt;\/b&gt;ind_team &amp;rarr; pi&lt;br&gt;&lt;br&gt;&lt;b&gt; Edge Strength : &lt;\/b&gt;0.335&lt;br&gt;&lt;br&gt;","&lt;br&gt;&lt;b&gt; Causal Relationships : &lt;\/b&gt;ind_team &amp;rarr; nlebase&lt;br&gt;&lt;br&gt;&lt;b&gt; Edge Strength : &lt;\/b&gt;0.835&lt;br&gt;&lt;br&gt;","&lt;br&gt;&lt;b&gt; Causal Relationships : &lt;\/b&gt;clevel &amp;rarr; pi&lt;br&gt;&lt;br&gt;&lt;b&gt; Edge Strength : &lt;\/b&gt;0.355&lt;br&gt;&lt;br&gt;","&lt;br&gt;&lt;b&gt; Causal Relationships : &lt;\/b&gt;clevel &amp;rarr; balance&lt;br&gt;&lt;br&gt;&lt;b&gt; Edge Strength : &lt;\/b&gt;0.59&lt;br&gt;&lt;br&gt;","&lt;br&gt;&lt;b&gt; Causal Relationships : &lt;\/b&gt;hours &amp;rarr; injured&lt;br&gt;&lt;br&gt;&lt;b&gt; Edge Strength : &lt;\/b&gt;0.32&lt;br&gt;&lt;br&gt;","&lt;br&gt;&lt;b&gt; Causal Relationships : &lt;\/b&gt;hours &amp;rarr; ind_team&lt;br&gt;&lt;br&gt;&lt;b&gt; Edge Strength : &lt;\/b&gt;0.895&lt;br&gt;&lt;br&gt;","&lt;br&gt;&lt;b&gt; Causal Relationships : &lt;\/b&gt;hours &amp;rarr; hrv&lt;br&gt;&lt;br&gt;&lt;b&gt; Edge Strength : &lt;\/b&gt;0.325&lt;br&gt;&lt;br&gt;","&lt;br&gt;&lt;b&gt; Causal Relationships : &lt;\/b&gt;stiffness &amp;rarr; injured&lt;br&gt;&lt;br&gt;&lt;b&gt; Edge Strength : &lt;\/b&gt;0.54&lt;br&gt;&lt;br&gt;","&lt;br&gt;&lt;b&gt; Causal Relationships : &lt;\/b&gt;bis &amp;rarr; fffs&lt;br&gt;&lt;br&gt;&lt;b&gt; Edge Strength : &lt;\/b&gt;0.985&lt;br&gt;&lt;br&gt;","&lt;br&gt;&lt;b&gt; Causal Relationships : &lt;\/b&gt;balance &amp;rarr; ri&lt;br&gt;&lt;br&gt;&lt;b&gt; Edge Strength : &lt;\/b&gt;0.32&lt;br&gt;&lt;br&gt;"],"label":[" 0.33"," 0.355"," 0.585"," 1"," 0.9"," 0.57"," 0.415"," 0.74"," 0.425"," 0.335"," 0.835"," 0.355"," 0.59"," 0.32"," 0.895"," 0.325"," 0.54"," 0.985"," 0.32"],"font":["10px Arial black","10px Arial black","10px Arial black","10px Arial black","10px Arial black","10px Arial black","10px Arial black","10px Arial black","10px Arial black","10px Arial black","10px Arial black","10px Arial black","10px Arial black","10px Arial black","10px Arial black","10px Arial black","10px Arial black","10px Arial black","10px Arial black"]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot","color":{"background":"black","border":"#2b7ce9","highlight":{"background":"#e91eba","border":"#2b7ce9"}},"font":{"color":"black","face":"Arial"},"physics":false},"manipulation":{"enabled":false},"edges":{"arrows":"to","color":[],"scaling":{"min":1,"max":3,"label":{"enabled":true,"min":14,"max":14}},"smooth":false},"physics":{"stabilization":false}},"groups":null,"width":"100%","height":"500px","idselection":{"enabled":false,"style":"width: 150px; height: 26px","useLabels":true,"main":"Select by id"},"byselection":{"enabled":false,"style":"width: 150px; height: 26px","multiple":false,"hideColor":"rgba(200,200,200,0.5)","highlight":false},"main":{"text":"","style":"font-family:Georgia, Times New Roman, Times, serif;font-weight:bold;font-size:20px;text-align:center;"},"submain":{"text":"","style":"font-family:Georgia, Times New Roman, Times, serif;font-size:12px;text-align:center;"},"footer":{"text":"","style":"font-family:Georgia, Times New Roman, Times, serif;font-size:12px;text-align:center;"},"background":null,"iconsRedraw":true,"highlight":{"enabled":true,"hoverNearest":false,"degree":1,"algorithm":"all","hideColor":"rgba(200,200,200,0.5)","labelOnly":true},"collapse":{"enabled":false,"fit":false,"resetHighlight":true,"clusterOptions":null,"keepCoord":true,"labelSuffix":"(cluster)"},"igraphlayout":{"type":"square"}},"evals":[],"jsHooks":[]}&lt;/script&gt;
+&lt;h1 id="summary"&gt;Summary&lt;/h1&gt;
+&lt;p&gt;So that was a very quick intro to Bayesian Networks! As promised, below I have included some resources that I’d highly recommend if you want to take a deeper dive into Bayesian networks. Thanks for reading!&lt;/p&gt;
+&lt;h2 class="appendix" id="resources"&gt;Resources&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href="https://www.bnlearn.com/" class="uri"&gt;https://www.bnlearn.com/&lt;/a&gt; - Marco’s / bnlearn website&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href="https://kevintshoemaker.github.io/NRES-746/BayesianNetworks-1.html" class="uri"&gt;https://kevintshoemaker.github.io/NRES-746/BayesianNetworks-1.html&lt;/a&gt; - a great blog post about BNs&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href="https://bookdown.org/robertness/causalml/docs/tutorial-probabilistic-modeling-with-bayesian-networks-and-bnlearn.html" class="uri"&gt;https://bookdown.org/robertness/causalml/docs/tutorial-probabilistic-modeling-with-bayesian-networks-and-bnlearn.html&lt;/a&gt; another good starting point covering the basics&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href="https://www.frontiersin.org/articles/10.3389/fvets.2020.00073/full" class="uri"&gt;https://www.frontiersin.org/articles/10.3389/fvets.2020.00073/full&lt;/a&gt; Kratzer et al., (2020) paper I found while writing this post that gives a great walkthough, although not using bnlearn.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class="r distill-force-highlighting-css"&gt;&lt;code&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;div id="refs" class="references csl-bib-body hanging-indent"&gt;
+&lt;div id="ref-Fuster-Parra2017" class="csl-entry"&gt;
+Fuster-Parra, P., J. Vidal-Conti, P. A. Borràs, and P. Palou. 2017. &lt;span&gt;“&lt;span class="nocase"&gt;Bayesian networks to identify statistical dependencies. A case study of Spanish university students’ habits&lt;/span&gt;.”&lt;/span&gt; &lt;em&gt;Informatics for Health and Social Care&lt;/em&gt; 42 (2): 166–79. &lt;a href="https://doi.org/10.1080/17538157.2016.1178117"&gt;https://doi.org/10.1080/17538157.2016.1178117&lt;/a&gt;.
+&lt;/div&gt;
+&lt;div id="ref-Olmedilla2018" class="csl-entry"&gt;
+Olmedilla, Aurelio, Víctor J. Rubio, Pilar Fuster-Parra, Constanza Pujals, and Alexandre García-Mas. 2018. &lt;span&gt;“&lt;span class="nocase"&gt;A Bayesian approach to sport injuries likelihood: Does player’s self-efficacy and environmental factors plays the main role?&lt;/span&gt;”&lt;/span&gt; &lt;em&gt;Frontiers in Psychology&lt;/em&gt; 9: 1–10. &lt;a href="https://doi.org/10.3389/fpsyg.2018.01174"&gt;https://doi.org/10.3389/fpsyg.2018.01174&lt;/a&gt;.
+&lt;/div&gt;
+&lt;/div&gt;</description>
+      <distill:md5 xmlns:distill="https://distill.pub/journal/">4c99c5b33f44e79b72f17a263021f2ca</distill:md5>
+      <category>R</category>
+      <category>Bayesian Network</category>
+      <guid>https://hfshr.xyz/posts/2020-11-01-bayesian-networks-with-bnlearn</guid>
+      <pubDate>Tue, 17 Nov 2020 00:00:00 +0000</pubDate>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://hfshr.xyz/posts/2020-11-01-bayesian-networks-with-bnlearn/bn.png" medium="image" type="image/png" width="954" height="689"/>
+    </item>
+    <item>
+      <title>Introducing {poweRof10}</title>
+      <dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Harry Fisher</dc:creator>
+      <link>https://hfshr.xyz/posts/2020-10-22-introducing-powerof10</link>
+      <description>A quick introduction to a package I created to scrape data from athletics rankings website www.thepowerof10.info.</description>
+      <category>R</category>
+      <category>athletics</category>
+      <guid>https://hfshr.xyz/posts/2020-10-22-introducing-powerof10</guid>
+      <pubDate>Sat, 24 Oct 2020 00:00:00 +0000</pubDate>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://hfshr.xyz/posts/2020-10-22-introducing-powerof10/po10.jpg" medium="image" type="image/jpeg"/>
+    </item>
+    <item>
+      <title>Building a python package: Reflections from an R user</title>
+      <dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Harry Fisher</dc:creator>
+      <link>https://hfshr.xyz/posts/2020-08-02-python-package</link>
+      <description>In this post I note down some of my experiences with making my first python package, specifically highlighting some of the similarities and differences between R and python when it comes to package building. My hope is that R users looking to expand their pythonic horizons might find something useful!</description>
+      <category>R</category>
+      <category>Python</category>
+      <guid>https://hfshr.xyz/posts/2020-08-02-python-package</guid>
+      <pubDate>Sun, 02 Aug 2020 00:00:00 +0000</pubDate>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://hfshr.xyz/posts/2020-08-02-python-package/pkg.jpeg" medium="image" type="image/jpeg"/>
+    </item>
+    <item>
+      <title>Build with R, deploy with Python (and Heroku)</title>
+      <dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Harry Fisher</dc:creator>
+      <link>https://hfshr.xyz/posts/2020-07-14-deploy-model</link>
+      <description>This post looks at a cross-language approach to model deployment - something that may come in useful when working within a large data science / production environment.</description>
+      <category>R</category>
+      <category>Python</category>
+      <guid>https://hfshr.xyz/posts/2020-07-14-deploy-model</guid>
+      <pubDate>Tue, 14 Jul 2020 00:00:00 +0000</pubDate>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://hfshr.xyz/posts/2020-07-14-deploy-model/preview.png" medium="image" type="image/png" width="877" height="287"/>
+    </item>
+    <item>
+      <title>Penguins and nakedpipes</title>
+      <dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Harry Fisher</dc:creator>
+      <link>https://hfshr.xyz/posts/2020-06-21-penguins-and-nakedpipes</link>
+      <description>Exploring the new {palmerpenguins} dataset with {nakedpipe} - An alternative to using {magrittr}'s %&gt;%.</description>
+      <category>R</category>
+      <guid>https://hfshr.xyz/posts/2020-06-21-penguins-and-nakedpipes</guid>
+      <pubDate>Sun, 21 Jun 2020 00:00:00 +0000</pubDate>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://hfshr.xyz/posts/2020-06-21-penguins-and-nakedpipes/preview.png" medium="image" type="image/png" width="1377" height="800"/>
+    </item>
+    <item>
+      <title>Opening the black box: Exploring xgboost models with {fastshap} in R</title>
+      <dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Harry Fisher</dc:creator>
+      <link>https://hfshr.xyz/posts/2020-06-07-variable-inportance-with-fastshap</link>
+      <description>Being able to understand and explain why a model makes certain predictions is
+important, particularly if your model is being used to make critical business decisions. This post takes a look into the inner workings of a xgboost model by using the {fastshap} package to compute shapely values for the different features in the dataset, allowing deeper insight into the models predictions.</description>
+      <category>R</category>
+      <category>Machine learning</category>
+      <guid>https://hfshr.xyz/posts/2020-06-07-variable-inportance-with-fastshap</guid>
+      <pubDate>Sun, 07 Jun 2020 00:00:00 +0000</pubDate>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://hfshr.xyz/posts/2020-06-07-variable-inportance-with-fastshap/funky.png" medium="image" type="image/png" width="492" height="367"/>
+    </item>
+    <item>
+      <title>bitmexr 0.3.0: Place, modify and cancel your orders on BitMEX without leaving R! </title>
+      <dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Harry Fisher</dc:creator>
+      <link>https://hfshr.xyz/posts/2020-05-25-bitmexr-updates</link>
+      <description>bitmexr 0.3.0 brings some exciting new features to the package. bitmexr now            supports placing, editing and cancelling orders through BitMEX's API.
+In addition, the testnet version of the API is now supported soyou can try out         managing orders using the package in a risk free environment!</description>
+      <category>bitmexr</category>
+      <category>R</category>
+      <guid>https://hfshr.xyz/posts/2020-05-25-bitmexr-updates</guid>
+      <pubDate>Mon, 25 May 2020 00:00:00 +0000</pubDate>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://hfshr.xyz/posts/2020-05-25-bitmexr-updates/update.jpg" medium="image" type="image/jpeg"/>
+    </item>
+    <item>
+      <title>tidymodels workflow with Bayesian optimisation</title>
+      <dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Harry Fisher</dc:creator>
+      <link>https://hfshr.xyz/posts/2020-05-23-tidymodel-notes</link>
+      <description>I've been collecting a few notes on using the tidymodels workflow for modelling, and thought it might be worth sharing them here. More for personal reference than anything, but someone might find my ramblings useful!</description>
+      <category>R</category>
+      <category>Machine learning</category>
+      <guid>https://hfshr.xyz/posts/2020-05-23-tidymodel-notes</guid>
+      <pubDate>Sat, 23 May 2020 00:00:00 +0000</pubDate>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://hfshr.xyz/posts/2020-05-23-tidymodel-notes/tb.jpeg" medium="image" type="image/jpeg"/>
+    </item>
+    <item>
+      <title>Pretty tables with {gt}</title>
+      <dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Harry Fisher</dc:creator>
+      <link>https://hfshr.xyz/posts/2020-05-02-pretty-tables-with-gt</link>
+      <description>Traditionally I have been an ardent user of kable + kableExtra when it comes to creating tables. These packages have served me well, however the CRAN release of a new player in the table package space - gt - promted me to try it out and explore some of the features it had to offer.</description>
+      <category>Bitcoin</category>
+      <category>gt</category>
+      <category>ggplot</category>
+      <category>bitmexr</category>
+      <category>R</category>
+      <guid>https://hfshr.xyz/posts/2020-05-02-pretty-tables-with-gt</guid>
+      <pubDate>Sat, 02 May 2020 00:00:00 +0000</pubDate>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://hfshr.xyz/posts/2020-05-02-pretty-tables-with-gt/nice_table.png" medium="image" type="image/png" width="1175" height="633"/>
+    </item>
+    <item>
+      <title>bitmexr: An R client for BitMEX cryptocurrency exchange.</title>
+      <dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Harry Fisher</dc:creator>
+      <link>https://hfshr.xyz/posts/2020-04-13-bitmexr</link>
+      <description>How bitmexr came to be.</description>
+      <category>Bitcoin</category>
+      <category>R</category>
+      <guid>https://hfshr.xyz/posts/2020-04-13-bitmexr</guid>
+      <pubDate>Mon, 13 Apr 2020 00:00:00 +0000</pubDate>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://hfshr.xyz/posts/2020-04-13-bitmexr/images/price.gif" medium="image" type="image/gif"/>
+    </item>
+  </channel>
+</rss>
