@@ -73,7 +73,7 @@ h1, h2, h3, h4, h5 {
   font-family: 'Roboto', sans-serif;
 }
 
-/*
+
 code {
   font-family: 'Fira Mono', sans-serif;
   font-weight: 200;
@@ -81,7 +81,7 @@ code {
   font-size: 1.0em;
   font-style: normal;
 }
-*/
+
 
 img[alt=badge] { width: 85px; height: 20px; }
 
@@ -126,6 +126,3 @@ img[alt=badge] { width: 85px; height: 20px; }
   align-items: center;
 }
 
-.particles-js-canvas-el {
-	height: auto !important;
-}

@@ -1,5 +1,5 @@
 ---
-title:  "When the world one model is not enough. Stacking models with {stacks}"
+title:  "When one model is not enough. Stacking models with {stacks}"
 description: |
   A few notes on stacking models with {stacks}. 
 author:
@@ -22,7 +22,14 @@ knitr::opts_chunk$set(echo = FALSE)
 library(stacks)
 ```
 
-Models can sometimes make bad predictions. This is no fault of their own of course, as they can only do what they have been trained to do. _Stacking_ models can help to improve any single models performance by combining the strengths of different models into one model stack. This model stack allows the strengths of multiple models to be combined and will _hopefully_ make better predictions. A model stack or ensymbol is obviously not a new technique, but the package `stacks` a fairly recent development allowing model stacking to be achieved within the tidymodels ideology. Apart from having a great hex logo, `stacks` was good fun to use, and I've 
+Sometimes, when you are unsure about whether to take the umbrella with you when you leave the house, you might engage in some predictive modelling about the chances of it actually raining. Now, you wouldn;t think of these things as predictive modelling in the classical sense, but you're essentially trying to make a prediction using the information that you have available at the time, about a future event (rain or no rain). Some models you might use could be, the weather app on your phone, check outside to see the colour of the sky or use your previous experience of getting drenched the previous day to inform your decision to take an umbrella today. 
+
+Now, you might weight the strength of the predictions from these different models differently. 
+
+
+
+
+Models can sometimes make bad predictions. This is no fault of their own of course, as they can only do what they have been trained to do. _Stacking_ models can help to improve any single models performance by combining the strengths of different models into one model stack. This model stack allows the strengths of multiple models to be combined and will _hopefully_ make better predictions. `stacks` a fairly recent development allowing model stacking to be achieved within the tidymodels ideology. Apart from having a great hex logo, `stacks` was a joy to use, and I've 
 
 <aside>
 ```{r out.width="20%"}
@@ -32,7 +39,7 @@ knitr::include_graphics("logo.png")
 
 # The data 
 
-The data I am going to use here comes from chapter 10 of Kuhn and Johnson's Applied Predictive Modelling, and concerns different mixtures of concrete. 
+The data I am going to use here comes from chapter 10 of Kuhn and Johnson's Applied Predictive Modelling (aka the predictive modelling bible), and concerns different mixtures of concrete. Yep that's right, this post is going to be about concrete. 
 
 ```{r message=FALSE, warning=FALSE}
 library(modeldata)
@@ -46,25 +53,30 @@ data("concrete")
 skimr::skim(concrete)
 ```
 
-
-
-Lets have a quick look a the relationship between each of the predictor variables and compressive strength:
+In particular, we are interested in the compressive strength of different mixtures. So lets have a quick look a the relationship between each compressive strength and each of the predictors:
 
 ```{r}
 concrete %>% 
   pivot_longer(-compressive_strength) %>% 
   ggplot(aes(x = value, y = compressive_strength)) +
-  geom_point() + 
+  geom_point(alpha = 0.3, size = 1) + 
   geom_smooth() +
   facet_wrap(~name, scales = "free_x") +
+  labs(x = "Predictor", y = "Compressive strength", title = "Relationship between predictors and compressive strength") +
   theme_minimal()
 ```
 
+Yeh I (1998). “Modeling of Strength of High-Performance Concrete Us-ing Artificial Neural Networks.”Cement and Concrete research,28(12),1797–1808
 
-I'm going to assume some experience with using the tidymodels workflow for modelling to avoid this post become too lengthy. For an introduction to tidymodels, I have a post [here]() which covers some of the basics, or you can check out some of the excellent tutorials available on the tidydmodels site [here](https://www.tidymodels.org/learn/).
+# The goal
+
+
+
 
 
 # Data prep
+
+Quick note, I'm going to assume some experience with using the tidymodels workflow for modelling to avoid this post become too lengthy. For an introduction to tidymodels, I have a post [here]() which covers some of the basics, and you can check out some of the excellent tutorials available on the tidydmodels site [here](https://www.tidymodels.org/learn/).
 
 ```{r}
 set.seed(1)
@@ -99,7 +111,7 @@ cement_wf <-
   workflow() %>% 
   add_recipe(concrete_rec)
 
-# random forest
+# random forest -----------------------------------------------
 rf_spec <- 
   rand_forest(
     mtry = tune(),
@@ -121,7 +133,7 @@ rf_res <-
     control = ctrl_grid
   )
 
-# neural net
+# neural net ---------------------------------------------------
 
 nnet_spec <-
   mlp(hidden_units = tune(), 
@@ -148,7 +160,7 @@ nnet_res <-
     control = ctrl_grid
   )
 
-# Cubist 
+# Cubist --------------------------------------------------------
 cubist_spec <- 
   cubist_rules(committees = tune(),
                neighbors = tune(),
@@ -167,7 +179,7 @@ cubist_res <-
   )
 ```
 
-So at this point we have fitted 30 models, 10 models for each type (random forest, neural net and cubist). We can do a quick check of how well each of these models performed. For conviencece, I've created a simple function called `finaliser` that selects the best model, updates the workflow, fits the final model with the best parameters and pulls out the metrics.
+So at this point we have fitted 30 models, 10 models for each type (random forest, neural net and cubist). We can do a quick check of how well each of these models performed. For convienence, I've created a simple function called `finaliser` that selects the best model, updates the workflow, fits the final model with the best parameters and pulls out the metrics.
 
 ```{r}
 finaliser <- function(tuned, wkflow, split){
