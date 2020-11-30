@@ -4,7 +4,7 @@ description: |
   I've been collecting a few notes on using the tidymodels workflow for modelling, and thought it might be worth sharing them here. More for personal reference than anything, but someone might find my ramblings useful! 
 author:
   - name: Harry Fisher
-    url: https://hfshr.netlify.com/
+    url: https://hfshr.xyz
 date: 05-23-2020
 preview: tb.jpeg
 categories:
@@ -116,7 +116,7 @@ Here I've decided to:
 options(tidymodels.dark = TRUE)
 
 
-cl <- makePSOCKcluster(5)
+cl <- makePSOCKcluster(4)
 registerDoParallel(cl)
 
 tuned <- tune_bayes(

@@ -1,0 +1,613 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:distill="https://distill.pub/journal/" version="2.0">
+  <channel>
+    <title>Data, Code &amp; Coffee</title>
+    <link>https://hfshr.xyz/</link>
+    <atom:link href="https://hfshr.xyz/index.xml" rel="self" type="application/rss+xml"/>
+    <description>My Blog
+</description>
+    <generator>Distill</generator>
+    <lastBuildDate>Mon, 30 Nov 2020 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>When one model is not enough: Stacking models with {stacks}</title>
+      <dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Harry Fisher</dc:creator>
+      <link>https://hfshr.xyz/posts/2020-11-30-model-stacking</link>
+      <description>
+
+
+&lt;p&gt;As part of the modelling process, you might try a range of different techniques or algorithms depending on the problem and data, before ultimately picking one model to use. However, no model is perfect and there will likely be a trade off between picking one model over another. One technique that can be used to combine the strengths of different models is to create a model stack. This approach combines individual models into one “stack” that can &lt;em&gt;hopefully&lt;/em&gt; outperform any single model. After all, someone of wisdom once said…&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;em&gt;The whole is greater than the sum of its parts&lt;/em&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;…and maybe they were talking about model stacking?&lt;/p&gt;
+&lt;p&gt;Besides, to get to the point of this post, I wanted to explore the &lt;code&gt;stacks&lt;/code&gt; package &lt;span class="citation"&gt;(Couch and Kuhn 2020)&lt;/span&gt; for creating (unsurprisingly) model stacks. &lt;code&gt;stacks&lt;/code&gt; a fairly recent development allowing model stacking to be achieved within the tidymodels ideology. Apart from having a great hex logo, &lt;code&gt;stacks&lt;/code&gt; provides some powerful tools to create model stacks, and I’ve included a few notes on my first experiences using the package with &lt;em&gt;hopefully&lt;/em&gt; a motivating example..!&lt;/p&gt;
+&lt;aside&gt;
+&lt;p&gt;&lt;img src="https://hfshr.xyz//posts/2020-11-30-model-stacking/logo.png" width="80%" style="display: block; margin: auto;" /&gt;&lt;/p&gt;
+&lt;/aside&gt;
+&lt;h1 id="the-problem"&gt;The problem&lt;/h1&gt;
+&lt;p&gt;Inspired by chapter 10 of Kuhn and Johnson’s (2013) Applied Predictive Modelling, the problem we’ll be addressing is the compressive strength of different mixture of concrete. Yep that’s right, this post is going to be about concrete. But wait! I promise this isn’t as dull as it sounds 😄.&lt;/p&gt;
+&lt;p&gt;First lets have a quick look at the data.&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;# dataset is availble in modeldata package
+library(modeldata)
+library(tidyverse)
+library(tidymodels)
+library(stacks)
+library(rules)
+library(see) # for nice theme
+
+data(&amp;quot;concrete&amp;quot;)
+skimr::skim(concrete)&lt;/code&gt;&lt;/pre&gt;
+&lt;table&gt;
+&lt;caption&gt;(#tab:unnamed-chunk-3)Data summary&lt;/caption&gt;
+&lt;tbody&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;Name&lt;/td&gt;
+&lt;td align="left"&gt;concrete&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;Number of rows&lt;/td&gt;
+&lt;td align="left"&gt;1030&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;Number of columns&lt;/td&gt;
+&lt;td align="left"&gt;9&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;_______________________&lt;/td&gt;
+&lt;td align="left"&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;Column type frequency:&lt;/td&gt;
+&lt;td align="left"&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;numeric&lt;/td&gt;
+&lt;td align="left"&gt;9&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;________________________&lt;/td&gt;
+&lt;td align="left"&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;Group variables&lt;/td&gt;
+&lt;td align="left"&gt;None&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;Variable type: numeric&lt;/strong&gt;&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr class="header"&gt;
+&lt;th align="left"&gt;skim_variable&lt;/th&gt;
+&lt;th align="right"&gt;n_missing&lt;/th&gt;
+&lt;th align="right"&gt;complete_rate&lt;/th&gt;
+&lt;th align="right"&gt;mean&lt;/th&gt;
+&lt;th align="right"&gt;sd&lt;/th&gt;
+&lt;th align="right"&gt;p0&lt;/th&gt;
+&lt;th align="right"&gt;p25&lt;/th&gt;
+&lt;th align="right"&gt;p50&lt;/th&gt;
+&lt;th align="right"&gt;p75&lt;/th&gt;
+&lt;th align="right"&gt;p100&lt;/th&gt;
+&lt;th align="left"&gt;hist&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;cement&lt;/td&gt;
+&lt;td align="right"&gt;0&lt;/td&gt;
+&lt;td align="right"&gt;1&lt;/td&gt;
+&lt;td align="right"&gt;281.17&lt;/td&gt;
+&lt;td align="right"&gt;104.51&lt;/td&gt;
+&lt;td align="right"&gt;102.00&lt;/td&gt;
+&lt;td align="right"&gt;192.38&lt;/td&gt;
+&lt;td align="right"&gt;272.90&lt;/td&gt;
+&lt;td align="right"&gt;350.00&lt;/td&gt;
+&lt;td align="right"&gt;540.0&lt;/td&gt;
+&lt;td align="left"&gt;▆▇▇▃▂&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;blast_furnace_slag&lt;/td&gt;
+&lt;td align="right"&gt;0&lt;/td&gt;
+&lt;td align="right"&gt;1&lt;/td&gt;
+&lt;td align="right"&gt;73.90&lt;/td&gt;
+&lt;td align="right"&gt;86.28&lt;/td&gt;
+&lt;td align="right"&gt;0.00&lt;/td&gt;
+&lt;td align="right"&gt;0.00&lt;/td&gt;
+&lt;td align="right"&gt;22.00&lt;/td&gt;
+&lt;td align="right"&gt;142.95&lt;/td&gt;
+&lt;td align="right"&gt;359.4&lt;/td&gt;
+&lt;td align="left"&gt;▇▂▃▁▁&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;fly_ash&lt;/td&gt;
+&lt;td align="right"&gt;0&lt;/td&gt;
+&lt;td align="right"&gt;1&lt;/td&gt;
+&lt;td align="right"&gt;54.19&lt;/td&gt;
+&lt;td align="right"&gt;64.00&lt;/td&gt;
+&lt;td align="right"&gt;0.00&lt;/td&gt;
+&lt;td align="right"&gt;0.00&lt;/td&gt;
+&lt;td align="right"&gt;0.00&lt;/td&gt;
+&lt;td align="right"&gt;118.30&lt;/td&gt;
+&lt;td align="right"&gt;200.1&lt;/td&gt;
+&lt;td align="left"&gt;▇▁▂▂▁&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;water&lt;/td&gt;
+&lt;td align="right"&gt;0&lt;/td&gt;
+&lt;td align="right"&gt;1&lt;/td&gt;
+&lt;td align="right"&gt;181.57&lt;/td&gt;
+&lt;td align="right"&gt;21.35&lt;/td&gt;
+&lt;td align="right"&gt;121.80&lt;/td&gt;
+&lt;td align="right"&gt;164.90&lt;/td&gt;
+&lt;td align="right"&gt;185.00&lt;/td&gt;
+&lt;td align="right"&gt;192.00&lt;/td&gt;
+&lt;td align="right"&gt;247.0&lt;/td&gt;
+&lt;td align="left"&gt;▁▅▇▂▁&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;superplasticizer&lt;/td&gt;
+&lt;td align="right"&gt;0&lt;/td&gt;
+&lt;td align="right"&gt;1&lt;/td&gt;
+&lt;td align="right"&gt;6.20&lt;/td&gt;
+&lt;td align="right"&gt;5.97&lt;/td&gt;
+&lt;td align="right"&gt;0.00&lt;/td&gt;
+&lt;td align="right"&gt;0.00&lt;/td&gt;
+&lt;td align="right"&gt;6.40&lt;/td&gt;
+&lt;td align="right"&gt;10.20&lt;/td&gt;
+&lt;td align="right"&gt;32.2&lt;/td&gt;
+&lt;td align="left"&gt;▇▆▁▁▁&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;coarse_aggregate&lt;/td&gt;
+&lt;td align="right"&gt;0&lt;/td&gt;
+&lt;td align="right"&gt;1&lt;/td&gt;
+&lt;td align="right"&gt;972.92&lt;/td&gt;
+&lt;td align="right"&gt;77.75&lt;/td&gt;
+&lt;td align="right"&gt;801.00&lt;/td&gt;
+&lt;td align="right"&gt;932.00&lt;/td&gt;
+&lt;td align="right"&gt;968.00&lt;/td&gt;
+&lt;td align="right"&gt;1029.40&lt;/td&gt;
+&lt;td align="right"&gt;1145.0&lt;/td&gt;
+&lt;td align="left"&gt;▃▅▇▅▂&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;fine_aggregate&lt;/td&gt;
+&lt;td align="right"&gt;0&lt;/td&gt;
+&lt;td align="right"&gt;1&lt;/td&gt;
+&lt;td align="right"&gt;773.58&lt;/td&gt;
+&lt;td align="right"&gt;80.18&lt;/td&gt;
+&lt;td align="right"&gt;594.00&lt;/td&gt;
+&lt;td align="right"&gt;730.95&lt;/td&gt;
+&lt;td align="right"&gt;779.50&lt;/td&gt;
+&lt;td align="right"&gt;824.00&lt;/td&gt;
+&lt;td align="right"&gt;992.6&lt;/td&gt;
+&lt;td align="left"&gt;▂▃▇▃▁&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;age&lt;/td&gt;
+&lt;td align="right"&gt;0&lt;/td&gt;
+&lt;td align="right"&gt;1&lt;/td&gt;
+&lt;td align="right"&gt;45.66&lt;/td&gt;
+&lt;td align="right"&gt;63.17&lt;/td&gt;
+&lt;td align="right"&gt;1.00&lt;/td&gt;
+&lt;td align="right"&gt;7.00&lt;/td&gt;
+&lt;td align="right"&gt;28.00&lt;/td&gt;
+&lt;td align="right"&gt;56.00&lt;/td&gt;
+&lt;td align="right"&gt;365.0&lt;/td&gt;
+&lt;td align="left"&gt;▇▁▁▁▁&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;compressive_strength&lt;/td&gt;
+&lt;td align="right"&gt;0&lt;/td&gt;
+&lt;td align="right"&gt;1&lt;/td&gt;
+&lt;td align="right"&gt;35.82&lt;/td&gt;
+&lt;td align="right"&gt;16.71&lt;/td&gt;
+&lt;td align="right"&gt;2.33&lt;/td&gt;
+&lt;td align="right"&gt;23.71&lt;/td&gt;
+&lt;td align="right"&gt;34.44&lt;/td&gt;
+&lt;td align="right"&gt;46.14&lt;/td&gt;
+&lt;td align="right"&gt;82.6&lt;/td&gt;
+&lt;td align="left"&gt;▅▇▇▃▁&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;We can also plot the relationship between compressive strength and each of the predictors in the data.&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;concrete %&amp;gt;%
+  pivot_longer(-compressive_strength) %&amp;gt;%
+  ggplot(aes(x = value, y = compressive_strength)) +
+  geom_point(alpha = 0.3, size = 1) +
+  geom_smooth() +
+  facet_wrap(~name, scales = &amp;quot;free_x&amp;quot;) +
+  labs(
+    x = &amp;quot;Predictor&amp;quot;,
+    y = &amp;quot;Compressive strength&amp;quot;,
+    title = &amp;quot;Relationship between predictors and compressive strength&amp;quot;
+  ) +
+  theme_lucid()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src="file3da5740d821a_files/figure-html/unnamed-chunk-4-1.png" width="672" /&gt;&lt;/p&gt;
+&lt;h1 id="fitting-the-models"&gt;Fitting the models&lt;/h1&gt;
+&lt;p&gt;In chapter 10, &lt;span class="citation"&gt;Kuhn and Johnson (2013)&lt;/span&gt; evaluate a range of models based on data from &lt;span class="citation"&gt;Yeh (1998)&lt;/span&gt; from which I have selected three of the better performing models (which happen to be random forest, neural network and cubist). The goal is to see whether using &lt;code&gt;stacks&lt;/code&gt; to create an ensemble of these models will outperform each of the individual models. Quick note, I’m going to assume some experience with using the tidymodels workflow for modelling to avoid this post become too lengthy. For an introduction to tidymodels, I have &lt;a href="https://www.hfshr.xyz/posts/2020-05-23-tidymodel-notes/"&gt;a post&lt;/a&gt; which covers some of the basics, and you can check out some of the excellent tutorials available on the &lt;a href="https://www.tidymodels.org/learn/"&gt;tidymodels site&lt;/a&gt;.&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;# split the data
+set.seed(1)
+concrete_split &amp;lt;- initial_split(concrete)
+concrete_train &amp;lt;- training(concrete_split)
+concrete_test &amp;lt;- testing(concrete_split)
+
+# the folds used in tuning steps
+folds &amp;lt;- rsample::vfold_cv(concrete_train, v = 5)
+
+# basic recipe used in all models
+concrete_rec &amp;lt;- recipe(
+  compressive_strength ~ .,
+  data = concrete_train
+)
+
+# metric for evaluation
+metric &amp;lt;- metric_set(rmse, rsq)
+
+# protect your eyes!
+options(tidymodels.dark = TRUE)
+
+# convenience function
+ctrl_grid &amp;lt;- control_stack_grid()
+
+# Basic workflow
+cement_wf &amp;lt;-
+  workflow() %&amp;gt;%
+  add_recipe(concrete_rec)
+
+# random forest #
+rf_spec &amp;lt;-
+  rand_forest(
+    mtry = tune(),
+    min_n = tune(),
+    trees = 500
+  ) %&amp;gt;%
+  set_mode(&amp;quot;regression&amp;quot;) %&amp;gt;%
+  set_engine(&amp;quot;ranger&amp;quot;)
+
+rf_wflow &amp;lt;-
+  cement_wf %&amp;gt;%
+  add_model(rf_spec)
+
+rf_res &amp;lt;-
+  tune_grid(
+    object = rf_wflow,
+    resamples = folds,
+    grid = 10,
+    control = ctrl_grid
+  )
+
+# neural net #
+
+nnet_spec &amp;lt;-
+  mlp(
+    hidden_units = tune(),
+    penalty = tune(),
+    epochs = tune()
+  ) %&amp;gt;%
+  set_mode(&amp;quot;regression&amp;quot;) %&amp;gt;%
+  set_engine(&amp;quot;nnet&amp;quot;)
+
+nnet_rec &amp;lt;-
+  concrete_rec %&amp;gt;%
+  step_corr(all_predictors()) %&amp;gt;%
+  step_normalize(all_predictors())
+
+nnet_wflow &amp;lt;-
+  cement_wf %&amp;gt;%
+  add_model(nnet_spec) %&amp;gt;%
+  update_recipe(nnet_rec)
+
+nnet_res &amp;lt;-
+  tune_grid(
+    object = nnet_wflow,
+    resamples = folds,
+    grid = 10,
+    control = ctrl_grid
+  )
+
+# Cubist #
+
+cubist_spec &amp;lt;-
+  cubist_rules(
+    committees = tune(),
+    neighbors = tune(),
+    max_rules = tune()
+  )
+
+cubist_wflow &amp;lt;-
+  cement_wf %&amp;gt;%
+  add_model(cubist_spec)
+
+cubist_res &amp;lt;-
+  tune_grid(
+    object = cubist_wflow,
+    resamples = folds,
+    grid = 10,
+    control = ctrl_grid
+  )&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;So at this point we have fitted 30 models, 10 models for each type (random forest, neural net and cubist). We can do a quick check of how well each of these models performed. For convenience, I’ve created a simple function called &lt;code&gt;finaliser()&lt;/code&gt; that selects the best model, updates the workflow, fits the final model with the best parameters and pulls out the metrics.&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;finaliser &amp;lt;- function(tuned, wkflow, split, model) {
+  best_mod &amp;lt;- tuned %&amp;gt;%
+    select_best(&amp;quot;rmse&amp;quot;)
+
+  final_wf &amp;lt;- wkflow %&amp;gt;%
+    finalize_workflow(best_mod)
+
+  final_fit &amp;lt;-
+    final_wf %&amp;gt;%
+    last_fit(split)
+
+  final_fit %&amp;gt;%
+    collect_metrics() %&amp;gt;%
+    mutate(model = model)
+}
+
+bind_rows(
+  finaliser(cubist_res, cubist_wflow, concrete_split, &amp;quot;cubist&amp;quot;),
+  finaliser(nnet_res, nnet_wflow, concrete_split, &amp;quot;nnet&amp;quot;),
+  finaliser(rf_res, rf_wflow, concrete_split, &amp;quot;rf&amp;quot;)
+) %&amp;gt;%
+  select(model, .metric, .estimate) %&amp;gt;%
+  pivot_wider(names_from = .metric, values_from = .estimate) %&amp;gt;%
+  arrange(rmse)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;# A tibble: 3 x 3
+  model   rmse   rsq
+  &amp;lt;chr&amp;gt;  &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt;
+1 cubist  4.17 0.934
+2 rf      4.88 0.911
+3 nnet    5.74 0.875&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We can see that the cubist model has the best performance, closely followed by the random forest with the neural net bringing up the rear.&lt;/p&gt;
+&lt;h1 id="time-to-stack"&gt;Time to stack&lt;/h1&gt;
+&lt;p&gt;Now we can start stacking! We start by initialising the stack with &lt;code&gt;stacks()&lt;/code&gt; then add each candidate model with &lt;code&gt;add_candidates()&lt;/code&gt;. Next we evaluate the candidate models with &lt;code&gt;blend_predictions()&lt;/code&gt;, before finally training the non-zero members on the training data with &lt;code&gt;fit_members()&lt;/code&gt;.&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;cement_st &amp;lt;-
+  # initialize the stack
+  stacks() %&amp;gt;%
+  # add each of the models
+  add_candidates(rf_res) %&amp;gt;%
+  add_candidates(nnet_res) %&amp;gt;%
+  add_candidates(cubist_res) %&amp;gt;%
+  blend_predictions() %&amp;gt;% # evaluate candidate models
+  fit_members() # fit non zero stacking coefficients&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Let’s have a look at our model stack&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;cement_st&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;# A tibble: 7 x 3
+  member          type         weight
+  &amp;lt;chr&amp;gt;           &amp;lt;chr&amp;gt;         &amp;lt;dbl&amp;gt;
+1 cubist_res_1_05 cubist_rules 0.332 
+2 rf_res_1_05     rand_forest  0.260 
+3 cubist_res_1_02 cubist_rules 0.183 
+4 nnet_res_1_09   mlp          0.0890
+5 cubist_res_1_09 cubist_rules 0.0765
+6 nnet_res_1_02   mlp          0.0735
+7 nnet_res_1_06   mlp          0.0154&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Out of the 30 models we initially trained, 7 models had non-zero stacking coefficients and were retained for our model stack. &lt;code&gt;stacks&lt;/code&gt; provides a nice autoplot feature that allows us to quickly visualise each of the model members with their weights that are used to make predictions.&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;autoplot(cement_st, type = &amp;quot;weights&amp;quot;) +
+  theme_lucid()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src="file3da5740d821a_files/figure-html/unnamed-chunk-9-1.png" width="672" /&gt;&lt;/p&gt;
+&lt;h1 id="so-was-it-worth-it"&gt;So, was it worth it?!&lt;/h1&gt;
+&lt;p&gt;Lets first have a look at the predictions made by our stack.&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;# get predictions with stack
+cement_pred &amp;lt;- predict(cement_st, concrete_test) %&amp;gt;%
+  bind_cols(concrete_test)
+
+ggplot(cement_pred, aes(x = compressive_strength, y = .pred)) +
+  geom_point(alpha = 0.4) +
+  coord_obs_pred() +
+  labs(x = &amp;quot;Observed&amp;quot;, y = &amp;quot;Predicted&amp;quot;) +
+  geom_abline(linetype = &amp;quot;dashed&amp;quot;) +
+  theme_lucid()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src="file3da5740d821a_files/figure-html/unnamed-chunk-10-1.png" width="672" /&gt;&lt;/p&gt;
+&lt;p&gt;Apart from a handful of points, our stacked model looks like it has done pretty well! We can also see how each of the members in the stack performed by using &lt;code&gt;members = TRUE&lt;/code&gt; in the prediction call.&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;member_preds &amp;lt;- predict(cement_st, concrete_test, members = TRUE) %&amp;gt;%
+  bind_cols(
+    .,
+    concrete_test %&amp;gt;%
+      select(compressive_strength)
+  ) %&amp;gt;%
+  select(compressive_strength, .pred, everything())&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;To visualise this, I’ve selected the first 10 observations, and plotted the residuals. Points on the dashed line are closer to the true value.&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;plot_preds &amp;lt;- member_preds %&amp;gt;%
+  slice(1:10) %&amp;gt;%
+  rowid_to_column(&amp;quot;obs&amp;quot;) %&amp;gt;%
+  mutate(obs = factor(obs)) %&amp;gt;%
+  pivot_longer(cols = c(-obs,-compressive_strength), names_to = &amp;quot;model&amp;quot;, values_to = &amp;quot;value&amp;quot;) %&amp;gt;% 
+  mutate(diff = compressive_strength - value,
+         model = ifelse(model == &amp;quot;.pred&amp;quot;, &amp;quot;model_stack&amp;quot;, model)
+         )
+
+
+plot_preds %&amp;gt;%
+  filter(model != &amp;quot;model_stack&amp;quot;) %&amp;gt;% 
+  ggplot(aes(x = obs, y = diff, colour = model)) +
+  geom_point(alpha = 0.8) +
+  geom_jitter(width = 0.20) +
+  geom_hline(yintercept = 0, linetype = &amp;quot;dashed&amp;quot;) +
+  viridis::scale_colour_viridis(discrete = T, option = &amp;quot;C&amp;quot;) +
+  labs(y = &amp;quot;Residual&amp;quot;, subtitle = paste(&amp;quot;Model stack predictions marked with&amp;quot;, emo::ji(&amp;quot;x&amp;quot;))) +
+  geom_point(data = plot_preds %&amp;gt;% 
+               filter(model == &amp;quot;model_stack&amp;quot;), colour = &amp;quot;red&amp;quot;, shape = 4, size = 5) +
+  theme_lucid()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src="file3da5740d821a_files/figure-html/unnamed-chunk-12-1.png" width="672" /&gt;&lt;/p&gt;
+&lt;p&gt;Apart from the first observation where none of the models performed particularly well, you can see how different models resulted in different predictions with some performing better than others.&lt;/p&gt;
+&lt;p&gt;Now what we’re really interested in is if the model stack performed better than any of the individual models. To determine this, lets look at some metrics:&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;multi_metric &amp;lt;- metric_set(rmse, rsq)
+
+map_dfr(
+  member_preds,
+  ~ multi_metric(
+    member_preds,
+    truth = compressive_strength,
+    estimate = .x
+  ),
+  .id = &amp;quot;model&amp;quot;
+) %&amp;gt;%
+  select(model, .metric, .estimate) %&amp;gt;%
+  pivot_wider(names_from = .metric, values_from = .estimate) %&amp;gt;%
+  filter(model != &amp;quot;compressive_strength&amp;quot;) %&amp;gt;%
+  mutate(model = if_else(model == &amp;quot;.pred&amp;quot;, &amp;quot;model_stack&amp;quot;, model)) %&amp;gt;%
+  arrange(rmse) %&amp;gt;% 
+  mutate(across(where(is.numeric), round, 2))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;# A tibble: 8 x 3
+  model            rmse   rsq
+  &amp;lt;chr&amp;gt;           &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt;
+1 model_stack      4.08  0.94
+2 cubist_res_1_09  4.17  0.93
+3 cubist_res_1_02  4.32  0.93
+4 cubist_res_1_05  4.6   0.92
+5 rf_res_1_05      4.9   0.91
+6 nnet_res_1_06    6.01  0.86
+7 nnet_res_1_09    6.67  0.83
+8 nnet_res_1_02    7.28  0.8 &lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We can see the model stack performs better than any of the individual models for both the rmse and r-squared metrics, which is pretty cool! The cubist models are clearly the strongest but the model stack that includes the inputs from the random forest and neural nets as well as cubist edges slightly ahead in these metrics.&lt;/p&gt;
+&lt;h1 id="summary"&gt;Summary&lt;/h1&gt;
+&lt;p&gt;So that was a quick tour of the &lt;code&gt;stacks&lt;/code&gt; package. I’d highly recommend checking out the &lt;a href="https://stacks.tidymodels.org/"&gt;package website&lt;/a&gt; which has lots of good examples on which this post was heavily inspired.&lt;/p&gt;
+&lt;p&gt;Thanks for reading!&lt;/p&gt;
+&lt;pre class="r distill-force-highlighting-css"&gt;&lt;code&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;div id="refs" class="references csl-bib-body hanging-indent"&gt;
+&lt;div id="ref-Couch2020" class="csl-entry"&gt;
+Couch, Simon, and Max Kuhn. 2020. &lt;em&gt;Stacks: Tidy Model Stacking&lt;/em&gt;. &lt;a href="https://CRAN.R-project.org/package=stacks"&gt;https://CRAN.R-project.org/package=stacks&lt;/a&gt;.
+&lt;/div&gt;
+&lt;div id="ref-Kuhn2013" class="csl-entry"&gt;
+Kuhn, Max, and Kjell Johnson. 2013. &lt;span&gt;“Applied Predictive Modeling.”&lt;/span&gt; New York, NY: Springer. 2013. &lt;a href="http://www.amazon.com/Applied-Predictive-Modeling-Max-Kuhn/dp/1461468485/"&gt;http://www.amazon.com/Applied-Predictive-Modeling-Max-Kuhn/dp/1461468485/&lt;/a&gt;.
+&lt;/div&gt;
+&lt;div id="ref-yeh1998" class="csl-entry"&gt;
+Yeh, I C. 1998. &lt;span&gt;“Modeling of Strength of High-Performance Concrete Using Artificial Neural Networks.”&lt;/span&gt; &lt;em&gt;Cement and Concrete Research&lt;/em&gt; 28 (12). &lt;a href="https://doi.org/10.1016/S0008-8846(98)00165-3"&gt;https://doi.org/10.1016/S0008-8846(98)00165-3&lt;/a&gt;.
+&lt;/div&gt;
+&lt;/div&gt;</description>
+      <distill:md5 xmlns:distill="https://distill.pub/journal/">912c612910a9c427e4ce46ba4487cf05</distill:md5>
+      <category>R</category>
+      <category>Machine learning</category>
+      <guid>https://hfshr.xyz/posts/2020-11-30-model-stacking</guid>
+      <pubDate>Mon, 30 Nov 2020 00:00:00 +0000</pubDate>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://hfshr.xyz/posts/2020-11-30-model-stacking/giphy.gif" medium="image" type="image/gif"/>
+    </item>
+    <item>
+      <title>{bitmexr} gets a hex logo!</title>
+      <dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Harry Fisher</dc:creator>
+      <link>https://hfshr.xyz/posts/2020-11-22-bitmexr-logo</link>
+      <description>Steps to create a simple hex logo using the {hexSticker} package.</description>
+      <category>R</category>
+      <category>Bitcoin</category>
+      <category>bitmexr</category>
+      <guid>https://hfshr.xyz/posts/2020-11-22-bitmexr-logo</guid>
+      <pubDate>Sun, 22 Nov 2020 00:00:00 +0000</pubDate>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://hfshr.xyz/posts/2020-11-22-bitmexr-logo/hex.png" medium="image" type="image/png" width="518" height="600"/>
+    </item>
+    <item>
+      <title>Investigating sports injuries with Bayesian networks using {bnlearn}</title>
+      <dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Harry Fisher</dc:creator>
+      <link>https://hfshr.xyz/posts/2020-11-01-bayesian-networks-with-bnlearn</link>
+      <description>This post explores the use of Bayesian networks with the excellent {bnlearn} package to examine the relationship between different risk factors and the probability of sustaining a sports injury.</description>
+      <category>R</category>
+      <category>Bayesian Network</category>
+      <guid>https://hfshr.xyz/posts/2020-11-01-bayesian-networks-with-bnlearn</guid>
+      <pubDate>Tue, 17 Nov 2020 00:00:00 +0000</pubDate>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://hfshr.xyz/posts/2020-11-01-bayesian-networks-with-bnlearn/bn.png" medium="image" type="image/png" width="954" height="689"/>
+    </item>
+    <item>
+      <title>Introducing {poweRof10}</title>
+      <dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Harry Fisher</dc:creator>
+      <link>https://hfshr.xyz/posts/2020-10-22-introducing-powerof10</link>
+      <description>A quick introduction to a package I created to scrape data from athletics rankings website www.thepowerof10.info.</description>
+      <category>R</category>
+      <category>athletics</category>
+      <guid>https://hfshr.xyz/posts/2020-10-22-introducing-powerof10</guid>
+      <pubDate>Sat, 24 Oct 2020 00:00:00 +0000</pubDate>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://hfshr.xyz/posts/2020-10-22-introducing-powerof10/po10.jpg" medium="image" type="image/jpeg"/>
+    </item>
+    <item>
+      <title>Building a python package: Reflections from an R user</title>
+      <dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Harry Fisher</dc:creator>
+      <link>https://hfshr.xyz/posts/2020-08-02-python-package</link>
+      <description>In this post I note down some of my experiences with making my first python package, specifically highlighting some of the similarities and differences between R and python when it comes to package building. My hope is that R users looking to expand their pythonic horizons might find something useful!</description>
+      <category>R</category>
+      <category>Python</category>
+      <guid>https://hfshr.xyz/posts/2020-08-02-python-package</guid>
+      <pubDate>Sun, 02 Aug 2020 00:00:00 +0000</pubDate>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://hfshr.xyz/posts/2020-08-02-python-package/pkg.jpeg" medium="image" type="image/jpeg"/>
+    </item>
+    <item>
+      <title>Build with R, deploy with Python (and Heroku)</title>
+      <dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Harry Fisher</dc:creator>
+      <link>https://hfshr.xyz/posts/2020-07-14-deploy-model</link>
+      <description>This post looks at a cross-language approach to model deployment - something that may come in useful when working within a large data science / production environment.</description>
+      <category>R</category>
+      <category>Python</category>
+      <guid>https://hfshr.xyz/posts/2020-07-14-deploy-model</guid>
+      <pubDate>Tue, 14 Jul 2020 00:00:00 +0000</pubDate>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://hfshr.xyz/posts/2020-07-14-deploy-model/preview.png" medium="image" type="image/png" width="877" height="287"/>
+    </item>
+    <item>
+      <title>Penguins and nakedpipes</title>
+      <dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Harry Fisher</dc:creator>
+      <link>https://hfshr.xyz/posts/2020-06-21-penguins-and-nakedpipes</link>
+      <description>Exploring the new {palmerpenguins} dataset with {nakedpipe} - An alternative to using {magrittr}'s %&gt;%.</description>
+      <category>R</category>
+      <guid>https://hfshr.xyz/posts/2020-06-21-penguins-and-nakedpipes</guid>
+      <pubDate>Sun, 21 Jun 2020 00:00:00 +0000</pubDate>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://hfshr.xyz/posts/2020-06-21-penguins-and-nakedpipes/preview.png" medium="image" type="image/png" width="1377" height="800"/>
+    </item>
+    <item>
+      <title>Opening the black box: Exploring xgboost models with {fastshap} in R</title>
+      <dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Harry Fisher</dc:creator>
+      <link>https://hfshr.xyz/posts/2020-06-07-variable-inportance-with-fastshap</link>
+      <description>Being able to understand and explain why a model makes certain predictions is
+important, particularly if your model is being used to make critical business decisions. This post takes a look into the inner workings of a xgboost model by using the {fastshap} package to compute shapely values for the different features in the dataset, allowing deeper insight into the models predictions.</description>
+      <category>R</category>
+      <category>Machine learning</category>
+      <guid>https://hfshr.xyz/posts/2020-06-07-variable-inportance-with-fastshap</guid>
+      <pubDate>Sun, 07 Jun 2020 00:00:00 +0000</pubDate>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://hfshr.xyz/posts/2020-06-07-variable-inportance-with-fastshap/funky.png" medium="image" type="image/png" width="492" height="367"/>
+    </item>
+    <item>
+      <title>bitmexr 0.3.0: Place, modify and cancel your orders on BitMEX without leaving R! </title>
+      <dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Harry Fisher</dc:creator>
+      <link>https://hfshr.xyz/posts/2020-05-25-bitmexr-updates</link>
+      <description>bitmexr 0.3.0 brings some exciting new features to the package. bitmexr now            supports placing, editing and cancelling orders through BitMEX's API.
+In addition, the testnet version of the API is now supported soyou can try out         managing orders using the package in a risk free environment!</description>
+      <category>bitmexr</category>
+      <category>R</category>
+      <guid>https://hfshr.xyz/posts/2020-05-25-bitmexr-updates</guid>
+      <pubDate>Mon, 25 May 2020 00:00:00 +0000</pubDate>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://hfshr.xyz/posts/2020-05-25-bitmexr-updates/update.jpg" medium="image" type="image/jpeg"/>
+    </item>
+    <item>
+      <title>tidymodels workflow with Bayesian optimisation</title>
+      <dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Harry Fisher</dc:creator>
+      <link>https://hfshr.xyz/posts/2020-05-23-tidymodel-notes</link>
+      <description>I've been collecting a few notes on using the tidymodels workflow for modelling, and thought it might be worth sharing them here. More for personal reference than anything, but someone might find my ramblings useful!</description>
+      <category>R</category>
+      <category>Machine learning</category>
+      <guid>https://hfshr.xyz/posts/2020-05-23-tidymodel-notes</guid>
+      <pubDate>Sat, 23 May 2020 00:00:00 +0000</pubDate>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://hfshr.xyz/posts/2020-05-23-tidymodel-notes/tb.jpeg" medium="image" type="image/jpeg"/>
+    </item>
+    <item>
+      <title>Pretty tables with {gt}</title>
+      <dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Harry Fisher</dc:creator>
+      <link>https://hfshr.xyz/posts/2020-05-02-pretty-tables-with-gt</link>
+      <description>Traditionally I have been an ardent user of kable + kableExtra when it comes to creating tables. These packages have served me well, however the CRAN release of a new player in the table package space - gt - promted me to try it out and explore some of the features it had to offer.</description>
+      <category>Bitcoin</category>
+      <category>gt</category>
+      <category>ggplot</category>
+      <category>bitmexr</category>
+      <category>R</category>
+      <guid>https://hfshr.xyz/posts/2020-05-02-pretty-tables-with-gt</guid>
+      <pubDate>Sat, 02 May 2020 00:00:00 +0000</pubDate>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://hfshr.xyz/posts/2020-05-02-pretty-tables-with-gt/nice_table.png" medium="image" type="image/png" width="1175" height="633"/>
+    </item>
+    <item>
+      <title>bitmexr: An R client for BitMEX cryptocurrency exchange.</title>
+      <dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Harry Fisher</dc:creator>
+      <link>https://hfshr.xyz/posts/2020-04-13-bitmexr</link>
+      <description>How bitmexr came to be.</description>
+      <category>Bitcoin</category>
+      <category>R</category>
+      <guid>https://hfshr.xyz/posts/2020-04-13-bitmexr</guid>
+      <pubDate>Mon, 13 Apr 2020 00:00:00 +0000</pubDate>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://hfshr.xyz/posts/2020-04-13-bitmexr/images/price.gif" medium="image" type="image/gif"/>
+    </item>
+  </channel>
+</rss>
