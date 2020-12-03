@@ -1,5 +1,5 @@
 ---
-title: "tidymodels workflow with Bayesian optimisation"
+title: "{tidymodels} workflow with Bayesian optimisation"
 description: |
   I've been collecting a few notes on using the tidymodels workflow for modelling, and thought it might be worth sharing them here. More for personal reference than anything, but someone might find my ramblings useful! 
 author:
@@ -115,8 +115,7 @@ Here I've decided to:
 ```{r eval=TRUE}
 options(tidymodels.dark = TRUE)
 
-
-cl <- makePSOCKcluster(4)
+cl <- makePSOCKcluster(8)
 registerDoParallel(cl)
 
 tuned <- tune_bayes(
@@ -133,7 +132,7 @@ tuned <- tune_bayes(
   )
 )
 
-stopCluster(cl)
+
 ```
 
 <aside>
@@ -170,6 +169,8 @@ final_res <- last_fit(
   xgboost_wkflow_tuned,
   split
 )
+
+stopCluster(cl)
 ```
 
 With our model in hand we can make some predictions to evaluate performance

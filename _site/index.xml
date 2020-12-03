@@ -110,14 +110,1026 @@ In addition, the testnet version of the API is now supported soyou can try out  
       <media:content url="https://hfshr.xyz/posts/2020-05-25-bitmexr-updates/update.jpg" medium="image" type="image/jpeg"/>
     </item>
     <item>
-      <title>tidymodels workflow with Bayesian optimisation</title>
+      <title>{tidymodels} workflow with Bayesian optimisation</title>
       <dc:creator>Harry Fisher</dc:creator>
       <link>https://hfshr.xyz/posts/2020-05-23-tidymodel-notes</link>
-      <description>I've been collecting a few notes on using the tidymodels workflow for modelling, and thought it might be worth sharing them here. More for personal reference than anything, but someone might find my ramblings useful!</description>
+      <description>
+
+
+&lt;p&gt;For demonstration purposes I’m going to use the &lt;code&gt;credit_data&lt;/code&gt; dataset from the &lt;code&gt;modeldata&lt;/code&gt; package. This is a fairly simple data set that doesn’t require too much wrangling to get going.&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;library(modeldata)
+library(tidymodels)
+library(tidyverse)
+library(doParallel)
+library(probably)
+library(gt)
+
+data(&amp;quot;credit_data&amp;quot;)
+glimpse(credit_data)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;Rows: 4,454
+Columns: 14
+$ Status    &amp;lt;fct&amp;gt; good, good, bad, good, good, good, good, good, go…
+$ Seniority &amp;lt;int&amp;gt; 9, 17, 10, 0, 0, 1, 29, 9, 0, 0, 6, 7, 8, 19, 0, …
+$ Home      &amp;lt;fct&amp;gt; rent, rent, owner, rent, rent, owner, owner, pare…
+$ Time      &amp;lt;int&amp;gt; 60, 60, 36, 60, 36, 60, 60, 12, 60, 48, 48, 36, 6…
+$ Age       &amp;lt;int&amp;gt; 30, 58, 46, 24, 26, 36, 44, 27, 32, 41, 34, 29, 3…
+$ Marital   &amp;lt;fct&amp;gt; married, widow, married, single, single, married,…
+$ Records   &amp;lt;fct&amp;gt; no, no, yes, no, no, no, no, no, no, no, no, no, …
+$ Job       &amp;lt;fct&amp;gt; freelance, fixed, freelance, fixed, fixed, fixed,…
+$ Expenses  &amp;lt;int&amp;gt; 73, 48, 90, 63, 46, 75, 75, 35, 90, 90, 60, 60, 7…
+$ Income    &amp;lt;int&amp;gt; 129, 131, 200, 182, 107, 214, 125, 80, 107, 80, 1…
+$ Assets    &amp;lt;int&amp;gt; 0, 0, 3000, 2500, 0, 3500, 10000, 0, 15000, 0, 40…
+$ Debt      &amp;lt;int&amp;gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2500, 260, 0,…
+$ Amount    &amp;lt;int&amp;gt; 800, 1000, 2000, 900, 310, 650, 1600, 200, 1200, …
+$ Price     &amp;lt;int&amp;gt; 846, 1658, 2985, 1325, 910, 1645, 1800, 1093, 195…&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;First, I’ll split the sample into training and testing sets using &lt;code&gt;rsample&lt;/code&gt;. As well as create v-fold cross-validation set for use in the tuning step later.&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;set.seed(122)
+
+credit_data &amp;lt;- credit_data %&amp;gt;%
+  drop_na(Status)
+
+# initial split
+split &amp;lt;- initial_split(credit_data, prop = 0.75, strata = &amp;quot;Status&amp;quot;)
+
+# train/test sets
+train &amp;lt;- training(split)
+test &amp;lt;- testing(split)
+
+# cross validation set
+folds &amp;lt;- vfold_cv(train, v = 5)&lt;/code&gt;&lt;/pre&gt;
+&lt;aside&gt;
+I’ve dropped NA’s in outcome as these caused problems in later steps…
+&lt;/aside&gt;
+&lt;p&gt;Next, I’ll set up the recipe using &lt;code&gt;recipies&lt;/code&gt;. As well as defining the formula for the model, I’ve created two preprocessing steps:&lt;/p&gt;
+&lt;ol style="list-style-type: decimal"&gt;
+&lt;li&gt;Impute the missing values.&lt;br /&gt;
+&lt;/li&gt;
+&lt;li&gt;One-hot encode the factor variables in the data.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre class="r"&gt;&lt;code&gt;rec &amp;lt;- recipe(Status ~ ., data = train) %&amp;gt;%
+  step_bagimpute(Home, Marital, Job, Income, Assets, Debt) %&amp;gt;%
+  step_dummy(Home, Marital, Records, Job, one_hot = T) &lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now I’ll prepare the model specification using &lt;code&gt;parsnip&lt;/code&gt;. Here I’m using an xgboost model and specify the parameters I want to tune using Bayesian optimisation. The &lt;code&gt;mtry&lt;/code&gt; parameter requires one additional step to finalise the range of possible values (because it depends on the number of variables in the data and a suitable range of values to test can’t be estimated without that information).&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;mod &amp;lt;- boost_tree(
+  trees = 1000,
+  min_n = tune(),
+  learn_rate = tune(),
+  loss_reduction = tune(),
+  sample_size = tune(),
+  mtry = tune(),
+  tree_depth = tune()
+) %&amp;gt;%
+  set_engine(&amp;quot;xgboost&amp;quot;) %&amp;gt;%
+  set_mode(&amp;quot;classification&amp;quot;)
+
+
+params &amp;lt;- parameters(mod) %&amp;gt;%
+  finalize(train)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;In this step I’ve bundled all the above steps into a workflow. This avoids the need to use the &lt;code&gt;juice&lt;/code&gt;, &lt;code&gt;bake&lt;/code&gt; and &lt;code&gt;prep&lt;/code&gt; functions (which I never quite got my head around…!).&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;xgboost_wflow &amp;lt;- workflow() %&amp;gt;%
+  add_recipe(rec) %&amp;gt;%
+  add_model(mod)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now we are ready to &lt;strong&gt;OPTIMISE&lt;/strong&gt;. I’m going to use an iterative search through Bayesian optimisation to predict what parameters to try next (as opposed to a grid search where we need to specific parameters values in advance).&lt;/p&gt;
+&lt;p&gt;First I set up some addition works so the tests can be run in parallel, and then use the &lt;code&gt;tune_bayes()&lt;/code&gt; function to set up the tuning. Here I’ve decided to:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Limit the number of iterations to 30&lt;/li&gt;
+&lt;li&gt;Use precision-recall as the metric I want to optimise&lt;/li&gt;
+&lt;li&gt;Start off with an initial grid of 10 combinations.&lt;/li&gt;
+&lt;li&gt;Stop early is no improvements are made after 10 iterations.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class="r"&gt;&lt;code&gt;options(tidymodels.dark = TRUE)
+
+cl &amp;lt;- makePSOCKcluster(8)
+registerDoParallel(cl)
+
+tuned &amp;lt;- tune_bayes(
+  object = xgboost_wflow,
+  resamples = folds,
+  param_info = params,
+  iter = 30,
+  metrics = metric_set(pr_auc),
+  initial = 10,
+  control = control_bayes(
+    verbose = TRUE,
+    no_improve = 10,
+    seed = 123
+  )
+)&lt;/code&gt;&lt;/pre&gt;
+&lt;aside&gt;
+The options(tidymodels.dark = TRUE) makes the text &lt;em&gt;much&lt;/em&gt; clear if you’re using a dark theme in Rstudio.
+&lt;/aside&gt;
+&lt;p&gt;After a little while, we’re done! The top combinations were:&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;show_best(tuned, &amp;quot;pr_auc&amp;quot;)%&amp;gt;% 
+  select(1:7, 11) %&amp;gt;% 
+  gt()&lt;/code&gt;&lt;/pre&gt;
+&lt;style&gt;html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#yhelfgzrcj .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#yhelfgzrcj .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#yhelfgzrcj .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#yhelfgzrcj .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 4px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#yhelfgzrcj .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#yhelfgzrcj .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#yhelfgzrcj .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#yhelfgzrcj .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#yhelfgzrcj .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#yhelfgzrcj .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#yhelfgzrcj .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#yhelfgzrcj .gt_group_heading {
+  padding: 8px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#yhelfgzrcj .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#yhelfgzrcj .gt_from_md &gt; :first-child {
+  margin-top: 0;
+}
+
+#yhelfgzrcj .gt_from_md &gt; :last-child {
+  margin-bottom: 0;
+}
+
+#yhelfgzrcj .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#yhelfgzrcj .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 12px;
+}
+
+#yhelfgzrcj .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#yhelfgzrcj .gt_first_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+}
+
+#yhelfgzrcj .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#yhelfgzrcj .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#yhelfgzrcj .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#yhelfgzrcj .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#yhelfgzrcj .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#yhelfgzrcj .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding: 4px;
+}
+
+#yhelfgzrcj .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#yhelfgzrcj .gt_sourcenote {
+  font-size: 90%;
+  padding: 4px;
+}
+
+#yhelfgzrcj .gt_left {
+  text-align: left;
+}
+
+#yhelfgzrcj .gt_center {
+  text-align: center;
+}
+
+#yhelfgzrcj .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#yhelfgzrcj .gt_font_normal {
+  font-weight: normal;
+}
+
+#yhelfgzrcj .gt_font_bold {
+  font-weight: bold;
+}
+
+#yhelfgzrcj .gt_font_italic {
+  font-style: italic;
+}
+
+#yhelfgzrcj .gt_super {
+  font-size: 65%;
+}
+
+#yhelfgzrcj .gt_footnote_marks {
+  font-style: italic;
+  font-size: 65%;
+}
+&lt;/style&gt;
+&lt;div id="yhelfgzrcj" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"&gt;&lt;table class="gt_table"&gt;
+  
+  &lt;thead class="gt_col_headings"&gt;
+    &lt;tr&gt;
+      &lt;th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1"&gt;mtry&lt;/th&gt;
+      &lt;th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1"&gt;min_n&lt;/th&gt;
+      &lt;th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1"&gt;tree_depth&lt;/th&gt;
+      &lt;th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1"&gt;learn_rate&lt;/th&gt;
+      &lt;th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1"&gt;loss_reduction&lt;/th&gt;
+      &lt;th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1"&gt;sample_size&lt;/th&gt;
+      &lt;th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1"&gt;.metric&lt;/th&gt;
+      &lt;th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1"&gt;std_err&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody class="gt_table_body"&gt;
+    &lt;tr&gt;
+      &lt;td class="gt_row gt_center"&gt;14&lt;/td&gt;
+      &lt;td class="gt_row gt_center"&gt;13&lt;/td&gt;
+      &lt;td class="gt_row gt_center"&gt;4&lt;/td&gt;
+      &lt;td class="gt_row gt_right"&gt;1.949228e-02&lt;/td&gt;
+      &lt;td class="gt_row gt_right"&gt;1.295324e-10&lt;/td&gt;
+      &lt;td class="gt_row gt_right"&gt;0.2703632&lt;/td&gt;
+      &lt;td class="gt_row gt_left"&gt;pr_auc&lt;/td&gt;
+      &lt;td class="gt_row gt_right"&gt;0.01525507&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class="gt_row gt_center"&gt;1&lt;/td&gt;
+      &lt;td class="gt_row gt_center"&gt;13&lt;/td&gt;
+      &lt;td class="gt_row gt_center"&gt;4&lt;/td&gt;
+      &lt;td class="gt_row gt_right"&gt;1.615862e-02&lt;/td&gt;
+      &lt;td class="gt_row gt_right"&gt;3.036423e-03&lt;/td&gt;
+      &lt;td class="gt_row gt_right"&gt;0.8919163&lt;/td&gt;
+      &lt;td class="gt_row gt_left"&gt;pr_auc&lt;/td&gt;
+      &lt;td class="gt_row gt_right"&gt;0.01816570&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class="gt_row gt_center"&gt;13&lt;/td&gt;
+      &lt;td class="gt_row gt_center"&gt;5&lt;/td&gt;
+      &lt;td class="gt_row gt_center"&gt;12&lt;/td&gt;
+      &lt;td class="gt_row gt_right"&gt;1.057048e-05&lt;/td&gt;
+      &lt;td class="gt_row gt_right"&gt;3.710341e-09&lt;/td&gt;
+      &lt;td class="gt_row gt_right"&gt;0.5714647&lt;/td&gt;
+      &lt;td class="gt_row gt_left"&gt;pr_auc&lt;/td&gt;
+      &lt;td class="gt_row gt_right"&gt;0.02226760&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class="gt_row gt_center"&gt;11&lt;/td&gt;
+      &lt;td class="gt_row gt_center"&gt;23&lt;/td&gt;
+      &lt;td class="gt_row gt_center"&gt;14&lt;/td&gt;
+      &lt;td class="gt_row gt_right"&gt;2.847187e-02&lt;/td&gt;
+      &lt;td class="gt_row gt_right"&gt;6.473076e-08&lt;/td&gt;
+      &lt;td class="gt_row gt_right"&gt;0.2472379&lt;/td&gt;
+      &lt;td class="gt_row gt_left"&gt;pr_auc&lt;/td&gt;
+      &lt;td class="gt_row gt_right"&gt;0.01866750&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class="gt_row gt_center"&gt;10&lt;/td&gt;
+      &lt;td class="gt_row gt_center"&gt;5&lt;/td&gt;
+      &lt;td class="gt_row gt_center"&gt;12&lt;/td&gt;
+      &lt;td class="gt_row gt_right"&gt;3.553680e-02&lt;/td&gt;
+      &lt;td class="gt_row gt_right"&gt;1.867881e-01&lt;/td&gt;
+      &lt;td class="gt_row gt_right"&gt;0.3068261&lt;/td&gt;
+      &lt;td class="gt_row gt_left"&gt;pr_auc&lt;/td&gt;
+      &lt;td class="gt_row gt_right"&gt;0.01438201&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+  
+  
+&lt;/table&gt;&lt;/div&gt;
+&lt;aside&gt;
+mean here is the average &lt;code&gt;pr_auc&lt;/code&gt; across the resamples.
+&lt;/aside&gt;
+&lt;p&gt;Now we can create our final model using these parameters.&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;xgboost_wkflow_tuned &amp;lt;- finalize_workflow(
+  xgboost_wflow,
+  select_best(tuned, &amp;quot;pr_auc&amp;quot;)
+)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Finally we can fit the model.&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;final_res &amp;lt;- last_fit(
+  xgboost_wkflow_tuned,
+  split
+)
+
+stopCluster(cl)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;With our model in hand we can make some predictions to evaluate performance&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;preds &amp;lt;- final_res %&amp;gt;% 
+  collect_predictions()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now we can use the &lt;code&gt;yardstick&lt;/code&gt; package to evaluate how the model performed.&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;conf_mat(preds, Status, .pred_class)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;          Truth
+Prediction bad good
+      bad  152   57
+      good 161  743&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class="r"&gt;&lt;code&gt;preds %&amp;gt;%
+  gain_curve(Status, .pred_bad) %&amp;gt;%
+  autoplot()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src="filec0184b497e45_files/figure-html/unnamed-chunk-11-1.png" width="672" /&gt;&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;preds %&amp;gt;%
+  pr_curve(Status, .pred_bad) %&amp;gt;%
+  autoplot()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src="filec0184b497e45_files/figure-html/unnamed-chunk-11-2.png" width="672" /&gt;&lt;/p&gt;
+&lt;aside&gt;
+The &lt;code&gt;autoplot()&lt;/code&gt; feature is great for quickly visualising these curves
+&lt;/aside&gt;
+&lt;p&gt;hmmm… That confusion matrix doesn’t look too great. Quite a large number “good” predictions were actually “bad” (false negatives). Maybe when can improve the class prediction by using &lt;code&gt;probably&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Here we use &lt;code&gt;threshold_perf()&lt;/code&gt; to evaluate different thresholds to make our class predictions. One methods to determine the “best” cut point is to use the j-index (maximum value of 1 when there are no false positives and no false negatives).&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;threshold_data &amp;lt;- preds %&amp;gt;%
+  threshold_perf(Status, .pred_bad, thresholds = seq(0.2, 1, by = 0.0025))
+
+
+max_j_index_threshold &amp;lt;- threshold_data %&amp;gt;%
+  filter(.metric == &amp;quot;j_index&amp;quot;) %&amp;gt;%
+  filter(.estimate == max(.estimate)) %&amp;gt;%
+  pull(.threshold)
+
+
+preds_new &amp;lt;- preds %&amp;gt;% 
+  mutate(new_class_pred = factor(ifelse(.pred_bad &amp;gt;= max_j_index_threshold, &amp;quot;bad&amp;quot;, &amp;quot;good&amp;quot;), 
+                                 levels = c(&amp;quot;bad&amp;quot;, &amp;quot;good&amp;quot;))) 
+  
+
+max_j_index_threshold&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;[1] 0.2725&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now we have a new prediction based on our new threshold of vs the default threshold of 0.50. We can compare the performance on a range of different binary classification metrics by calling &lt;code&gt;summay()&lt;/code&gt; on the &lt;code&gt;conf_mat()&lt;/code&gt; object for both the old and new predicted classes.&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;summary(conf_mat(preds, Status, .pred_class)) %&amp;gt;%
+  select(-.estimator) %&amp;gt;%
+  rename(old_threshold = .estimate) %&amp;gt;%
+  bind_cols(.,
+            summary(conf_mat(preds_new, Status, new_class_pred)) %&amp;gt;%
+              select(.estimate) %&amp;gt;%
+              rename(new_threshold = .estimate)) %&amp;gt;%
+  gt() %&amp;gt;%
+  fmt_number(columns = c(2, 3),
+             decimals = 3) %&amp;gt;%
+  tab_style(
+    style = cell_fill(color = &amp;quot;indianred3&amp;quot;),
+    locations = cells_body(columns = 3,
+                           rows = new_threshold &amp;lt; old_threshold)
+  )  %&amp;gt;%
+  tab_style(
+    style = cell_fill(color = &amp;quot;springgreen3&amp;quot;),
+    locations = cells_body(columns = 3,
+                           rows = new_threshold &amp;gt; old_threshold)
+  ) %&amp;gt;% 
+  cols_align(align = &amp;quot;center&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;style&gt;html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#etssacuhaj .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#etssacuhaj .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#etssacuhaj .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#etssacuhaj .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 4px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#etssacuhaj .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#etssacuhaj .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#etssacuhaj .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#etssacuhaj .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#etssacuhaj .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#etssacuhaj .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#etssacuhaj .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#etssacuhaj .gt_group_heading {
+  padding: 8px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#etssacuhaj .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#etssacuhaj .gt_from_md &gt; :first-child {
+  margin-top: 0;
+}
+
+#etssacuhaj .gt_from_md &gt; :last-child {
+  margin-bottom: 0;
+}
+
+#etssacuhaj .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#etssacuhaj .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 12px;
+}
+
+#etssacuhaj .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#etssacuhaj .gt_first_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+}
+
+#etssacuhaj .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#etssacuhaj .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#etssacuhaj .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#etssacuhaj .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#etssacuhaj .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#etssacuhaj .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding: 4px;
+}
+
+#etssacuhaj .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#etssacuhaj .gt_sourcenote {
+  font-size: 90%;
+  padding: 4px;
+}
+
+#etssacuhaj .gt_left {
+  text-align: left;
+}
+
+#etssacuhaj .gt_center {
+  text-align: center;
+}
+
+#etssacuhaj .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#etssacuhaj .gt_font_normal {
+  font-weight: normal;
+}
+
+#etssacuhaj .gt_font_bold {
+  font-weight: bold;
+}
+
+#etssacuhaj .gt_font_italic {
+  font-style: italic;
+}
+
+#etssacuhaj .gt_super {
+  font-size: 65%;
+}
+
+#etssacuhaj .gt_footnote_marks {
+  font-style: italic;
+  font-size: 65%;
+}
+&lt;/style&gt;
+&lt;div id="etssacuhaj" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"&gt;&lt;table class="gt_table"&gt;
+  
+  &lt;thead class="gt_col_headings"&gt;
+    &lt;tr&gt;
+      &lt;th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1"&gt;.metric&lt;/th&gt;
+      &lt;th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1"&gt;old_threshold&lt;/th&gt;
+      &lt;th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1"&gt;new_threshold&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody class="gt_table_body"&gt;
+    &lt;tr&gt;
+      &lt;td class="gt_row gt_center"&gt;accuracy&lt;/td&gt;
+      &lt;td class="gt_row gt_center"&gt;0.804&lt;/td&gt;
+      &lt;td class="gt_row gt_center" style="background-color: #CD5555;"&gt;0.786&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class="gt_row gt_center"&gt;kap&lt;/td&gt;
+      &lt;td class="gt_row gt_center"&gt;0.461&lt;/td&gt;
+      &lt;td class="gt_row gt_center" style="background-color: #00CD66;"&gt;0.516&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class="gt_row gt_center"&gt;sens&lt;/td&gt;
+      &lt;td class="gt_row gt_center"&gt;0.486&lt;/td&gt;
+      &lt;td class="gt_row gt_center" style="background-color: #00CD66;"&gt;0.773&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class="gt_row gt_center"&gt;spec&lt;/td&gt;
+      &lt;td class="gt_row gt_center"&gt;0.929&lt;/td&gt;
+      &lt;td class="gt_row gt_center" style="background-color: #CD5555;"&gt;0.791&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class="gt_row gt_center"&gt;ppv&lt;/td&gt;
+      &lt;td class="gt_row gt_center"&gt;0.727&lt;/td&gt;
+      &lt;td class="gt_row gt_center" style="background-color: #CD5555;"&gt;0.592&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class="gt_row gt_center"&gt;npv&lt;/td&gt;
+      &lt;td class="gt_row gt_center"&gt;0.822&lt;/td&gt;
+      &lt;td class="gt_row gt_center" style="background-color: #00CD66;"&gt;0.899&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class="gt_row gt_center"&gt;mcc&lt;/td&gt;
+      &lt;td class="gt_row gt_center"&gt;0.477&lt;/td&gt;
+      &lt;td class="gt_row gt_center" style="background-color: #00CD66;"&gt;0.526&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class="gt_row gt_center"&gt;j_index&lt;/td&gt;
+      &lt;td class="gt_row gt_center"&gt;0.414&lt;/td&gt;
+      &lt;td class="gt_row gt_center" style="background-color: #00CD66;"&gt;0.564&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class="gt_row gt_center"&gt;bal_accuracy&lt;/td&gt;
+      &lt;td class="gt_row gt_center"&gt;0.707&lt;/td&gt;
+      &lt;td class="gt_row gt_center" style="background-color: #00CD66;"&gt;0.782&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class="gt_row gt_center"&gt;detection_prevalence&lt;/td&gt;
+      &lt;td class="gt_row gt_center"&gt;0.188&lt;/td&gt;
+      &lt;td class="gt_row gt_center" style="background-color: #00CD66;"&gt;0.367&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class="gt_row gt_center"&gt;precision&lt;/td&gt;
+      &lt;td class="gt_row gt_center"&gt;0.727&lt;/td&gt;
+      &lt;td class="gt_row gt_center" style="background-color: #CD5555;"&gt;0.592&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class="gt_row gt_center"&gt;recall&lt;/td&gt;
+      &lt;td class="gt_row gt_center"&gt;0.486&lt;/td&gt;
+      &lt;td class="gt_row gt_center" style="background-color: #00CD66;"&gt;0.773&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class="gt_row gt_center"&gt;f_meas&lt;/td&gt;
+      &lt;td class="gt_row gt_center"&gt;0.582&lt;/td&gt;
+      &lt;td class="gt_row gt_center" style="background-color: #00CD66;"&gt;0.670&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+  
+  
+&lt;/table&gt;&lt;/div&gt;
+&lt;p&gt;Lowering the threshold to .27 seems to have had a positive impact on quite a few of the binary classification metrics. There is always going to be a trade off between maximising some metrics over others, and will of course depend on what you are trying to achieve with your model.&lt;/p&gt;
+&lt;p&gt;…and that is a very quick tour of &lt;code&gt;tidymodels&lt;/code&gt;! There are obviously some additional steps you would want to carry out out in the “real” world. You’d probably want to compare a range of different models and maybe do some additional feature engineering based on the data you have, but the code above is a good initial starting point for a &lt;code&gt;tidymodels&lt;/code&gt; orientated workflow.&lt;/p&gt;
+&lt;aside&gt;
+There are many other features in &lt;code&gt;tidymodels&lt;/code&gt; and I’ve barely scratched the surface here!
+&lt;/aside&gt;
+&lt;p&gt;Thanks for reading!&lt;/p&gt;
+&lt;pre class="r distill-force-highlighting-css"&gt;&lt;code&gt;&lt;/code&gt;&lt;/pre&gt;</description>
+      <distill:md5>f8db893be387ee38b89d7303487f660a</distill:md5>
       <category>R</category>
       <category>Machine learning</category>
       <guid>https://hfshr.xyz/posts/2020-05-23-tidymodel-notes</guid>
-      <pubDate>Sat, 23 May 2020 00:00:00 +0000</pubDate>
+      <pubDate>Fri, 22 May 2020 00:00:00 +0000</pubDate>
       <media:content url="https://hfshr.xyz/posts/2020-05-23-tidymodel-notes/tb.jpeg" medium="image" type="image/jpeg"/>
     </item>
     <item>
