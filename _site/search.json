@@ -5,8 +5,8 @@
       "title": "Hello World",
       "description": "\\> whoami",
       "author": [],
-      "contents": "\n\n\n Hi! My name is Harry Fisher, thanks for visiting my site 👋. I love using R and try to share interesting things on my blog. I currently work as a data scientist based in Cardiff, Wales. Previously, I completed my PhD at Cardiff Metropolitan University in December 2019, investigating risk factors associated with sports injury.\nFeel free to get in touch if any of the posts catch your interest!\nR packages\nbitmexr: R Client for the BitMEX Exchange \npoweRof10: Tools to scrape data from www.thepowerof10.info \nResearch\nFisher et al. In press. An interdisciplinary examination of stress and injury in athletes.\nFisher et al. 2016. Relationship between Force Production during Isometric Squats and Knee Flexion Angles during Landing. Journal of Strength and Conditioning. [pdf]\nContact\n\n\n\n\n   \n\n\n\n\n\n\n",
-      "last_modified": "2020-12-03T08:54:54+00:00"
+      "contents": "\n\n\n Hi! My name is Harry Fisher, thanks for visiting my site 👋. I love using R and try to share interesting things on my blog. I currently work as a data scientist based in Cardiff, Wales. Previously, I completed my PhD at Cardiff Metropolitan University in December 2019, investigating risk factors associated with sports injury.\nFeel free to get in touch if any of the posts catch your interest!\nR packages\nbitmexr: R Client for the BitMEX Exchange \npoweRof10: Tools to scrape data from www.thepowerof10.info \nResearch\nFisher et al. 2020. An interdisciplinary examination of stress and injury in athletes. [Link]\nFisher et al. 2016. Relationship between Force Production during Isometric Squats and Knee Flexion Angles during Landing. Journal of Strength and Conditioning. [pdf]\nContact\n\n\n\n\n   \n\n\n\n\n\n\n",
+      "last_modified": "2020-12-10T09:02:37+00:00"
     },
     {
       "path": "allposts.html",
@@ -14,20 +14,20 @@
       "description": "Condensed version of all posts",
       "author": [],
       "contents": "\n2020\n2020-11-01 Bayesian networks with {bnlearn}\n2020-10-22 Introducing {poweRof10}\n2020-08-02 Python package\n2020-07-14 Deploy model\n2020-06-21 Penguins and nakedpipes\n2020-06-07 Variable importance with {fastshap}\n2020-05-25 {bitmexr} updates\n2020-05-23 {tidymodel} notes\n2020-05-02 Pretty tables with {gt}\n2020-04-13 bitmexr\n2020-03-22 bitcoin\n2020-03-14 Writing a thesis in R markdown\n2020-03-08 Athletics rankings\n\n\n\n",
-      "last_modified": "2020-12-03T08:54:55+00:00"
+      "last_modified": "2020-12-10T09:02:38+00:00"
     },
     {
       "path": "index.html",
       "title": "Posts",
       "author": [],
       "contents": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
-      "last_modified": "2020-12-03T08:54:55+00:00"
+      "last_modified": "2020-12-10T09:02:38+00:00"
     },
     {
       "path": "README.html",
       "author": [],
       "contents": "\n\nBlog\nMy personal website / blog. Based on the distill theme by Rstudio.\n\n\n",
-      "last_modified": "2020-12-03T08:54:55+00:00"
+      "last_modified": "2020-12-10T09:02:38+00:00"
     }
   ],
   "collections": ["posts/posts.json"]

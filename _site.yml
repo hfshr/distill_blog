@@ -1,14 +1,14 @@
 name: "distill_blog"
-title: "Data, Code & Coffee"
+title: "Data, Code & Coffee | Harry Fisher"
 description: |
-  My Blog
+  Harry Fisher
 output_dir: "_site"
 base_url: https://hfshr.xyz/
 repository_url: https://github.com/hfshr/distill_blog
 navbar:
   search: false
   logo:
-    image: data/images/logo.png
+    image: data/images/coffee.png
     href: https://hfshr.xyz/
   right:
     - text: "Home"
@@ -36,6 +36,7 @@ collections:
     creative_commons: CC BY
     custom: _custom.html
     authors_metadata: false
+    categories_metadata: true
 output: 
   distill::distill_article:
     css: style.css

@@ -19,7 +19,7 @@
  <!--/radix_placeholder_import_source-->
 
   <!--radix_placeholder_meta_tags-->
-<title>Data, Code &amp; Coffee: First post</title>
+<title>Data, Code &amp; Coffee | Harry Fisher: First post</title>
 
 <meta property="description" itemprop="description" content="A fresh start (again)"/>
 
@@ -32,7 +32,7 @@
 <meta name="article:author" content="Harry Fisher"/>
 
 <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-<meta property="og:title" content="Data, Code &amp; Coffee: First post"/>
+<meta property="og:title" content="Data, Code &amp; Coffee | Harry Fisher: First post"/>
 <meta property="og:type" content="article"/>
 <meta property="og:description" content="A fresh start (again)"/>
 <meta property="og:url" content="https://hfshr.xyz/posts/2020-03-07-first-post-again/"/>
@@ -40,11 +40,11 @@
 <meta property="og:image:width" content="250"/>
 <meta property="og:image:height" content="183"/>
 <meta property="og:locale" content="en_US"/>
-<meta property="og:site_name" content="Data, Code &amp; Coffee"/>
+<meta property="og:site_name" content="Data, Code &amp; Coffee | Harry Fisher"/>
 
 <!--  https://dev.twitter.com/cards/types/summary -->
 <meta property="twitter:card" content="summary_large_image"/>
-<meta property="twitter:title" content="Data, Code &amp; Coffee: First post"/>
+<meta property="twitter:title" content="Data, Code &amp; Coffee | Harry Fisher: First post"/>
 <meta property="twitter:description" content="A fresh start (again)"/>
 <meta property="twitter:url" content="https://hfshr.xyz/posts/2020-03-07-first-post-again/"/>
 <meta property="twitter:image" content="https://hfshr.xyz/posts/2020-03-07-first-post-again/images/start.png"/>
@@ -52,7 +52,7 @@
 <meta property="twitter:image:height" content="183"/>
 
 <!--  https://scholar.google.com/intl/en/scholar/inclusion.html#indexing -->
-<meta name="citation_title" content="Data, Code &amp; Coffee: First post"/>
+<meta name="citation_title" content="Data, Code &amp; Coffee | Harry Fisher: First post"/>
 <meta name="citation_fulltext_html_url" content="https://hfshr.xyz/posts/2020-03-07-first-post-again/"/>
 <meta name="citation_fulltext_world_readable" content=""/>
 <meta name="citation_online_date" content="2020/03/01"/>
@@ -1711,27 +1711,149 @@ gtag('config', 'UA-145834792-2');
 @import url('https://fonts.googleapis.com/css2?family=Lato');
 @import url('https://fonts.googleapis.com/css2?family=Roboto');
 @import url('https://fonts.googleapis.com/css2?family=Fira+Mono');
+@import url('https://fonts.googleapis.com/css2?family=Dosis');
 
 .distill-site-nav {
-  color: rgba(255, 255, 255, 0.8);
-  background-color: #444b4f;
+  font-family: 'Dosis', sans-serif;
+  color: #fff;
+  background-color: #000000;
   font-size: 20px;
-  font-weight: 300;
+  font-weight: 400;
 }
 
+.distill-site-nav a {
+   font-family: 'Dosis', sans-serif;
+  font-weight: 500;
+  font-size: 20px;
+  color: #fff;
+  text-decoration: none;
+}
+
+
 .posts-list .post-preview .thumbnail img { 
-  width: 70%;
+  width: 80%;
   height: auto;
   display: block; 
   margin-left: auto;
   margin-right: auto
+  font-family: 'Dosis', sans-serif;
   
 }
 
 /* https://codepen.io/sdthornton/pen/wBZdXq */
 .distill-site-header {
-   box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+  /*box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);*/
+  font-family: 'Dosis', sans-serif;
+  color: #fff;
+  background-color: #000000;
+  font-size: 20px;
+  font-weight: 400;
 }
+
+.distill-site-footer {
+  color: #fff;
+  background-color: #000000;
+  font-size: 20px;
+  font-weight: 400;
+}
+
+.distill-site-nav a:hover {
+  color:	#FFFF00;
+  font-weight: 700;
+  
+}
+
+
+
+html, body, p {
+
+  font-family: 'Lato', sans-serif;
+  font-weight: 200;
+  line-height: 1.7; 
+  font-size: 1.0em;
+  color: #333333;
+  font-style: normal;
+  
+}
+
+
+h1, h2, h3, h4, h5 {
+
+}
+
+
+.posts-list .description p {
+    font-family: 'Lato', sans-serif; !important;
+    color: gray !important;
+}
+
+.posts-list .description h2 {
+    font-family: 'Dosis', sans-serif; !important;
+}
+
+code {
+  font-family: 'Fira Mono', sans-serif;
+  font-weight: 200;
+  line-height: 1.7; 
+  font-size: 1.0em;
+  font-style: normal;
+}
+
+img[alt=badge] { width: 85px; height: 20px; }
+
+.sidebar-section-custom{
+  font-size: 15px;
+  text-align: justify;
+  line-height: 1.7; 
+}
+
+.sidebar-section-custom h2{
+  font-family: 'Dosis', sans-serif;
+  text-align: center;
+  font-size: 25px;
+}
+
+.sidebar-section.subscribe {
+  font-size: 15px;
+  text-align: justify;
+  line-height: 1.7; 
+  
+}
+
+.sidebar-section.subscribe h3{
+  font-family: 'Dosis', sans-serif; 
+  font-weight: 700;
+  
+}
+
+.sidebar-section.categories h3{
+  font-family: 'Dosis', sans-serif; 
+  font-weight: 700;
+}
+
+.section {
+  position: relative;
+  overflow: hidden;
+}
+
+.section-shaped {
+  position: relative;
+  overflow: hidden;
+}
+
+/*
+.page-header {
+  min-height: 75vh;
+  max-height: 999px;
+  padding: 0;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+*/
+
+
 
 /* thunder animation */
 /* from http://jsrocks.org/ */
@@ -1765,78 +1887,21 @@ gtag('config', 'UA-145834792-2');
         transform: rotate3d(0, 0, 1, 5deg);
     }
 }
+/*
+p a:link {
+  color: #007bff;
+}
+*/
 
-
-html, body, p {
-  
-  font-family: 'Lato', sans-serif;
-  font-weight: 200;
-  line-height: 1.7; 
-  font-size: 1.0em;
-  color: #333333;
-  font-style: normal;
-  
+p a:hover  {
+  color: #007bff;
+  font-weight: 700;
 }
 
-
-h1, h2, h3, h4, h5 {
-  font-family: 'Roboto', sans-serif;
+.categories li > a:hover {
+    color: #007bff;
+    border-bottom: 1px #007bff;;
 }
-
-
-code {
-  font-family: 'Fira Mono', sans-serif;
-  font-weight: 200;
-  line-height: 1.7; 
-  font-size: 1.0em;
-  font-style: normal;
-}
-
-
-img[alt=badge] { width: 85px; height: 20px; }
-
-.sidebar-section-custom{
-  font-size: 15px;
-  text-align: justify;
-  line-height: 1.7; 
-}
-
-.sidebar-section.subscribe {
-  font-size: 15px;
-  text-align: justify;
-  line-height: 1.7; 
-  
-}
-
-.sidebar-section.subscribe h3{
-  font-weight: bold;
-}
-
-.sidebar-section.categories h3{
-  font-weight: bold;
-}
-
-.section {
-  position: relative;
-  overflow: hidden;
-}
-
-.section-shaped {
-  position: relative;
-  overflow: hidden;
-}
-
-.page-header {
-  min-height: 75vh;
-  max-height: 999px;
-  padding: 0;
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-}
-
-
 </style>
 <!--/radix_placeholder_site_in_header-->
 
@@ -1857,9 +1922,9 @@ img[alt=badge] { width: 85px; height: 20px; }
 <nav class="distill-site-nav distill-site-header">
 <div class="nav-left">
 <a class="logo" href="https://hfshr.xyz/">
-<img src="../../data/images/logo.png" alt="Logo"/>
+<img src="../../data/images/coffee.png" alt="Logo"/>
 </a>
-<a href="../../index.html" class="title">Data, Code &amp; Coffee</a>
+<a href="../../index.html" class="title">Data, Code &amp; Coffee | Harry Fisher</a>
 </div>
 <div class="nav-right">
 <a href="../../index.html">Home</a>
@@ -1929,7 +1994,13 @@ var disqus_config = function () {
 })();
 </script>
   <p>
-    <div class="subscribe">Follow me on <a href="https://twitter.com/harryfishr">twitter</a> and subscribe to <a href="https://rweekly.org">rweekly</a> for updates on this blog.</div>
+    <div class="subscribe"><!-- Add icon library --> <link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+Follow me on <a href="https://twitter.com/harryfishr" target="_blank" class="fa fa-twitter" style="font-size:16px;"></a> and subscribe to <a href="https://rweekly.org">rweekly</a> for updates on this blog.
+
+
+</div>
   </p>
 </div>
 <!--/radix_placeholder_article_footer-->
@@ -1949,11 +2020,11 @@ var disqus_config = function () {
   <p>Text and figures are licensed under Creative Commons Attribution <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. Source code is available at <a href="https://github.com/hfshr/distill_blog">https://github.com/hfshr/distill_blog</a>, unless otherwise noted. The figures that have been reused from other sources don't fall under this license and can be recognized by a note in their caption: "Figure from ...".</p>
   <h3 id="citation">Citation</h3>
   <p>For attribution, please cite this work as</p>
-  <pre class="citation-appendix short">Fisher (2020, March 1). Data, Code &amp; Coffee: First post. Retrieved from https://hfshr.xyz/posts/2020-03-07-first-post-again/</pre>
+  <pre class="citation-appendix short">Fisher (2020, March 1). Data, Code &amp; Coffee | Harry Fisher: First post. Retrieved from https://hfshr.xyz/posts/2020-03-07-first-post-again/</pre>
   <p>BibTeX citation</p>
   <pre class="citation-appendix long">@misc{fisher2020first,
   author = {Fisher, Harry},
-  title = {Data, Code &amp; Coffee: First post},
+  title = {Data, Code &amp; Coffee | Harry Fisher: First post},
   url = {https://hfshr.xyz/posts/2020-03-07-first-post-again/},
   year = {2020}
 }</pre>
@@ -1961,7 +2032,11 @@ var disqus_config = function () {
 <!--/radix_placeholder_appendices-->
 <!--radix_placeholder_navigation_after_body-->
 <div class="distill-site-nav distill-site-footer">
+  <div class="distill-site-footer">
 
+Built with Netlify, Rmarkdown and Distill by RStudio
+
+</div>
 </div>
 <!--/radix_placeholder_navigation_after_body-->
 

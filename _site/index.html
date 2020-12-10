@@ -86,20 +86,20 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </style>
 
   <!--radix_placeholder_meta_tags-->
-  <title>Data, Code &amp; Coffee: Posts</title>
+  <title>Data, Code &amp; Coffee | Harry Fisher: Posts</title>
 
 
 
 
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content="Data, Code &amp; Coffee: Posts"/>
+  <meta property="og:title" content="Data, Code &amp; Coffee | Harry Fisher: Posts"/>
   <meta property="og:type" content="article"/>
   <meta property="og:locale" content="en_US"/>
-  <meta property="og:site_name" content="Data, Code &amp; Coffee"/>
+  <meta property="og:site_name" content="Data, Code &amp; Coffee | Harry Fisher"/>
 
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content="Data, Code &amp; Coffee: Posts"/>
+  <meta property="twitter:title" content="Data, Code &amp; Coffee | Harry Fisher: Posts"/>
 
   <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
@@ -1752,27 +1752,149 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   @import url('https://fonts.googleapis.com/css2?family=Lato');
   @import url('https://fonts.googleapis.com/css2?family=Roboto');
   @import url('https://fonts.googleapis.com/css2?family=Fira+Mono');
+  @import url('https://fonts.googleapis.com/css2?family=Dosis');
 
   .distill-site-nav {
-    color: rgba(255, 255, 255, 0.8);
-    background-color: #444b4f;
+    font-family: 'Dosis', sans-serif;
+    color: #fff;
+    background-color: #000000;
     font-size: 20px;
-    font-weight: 300;
+    font-weight: 400;
   }
 
+  .distill-site-nav a {
+     font-family: 'Dosis', sans-serif;
+    font-weight: 500;
+    font-size: 20px;
+    color: #fff;
+    text-decoration: none;
+  }
+
+
   .posts-list .post-preview .thumbnail img { 
-    width: 70%;
+    width: 80%;
     height: auto;
     display: block; 
     margin-left: auto;
     margin-right: auto
+    font-family: 'Dosis', sans-serif;
     
   }
 
   /* https://codepen.io/sdthornton/pen/wBZdXq */
   .distill-site-header {
-     box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+    /*box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);*/
+    font-family: 'Dosis', sans-serif;
+    color: #fff;
+    background-color: #000000;
+    font-size: 20px;
+    font-weight: 400;
   }
+
+  .distill-site-footer {
+    color: #fff;
+    background-color: #000000;
+    font-size: 20px;
+    font-weight: 400;
+  }
+
+  .distill-site-nav a:hover {
+    color:	#FFFF00;
+    font-weight: 700;
+    
+  }
+
+
+
+  html, body, p {
+
+    font-family: 'Lato', sans-serif;
+    font-weight: 200;
+    line-height: 1.7; 
+    font-size: 1.0em;
+    color: #333333;
+    font-style: normal;
+    
+  }
+
+
+  h1, h2, h3, h4, h5 {
+
+  }
+
+
+  .posts-list .description p {
+      font-family: 'Lato', sans-serif; !important;
+      color: gray !important;
+  }
+
+  .posts-list .description h2 {
+      font-family: 'Dosis', sans-serif; !important;
+  }
+
+  code {
+    font-family: 'Fira Mono', sans-serif;
+    font-weight: 200;
+    line-height: 1.7; 
+    font-size: 1.0em;
+    font-style: normal;
+  }
+
+  img[alt=badge] { width: 85px; height: 20px; }
+
+  .sidebar-section-custom{
+    font-size: 15px;
+    text-align: justify;
+    line-height: 1.7; 
+  }
+
+  .sidebar-section-custom h2{
+    font-family: 'Dosis', sans-serif;
+    text-align: center;
+    font-size: 25px;
+  }
+
+  .sidebar-section.subscribe {
+    font-size: 15px;
+    text-align: justify;
+    line-height: 1.7; 
+    
+  }
+
+  .sidebar-section.subscribe h3{
+    font-family: 'Dosis', sans-serif; 
+    font-weight: 700;
+    
+  }
+
+  .sidebar-section.categories h3{
+    font-family: 'Dosis', sans-serif; 
+    font-weight: 700;
+  }
+
+  .section {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .section-shaped {
+    position: relative;
+    overflow: hidden;
+  }
+
+  /*
+  .page-header {
+    min-height: 75vh;
+    max-height: 999px;
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+  }
+  */
+
+
 
   /* thunder animation */
   /* from http://jsrocks.org/ */
@@ -1806,78 +1928,21 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
           transform: rotate3d(0, 0, 1, 5deg);
       }
   }
+  /*
+  p a:link {
+    color: #007bff;
+  }
+  */
 
-
-  html, body, p {
-    
-    font-family: 'Lato', sans-serif;
-    font-weight: 200;
-    line-height: 1.7; 
-    font-size: 1.0em;
-    color: #333333;
-    font-style: normal;
-    
+  p a:hover  {
+    color: #007bff;
+    font-weight: 700;
   }
 
-
-  h1, h2, h3, h4, h5 {
-    font-family: 'Roboto', sans-serif;
+  .categories li > a:hover {
+      color: #007bff;
+      border-bottom: 1px #007bff;;
   }
-
-
-  code {
-    font-family: 'Fira Mono', sans-serif;
-    font-weight: 200;
-    line-height: 1.7; 
-    font-size: 1.0em;
-    font-style: normal;
-  }
-
-
-  img[alt=badge] { width: 85px; height: 20px; }
-
-  .sidebar-section-custom{
-    font-size: 15px;
-    text-align: justify;
-    line-height: 1.7; 
-  }
-
-  .sidebar-section.subscribe {
-    font-size: 15px;
-    text-align: justify;
-    line-height: 1.7; 
-    
-  }
-
-  .sidebar-section.subscribe h3{
-    font-weight: bold;
-  }
-
-  .sidebar-section.categories h3{
-    font-weight: bold;
-  }
-
-  .section {
-    position: relative;
-    overflow: hidden;
-  }
-
-  .section-shaped {
-    position: relative;
-    overflow: hidden;
-  }
-
-  .page-header {
-    min-height: 75vh;
-    max-height: 999px;
-    padding: 0;
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-  }
-
-
   </style>
   <!--/radix_placeholder_site_in_header-->
 
@@ -1899,9 +1964,9 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <nav class="distill-site-nav distill-site-header">
 <div class="nav-left">
 <a class="logo" href="https://hfshr.xyz/">
-<img src="data/images/logo.png" alt="Logo"/>
+<img src="data/images/coffee.png" alt="Logo"/>
 </a>
-<a href="index.html" class="title">Data, Code &amp; Coffee</a>
+<a href="index.html" class="title">Data, Code &amp; Coffee | Harry Fisher</a>
 </div>
 <div class="nav-right">
 <a href="index.html">Home</a>
@@ -2329,16 +2394,16 @@ In addition, the testnet version of the API is now supported soyou can try out  
 </a>
 </div>
 <div class="posts-sidebar">
-<div><img src="data/images/pic.png" alt="Smiley face" style="text-align:middle;margin:0px 60px;width:45%"> 
+<div><!-- <img src="data/images/pic.png" alt="Smiley face" style="text-align:middle;margin:0px 60px;width:45%"> -->
 
 <div class="sidebar-section-custom">
 
-  <h3 style="text-align:left; font-weight: bold;">About</h3>
+  <h2 style="text-align:left; font-weight: bold;">Harry Fisher</h2>
   I am a Data Scientist based in Cardiff with a passion for all things
     <a href="https://www.r-project.org/">#Rstats</a>. This blog is a 
     collection of notes / ideas / interesting things that I thought
-    were worth sharing. Read more  
-  <a href="https://hfshr.xyz/about.html">here</a>.
+    were worth sharing! Find out more  
+  <a href="https://hfshr.xyz/about.html">here...</a>.
   
 </div>
 
@@ -2349,7 +2414,13 @@ In addition, the testnet version of the API is now supported soyou can try out  
 </div>
 <div class="sidebar-section subscribe">
 <h3>Subscribe</h3>
-Follow me on <a href="https://twitter.com/harryfishr">twitter</a> and subscribe to <a href="https://rweekly.org">rweekly</a> for updates on this blog.
+<!-- Add icon library --> <link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+Follow me on <a href="https://twitter.com/harryfishr" target="_blank" class="fa fa-twitter" style="font-size:16px;"></a> and subscribe to <a href="https://rweekly.org">rweekly</a> for updates on this blog.
+
+
+
 </div>
 <div class="sidebar-section categories">
 <h3>Categories</h3>
@@ -2474,7 +2545,11 @@ Follow me on <a href="https://twitter.com/harryfishr">twitter</a> and subscribe 
 <!--/radix_placeholder_appendices-->
 <!--radix_placeholder_navigation_after_body-->
 <div class="distill-site-nav distill-site-footer">
+<div class="distill-site-footer">
 
+Built with Netlify, Rmarkdown and Distill by RStudio
+
+</div>
 </div>
 <!--/radix_placeholder_navigation_after_body-->
 

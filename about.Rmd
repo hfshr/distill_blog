@@ -20,7 +20,7 @@ poweRof10: Tools to scrape data from www.thepowerof10.info [![badge](https://img
 
 ### Research
   
-* Fisher et al. In press. An interdisciplinary examination of stress and injury in athletes.
+* Fisher et al. 2020. An interdisciplinary examination of stress and injury in athletes. [[Link]](https://www.frontiersin.org/articles/10.3389/fspor.2020.595619/abstract)
   
 * Fisher et al. 2016. Relationship between Force Production during Isometric Squats and Knee Flexion Angles during Landing. Journal of Strength and Conditioning. [[pdf]](data/pdfs/fisher-2016.pdf)
 

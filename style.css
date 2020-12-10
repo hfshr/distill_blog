@@ -1,27 +1,149 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato');
 @import url('https://fonts.googleapis.com/css2?family=Roboto');
 @import url('https://fonts.googleapis.com/css2?family=Fira+Mono');
+@import url('https://fonts.googleapis.com/css2?family=Dosis');
 
 .distill-site-nav {
-  color: rgba(255, 255, 255, 0.8);
-  background-color: #444b4f;
+  font-family: 'Dosis', sans-serif;
+  color: #fff;
+  background-color: #000000;
   font-size: 20px;
-  font-weight: 300;
+  font-weight: 400;
 }
 
+.distill-site-nav a {
+   font-family: 'Dosis', sans-serif;
+  font-weight: 500;
+  font-size: 20px;
+  color: #fff;
+  text-decoration: none;
+}
+
+
 .posts-list .post-preview .thumbnail img { 
-  width: 70%;
+  width: 80%;
   height: auto;
   display: block; 
   margin-left: auto;
   margin-right: auto
+  font-family: 'Dosis', sans-serif;
   
 }
 
 /* https://codepen.io/sdthornton/pen/wBZdXq */
 .distill-site-header {
-   box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+  /*box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);*/
+  font-family: 'Dosis', sans-serif;
+  color: #fff;
+  background-color: #000000;
+  font-size: 20px;
+  font-weight: 400;
 }
+
+.distill-site-footer {
+  color: #fff;
+  background-color: #000000;
+  font-size: 20px;
+  font-weight: 400;
+}
+
+.distill-site-nav a:hover {
+  color:	#FFFF00;
+  font-weight: 700;
+  
+}
+
+
+
+html, body, p {
+
+  font-family: 'Lato', sans-serif;
+  font-weight: 200;
+  line-height: 1.7; 
+  font-size: 1.0em;
+  color: #333333;
+  font-style: normal;
+  
+}
+
+
+h1, h2, h3, h4, h5 {
+
+}
+
+
+.posts-list .description p {
+    font-family: 'Lato', sans-serif; !important;
+    color: gray !important;
+}
+
+.posts-list .description h2 {
+    font-family: 'Dosis', sans-serif; !important;
+}
+
+code {
+  font-family: 'Fira Mono', sans-serif;
+  font-weight: 200;
+  line-height: 1.7; 
+  font-size: 1.0em;
+  font-style: normal;
+}
+
+img[alt=badge] { width: 85px; height: 20px; }
+
+.sidebar-section-custom{
+  font-size: 15px;
+  text-align: justify;
+  line-height: 1.7; 
+}
+
+.sidebar-section-custom h2{
+  font-family: 'Dosis', sans-serif;
+  text-align: center;
+  font-size: 25px;
+}
+
+.sidebar-section.subscribe {
+  font-size: 15px;
+  text-align: justify;
+  line-height: 1.7; 
+  
+}
+
+.sidebar-section.subscribe h3{
+  font-family: 'Dosis', sans-serif; 
+  font-weight: 700;
+  
+}
+
+.sidebar-section.categories h3{
+  font-family: 'Dosis', sans-serif; 
+  font-weight: 700;
+}
+
+.section {
+  position: relative;
+  overflow: hidden;
+}
+
+.section-shaped {
+  position: relative;
+  overflow: hidden;
+}
+
+/*
+.page-header {
+  min-height: 75vh;
+  max-height: 999px;
+  padding: 0;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+*/
+
+
 
 /* thunder animation */
 /* from http://jsrocks.org/ */
@@ -55,74 +177,18 @@
         transform: rotate3d(0, 0, 1, 5deg);
     }
 }
+/*
+p a:link {
+  color: #007bff;
+}
+*/
 
-
-html, body, p {
-  
-  font-family: 'Lato', sans-serif;
-  font-weight: 200;
-  line-height: 1.7; 
-  font-size: 1.0em;
-  color: #333333;
-  font-style: normal;
-  
+p a:hover  {
+  color: #007bff;
+  font-weight: 700;
 }
 
-
-h1, h2, h3, h4, h5 {
-  font-family: 'Roboto', sans-serif;
+.categories li > a:hover {
+    color: #007bff;
+    border-bottom: 1px #007bff;;
 }
-
-
-code {
-  font-family: 'Fira Mono', sans-serif;
-  font-weight: 200;
-  line-height: 1.7; 
-  font-size: 1.0em;
-  font-style: normal;
-}
-
-
-img[alt=badge] { width: 85px; height: 20px; }
-
-.sidebar-section-custom{
-  font-size: 15px;
-  text-align: justify;
-  line-height: 1.7; 
-}
-
-.sidebar-section.subscribe {
-  font-size: 15px;
-  text-align: justify;
-  line-height: 1.7; 
-  
-}
-
-.sidebar-section.subscribe h3{
-  font-weight: bold;
-}
-
-.sidebar-section.categories h3{
-  font-weight: bold;
-}
-
-.section {
-  position: relative;
-  overflow: hidden;
-}
-
-.section-shaped {
-  position: relative;
-  overflow: hidden;
-}
-
-.page-header {
-  min-height: 75vh;
-  max-height: 999px;
-  padding: 0;
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-}
-
