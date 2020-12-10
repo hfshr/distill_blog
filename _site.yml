@@ -7,9 +7,6 @@ base_url: https://hfshr.xyz/
 repository_url: https://github.com/hfshr/distill_blog
 navbar:
   search: false
-  logo:
-    image: data/images/coffee.png
-    href: https://hfshr.xyz/
   right:
     - text: "Home"
       href: index.html
