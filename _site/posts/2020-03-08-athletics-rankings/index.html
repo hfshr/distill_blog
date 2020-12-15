@@ -1840,10 +1840,12 @@ html, body, p {
 
   font-family: 'Roboto', 'Libre Baskerville', 'Helvetica Neue'; 
   font-weight: 200;
-  line-height: 1.7; 
+  line-height: 1.6; 
   font-size: 1.0em;
   color: #333333;
   font-style: normal;
+  position: relative;
+  
   
 }
 
@@ -1937,16 +1939,23 @@ p a, li a, d-appendix a, a.footnote-backlink, .sidebar-section-custom a, .sideba
     text-decoration: none;
     transition: background-size .4s ease;
     border-bottom: 0px solid;
+    line-height: 1.2; 
+    font-size: 1.0em;
+    
 }
+
+
 
 p a:after, li a:after, d-appendix a:after, 
 .sidebar-section-custom a:after, .sidebar-section.subscribe a:after{
     content: '';
     display: block;
-    width: 0;
-    height: 1px;
+    color: #007bff;
+    font-size: 1.0em;
     background: #007bff;
     transition: width .3s;
+    line-height: 1.2; 
+    font-size: 1.0em;
 }
 
 
@@ -1955,6 +1964,7 @@ p a:hover::after, li a:hover::after, d-appendix a:hover::after,
   width: 100%;
   //transition: width .3s;
  }
+ 
 
 
 .d-contents nav a:hover {
@@ -1972,6 +1982,7 @@ code {
 /* Highlight code in text but not in code chunk */
 p code {
     color: #eee;
+    font-size: 1.0em;
     background: #7d828a;
     border-radius: 3px;
     padding: 0 3px;
