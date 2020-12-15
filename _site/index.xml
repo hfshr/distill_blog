@@ -4,7 +4,7 @@
     <title>Data, Code &amp; Coffee</title>
     <link>https://hfshr.xyz/</link>
     <atom:link href="https://hfshr.xyz/index.xml" rel="self" type="application/rss+xml"/>
-    <description>Harry Fisher
+    <description>Harry Fisher's blog
 </description>
     <generator>Distill</generator>
     <lastBuildDate>Mon, 30 Nov 2020 00:00:00 +0000</lastBuildDate>
@@ -29,7 +29,7 @@
       <category>bitmexr</category>
       <guid>https://hfshr.xyz/posts/2020-11-22-bitmexr-logo</guid>
       <pubDate>Sun, 22 Nov 2020 00:00:00 +0000</pubDate>
-      <media:content url="https://hfshr.xyz/posts/2020-11-22-bitmexr-logo/hex.png" medium="image" type="image/png" width="518" height="600"/>
+      <media:content url="https://hfshr.xyz/posts/2020-11-22-bitmexr-logo/hex2.png" medium="image" type="image/png" width="350" height="405"/>
     </item>
     <item>
       <title>Investigating sports injuries with Bayesian networks using {bnlearn}</title>

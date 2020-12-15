@@ -1788,32 +1788,41 @@ gtag('config', 'UA-145834792-2');
   font-family: 'Dosis', sans-serif;
   color: #fff;
   background-color: #000000;
-  font-size: 20px;
+  font-size: 25px;
   font-weight: 400;
 }
 
 .distill-site-nav a {
-   font-family: 'Dosis', sans-serif;
+  font-family: 'Dosis', sans-serif;
   font-weight: 500;
-  font-size: 20px;
+  font-size: 25px;
   color: #fff;
   text-decoration: none;
 }
 
-
-.posts-list .post-preview .thumbnail img { 
-  width: 80%;
-  height: auto;
-  display: block; 
-  margin-left: auto;
-  margin-right: auto
-  font-family: 'Dosis', sans-serif;
+.distill-site-nav a:hover {
+  color:	#FFFF00;
+  font-weight: 700;
   
 }
 
+.distill-site-header .title {
+    font-size: 25px;
+    min-width: 150px;
+    font-weight: 700;
+}
+
+.posts-list .post-preview .thumbnail img { 
+  max-width: 60%;
+  max-height: 60%;
+  display: block;
+  margin: 0 auto;
+}
+
+
 /* https://codepen.io/sdthornton/pen/wBZdXq */
 .distill-site-header {
-  /*box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);*/
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
   font-family: 'Dosis', sans-serif;
   color: #fff;
   background-color: #000000;
@@ -1828,17 +1837,11 @@ gtag('config', 'UA-145834792-2');
   font-weight: 400;
 }
 
-.distill-site-nav a:hover {
-  color:	#FFFF00;
-  font-weight: 700;
-  
-}
-
 
 
 html, body, p {
 
-  font-family: 'Lato', sans-serif;
+  font-family: 'Roboto', 'Libre Baskerville', 'Helvetica Neue'; 
   font-weight: 200;
   line-height: 1.7; 
   font-size: 1.0em;
@@ -1853,34 +1856,40 @@ html, body, p {
 }
 
 
-h1, h2, h3, h4, h5 {
-
-}
-
-
 .posts-list .description p {
-    font-family: 'Lato', sans-serif; !important;
+    font-family: 'Roboto', sans-serif; !important;
 }
 
 .posts-list .description h2 {
     font-family: 'Dosis', sans-serif; !important;
 }
 
-code {
-  font-family: 'Fira Mono', sans-serif;
-  font-weight: 200;
-  line-height: 1.7; 
-  font-size: 1.0em;
-  font-style: normal;
+
+
+p a:hover  {
+  color: #007bff;
+  font-weight: 700;
 }
 
-img[alt=badge] { width: 85px; height: 20px; }
+
+}
+.posts-list .post-preview .metadata {
+
+    float: left;
+    width: 15%;
+    margin-top: 8px;
+
+}
+
+/*SIDE BAR*/
 
 .sidebar-section-custom{
   font-size: 15px;
   text-align: justify;
   line-height: 1.7; 
 }
+
+
 
 .sidebar-section-custom h2{
   font-family: 'Dosis', sans-serif;
@@ -1916,18 +1925,92 @@ img[alt=badge] { width: 85px; height: 20px; }
   overflow: hidden;
 }
 
+.posts-list .metadata {
+    font-size: 16px;
+    line-height: 1.4em;
+    margin-bottom: 18px;
+}
+
+/* LINK EFFECTS */
+/* Borrowed from https://github.com/m-clark/m-clark.github.io/blob/master/styles.css */
+
+p a, li a, d-appendix a, a.footnote-backlink, .sidebar-section-custom a, .sidebar-section.subscribe a {
+    color: #007bff;
+    display: inline-block;
+    text-decoration: none;
+    transition: background-size .4s ease;
+    border-bottom: 0px solid;
+}
+
+p a:after, li a:after, d-appendix a:after, 
+.sidebar-section-custom a:after, .sidebar-section.subscribe a:after{
+    content: '';
+    display: block;
+    width: 0;
+    height: 1px;
+    background: #007bff;
+    transition: width .3s;
+}
+
+
+p a:hover::after, li a:hover::after, d-appendix a:hover::after, 
+.sidebar-section-custom a:hover::after, .sidebar-section.subscribe a:hover::after{
+  width: 100%;
+  //transition: width .3s;
+ }
+
+
+.d-contents nav a:hover {
+    text-decoration: none;
+    font-size: 14px;
+}
+
+
+/* CODE FORMATTING */
+
+code {
+  font-size: 1.2em;
+}
+
+/* Highlight code in text but not in code chunk */
+p code {
+    color: #eee;
+    background: #7d828a;
+    border-radius: 3px;
+    padding: 0 3px;
+    margin: 0 4px;
+    word-wrap: break-word;
+    letter-spacing: normal;
+} 
+ 
+
+/* colour tags */
+.dt-tags .dt-tag {
+    display: inline-block;
+    color: #fff;
+    padding: 0.3em 0.4em;
+    margin-right: 0.2em;
+    margin-bottom: 0.4em;
+    font-size: 14px;
+    border: 1px solid rgba(0,0,0,0.2);
+    background-color: #000000;
+    border-radius: 3px;
+    text-transform: uppercase;
+    font-weight: 900;
+}
+
+.posts-list .dt-tags .dt-tag {
+    color: #fff;
+    font-size: 14px;
+}
+
+
 /*
-.page-header {
-  min-height: 75vh;
-  max-height: 999px;
-  padding: 0;
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
+.categories li > a:hover {
+    color: #007bff;
+    border-bottom: 1px #007bff;;
 }
 */
-
 
 
 /* thunder animation */
@@ -1962,20 +2045,18 @@ img[alt=badge] { width: 85px; height: 20px; }
         transform: rotate3d(0, 0, 1, 5deg);
     }
 }
-/*
-p a:link {
-  color: #007bff;
-}
-*/
 
-p a:hover  {
-  color: #007bff;
-  font-weight: 700;
+
+
+img[alt=badge] { 
+  width: 85px; 
+  height: 20px; 
+  float: left;
 }
 
-.categories li > a:hover {
-    color: #007bff;
-    border-bottom: 1px #007bff;;
+.mylinks a{
+  color: #333333;
+  
 }
 </style>
 <!--/radix_placeholder_site_in_header-->

@@ -1,0 +1,212 @@
+---
+title: "How has Covid affected UK athletics rankings in 2020?"
+description: |
+  A look into how Covid has impacted the breadth and depth of athletic performances in the UK in 2020
+author:
+  - name: Harry Fisher
+    url: https://hfshr.xyz
+date: 12-11-2020
+output:
+  distill::distill_article:
+    self_contained: false
+draft: true
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+One area that has been hugely impacted by Covid this year is sport. 
+
+
+What I wanted to find out was to what extent UK athletic performance have been impacted this year, compared to other years. I have seen some incredible performances at the elite end, but I wondered if that level of athletes just below the top 2% have been affected to a greater degree.
+
+
+To test my ideas I gathered some data from the UK athletics rankings website www.thepowerof10.info
+
+
+```{r}
+library(poweRof10)
+library(tidyverse)
+library(viridis)
+library(furrr)
+library(lubridate)
+library(hms)
+library(ggridges)
+library(ggiraph)
+#remotes::install_github("hfshr/poweRof10")
+
+### get data ###
+years <- c(2016:2020)
+events <- c("100", "200", "400", "800", "1500", "5000", "10000")
+gender <- c("M", "W")
+
+# grid <- expand_grid(years, events, gender) %>% 
+#   as.list()
+# 
+# plan(sequential)
+# full_res <- future_pmap_dfr(grid, ~get_event(events = ..2, gender = ..3, year = ..1), .progress = TRUE)
+
+full_res <- read.csv("raw_data.csv")
+
+res_edit <- full_res %>% 
+  filter(rank != "") %>% 
+  mutate(event = factor(event, levels = events)) %>% 
+  mutate(rank = as.numeric(rank)) %>% 
+  mutate(perf = str_trim(perf)) %>% 
+    mutate(perf_x = case_when(event %in% c("800", "1500") ~paste0("0", perf),
+                              event %in% c("200", "400") ~ paste0("00:", perf),
+                              event == "100" ~ ifelse(nchar(perf) <= 4, paste0("00:0", perf), paste0("00:", perf)),
+                              TRUE ~ perf)) %>% 
+    mutate(perf_x = paste0("00:", perf_x)) %>% 
+    mutate(perf_x = parse_hms(perf_x)) %>% 
+    mutate(perf_x_sec = round(seconds(perf_x), digits = 2)) %>% 
+  mutate(year = factor(year, levels = c("2016", "2017", "2018", "2019", "2020"))) 
+
+
+str(res_edit)
+
+library(ggrepel)
+
+df <- res_edit %>% 
+  filter(year %in% c("2020","2019")) %>% 
+  mutate(year = factor(year, levels = c("2019", "2020"))) %>% 
+  group_by(year, event, gender) %>% 
+  summarise(n = n()) 
+
+
+
+df %>% 
+  ggplot(aes(x = year, y = n, label = event, colour = event)) +
+  geom_point(size = 3) +
+  geom_line(aes(group = event), size =2) +
+  scale_color_brewer(palette="Set2") +
+  geom_label_repel(
+    data = subset(df, year == "2019"),
+    nudge_x      = -0.20,
+    direction    = "y",
+    hjust        = 1,
+    segment.size = 0.2) +
+  geom_point_interactive(aes(tooltip = paste0("n = ", n)), size = 2) +
+  facet_wrap(~gender) +
+  theme_minimal() +
+  theme(legend.position = "none") -> my_gg
+
+
+  girafe(code = print(my_gg) ,height_svg = 4, options = )
+  
+  ?girafe
+```
+
+
+# Breakdown by rankings
+
+## top 10
+
+```{r}
+res_edit %>% 
+  filter(gender == "M") %>% 
+  mutate(year = fct_rev(year),
+         covid_year = ifelse(year == "2020", "covid", "pre_covid")) %>% 
+  select(year, perf_x, rank, event, gender, covid_year) %>% 
+  mutate(rank_group = case_when(rank %in% c(1:20) ~ "top_20",
+                                rank %in% c(21:100) ~ "20_to_100",
+                                rank %in% c(101:250) ~ "101_to_250",
+                                TRUE ~ "NA"),
+         rank_group = factor(rank_group, levels = c("top_20", "20_to_100", "101_to_250"))) %>%
+  filter(rank_group != "NA") %>% 
+  filter(rank_group == "top_20") %>% 
+  ggplot(aes(x = perf_x, y = year, fill = covid_year, group = year)) +
+  scale_fill_brewer(palette="Set1") +
+  geom_boxplot() +
+  facet_wrap(event ~., dir = "v", scales = "free") +
+  theme_minimal()
+
+```
+
+## 21 to 100
+
+```{r}
+res_edit %>% 
+  filter(gender == "M") %>% 
+  mutate(year = fct_rev(year),
+         covid_year = ifelse(year == "2020", "covid", "pre_covid")) %>% 
+  select(year, perf_x, rank, event, gender, covid_year) %>% 
+  mutate(rank_group = case_when(rank %in% c(1:20) ~ "top_20",
+                                rank %in% c(21:100) ~ "20_to_100",
+                                rank %in% c(101:250) ~ "101_to_250",
+                                TRUE ~ "NA"),
+         rank_group = factor(rank_group, levels = c("top_20", "20_to_100", "101_to_250"))) %>%
+  filter(rank_group != "NA") %>% 
+  filter(rank_group == "101_to_250") %>% 
+  ggplot(aes(x = perf_x, y = year, fill = covid_year, group = year)) +
+  geom_boxplot() +
+  facet_wrap(event ~., dir = "v", scales = "free")
+
+```
+
+# test
+
+<!-- ```{r} -->
+<!-- library(ggalt) -->
+
+<!-- df <- res_edit %>%  -->
+<!--   filter(year %in% c("2020", "2019")) %>%  -->
+<!--   mutate(covid_year = ifelse(year == "2020", "covid", "non_covid"), -->
+<!--          covid_year = factor(covid_year, levels = c("non_covid", "covid"))) %>% -->
+<!--   group_by(covid_year, event, gender) %>%  -->
+<!--   summarise(n = n())%>%  -->
+<!--   mutate(across(.cols = n, round, 0)) %>%  -->
+<!--   pivot_wider(values_from = n, names_from = covid_year) %>%  -->
+<!--   mutate(perc_dec = round((non_covid - covid)/non_covid * 100, digits = 0)) %>%  -->
+<!--   mutate(perc_dec = paste0("-", perc_dec, "%")) %>%  -->
+<!--   arrange(-non_covid) %>%  -->
+<!--   filter(gender == "M") -->
+
+<!-- library(ggtext) -->
+<!-- library(ggalt) -->
+
+<!-- ggplot() + -->
+<!--   geom_segment(data=df, aes(y=event, yend=event, x=0, xend=1)) + -->
+<!--   geom_dumbbell(data=df, aes(y=event, x=covid, xend=non_covid), -->
+<!--                 color="#b2b2b3",size = 4,colour_x="#9fb059", colour_xend="#edae52")+ -->
+<!--   geom_text(data=filter(df, event == "100"), -->
+<!--                      aes(x=covid, y=event, label="2020 🦠"), -->
+<!--                      color="#9fb059", size=4, vjust=3.2, fontface="bold", family="Calibri")+  -->
+<!--   geom_text(data=filter(df, event == "100"), -->
+<!--                      aes(x=non_covid, y=event, label="2019 🏃"), -->
+<!--                      color="#edae52", size=4, vjust=-3, fontface="bold", family="Calibri")   + -->
+<!--   # geom_text(data=filter(df, event == "100"), -->
+<!--   #                    aes(x=(non_covid + covid) / 2, y=event, label="🔻"), -->
+<!--   #                    color="red", size=4, hjust=1.1, vjust = -2, fontface="bold", family="Calibri")   + -->
+<!--   geom_text(data=df, aes(x=covid, y=event, label=covid), -->
+<!--                      color="#9fb059", size=3.5, vjust=2, family="Calibri") +  -->
+<!--   geom_text(data=df, color="#edae52", size=3.5, vjust=-1.5, family="Calibri", -->
+<!--                      aes(x=non_covid, y=event, label=non_covid)) + -->
+<!--   geom_text(data = df, color="red", size=3.5, hjust=1.2, family="Calibri", -->
+<!--             aes(x = (non_covid + covid) / 2 , y = event, label = perc_dec)) + -->
+<!--   scale_x_continuous(limits = c(-10, 1600)) + -->
+<!--   coord_flip() + -->
+<!--   scale_y_discrete(expand=c(0.075,0.6)) + -->
+<!--   labs(y = "Event", x = "Number of athletes on ranking list", -->
+<!--        title = "<span style = 'color:red;'>Percentage decrease</span>  -->
+<!--        in the number of athletes on the ranking \nlist for  -->
+<!--        <span style = 'color:#9fb059;'>2020 (covid)</span>  -->
+<!--        vs   <span style = 'color:#edae52;'>2019 (pre-covid)</span>", -->
+<!--        subtitle = "") + -->
+<!--   theme_minimal() + -->
+<!--   theme(plot.title = element_textbox_simple(size = 16), -->
+<!--         axis.text.y = element_text(size = 14, face = "bold", family = "Calibri"), -->
+<!--         axis.text.x = element_text(size = 14, face = "bold", family = "Calibri"), -->
+<!--         axis.title = element_blank())  -->
+
+
+
+<!-- library(poweRof10) -->
+<!-- library(tidyverse) -->
+
+
+<!-- ``` -->
+
+
