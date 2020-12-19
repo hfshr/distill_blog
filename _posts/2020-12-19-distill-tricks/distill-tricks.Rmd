@@ -1,0 +1,39 @@
+---
+title: "Add some extra style to your {distill} site"
+description: |
+    A few tips for adding some extra style to a distill blog
+author:
+  - name: Harry Fisher
+    url: https://hfshr.xyz
+date: 12-19-2020
+output:
+  distill::distill_article:
+    self_contained: false
+draft: true
+---
+
+RStudio have done some great work in making the distill framework a joy to use for creating .
+
+The documentation for `distill` is already substantial, and is definitely the best place to start. In particulualr having a look at the example sites is a great way to get some insiration for your own site!
+
+Below I've included a few notes on some additional tweaks I've made . My hope is that these may inspire 
+
+
+
+Adding a favicon logo 
+
+
+
+
+css styling
+
+links
+
+tags
+
+tabsets
+
+
+
+
+

@@ -41,4 +41,6 @@ collections:
     categories_metadata: true
 output: 
   distill::distill_article:
+    includes:
+      in_header: header.html
     css: style.css
