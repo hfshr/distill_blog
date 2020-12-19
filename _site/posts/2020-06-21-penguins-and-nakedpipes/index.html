@@ -1798,13 +1798,19 @@ gtag('config', 'UA-145834792-2');
   font-weight: 500;
   font-size: 25px;
   color: #fff;
-  text-decoration: none;
 }
 
 .distill-site-nav a:hover {
   color:	#FFFF00;
   font-weight: 700;
   
+}
+
+.distill-site-header .logo img {
+    display: inline;
+    max-height: 25px;
+    width: auto;
+    margin-bottom: -4px;
 }
 
 .distill-site-header .title {
@@ -1840,22 +1846,20 @@ gtag('config', 'UA-145834792-2');
 
 
 
-html, body, p {
-
+body, p {
   font-family: 'Roboto', 'Libre Baskerville', 'Helvetica Neue'; 
+  text-transform: none;
   font-weight: 200;
   line-height: 1.6; 
   font-size: 1em;
   color: #333333;
   font-style: normal;
-  position: relative;
-  
-  
 }
+
 
 .posts-list h1 {
    font-family: 'Dosis', sans-serif; !important;
-   font-weight: 800;
+   font-weight: 600;
 }
 
 
@@ -1868,11 +1872,40 @@ html, body, p {
 }
 
 
-
-p a:hover  {
-  color: #007bff;
-  font-weight: 700;
+d-article a {
+    border-bottom: none;
+    text-decoration: none;
 }
+
+d-article a:hover  {
+  text-decoration: none;
+  border-bottom: none;
+  cursor: pointer;
+}
+
+.d-contents nav > ul > li > a {
+    font-weight: 200;
+    text-decoration: none;
+    border-bottom: none;
+}
+
+
+p a, li a, d-appendix a, .sidebar-section-custom a, .sidebar-section.subscribe a {
+    text-decoration: none;
+    background-image: linear-gradient(currentColor, currentColor);
+    background-position: 0% 100%;
+    background-repeat: no-repeat;
+    background-size: 0% 2px;
+    color: #007bff;
+    transition: background-size .3s;
+}
+
+p a:hover, p a:focus, li a:hover, li a:focus,
+.sidebar-section-custom a:hover, .sidebar-section-custom a:focus,
+.sidebar-section.subscribe a:hover, .sidebar-section.subscribe a:focus {
+    background-size: 100% 2px;
+}
+
 
 
 }
@@ -1918,6 +1951,7 @@ p a:hover  {
   font-weight: 700;
 }
 
+/*
 .section {
   position: relative;
   overflow: hidden;
@@ -1927,6 +1961,7 @@ p a:hover  {
   position: relative;
   overflow: hidden;
 }
+*/
 
 .posts-list .metadata {
     font-size: 16px;
@@ -1935,23 +1970,7 @@ p a:hover  {
 }
 
 /* LINK EFFECTS */
-/* Borrowed from https://github.com/m-clark/m-clark.github.io/blob/master/styles.css */
 
-
-
-.d-contents nav a:hover {
-    text-decoration: none;
-    font-size: 14px;
-    
-}
-
-
-p a:hover {
-
-    color: #007bff;
-    font-weight: 200;
-
-}
 
 
 /* CODE FORMATTING */
@@ -1994,12 +2013,10 @@ p code {
 }
 
 
-/*
 .categories li > a:hover {
     color: #007bff;
-    border-bottom: 1px #007bff;;
+    border-bottom: none;
 }
-*/
 
 
 /* thunder animation */
@@ -2036,7 +2053,6 @@ p code {
 }
 
 
-
 img[alt=badge] { 
   width: 85px; 
   height: 20px; 
@@ -2066,11 +2082,18 @@ img[alt=badge] {
 <header class="header header--fixed" role="banner">
 <nav class="distill-site-nav distill-site-header">
 <div class="nav-left">
+<a class="logo" href="../../index.html">
+<img src="../../data/images/coffee_new.png" alt="Logo"/>
+</a>
 <a href="../../index.html" class="title">Data, Code &amp; Coffee</a>
 </div>
 <div class="nav-right">
-<a href="../../index.html">Home</a>
-<a href="../../about.html">About</a>
+<a href="../../index.html">
+<i class="fas fa-home" aria-hidden="true"></i>
+</a>
+<a href="../../about.html">
+<i class="fas fa-address-card" aria-hidden="true"></i>
+</a>
 <a href="https://github.com/hfshr/distill_blog">
 <i class="fab fa-github" aria-hidden="true"></i>
 </a>

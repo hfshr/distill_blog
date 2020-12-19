@@ -16,7 +16,7 @@ Feel free to get in touch if any of the posts catch your interest!
 
 bitmexr: R Client for the BitMEX Exchange [![CRAN status](https://www.r-pkg.org/badges/version/bitmexr)](https://CRAN.R-project.org/package=bitmexr)
 
-poweRof10: Tools to scrape data from www.thepowerof10.info [![badge](https://img.shields.io/badge/just-for%20fun-blue.svg)](https://github.com/hfshr/poweRof10) 
+poweRof10: Tools to scrape data from www.thepowerof10.info [![ ](https://img.shields.io/badge/just-for%20fun-blue.svg)](https://github.com/hfshr/poweRof10) 
 
 ### Research
   

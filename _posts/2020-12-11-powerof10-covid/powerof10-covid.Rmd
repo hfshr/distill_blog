@@ -12,9 +12,9 @@ output:
 draft: true
 ---
 
-
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
+xaringanExtra::use_panelset()
 ```
 
 One area that has been hugely impacted by Covid this year is sport. 
@@ -26,6 +26,8 @@ What I wanted to find out was to what extent UK athletic performance have been i
 To test my ideas I gathered some data from the UK athletics rankings website www.thepowerof10.info
 
 
+
+
 ```{r}
 library(poweRof10)
 library(tidyverse)
@@ -35,6 +37,206 @@ library(lubridate)
 library(hms)
 library(ggridges)
 library(ggiraph)
+
+
+### get data ###
+years <- c(2016:2020)
+events <- c("100", "200", "400", "800", "1500", "5000", "10000")
+gender <- c("M", "W")
+
+
+# grid <- expand_grid(years, events, gender) %>%
+#   as.list()
+# 
+# plan(multisession)
+# all_rankings <- future_pmap_dfr(grid, ~get_event(event = ..2, gender = ..3, year = ..1), .progress = TRUE)
+# plan(sequential)
+
+options(digits.secs=2)
+
+load("clean_rankings.rds")
+
+time_cleaner <- function(time) {
+  date <- as.numeric(time) * 1000
+  res <- as.POSIXct.numeric(date/1000, origin = '1970-01-01', format = "%OS")
+  format(res, format = '%M:%OS')
+}  
+
+clean_rankings <- all_rankings %>% 
+  select(rank, perf, input_year, event, gender, date, name) %>% 
+  filter(event %in% c("100", "200", "400", "800", "1500", "5000")) %>% 
+  drop_na(rank) %>% 
+  mutate(event = factor(event, levels = c("100", "200", "400", "800", "1500", "5000")),
+         rank = as.numeric(rank),
+         perf = str_trim(perf),
+         input_year = factor(input_year, levels = c("2016", "2017", "2018", "2019", "2020"))) %>% 
+  mutate(perf = if_else(event == "400" & str_starts(perf, "6"), time_cleaner(perf), perf)) %>% 
+  mutate(perf_x = case_when(event %in% c("800", "1500") ~paste0("00:0", perf),
+                              event %in% c("200", "400") & nchar(perf) <= 5 ~paste0("00:00:", perf), 
+                              event == "100" ~ ifelse(nchar(perf) < 5, 
+                                                      paste0("00:00:0", perf), 
+                                                      paste0("00:00:", perf)),
+                              TRUE ~ paste0("00:", perf))) %>%  
+  mutate(perf_x = parse_hms(perf_x),
+         perf_x_sec = round(seconds(perf_x), digits = 2),
+         perf_x_sec = round(seconds_to_period(perf_x_sec), 2)) %>% 
+  mutate(test = as_datetime(perf_x_sec))
+
+
+
+```
+
+
+::::: {.panelset}
+
+::: {.panel}
+[Men]{.panel-name}
+
+
+```{r fig.height=10, fig.width=10, layout = "l-page"}
+library(patchwork)
+
+df <- clean_rankings %>% 
+  filter(gender == "M") %>% 
+  mutate(input_year = fct_rev(input_year),
+         covid_year = ifelse(input_year == "2020", "covid", "pre_covid")) %>% 
+  select(input_year, perf_x, rank, event, gender, covid_year, test) %>% 
+  mutate(rank_group = case_when(rank %in% c(1:20) ~ "top_20",
+                                rank %in% c(21:100) ~ "20_to_100",
+                                rank %in% c(101:500) ~ ">101"),
+         rank_group = factor(rank_group, levels = c("top_20", "20_to_100", ">101")))
+
+
+
+  df %>%
+  filter(rank_group == "top_20") %>% 
+  ggplot(aes(x = test, y = input_year, fill = covid_year, group = input_year, alpha = 0.6)) +
+  scale_fill_brewer(palette = "Set1") +
+  scale_x_datetime(date_labels = "%M:%OS") +
+  stat_density_ridges(quantile_lines = TRUE, quantiles = 2) +
+  facet_wrap_custom(event~., scales = "free_x", ncol = 1, scale_overrides = list(
+                      scale_override(1, scale_x_datetime(date_labels = "%OS")),
+                      scale_override(2, scale_x_datetime(date_labels = "%OS")),
+                      scale_override(3, scale_x_datetime(date_labels = "%OS")))) +
+  labs(subtitle = "top 20") +
+  theme_light() +
+  theme(legend.position = "none")-> p1
+
+
+df %>% 
+  filter(rank_group == "20_to_100") %>% 
+  ggplot(aes(x = test, y = input_year, fill = covid_year, group = input_year, alpha = 0.6)) +
+  scale_fill_brewer(palette = "Set1") +
+  scale_x_datetime(date_labels = "%M:%OS") +
+  stat_density_ridges(quantile_lines = TRUE, quantiles = 2) +
+    facet_wrap_custom(event~., scales = "free_x", ncol = 1, scale_overrides = list(
+                      scale_override(1, scale_x_datetime(date_labels = "%OS")),
+                      scale_override(2, scale_x_datetime(date_labels = "%OS")),
+                      scale_override(3, scale_x_datetime(date_labels = "%OS")))) +
+  labs(subtitle = "20 - 100") +
+  theme_light() +
+  theme(legend.position = "none",        
+        axis.text.y = element_blank(),
+        axis.title.y = element_blank()) -> p2
+
+
+df %>% 
+  filter(rank_group == ">101") %>% 
+  ggplot(aes(x = test, y = input_year, fill = covid_year, group = input_year, alpha = 0.6)) +
+  scale_fill_brewer(palette = "Set1") +
+  scale_x_datetime(date_labels = "%M:%OS") +
+  stat_density_ridges(quantile_lines = TRUE, quantiles = 2) +
+    facet_wrap_custom(event~., scales = "free_x", ncol = 1, scale_overrides = list(
+                      scale_override(1, scale_x_datetime(date_labels = "%OS")),
+                      scale_override(2, scale_x_datetime(date_labels = "%OS")),
+                      scale_override(3, scale_x_datetime(date_labels = "%OS")))) +
+  labs(subtitle = "Greater than 100") +
+  theme_light() +
+  theme(legend.position = "none",       
+        axis.text.y = element_blank(),
+        axis.title.y = element_blank()) -> p3
+
+
+p1 + p2 + p3 + plot_annotation(
+  title = 'Distribution of performances for different rankings')
+```
+
+:::
+
+::: {.panel}
+[Women]{.panel-name}
+
+
+```{r fig.height=15}
+library(patchwork)
+
+res_edit %>% 
+  filter(gender == "W") %>% 
+  mutate(year = fct_rev(year),
+         covid_year = ifelse(year == "2020", "covid", "pre_covid")) %>% 
+  select(year, perf_x, rank, event, gender, covid_year, perf_x_sec) %>% 
+  mutate(rank_group = case_when(rank %in% c(1:20) ~ "top_20",
+                                rank %in% c(21:100) ~ "20_to_100",
+                                rank %in% c(101:max(rank)) ~ ">101"),
+         rank_group = factor(rank_group, levels = c("top_20", "20_to_100", ">101")))%>%
+  filter(rank_group == "top_20") %>% 
+  ggplot(aes(x = perf_x, y = year, fill = covid_year, group = year, alpha = 0.6)) +
+  scale_fill_brewer(palette = "Set1") +
+  stat_density_ridges(quantile_lines = TRUE, quantiles = 2) +
+  facet_wrap_custom(event~, scales = "free_x", ncol = 1, 
+                    scale_overrides = list(
+                      scale_override(1, scale_x_continuous(breaks = c(5750, 5900))),
+                      scale_override(6, scale_x_continuous(breaks = c(17800, 17900)))))
+  
+  
+  
+  facet_wrap(event ~ ., scales = "free_x", ncol = 1) +
+  labs(subtitle = "top 20") +
+  theme_light() +
+  theme(legend.position = "none") -> p1
+
+
+res_edit %>% 
+  filter(gender == "W") %>% 
+  mutate(year = fct_rev(year),
+         covid_year = ifelse(year == "2020", "covid", "pre_covid")) %>% 
+  select(year, perf_x, rank, event, gender, covid_year, perf_x_sec) %>% 
+  mutate(rank_group = case_when(rank %in% c(1:20) ~ "top_20",
+                                rank %in% c(21:100) ~ "20_to_100",
+                                rank %in% c(101:max(rank)) ~ ">101"),
+         rank_group = factor(rank_group, levels = c("top_20", "20_to_100", ">101")))%>%
+  filter(rank_group == "20_to_100") %>% 
+  ggplot(aes(x = perf_x, y = year, fill = covid_year, group = year, alpha = 0.6)) +
+  scale_fill_brewer(palette = "Set1") +
+  stat_density_ridges(quantile_lines = TRUE, quantiles = 2) +
+  facet_wrap(event ~ ., scales = "free_x", ncol = 1) +
+  theme_light() +
+  labs(subtitle = "20 to 100") +
+  theme(legend.position = "none",
+        axis.text.y = element_blank(),
+        axis.title.y = element_blank()) -> p2
+
+
+
+p1 + p2
+```
+
+:::
+
+:::::
+
+
+
+```{r fig.height=10}
+library(poweRof10)
+library(tidyverse)
+library(viridis)
+library(furrr)
+library(lubridate)
+library(hms)
+library(ggridges)
+library(ggiraph)
+
 #remotes::install_github("hfshr/poweRof10")
 
 ### get data ###
@@ -42,88 +244,219 @@ years <- c(2016:2020)
 events <- c("100", "200", "400", "800", "1500", "5000", "10000")
 gender <- c("M", "W")
 
-# grid <- expand_grid(years, events, gender) %>% 
-#   as.list()
-# 
+
+grid <- expand_grid(years, events, gender) %>%
+  as.list()
+#
 # plan(sequential)
 # full_res <- future_pmap_dfr(grid, ~get_event(events = ..2, gender = ..3, year = ..1), .progress = TRUE)
 
-full_res <- read.csv("raw_data.csv")
+years <- c(2016:2020)
+events <- c("HM", "Mar")
+gender <- c("M", "W")
 
-res_edit <- full_res %>% 
-  filter(rank != "") %>% 
-  mutate(event = factor(event, levels = events)) %>% 
-  mutate(rank = as.numeric(rank)) %>% 
-  mutate(perf = str_trim(perf)) %>% 
-    mutate(perf_x = case_when(event %in% c("800", "1500") ~paste0("0", perf),
-                              event %in% c("200", "400") ~ paste0("00:", perf),
-                              event == "100" ~ ifelse(nchar(perf) <= 4, paste0("00:0", perf), paste0("00:", perf)),
-                              TRUE ~ perf)) %>% 
-    mutate(perf_x = paste0("00:", perf_x)) %>% 
-    mutate(perf_x = parse_hms(perf_x)) %>% 
-    mutate(perf_x_sec = round(seconds(perf_x), digits = 2)) %>% 
-  mutate(year = factor(year, levels = c("2016", "2017", "2018", "2019", "2020"))) 
+grid <- expand_grid(years, events, gender) %>%
+  as.list()
+
+plan(multisession)
+extra_res <- future_pmap_dfr(grid, ~get_event(event = ..2, gender = ..3, year = ..1, agegroup = "U17"), .progress = TRUE)
 
 
-str(res_edit)
+time_cleaner <- function(time) {
+  date <- as.numeric(time) * 1000
+  res <- as.POSIXct.numeric(date/1000, origin = '1970-01-01', format = "%OS")
+  format(res, format = '%M:%OS')
+}  
 
-library(ggrepel)
+res_edit <- extra_res %>% 
+  select(rank, perf, input_year, event, gender, date, name) %>% 
+  filter(event %in% c("100", "200", "400", "800", "1500", "5000")) %>% 
+  drop_na(rank) %>% 
+  mutate(event = factor(event, levels = c("100", "200", "400", "800", "1500", "5000")),
+         rank = as.numeric(rank),
+         perf = str_trim(perf),
+         input_year = factor(input_year, levels = c("2016", "2017", "2018", "2019", "2020"))) %>% 
+  mutate(perf = if_else(event == "400" & str_starts(perf, "6"), time_cleaner(perf), perf)) %>% 
+  mutate(perf_x = case_when(event %in% c("800", "1500") ~paste0("00:0", perf),
+                              event %in% c("200", "400") & nchar(perf) <= 5 ~paste0("00:00:", perf), 
+                              event == "100" ~ ifelse(nchar(perf) < 5, 
+                                                      paste0("00:00:0", perf), 
+                                                      paste0("00:00:", perf)),
+                              TRUE ~ paste0("00:", perf))) %>%  
+  mutate(perf_x = parse_hms(perf_x),
+         perf_x_sec = round(seconds(perf_x), digits = 2),
+         perf_x_sec = round(seconds_to_period(perf_x_sec), 2)) %>% 
+  mutate(test = as_datetime(perf_x_sec))
 
 df <- res_edit %>% 
-  filter(year %in% c("2020","2019")) %>% 
-  mutate(year = factor(year, levels = c("2019", "2020"))) %>% 
-  group_by(year, event, gender) %>% 
-  summarise(n = n()) 
-
-
-
-df %>% 
-  ggplot(aes(x = year, y = n, label = event, colour = event)) +
-  geom_point(size = 3) +
-  geom_line(aes(group = event), size =2) +
-  scale_color_brewer(palette="Set2") +
-  geom_label_repel(
-    data = subset(df, year == "2019"),
-    nudge_x      = -0.20,
-    direction    = "y",
-    hjust        = 1,
-    segment.size = 0.2) +
-  geom_point_interactive(aes(tooltip = paste0("n = ", n)), size = 2) +
-  facet_wrap(~gender) +
-  theme_minimal() +
-  theme(legend.position = "none") -> my_gg
-
-
-  girafe(code = print(my_gg) ,height_svg = 4, options = )
-  
-  ?girafe
-```
-
-
-# Breakdown by rankings
-
-## top 10
-
-```{r}
-res_edit %>% 
   filter(gender == "M") %>% 
-  mutate(year = fct_rev(year),
-         covid_year = ifelse(year == "2020", "covid", "pre_covid")) %>% 
-  select(year, perf_x, rank, event, gender, covid_year) %>% 
+  mutate(input_year = fct_rev(input_year),
+         covid_year = ifelse(input_year == "2020", "covid", "pre_covid")) %>% 
+  select(input_year, perf_x, rank, event, gender, covid_year, test) %>% 
   mutate(rank_group = case_when(rank %in% c(1:20) ~ "top_20",
                                 rank %in% c(21:100) ~ "20_to_100",
-                                rank %in% c(101:250) ~ "101_to_250",
-                                TRUE ~ "NA"),
-         rank_group = factor(rank_group, levels = c("top_20", "20_to_100", "101_to_250"))) %>%
-  filter(rank_group != "NA") %>% 
-  filter(rank_group == "top_20") %>% 
-  ggplot(aes(x = perf_x, y = year, fill = covid_year, group = year)) +
-  scale_fill_brewer(palette="Set1") +
-  geom_boxplot() +
-  facet_wrap(event ~., dir = "v", scales = "free") +
-  theme_minimal()
+                                rank %in% c(101:500) ~ ">101"),
+         rank_group = factor(rank_group, levels = c("top_20", "20_to_100", ">101")))
+
+
+
+  df %>%
+  filter(rank_group == "20_to_100") %>% 
+  ggplot(aes(x = test, y = input_year, fill = covid_year, group = input_year, alpha = 0.6)) +
+  scale_fill_brewer(palette = "Set1") +
+  scale_x_datetime(date_labels = "%M:%OS") +
+  stat_density_ridges(quantile_lines = TRUE, quantiles = 2) +
+  facet_wrap_custom(event~., scales = "free_x", ncol = 1, scale_overrides = list(
+                      scale_override(1, scale_x_datetime(date_labels = "%OS")),
+                      scale_override(2, scale_x_datetime(date_labels = "%OS")),
+                      scale_override(3, scale_x_datetime(date_labels = "%OS")))) +
+  labs(subtitle = "top 20") +
+  theme_light() +
+  theme(legend.position = "none")
+
+
+
+
+
+
+
+
+
+full_res <- read.csv("raw_data.csv")
+
+
+  mutate(year = as.character(year),
+         event = as.character(event)) %>%
+  bind_rows(., extra_res %>%
+              select(rank, perf, year = year_x, event, gender, date, name) %>%
+              mutate(rank = as.numeric(rank))) %>%
+  drop_na(rank)
+
+test_hm <- full_res %>%
+  filter(event == "HM") %>%
+  mutate()
 
 ```
+
+
+
+
+<!-- res_edit <- full_res %>%  -->
+<!--   filter(rank != "") %>%  -->
+<!--   mutate(event = factor(event, levels = c("100", "200", "400", "800", "1500", "5000", "10000", "HM", "Mar"))) %>%  -->
+<!--   mutate(rank = as.numeric(rank), -->
+<!--          perf = str_trim(perf)) %>%  -->
+<!--     mutate(perf_x = case_when(event %in% c("800", "1500") ~paste0("00:0", perf), -->
+<!--                               event %in% c("200", "400") ~ ifelse(nchar(perf) <= 5, paste0("00:00:", perf), paste0("00:0", perf)), -->
+<!--                               event %in% c("HM", "Mar") ~ ifelse(nchar(perf) <= 5, paste0("00:", perf), paste0("0", perf)), -->
+<!--                               event %in% c("5000", "10000") ~ ifelse(nchar(perf) <= 8, paste0("00:", perf), paste0("0", perf)), -->
+<!--                               event == "100" ~ ifelse(nchar(perf) < 5, paste0("00:00:0", perf), paste0("00:00:", perf)), -->
+<!--                               TRUE ~ perf)) %>%      -->
+<!--   mutate(perf_x = parse_hms(perf_x), -->
+<!--          perf_x_sec = round(seconds(perf_x), digits = 2), -->
+<!--          year = factor(year, levels = c("2016", "2017", "2018", "2019", "2020")))  -->
+
+
+<!-- res_edit <- full_res %>%  -->
+<!--   select(rank, perf, year, event, gender, date, name) %>%  -->
+<!--   filter(event %in% c("100", "200", "400", "800", "1500", "5000")) %>%  -->
+<!--   filter(rank != "") %>%  -->
+<!--   mutate(event = factor(event, levels = c("100", "200", "400", "800", "1500", "5000"))) %>%  -->
+<!--   mutate(rank = as.numeric(rank), -->
+<!--          perf = str_trim(perf)) %>%  -->
+<!--     mutate(perf_x = case_when(event %in% c("800", "1500") ~paste0("00:0", perf), -->
+<!--                               event %in% c("200", "400") ~ ifelse(nchar(perf) <= 5, paste0("00:00:", perf), paste0("00:0", perf)), -->
+<!--                               event == "100" ~ ifelse(nchar(perf) < 5, paste0("00:00:0", perf), paste0("00:00:", perf)), -->
+<!--                               TRUE ~ paste("00:", perf)))%>%      -->
+<!--   mutate(perf_x = parse_hms(perf_x), -->
+<!--          perf_x_sec = round(seconds(perf_x), digits = 2), -->
+<!--          year = factor(year, levels = c("2016", "2017", "2018", "2019", "2020"))) %>%  -->
+<!--   mutate(perf_x_sec = seconds_to_period(perf_x_sec)) -->
+
+
+<!-- library(ggrepel) -->
+
+<!-- df <- res_edit %>%  -->
+<!--   filter(year %in% c("2020","2019")) %>%  -->
+<!--   mutate(year = factor(year, levels = c("2019", "2020"))) %>%  -->
+<!--   group_by(year, event, gender) %>%  -->
+<!--   summarise(n = n())  -->
+
+
+
+<!-- df %>%  -->
+<!--   ggplot(aes(x = year, y = n, label = event, colour = event)) + -->
+<!--   geom_point(size = 3) + -->
+<!--   geom_line(aes(group = event), size =2) + -->
+<!--   scale_color_brewer(palette="Set2") + -->
+<!--   geom_label_repel( -->
+<!--     data = subset(df, year == "2019"), -->
+<!--     nudge_x      = -0.20, -->
+<!--     direction    = "y", -->
+<!--     hjust        = 1, -->
+<!--     segment.size = 0.2) + -->
+<!--   geom_point_interactive(aes(tooltip = paste0("n = ", n)), size = 2) + -->
+<!--   facet_wrap(~gender) + -->
+<!--   theme_minimal() + -->
+<!--   theme(legend.position = "none") -> my_gg -->
+
+
+<!--   girafe(code = print(my_gg) ,height_svg = 4) -->
+
+<!-- ``` -->
+
+
+<!-- # Breakdown by rankings -->
+
+<!-- ## top 10 -->
+
+
+<!-- ```{r fig.height=15} -->
+<!-- library(patchwork) -->
+
+<!-- res_edit %>%  -->
+<!--   filter(gender == "M") %>%  -->
+<!--   mutate(year = fct_rev(year), -->
+<!--          covid_year = ifelse(year == "2020", "covid", "pre_covid")) %>%  -->
+<!--   select(year, perf_x, rank, event, gender, covid_year, perf_x_sec) %>%  -->
+<!--   mutate(rank_group = case_when(rank %in% c(1:20) ~ "top_20", -->
+<!--                                 rank %in% c(21:100) ~ "20_to_100", -->
+<!--                                 rank %in% c(101:max(rank)) ~ ">101"), -->
+<!--          rank_group = factor(rank_group, levels = c("top_20", "20_to_100", ">101")))%>% -->
+<!--   filter(rank_group == "top_20") %>%  -->
+<!--   ggplot(aes(x = perf_x, y = year, fill = covid_year, group = year, alpha = 0.6)) + -->
+<!--   scale_fill_brewer(palette = "Set1") + -->
+<!--   stat_density_ridges(quantile_lines = TRUE, quantiles = 2) + -->
+<!--   facet_wrap(event ~ ., scales = "free_x", ncol = 1) + -->
+<!--   labs(subtitle = "top 20") + -->
+<!--   theme_light() + -->
+<!--   theme(legend.position = "none") -> p1 -->
+
+
+<!-- res_edit %>%  -->
+<!--   filter(gender == "M") %>%  -->
+<!--   mutate(year = fct_rev(year), -->
+<!--          covid_year = ifelse(year == "2020", "covid", "pre_covid")) %>%  -->
+<!--   select(year, perf_x, rank, event, gender, covid_year, perf_x_sec) %>%  -->
+<!--   mutate(rank_group = case_when(rank %in% c(1:20) ~ "top_20", -->
+<!--                                 rank %in% c(21:100) ~ "20_to_100", -->
+<!--                                 rank %in% c(101:max(rank)) ~ ">101"), -->
+<!--          rank_group = factor(rank_group, levels = c("top_20", "20_to_100", ">101")))%>% -->
+<!--   filter(rank_group == "20_to_100") %>%  -->
+<!--   ggplot(aes(x = perf_x, y = year, fill = covid_year, group = year, alpha = 0.6)) + -->
+<!--   scale_fill_brewer(palette = "Set1") + -->
+<!--   stat_density_ridges(quantile_lines = TRUE, quantiles = 2) + -->
+<!--   facet_wrap(event ~ ., scales = "free_x", ncol = 1) + -->
+<!--   theme_light() + -->
+<!--   labs(subtitle = "20 to 100") + -->
+<!--   theme(legend.position = "none", -->
+<!--         axis.text.y = element_blank(), -->
+<!--         axis.title.y = element_blank()) -> p2 -->
+
+
+
+<!-- p1 + p2 -->
+<!-- ``` -->
 
 ## 21 to 100
 
@@ -139,10 +472,10 @@ res_edit %>%
                                 TRUE ~ "NA"),
          rank_group = factor(rank_group, levels = c("top_20", "20_to_100", "101_to_250"))) %>%
   filter(rank_group != "NA") %>% 
-  filter(rank_group == "101_to_250") %>% 
+  filter(rank_group == "top_20") %>% 
   ggplot(aes(x = perf_x, y = year, fill = covid_year, group = year)) +
-  geom_boxplot() +
-  facet_wrap(event ~., dir = "v", scales = "free")
+  stat_density_ridges(quantile_lines = TRUE, quantiles = 2) +
+  facet_wrap(event ~., dir = "v", scales = "free_x")
 
 ```
 
@@ -208,5 +541,79 @@ res_edit %>%
 
 
 <!-- ``` -->
+
+
+<!-- https://fishandwhistle.net/post/2018/modifying-facet-scales-in-ggplot2/ -->
+
+```{r }
+scale_override <- function(which, scale) {
+  if(!is.numeric(which) || (length(which) != 1) || (which %% 1 != 0)) {
+    stop("which must be an integer of length 1")
+  }
+  
+  if(is.null(scale$aesthetics) || !any(c("x", "y") %in% scale$aesthetics)) {
+    stop("scale must be an x or y position scale")
+  }
+  
+  structure(list(which = which, scale = scale), class = "scale_override")
+}
+
+CustomFacetWrap <- ggproto(
+  "CustomFacetWrap", FacetWrap,
+  init_scales = function(self, layout, x_scale = NULL, y_scale = NULL, params) {
+    # make the initial x, y scales list
+    scales <- ggproto_parent(FacetWrap, self)$init_scales(layout, x_scale, y_scale, params)
+    
+    if(is.null(params$scale_overrides)) return(scales)
+    
+    max_scale_x <- length(scales$x)
+    max_scale_y <- length(scales$y)
+    
+    # ... do some modification of the scales$x and scales$y here based on params$scale_overrides
+    for(scale_override in params$scale_overrides) {
+      which <- scale_override$which
+      scale <- scale_override$scale
+      
+      if("x" %in% scale$aesthetics) {
+        if(!is.null(scales$x)) {
+          if(which < 0 || which > max_scale_x) stop("Invalid index of x scale: ", which)
+          scales$x[[which]] <- scale$clone()
+        }
+      } else if("y" %in% scale$aesthetics) {
+        if(!is.null(scales$y)) {
+          if(which < 0 || which > max_scale_y) stop("Invalid index of y scale: ", which)
+          scales$y[[which]] <- scale$clone()
+        }
+      } else {
+        stop("Invalid scale")
+      }
+    }
+    
+    # return scales
+    scales
+  }
+)
+
+facet_wrap_custom <- function(..., scale_overrides = NULL) {
+  # take advantage of the sanitizing that happens in facet_wrap
+  facet_super <- facet_wrap(...)
+  
+  # sanitize scale overrides
+  if(inherits(scale_overrides, "scale_override")) {
+    scale_overrides <- list(scale_overrides)
+  } else if(!is.list(scale_overrides) || 
+            !all(vapply(scale_overrides, inherits, "scale_override", FUN.VALUE = logical(1)))) {
+    stop("scale_overrides must be a scale_override object or a list of scale_override objects")
+  }
+  
+  facet_super$params$scale_overrides <- scale_overrides
+  
+  ggproto(NULL, CustomFacetWrap,
+    shrink = facet_super$shrink,
+    params = facet_super$params
+  )
+}
+
+```
 
 

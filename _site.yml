@@ -7,10 +7,13 @@ base_url: https://hfshr.xyz/
 repository_url: https://github.com/hfshr/distill_blog
 navbar:
   search: false
-  right:
-    - text: "Home"
+  logo: 
+      image: data/images/coffee_new.png
       href: index.html
-    - text: "About"
+  right:
+    - icon: fas fa-home
+      href: index.html
+    - icon: fas fa-address-card
       href: about.html
     - icon: fab fa-github
       href: https://github.com/hfshr/distill_blog
