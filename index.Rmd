@@ -5,9 +5,6 @@ listing: posts
 ---
 
 
-
-
-
 <!-- <div id="tsparticles"></div> -->
 <!--   <style> -->
 <!--   #tsparticles { -->
