@@ -12,26 +12,118 @@ output:
 draft: true
 ---
 
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+xaringanExtra::use_panelset()
+```
+
+
 RStudio have done some great work in making the distill framework a joy to use for creating .
 
 The documentation for `distill` is already substantial, and is definitely the best place to start. In particulualr having a look at the example sites is a great way to get some insiration for your own site!
 
 Below I've included a few notes on some additional tweaks I've made . My hope is that these may inspire 
 
-
-
-Adding a favicon logo 
-
+Disclaimer! There are probably better ways to do what I've included below, I've mainly fiddled with things until they've worked and left it at that.
 
 
 
-css styling
+## Adding a favicon logo 
 
-links
+One nice 
 
-tags
+## tabsets
 
-tabsets
+I came across this feature on the issue page where someone had asked if it was possible to use the .tabset feature to creat tabset plike in a traditional R markdown document. https://github.com/rstudio/distill/issues/11
+
+::::: {.panelset}
+
+::: {.panel}
+[Here a tab]{.panel-name}
+
+Interesting content...
+
+:::
+
+::: {.panel}
+[Heres another!]{.panel-name}
+
+Even more interesting conent!
+
+:::
+
+::::
+
+## css styling
+
+By default, links in distill are a bit bland (IMHO), so to jazz things up 
+
+This was heavily inspired by Michael Clarke site https://m-clark.github.io/
+
+I used the following css to get this to work
+
+```{css, eval = FALSE}
+p a, li a, d-appendix a, .sidebar-section-custom a, .sidebar-section.subscribe a {
+    text-decoration: none;
+    background-image: linear-gradient(currentColor, currentColor);
+    background-position: 0% 100%;
+    background-repeat: no-repeat;
+    background-size: 0% 2px;
+    color: #007bff;
+    transition: background-size .3s;
+}
+
+
+p a:hover, p a:focus, li a:hover, li a:focus,
+.sidebar-section-custom a:hover, .sidebar-section-custom a:focus,
+.sidebar-section.subscribe a:hover, .sidebar-section.subscribe a:focus {
+    background-size: 100% 2px;
+}
+
+
+```
+
+[Hover me]()
+
+
+### Category buttons
+
+Distill has a nice feature where the categories are included as little boxes below the title of each post. You can change the style of these easily by using the `dt-tags` and `dt-tag` selectors:
+
+```{css, eval = FALSE}
+
+# For the tags in each article
+.dt-tags .dt-tag {
+    display: inline-block;
+    color: #fff;
+    padding: 0.3em 0.4em;
+    margin-right: 0.2em;
+    margin-bottom: 0.4em;
+    font-size: 14px;
+    border: 1px solid rgba(0,0,0,0.2);
+    background-color: #000000;
+    border-radius: 3px;
+    text-transform: uppercase;
+    font-weight: 900;
+}
+
+# for the tags on the main page
+
+.posts-list .dt-tags .dt-tag {
+    color: #fff;
+    font-size: 14px;
+}
+```
+
+
+FA Animations
+
+
+
+Is it neccessary? probably not... Does it look cool? I think so!
+
+
 
 
 

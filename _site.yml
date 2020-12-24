@@ -13,6 +13,8 @@ navbar:
   right:
     - icon: fas fa-home
       href: index.html
+    - icon: fas fa-pencil-alt
+      href: blog.html
     - icon: fas fa-address-card
       href: about.html
     - icon: fab fa-github

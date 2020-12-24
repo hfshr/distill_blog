@@ -4,7 +4,7 @@ description: |
   A short discussion about my experiences using R Markdown to write my PhD thesis
 author:
   - name: Harry Fisher
-    url: https://hfshr.netlify.com/
+    url: https://hfshr.xyz
 date: 03-14-2020
 preview: images/quill.png
 output:

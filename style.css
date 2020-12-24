@@ -3,6 +3,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Fira+Mono');
 @import url('https://fonts.googleapis.com/css2?family=Dosis');
 
+
 .distill-site-nav {
   font-family: 'Dosis', sans-serif;
   color: #fff;
@@ -25,10 +26,9 @@
 }
 
 .distill-site-header .logo img {
-    display: inline;
+    display: block;
     max-height: 25px;
     width: auto;
-    margin-bottom: -4px;
 }
 
 .distill-site-header .title {
@@ -61,7 +61,6 @@
   font-size: 20px;
   font-weight: 400;
 }
-
 
 
 body, p {
@@ -124,6 +123,9 @@ p a:hover, p a:focus, li a:hover, li a:focus,
     background-size: 100% 2px;
 }
 
+a:hover {
+    text-decoration: none;
+}
 
 
 }
@@ -281,3 +283,57 @@ img[alt=badge] {
   color: #333333;
   
 }
+
+.center{
+  text-align: center;
+}
+
+
+.col-6.mt-3.text-center.d-none.d-sm-block {
+  
+    background-color: #000000; /* Changing background color */
+    color: #fff;
+    border-radius: 20px; /* Making border radius */
+    width: auto; /* Making auto-sizable width */
+    height: auto; /* Making auto-sizable height */
+    padding: 20px 10px 20px 10px;
+    font-size: 18px;
+  
+}
+
+.col-6.mt-3.text-center.d-none.d-sm-block p{
+    color: #fff;
+}
+
+.col-6.mt-3.text-center.d-none.d-sm-block a{
+    color: #fff;
+    text-decoration: underline;
+}
+
+.col-6.mt-3.text-center.d-none.d-sm-block a:hover{
+    color: #fff;
+    text-decoration: none;
+}
+
+.btn {
+  background-color: #000000;
+  color: #fff;
+}
+
+
+hr {
+    box-sizing: content-box;
+    height: 0;
+    overflow: visible;
+    background: black;
+}
+
+
+
+
+.btn-outline-dark:hover {
+    color: #fff;
+    background-color: #000000;
+    border-color: #000000;
+}
+
