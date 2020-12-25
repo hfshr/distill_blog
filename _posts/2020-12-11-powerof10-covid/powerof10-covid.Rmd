@@ -5,11 +5,10 @@ description: |
 author:
   - name: Harry Fisher
     url: https://hfshr.xyz
-preview: preview.png    
 date: 12-11-2020
 categories:
   - R
-  - Athletics
+  - athletics
 output:
   distill::distill_article:
     self_contained: false
@@ -476,7 +475,7 @@ p1 + p2 +
 
 <br>
 
-```{r elite-performances, layout="l-body-outset", fig.height=10, fig.width=10, fig.cap="Elite performance distributions for males and females and different events."}
+```{r elite-performances, layout="l-body-outset", fig.height=10, fig.width=10, fig.cap="Elite performance distributions for males and females and different events.", preview=TRUE}
 
 df %>% 
   filter(rank_group == "top_10" & gender == "M") %>% 

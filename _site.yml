@@ -8,7 +8,7 @@ repository_url: https://github.com/hfshr/distill_blog
 navbar:
   search: false
   logo: 
-      image: data/images/coffee_new.png
+      image: "data/images/coffee_new3.png"
       href: index.html
   right:
     - icon: fas fa-home

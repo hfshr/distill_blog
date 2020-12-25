@@ -110,7 +110,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","preview","date","categories","output","draft"]}},"value":[{"type":"character","attributes":{},"value":["How has Covid-19 affected UK athletics rankings in 2020?"]},{"type":"character","attributes":{},"value":["A look into how Covid has impacted the breadth and depth of athletic performances in the UK in 2020.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Harry Fisher"]},{"type":"character","attributes":{},"value":["https://hfshr.xyz"]}]}]},{"type":"character","attributes":{},"value":["preview.png"]},{"type":"character","attributes":{},"value":["12-11-2020"]},{"type":"character","attributes":{},"value":["R","Athletics"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"logical","attributes":{},"value":[false]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","categories","output","draft"]}},"value":[{"type":"character","attributes":{},"value":["How has Covid-19 affected UK athletics rankings in 2020?"]},{"type":"character","attributes":{},"value":["A look into how Covid has impacted the breadth and depth of athletic performances in the UK in 2020.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Harry Fisher"]},{"type":"character","attributes":{},"value":["https://hfshr.xyz"]}]}]},{"type":"character","attributes":{},"value":["12-11-2020"]},{"type":"character","attributes":{},"value":["R","athletics"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained","toc","toc_float"]}},"value":[{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]},{"type":"logical","attributes":{},"value":[true]}]}]},{"type":"logical","attributes":{},"value":[false]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   
@@ -1442,7 +1442,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--radix_placeholder_categories-->
 <div class="dt-tags">
 <div class="dt=tag">R</div>
-<div class="dt=tag">Athletics</div>
+<div class="dt=tag">athletics</div>
 </div>
 <!--/radix_placeholder_categories-->
 <p><p>A look into how Covid has impacted the breadth and depth of athletic performances in the UK in 2020.</p></p>
@@ -1455,6 +1455,24 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </div>
 
 <div class="d-article">
+<div class="d-contents d-contents-float">
+<nav class="l-text toc figcaption" id="TOC">
+<h3>Contents</h3>
+<ul>
+<li><a href="#tldr">TL;DR</a></li>
+<li><a href="#introduction">Introduction</a>
+<ul>
+<li><a href="#the-data">The data</a></li>
+<li><a href="#number-of-athletes-on-the-rankings-list">Number of athletes on the rankings list</a></li>
+<li><a href="#distribution-of-performances">Distribution of performances</a></li>
+<li><a href="#elite-performances">Elite performances</a></li>
+<li><a href="#sub-elite-performances">Sub-elite performances</a></li>
+</ul></li>
+<li><a href="#conclusions">Conclusions</a></li>
+<li><a href="#acknowledgments">Acknowledgments</a></li>
+</ul>
+</nav>
+</div>
 <h2 id="tldr">TL;DR</h2>
 <ul>
 <li>Large drop in the number of athletes on the rankings for 2020.</li>
@@ -1720,8 +1738,8 @@ Table 1: The decrease in athletes on the ranking list for 2019 and 2020
 Click on column headers to sort each column
 </aside>
 <div class="layout-chunk" data-layout="l-body-outset">
-<div id="htmlwidget-91497fb3666551114f58" class="reactable html-widget" style="width:auto;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-91497fb3666551114f58">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"event":["100 m","1500 m","200 m","400 m","5000 m","800 m"],"x2019":[1046,1432,978,891,1411,1228],"x2020":[351,669,409,408,124,640],"perc":[0.664435946462715,0.532821229050279,0.581799591002045,0.542087542087542,0.912119064493267,0.478827361563518],"x2019_2":[1321,1158,1035,825,411,1210],"x2020_2":[350,475,441,376,52,566],"perc_2":[0.735049205147615,0.589810017271157,0.573913043478261,0.544242424242424,0.873479318734793,0.532231404958678]},"columns":[{"accessor":"event","name":"Event","type":"character","align":"center"},{"accessor":"x2019","name":"2019","type":"numeric","align":"center"},{"accessor":"x2020","name":"2020","type":"numeric","align":"center"},{"accessor":"perc","name":"% Decrease","type":"numeric","align":"center","format":{"cell":{"digits":1,"percent":true},"aggregated":{"digits":1,"percent":true}},"minWidth":120,"style":[{"background":"#FF7F7E"},{"background":"#FFB5B4"},{"background":"#FFA1A0"},{"background":"#FFB1B1"},{"background":"#FF1919"},{"background":"#FFCCCB"}]},{"accessor":"x2019_2","name":"2019","type":"numeric","align":"center"},{"accessor":"x2020_2","name":"2020","type":"numeric","align":"center"},{"accessor":"perc_2","name":"% Decrease","type":"numeric","align":"center","format":{"cell":{"digits":1,"percent":true},"aggregated":{"digits":1,"percent":true}},"minWidth":120,"style":[{"background":"#FF6261"},{"background":"#FF9E9D"},{"background":"#FFA4A3"},{"background":"#FFB0B0"},{"background":"#FF2828"},{"background":"#FFB5B5"}]}],"columnGroups":[{"name":"Men","columns":["x2019","x2020","perc"]},{"name":"Women","columns":["x2019_2","x2020_2","perc_2"]}],"defaultSortDesc":true,"defaultSorted":[{"id":"perc","desc":true}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"dataKey":"8463e3645e8f424bae37e6ac35cf170b","key":"8463e3645e8f424bae37e6ac35cf170b"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-ccb7b14a4a61e63d7e7e" class="reactable html-widget" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-ccb7b14a4a61e63d7e7e">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"event":["100 m","1500 m","200 m","400 m","5000 m","800 m"],"x2019":[1046,1432,978,891,1411,1228],"x2020":[351,669,409,408,124,640],"perc":[0.664435946462715,0.532821229050279,0.581799591002045,0.542087542087542,0.912119064493267,0.478827361563518],"x2019_2":[1321,1158,1035,825,411,1210],"x2020_2":[350,475,441,376,52,566],"perc_2":[0.735049205147615,0.589810017271157,0.573913043478261,0.544242424242424,0.873479318734793,0.532231404958678]},"columns":[{"accessor":"event","name":"Event","type":"character","align":"center"},{"accessor":"x2019","name":"2019","type":"numeric","align":"center"},{"accessor":"x2020","name":"2020","type":"numeric","align":"center"},{"accessor":"perc","name":"% Decrease","type":"numeric","align":"center","format":{"cell":{"digits":1,"percent":true},"aggregated":{"digits":1,"percent":true}},"minWidth":120,"style":[{"background":"#FF7F7E"},{"background":"#FFB5B4"},{"background":"#FFA1A0"},{"background":"#FFB1B1"},{"background":"#FF1919"},{"background":"#FFCCCB"}]},{"accessor":"x2019_2","name":"2019","type":"numeric","align":"center"},{"accessor":"x2020_2","name":"2020","type":"numeric","align":"center"},{"accessor":"perc_2","name":"% Decrease","type":"numeric","align":"center","format":{"cell":{"digits":1,"percent":true},"aggregated":{"digits":1,"percent":true}},"minWidth":120,"style":[{"background":"#FF6261"},{"background":"#FF9E9D"},{"background":"#FFA4A3"},{"background":"#FFB0B0"},{"background":"#FF2828"},{"background":"#FFB5B5"}]}],"columnGroups":[{"name":"Men","columns":["x2019","x2020","perc"]},{"name":"Women","columns":["x2019_2","x2020_2","perc_2"]}],"defaultSortDesc":true,"defaultSorted":[{"id":"perc","desc":true}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"dataKey":"8463e3645e8f424bae37e6ac35cf170b","key":"8463e3645e8f424bae37e6ac35cf170b"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
 </div>
 <p><br></p>
 <h3 id="distribution-of-performances">Distribution of performances</h3>
@@ -1841,7 +1859,7 @@ Code
 <p><br></p>
 <div class="layout-chunk" data-layout="l-body-outset">
 <div class="figure"><span id="fig:elite-performances"></span>
-<img src="powerof10-covid_files/figure-html5/elite-performances-1.png" alt="Elite performance distributions for males and females and different events." width="960" />
+<img src="powerof10-covid_files/figure-html5/elite-performances-1.png" alt="Elite performance distributions for males and females and different events." width="960" data-distill-preview=1 />
 <p class="caption">
 Figure 2: Elite performance distributions for males and females and different events.
 </p>
@@ -1860,6 +1878,8 @@ Figure 3: Sub-elite performance distributions for males and females and differen
 <h2 id="conclusions">Conclusions</h2>
 <p>From this small investigation there are a few key things that stood out to me. Firstly, elite middle distance runners had an excellent year (performance wise) in 2020. This was true for both men and women. In contrast, sprint events were considerably down on their average performances in 2020. My personal take on this is that middle distance runners may have faired better during periods of lockdown compared to sprinters who <em>typically</em> (I may be stereotyping here…!) make greater use of indoor facilities and therefore may have not been able to prepare as they normally would for the competitive season.</p>
 <p>For sub-elite athletes (ranks 11 to 100), a consistent trend was found across all events, with performances in 2020 being down on the average performance over the last few seasons. This is probably due to a number of factors including, limited access to training facilities and far fewer opportunities to compete, not to mention all the other stresses that 2020 has brought.</p>
+<p>While this might all sound a little pessimistic, I know athletes are a hardy bunch and fully expect some exceptional performances in all events next year. The limited opportunities to compete this year, while certainly frustrating, may actually be a benefit in the long run… After all, as my dad used to always remind me “a rest is as good as a run” and maybe this extended break from intense competition will be a blessing in disguise!</p>
+<p>Thanks for reading!</p>
 <h2 class="appendix" id="acknowledgments">Acknowledgments</h2>
 <p>As always, big thanks to the powerof10 team who provide an invaluable source for athletes and fans alike!</p>
 <!-- ### Effect on younger agegroups? -->

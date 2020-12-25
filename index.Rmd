@@ -21,4 +21,5 @@ site: distill::distill_website
 
 
 I am a sports injury researcher turned Data Scientist based in Cardiff. I enjoy trying to find 
-the story in the numbers. See some of my work on [**my blog**](./blog.html) or through any of the links below.
+the story in the numbers. See some of my work on [my blog](./blog.html) or through any of the links below.
+
