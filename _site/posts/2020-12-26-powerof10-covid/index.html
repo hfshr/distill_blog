@@ -133,7 +133,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["powerof10-covid_files/anchor-4.2.2/anchor.min.js","powerof10-covid_files/bowser-1.9.3/bowser.min.js","powerof10-covid_files/core-js-2.5.3/LICENSE","powerof10-covid_files/core-js-2.5.3/package.json","powerof10-covid_files/core-js-2.5.3/shim.min.js","powerof10-covid_files/d3-5.7.0/d3.min.js","powerof10-covid_files/d3-lasso-0.0.5/d3-lasso.min.js","powerof10-covid_files/d3-lasso-0.0.5/lasso.js","powerof10-covid_files/distill-2.2.21/template.v2.js","powerof10-covid_files/figure-html5/elite-performances-1.png","powerof10-covid_files/figure-html5/elite-performances-example-1.png","powerof10-covid_files/figure-html5/simple-counts-1.png","powerof10-covid_files/figure-html5/sub-elite-perfs-1.png","powerof10-covid_files/figure-html5/subelite-perfs-1.png","powerof10-covid_files/figure-html5/unnamed-chunk-1-1.png","powerof10-covid_files/figure-html5/unnamed-chunk-2-1.png","powerof10-covid_files/figure-html5/unnamed-chunk-3-1.png","powerof10-covid_files/figure-html5/unnamed-chunk-4-1.png","powerof10-covid_files/figure-html5/unnamed-chunk-5-1.png","powerof10-covid_files/figure-html5/unnamed-chunk-6-1.png","powerof10-covid_files/ggiraphjs-0.3.0/ggiraphjs.min.css","powerof10-covid_files/ggiraphjs-0.3.0/ggiraphjs.min.js","powerof10-covid_files/girafe-binding-0.7.8/girafe.js","powerof10-covid_files/header-attrs-2.5/header-attrs.js","powerof10-covid_files/header-attrs-2.6.4/header-attrs.js","powerof10-covid_files/header-attrs-2.6/header-attrs.js","powerof10-covid_files/htmlwidgets-1.5.2/htmlwidgets.js","powerof10-covid_files/htmlwidgets-1.5.3/htmlwidgets.js","powerof10-covid_files/jquery-1.11.3/jquery.min.js","powerof10-covid_files/panelset-0.2.4/panelset.css","powerof10-covid_files/panelset-0.2.4/panelset.js","powerof10-covid_files/react-16.12.0/AUTHORS","powerof10-covid_files/react-16.12.0/LICENSE.txt","powerof10-covid_files/react-16.12.0/react-dom.min.js","powerof10-covid_files/react-16.12.0/react.min.js","powerof10-covid_files/reactable-binding-0.2.3/reactable.js","powerof10-covid_files/reactwidget-1.0.0/react-tools.js","powerof10-covid_files/reactwidget-1.0.0/react-tools.js.map","powerof10-covid_files/webcomponents-2.0.0/webcomponents.js","preview.png"]}
+  {"type":"character","attributes":{},"value":["powerof10-covid_files/figure-html5/elite-performances-1.png","powerof10-covid_files/figure-html5/simple-counts-1.png","powerof10-covid_files/figure-html5/sub-elite-perfs-1.png","preview.png"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
 <meta name="distill:offset" content="../.."/>
@@ -2033,6 +2033,7 @@ a:hover {
 
 /* thunder animation */
 /* from http://jsrocks.org/ */
+/*
 .fab:hover, .fa:hover {
     animation-name: thunder;
     animation-duration: 1s;
@@ -2063,6 +2064,7 @@ a:hover {
         transform: rotate3d(0, 0, 1, 5deg);
     }
 }
+*/
 
 
 img[alt=badge] { 
@@ -2115,7 +2117,6 @@ img[alt=badge] {
   color: #eeeeee;
 }
 
-
 hr {
     box-sizing: content-box;
     height: 0;
@@ -2129,7 +2130,7 @@ hr {
 .btn-outline-dark:hover {
     color: #eeeeee;
     background-color: #222831;
-    border-color: #222831;
+    border-color: #f8f8f8;
 }
 
 
@@ -2432,6 +2433,7 @@ Code
 <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://patchwork.data-imaginist.com'>patchwork</a></span><span class='op'>)</span>
 <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://wilkelab.org/ggtext/'>ggtext</a></span><span class='op'>)</span>
 <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/wch/extrafont'>extrafont</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://glin.github.io/reactable/'>reactable</a></span><span class='op'>)</span>
 
 <span class='co'># function from https://fishandwhistle.net/post/2018/modifying-facet-scales-in-ggplot2/ for tweaking facets</span>
 <span class='va'>scale_override</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>which</span>, <span class='va'>scale</span><span class='op'>)</span> <span class='op'>{</span>
@@ -2623,6 +2625,7 @@ Code
   <span class='fu'>bind_cols</span><span class='op'>(</span><span class='va'>.</span>, <span class='va'>summary_table</span> <span class='op'>%&gt;%</span> 
               <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>gender</span> <span class='op'>==</span> <span class='st'>"Women"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
               <span class='fu'>select</span><span class='op'>(</span><span class='op'>-</span><span class='va'>gender</span>, <span class='op'>-</span><span class='va'>event</span><span class='op'>)</span>, .name_repair <span class='op'>=</span> <span class='fu'>janitor</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/janitor/man/make_clean_names.html'>make_clean_names</a></span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>mutate</span><span class='op'>(</span>event <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='fu'>str_remove</span><span class='op'>(</span><span class='va'>event</span>, <span class='st'>" m"</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
   <span class='fu'><a href='https://glin.github.io/reactable/reference/reactable.html'>reactable</a></span><span class='op'>(</span>defaultSorted <span class='op'>=</span> <span class='st'>"perc"</span>,
             defaultSortOrder <span class='op'>=</span> <span class='st'>"desc"</span>,
             columns <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
@@ -2646,7 +2649,7 @@ Code
             x2020 <span class='op'>=</span> <span class='fu'><a href='https://glin.github.io/reactable/reference/colDef.html'>colDef</a></span><span class='op'>(</span>name <span class='op'>=</span> <span class='st'>"2020"</span><span class='op'>)</span>,
             x2019_2 <span class='op'>=</span> <span class='fu'><a href='https://glin.github.io/reactable/reference/colDef.html'>colDef</a></span><span class='op'>(</span>name <span class='op'>=</span> <span class='st'>"2019"</span><span class='op'>)</span>,
             x2020_2 <span class='op'>=</span> <span class='fu'><a href='https://glin.github.io/reactable/reference/colDef.html'>colDef</a></span><span class='op'>(</span>name <span class='op'>=</span> <span class='st'>"2020"</span><span class='op'>)</span>,
-            event <span class='op'>=</span> <span class='fu'><a href='https://glin.github.io/reactable/reference/colDef.html'>colDef</a></span><span class='op'>(</span>name <span class='op'>=</span> <span class='st'>"Event"</span><span class='op'>)</span><span class='op'>)</span>,
+            event <span class='op'>=</span> <span class='fu'><a href='https://glin.github.io/reactable/reference/colDef.html'>colDef</a></span><span class='op'>(</span>name <span class='op'>=</span> <span class='st'>"Event (m)"</span><span class='op'>)</span><span class='op'>)</span>,
           defaultColDef <span class='op'>=</span> <span class='fu'><a href='https://glin.github.io/reactable/reference/colDef.html'>colDef</a></span><span class='op'>(</span>align <span class='op'>=</span> <span class='st'>"center"</span><span class='op'>)</span>,
           columnGroups <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
             <span class='fu'><a href='https://glin.github.io/reactable/reference/colGroup.html'>colGroup</a></span><span class='op'>(</span>name <span class='op'>=</span> <span class='st'>"Men"</span>, columns <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"x2019"</span>, <span class='st'>"x2020"</span>, <span class='st'>"perc"</span><span class='op'>)</span><span class='op'>)</span>,
@@ -2664,8 +2667,8 @@ Table 1: The decrease in athletes on the ranking list for 2019 and 2020
 Click on column headers to sort each column
 </aside>
 <div class="layout-chunk" data-layout="l-body-outset">
-<div id="htmlwidget-d314b944c85fe897d779" class="reactable html-widget" style="width:auto;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-d314b944c85fe897d779">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"event":["100 m","1500 m","200 m","400 m","5000 m","800 m"],"x2019":[1046,1432,978,891,1411,1228],"x2020":[351,669,409,408,124,640],"perc":[0.664435946462715,0.532821229050279,0.581799591002045,0.542087542087542,0.912119064493267,0.478827361563518],"x2019_2":[1321,1158,1035,825,411,1210],"x2020_2":[350,475,441,376,52,566],"perc_2":[0.735049205147615,0.589810017271157,0.573913043478261,0.544242424242424,0.873479318734793,0.532231404958678]},"columns":[{"accessor":"event","name":"Event","type":"character","align":"center"},{"accessor":"x2019","name":"2019","type":"numeric","align":"center"},{"accessor":"x2020","name":"2020","type":"numeric","align":"center"},{"accessor":"perc","name":"% Decrease","type":"numeric","align":"center","format":{"cell":{"digits":1,"percent":true},"aggregated":{"digits":1,"percent":true}},"minWidth":120,"style":[{"background":"#FF7F7E","color":"#393e46"},{"background":"#FFB5B4","color":"#393e46"},{"background":"#FFA1A0","color":"#393e46"},{"background":"#FFB1B1","color":"#393e46"},{"background":"#FF1919","color":"#393e46"},{"background":"#FFCCCB","color":"#393e46"}]},{"accessor":"x2019_2","name":"2019","type":"numeric","align":"center"},{"accessor":"x2020_2","name":"2020","type":"numeric","align":"center"},{"accessor":"perc_2","name":"% Decrease","type":"numeric","align":"center","format":{"cell":{"digits":1,"percent":true},"aggregated":{"digits":1,"percent":true}},"minWidth":120,"style":[{"background":"#FF6261","color":"#393e46"},{"background":"#FF9E9D","color":"#393e46"},{"background":"#FFA4A3","color":"#393e46"},{"background":"#FFB0B0","color":"#393e46"},{"background":"#FF2828","color":"#393e46"},{"background":"#FFB5B5","color":"#393e46"}]}],"columnGroups":[{"name":"Men","columns":["x2019","x2020","perc"]},{"name":"Women","columns":["x2019_2","x2020_2","perc_2"]}],"defaultSortDesc":true,"defaultSorted":[{"id":"perc","desc":true}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"dataKey":"91f670ed66276d318db15b5e9433534a","key":"91f670ed66276d318db15b5e9433534a"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-680649780b4e4f237054" class="reactable html-widget" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-680649780b4e4f237054">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"event":[100,1500,200,400,5000,800],"x2019":[1046,1432,978,891,1411,1228],"x2020":[351,669,409,408,124,640],"perc":[0.664435946462715,0.532821229050279,0.581799591002045,0.542087542087542,0.912119064493267,0.478827361563518],"x2019_2":[1321,1158,1035,825,411,1210],"x2020_2":[350,475,441,376,52,566],"perc_2":[0.735049205147615,0.589810017271157,0.573913043478261,0.544242424242424,0.873479318734793,0.532231404958678]},"columns":[{"accessor":"event","name":"Event (m)","type":"numeric","align":"center"},{"accessor":"x2019","name":"2019","type":"numeric","align":"center"},{"accessor":"x2020","name":"2020","type":"numeric","align":"center"},{"accessor":"perc","name":"% Decrease","type":"numeric","align":"center","format":{"cell":{"digits":1,"percent":true},"aggregated":{"digits":1,"percent":true}},"minWidth":120,"style":[{"background":"#FF7F7E"},{"background":"#FFB5B4"},{"background":"#FFA1A0"},{"background":"#FFB1B1"},{"background":"#FF1919"},{"background":"#FFCCCB"}]},{"accessor":"x2019_2","name":"2019","type":"numeric","align":"center"},{"accessor":"x2020_2","name":"2020","type":"numeric","align":"center"},{"accessor":"perc_2","name":"% Decrease","type":"numeric","align":"center","format":{"cell":{"digits":1,"percent":true},"aggregated":{"digits":1,"percent":true}},"minWidth":120,"style":[{"background":"#FF6261"},{"background":"#FF9E9D"},{"background":"#FFA4A3"},{"background":"#FFB0B0"},{"background":"#FF2828"},{"background":"#FFB5B5"}]}],"columnGroups":[{"name":"Men","columns":["x2019","x2020","perc"]},{"name":"Women","columns":["x2019_2","x2020_2","perc_2"]}],"defaultSortDesc":true,"defaultSorted":[{"id":"perc","desc":true}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"dataKey":"fb762b03a24cac61987f6b12ec71ab67","key":"fb762b03a24cac61987f6b12ec71ab67"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
 </div>
 <p><br></p>
 <h3 id="distribution-of-performances">Distribution of performances</h3>
