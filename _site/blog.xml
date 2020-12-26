@@ -7,18 +7,18 @@
     <description>Harry Fisher's blog
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>Fri, 11 Dec 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 26 Dec 2020 00:00:00 +0000</lastBuildDate>
     <item>
       <title>How has Covid-19 affected UK athletics rankings in 2020?</title>
       <dc:creator>Harry Fisher</dc:creator>
-      <link>https://hfshr.xyz/posts/2020-12-11-powerof10-covid</link>
+      <link>https://hfshr.xyz/posts/2020-12-26-powerof10-covid</link>
       <description>&lt;p&gt;A look into how Covid has impacted the breadth and depth of athletic performances in the UK in 2020.&lt;/p&gt;
 </description>
       <category>R</category>
       <category>athletics</category>
-      <guid>https://hfshr.xyz/posts/2020-12-11-powerof10-covid</guid>
-      <pubDate>Fri, 11 Dec 2020 00:00:00 +0000</pubDate>
-      <media:content url="https://hfshr.xyz/posts/2020-12-11-powerof10-covid/powerof10-covid_files/figure-html5/elite-performances-1.png" medium="image" type="image/png" width="1920" height="1920"/>
+      <guid>https://hfshr.xyz/posts/2020-12-26-powerof10-covid</guid>
+      <pubDate>Sat, 26 Dec 2020 00:00:00 +0000</pubDate>
+      <media:content url="https://hfshr.xyz/posts/2020-12-26-powerof10-covid/powerof10-covid_files/figure-html5/elite-performances-1.png" medium="image" type="image/png" width="1920" height="1920"/>
     </item>
     <item>
       <title>When one model is not enough: Stacking models with {stacks}</title>
