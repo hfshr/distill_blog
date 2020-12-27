@@ -22,15 +22,12 @@ navbar:
     - icon: fab fa-twitter
       href: https://twitter.com/harryfishr 
     - icon: fa fa-rss
-      href: index.xml
+      href: blog.xml
   
 google_analytics: "UA-145834792-2"
 
 rss:
   full_content: true
-  categories:
-    - R
-    - Releases
 
 collections:
   posts:
