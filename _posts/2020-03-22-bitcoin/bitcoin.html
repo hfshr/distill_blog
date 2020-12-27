@@ -18,6 +18,72 @@
  <!--radix_placeholder_import_source-->
  <!--/radix_placeholder_import_source-->
 
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ad0000; } /* Alert */
+code span.an { color: #5e5e5e; } /* Annotation */
+code span.at { color: #20794d; } /* Attribute */
+code span.bn { color: #ad0000; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007ba5; } /* ControlFlow */
+code span.ch { color: #20794d; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #5e5e5e; } /* Comment */
+code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+code span.dt { color: #ad0000; } /* DataType */
+code span.dv { color: #ad0000; } /* DecVal */
+code span.er { color: #ad0000; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #ad0000; } /* Float */
+code span.fu { color: #4758ab; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #5e5e5e; } /* Information */
+code span.kw { color: #007ba5; } /* Keyword */
+code span.op { color: #5e5e5e; } /* Operator */
+code span.ot { color: #007ba5; } /* Other */
+code span.pp { color: #ad0000; } /* Preprocessor */
+code span.sc { color: #20794d; } /* SpecialChar */
+code span.ss { color: #20794d; } /* SpecialString */
+code span.st { color: #20794d; } /* String */
+code span.va { color: #111111; } /* Variable */
+code span.vs { color: #20794d; } /* VerbatimString */
+code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+</style>
+
   <!--radix_placeholder_meta_tags-->
   <title>Exploring the recent Bitcoin crash with {tidyquant} and {gganimate}</title>
 
@@ -52,7 +118,7 @@
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["bitcoin_files/bowser-1.9.3/bowser.min.js","bitcoin_files/distill-2.2.21/template.v2.js","bitcoin_files/figure-html5/unnamed-chunk-3-1.gif","bitcoin_files/figure-html5/unnamed-chunk-4-1.png","bitcoin_files/jquery-1.11.3/jquery.min.js","bitcoin_files/webcomponents-2.0.0/webcomponents.js","r-references.bib"]}
+  {"type":"character","attributes":{},"value":["bitcoin_files/bowser-1.9.3/bowser.min.js","bitcoin_files/distill-2.2.21/template.v2.js","bitcoin_files/figure-html5/unnamed-chunk-3-1.gif","bitcoin_files/figure-html5/unnamed-chunk-4-1.png","bitcoin_files/header-attrs-2.3/header-attrs.js","bitcoin_files/jquery-1.11.3/jquery.min.js","bitcoin_files/webcomponents-2.0.0/webcomponents.js","r-references.bib"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -78,6 +144,51 @@
 
   .pagedtable-footer {
     font-size: 15px;
+  }
+
+  d-byline .byline {
+    grid-template-columns: 2fr 2fr;
+  }
+
+  d-byline .byline h3 {
+    margin-block-start: 1.5em;
+  }
+
+  d-byline .byline .authors-affiliations h3 {
+    margin-block-start: 0.5em;
+  }
+
+  .authors-affiliations .orcid-id {
+    width: 16px;
+    height:16px;
+    margin-left: 4px;
+    margin-right: 4px;
+    vertical-align: middle;
+    padding-bottom: 2px;
+  }
+
+  d-title .dt-tags {
+    margin-top: 1em;
+    grid-column: text;
+  }
+
+  .dt-tags .dt-tag {
+    text-decoration: none;
+    display: inline-block;
+    color: rgba(0,0,0,0.6);
+    padding: 0em 0.4em;
+    margin-right: 0.5em;
+    margin-bottom: 0.4em;
+    font-size: 70%;
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 3px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  d-article table.gt_table td,
+  d-article table.gt_table th {
+    border-bottom: none;
   }
 
   .html-widget {
@@ -119,6 +230,7 @@
   }
 
   d-article {
+    padding-top: 2.5rem;
     padding-bottom: 30px;
   }
 
@@ -130,91 +242,48 @@
     width: 100%;
   }
 
+  d-article h2 {
+    margin: 1rem 0 1.5rem 0;
+  }
+
+  d-article h3 {
+    margin-top: 1.5rem;
+  }
+
   d-article iframe {
     border: 1px solid rgba(0, 0, 0, 0.1);
     margin-bottom: 2.0em;
     width: 100%;
   }
 
-  figure img.external {
-    background: white;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
-    padding: 18px;
-    box-sizing: border-box;
+  /* Tweak code blocks */
+
+  d-article div.sourceCode code,
+  d-article pre code {
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
   }
 
-  /* CSS for table of contents */
-
-  .d-toc {
-    color: rgba(0,0,0,0.8);
-    font-size: 0.8em;
-    line-height: 1em;
+  d-article pre,
+  d-article div.sourceCode,
+  d-article div.sourceCode pre {
+    overflow: auto;
   }
 
-  .d-toc-header {
-    font-size: 0.6rem;
-    font-weight: 400;
-    color: rgba(0, 0, 0, 0.5);
-    text-transform: uppercase;
-    margin-top: 0;
-    margin-bottom: 1.3em;
+  d-article div.sourceCode {
+    background-color: white;
   }
 
-  .d-toc a {
-    border-bottom: none;
-  }
-
-  .d-toc ul {
-    padding-left: 0;
-  }
-
-  .d-toc li>ul {
-    padding-top: 0.8em;
-    padding-left: 16px;
-    margin-bottom: 0.6em;
-  }
-
-  .d-toc ul,
-  .d-toc li {
-    list-style-type: none;
-  }
-
-  .d-toc li {
-    margin-bottom: 0.9em;
-  }
-
-  .d-toc-separator {
-    margin-top: 20px;
-    margin-bottom: 2em;
-  }
-
-  .d-article-with-toc {
-    border-top: none;
-    padding-top: 0;
-  }
-
-
-
-  /* Tweak code blocks (note that this CSS is repeated above in an injection
-     into the d-code shadow dom) */
-
-  d-code {
-    overflow-x: auto !important;
-  }
-
-  pre.d-code code.d-code {
+  d-article div.sourceCode pre {
     padding-left: 10px;
     font-size: 12px;
     border-left: 2px solid rgba(0,0,0,0.1);
   }
 
-  pre.text-output {
-
+  d-article pre {
     font-size: 12px;
     color: black;
     background: none;
-    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    margin-top: 0;
     text-align: left;
     white-space: pre;
     word-spacing: normal;
@@ -232,20 +301,123 @@
     hyphens: none;
   }
 
+  d-article pre a {
+    border-bottom: none;
+  }
+
+  d-article pre a:hover {
+    border-bottom: none;
+    text-decoration: underline;
+  }
+
   @media(min-width: 768px) {
 
-  d-code {
-    overflow-x: visible !important;
+  d-article pre,
+  d-article div.sourceCode,
+  d-article div.sourceCode pre {
+    overflow: visible !important;
   }
 
-  pre.d-code code.d-code  {
-      padding-left: 18px;
-      font-size: 14px;
-  }
-  pre.text-output {
+  d-article div.sourceCode pre {
+    padding-left: 18px;
     font-size: 14px;
   }
+
+  d-article pre {
+    font-size: 14px;
   }
+
+  }
+
+  figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+
+  /* CSS for d-contents */
+
+  .d-contents {
+    grid-column: text;
+    color: rgba(0,0,0,0.8);
+    font-size: 0.9em;
+    padding-bottom: 1em;
+    margin-bottom: 1em;
+    padding-bottom: 0.5em;
+    margin-bottom: 1em;
+    padding-left: 0.25em;
+    justify-self: start;
+  }
+
+  @media(min-width: 1000px) {
+    .d-contents.d-contents-float {
+      height: 0;
+      grid-column-start: 1;
+      grid-column-end: 4;
+      justify-self: center;
+      padding-right: 3em;
+      padding-left: 2em;
+    }
+  }
+
+  .d-contents nav h3 {
+    font-size: 18px;
+    margin-top: 0;
+    margin-bottom: 1em;
+  }
+
+  .d-contents li {
+    list-style-type: none
+  }
+
+  .d-contents nav > ul {
+    padding-left: 0;
+  }
+
+  .d-contents ul {
+    padding-left: 1em
+  }
+
+  .d-contents nav ul li {
+    margin-top: 0.6em;
+    margin-bottom: 0.2em;
+  }
+
+  .d-contents nav a {
+    font-size: 13px;
+    border-bottom: none;
+    text-decoration: none
+    color: rgba(0, 0, 0, 0.8);
+  }
+
+  .d-contents nav a:hover {
+    text-decoration: underline solid rgba(0, 0, 0, 0.6)
+  }
+
+  .d-contents nav > ul > li > a {
+    font-weight: 600;
+  }
+
+  .d-contents nav > ul > li > ul {
+    font-weight: inherit;
+  }
+
+  .d-contents nav > ul > li > ul > li {
+    margin-top: 0.2em;
+  }
+
+
+  .d-contents nav ul {
+    margin-top: 0;
+    margin-bottom: 0.25em;
+  }
+
+  .d-article-with-toc h2:nth-child(2) {
+    margin-top: 0;
+  }
+
 
   /* Figure */
 
@@ -283,6 +455,16 @@
     color: rgba(0, 0, 0, 1.0);
   }
 
+  /* Citations */
+
+  d-article .citation {
+    color: inherit;
+    cursor: inherit;
+  }
+
+  div.hanging-indent{
+    margin-left: 1em; text-indent: -1em;
+  }
 
 
   /* Tweak 1000px media break to show more text */
@@ -358,6 +540,91 @@
     word-wrap: break-word;
   }
 
+  /* Include appendix styles here so they can be overridden */
+
+  d-appendix {
+    contain: layout style;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-top: 60px;
+    margin-bottom: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    color: rgba(0,0,0,0.5);
+    padding-top: 60px;
+    padding-bottom: 48px;
+  }
+
+  d-appendix h3 {
+    grid-column: page-start / text-start;
+    font-size: 15px;
+    font-weight: 500;
+    margin-top: 1em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.65);
+  }
+
+  d-appendix h3 + * {
+    margin-top: 1em;
+  }
+
+  d-appendix ol {
+    padding: 0 0 0 15px;
+  }
+
+  @media (min-width: 768px) {
+    d-appendix ol {
+      padding: 0 0 0 30px;
+      margin-left: -30px;
+    }
+  }
+
+  d-appendix li {
+    margin-bottom: 1em;
+  }
+
+  d-appendix a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  d-appendix > * {
+    grid-column: text;
+  }
+
+  d-appendix > d-footnote-list,
+  d-appendix > d-citation-list,
+  d-appendix > distill-appendix {
+    grid-column: screen;
+  }
+
+  /* Include footnote styles here so they can be overridden */
+
+  d-footnote-list {
+    contain: layout style;
+  }
+
+  d-footnote-list > * {
+    grid-column: text;
+  }
+
+  d-footnote-list a.footnote-backlink {
+    color: rgba(0,0,0,0.3);
+    padding-left: 0.5em;
+  }
+
+
+
+  /* Anchor.js */
+
+  .anchorjs-link {
+    /*transition: all .25s linear; */
+    text-decoration: none;
+    border-bottom: none;
+  }
+  *:hover > .anchorjs-link {
+    margin-left: -1.125em !important;
+    text-decoration: none;
+    border-bottom: none;
+  }
 
   /* Social footer */
 
@@ -412,6 +679,211 @@
 
   .custom p {
     margin-bottom: 0.5em;
+  }
+
+  /* Styles for listing layout (hide title) */
+  .layout-listing d-title, .layout-listing .d-title {
+    display: none;
+  }
+
+  /* Styles for posts lists (not auto-injected) */
+
+
+  .posts-with-sidebar {
+    padding-left: 45px;
+    padding-right: 45px;
+  }
+
+  .posts-list .description h2,
+  .posts-list .description p {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+  }
+
+  .posts-list .description h2 {
+    font-weight: 700;
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .posts-list h2.post-tag {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    padding-bottom: 12px;
+  }
+  .posts-list {
+    margin-top: 60px;
+    margin-bottom: 24px;
+  }
+
+  .posts-list .post-preview {
+    text-decoration: none;
+    overflow: hidden;
+    display: block;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 24px 0;
+  }
+
+  .post-preview-last {
+    border-bottom: none !important;
+  }
+
+  .posts-list .posts-list-caption {
+    grid-column: screen;
+    font-weight: 400;
+  }
+
+  .posts-list .post-preview h2 {
+    margin: 0 0 6px 0;
+    line-height: 1.2em;
+    font-style: normal;
+    font-size: 24px;
+  }
+
+  .posts-list .post-preview p {
+    margin: 0 0 12px 0;
+    line-height: 1.4em;
+    font-size: 16px;
+  }
+
+  .posts-list .post-preview .thumbnail {
+    box-sizing: border-box;
+    margin-bottom: 24px;
+    position: relative;
+    max-width: 500px;
+  }
+  .posts-list .post-preview img {
+    width: 100%;
+    display: block;
+  }
+
+  .posts-list .metadata {
+    font-size: 12px;
+    line-height: 1.4em;
+    margin-bottom: 18px;
+  }
+
+  .posts-list .metadata > * {
+    display: inline-block;
+  }
+
+  .posts-list .metadata .publishedDate {
+    margin-right: 2em;
+  }
+
+  .posts-list .metadata .dt-authors {
+    display: block;
+    margin-top: 0.3em;
+    margin-right: 2em;
+  }
+
+  .posts-list .dt-tags {
+    display: block;
+    line-height: 1em;
+  }
+
+  .posts-list .dt-tags .dt-tag {
+    display: inline-block;
+    color: rgba(0,0,0,0.6);
+    padding: 0.3em 0.4em;
+    margin-right: 0.2em;
+    margin-bottom: 0.4em;
+    font-size: 60%;
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 3px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  .posts-list img {
+    opacity: 1;
+  }
+
+  .posts-list img[data-src] {
+    opacity: 0;
+  }
+
+  .posts-more {
+    clear: both;
+  }
+
+
+  .posts-sidebar {
+    font-size: 16px;
+  }
+
+  .posts-sidebar h3 {
+    font-size: 16px;
+    margin-top: 0;
+    margin-bottom: 0.5em;
+    font-weight: 400;
+    text-transform: uppercase;
+  }
+
+  .sidebar-section {
+    margin-bottom: 30px;
+  }
+
+  .categories ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .categories li {
+    color: rgba(0, 0, 0, 0.8);
+    margin-bottom: 0;
+  }
+
+  .categories li>a {
+    border-bottom: none;
+  }
+
+  .categories li>a:hover {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  }
+
+  .categories .active {
+    font-weight: 600;
+  }
+
+  .categories .category-count {
+    color: rgba(0, 0, 0, 0.4);
+  }
+
+
+  @media(min-width: 768px) {
+    .posts-list .post-preview h2 {
+      font-size: 26px;
+    }
+    .posts-list .post-preview .thumbnail {
+      float: right;
+      width: 30%;
+      margin-bottom: 0;
+    }
+    .posts-list .post-preview .description {
+      float: left;
+      width: 45%;
+    }
+    .posts-list .post-preview .metadata {
+      float: left;
+      width: 20%;
+      margin-top: 8px;
+    }
+    .posts-list .post-preview p {
+      margin: 0 0 12px 0;
+      line-height: 1.5em;
+      font-size: 16px;
+    }
+    .posts-with-sidebar .posts-list {
+      float: left;
+      width: 75%;
+    }
+    .posts-with-sidebar .posts-sidebar {
+      float: right;
+      width: 20%;
+      margin-top: 60px;
+      padding-top: 24px;
+      padding-bottom: 24px;
+    }
   }
 
 
@@ -543,6 +1015,12 @@
     hyphens: none;
   }
 
+  .downlevel .posts-list .post-preview {
+    color: inherit;
+  }
+
+
+
   </style>
 
   <script type="application/javascript">
@@ -558,6 +1036,13 @@
 
   // show body when load is complete
   function on_load_complete() {
+
+    // add anchors
+    if (window.anchors) {
+      window.anchors.options.placement = 'left';
+      window.anchors.add('d-article > h2, d-article > h3, d-article > h4, d-article > h5');
+    }
+
 
     // set body to visible
     document.body.style.visibility = 'visible';
@@ -604,23 +1089,8 @@
     // create d-appendix
     $('.d-appendix').changeElementType('d-appendix');
 
-    // create d-bibliography
-    var bibliography = $('<d-bibliography></d-bibliography>');
-    $('#distill-bibliography').wrap(bibliography);
-
     // flag indicating that we have appendix items
     var appendix = $('.appendix-bottom').children('h3').length > 0;
-
-    // replace citations with <d-cite>
-    $('.citation').each(function(i, val) {
-      appendix = true;
-      var cites = $(this).attr('data-cites').split(" ");
-      var dt_cite = $('<d-cite></d-cite>');
-      dt_cite.attr('key', cites.join());
-      $(this).replaceWith(dt_cite);
-    });
-    // remove refs
-    $('#refs').remove();
 
     // replace footnotes with <d-footnote>
     $('.footnote-ref').each(function(i, val) {
@@ -638,39 +1108,21 @@
     // remove footnotes
     $('.footnotes').remove();
 
+    // move refs into #references-listing
+    $('#references-listing').replaceWith($('#refs'));
+
     $('h1.appendix, h2.appendix').each(function(i, val) {
       $(this).changeElementType('h3');
     });
     $('h3.appendix').each(function(i, val) {
       var id = $(this).attr('id');
-      $('.d-toc a[href="#' + id + '"]').parent().remove();
+      $('.d-contents a[href="#' + id + '"]').parent().remove();
       appendix = true;
       $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
     });
 
     // show d-appendix if we have appendix content
     $("d-appendix").css('display', appendix ? 'grid' : 'none');
-
-    // replace code blocks with d-code
-    $('pre>code').each(function(i, val) {
-      var code = $(this);
-      var pre = code.parent();
-      var clz = "";
-      var language = pre.attr('class');
-      if (language) {
-        // map unknown languages to "clike" (without this they just dissapear)
-        if ($.inArray(language, ["bash", "clike", "css", "go", "html",
-                                 "javascript", "js", "julia", "lua", "markdown",
-                                 "markup", "mathml", "python", "svg", "xml"]) == -1)
-          language = "clike";
-        language = ' language="' + language + '"';
-        var dt_code = $('<d-code block' + language + clz + '></d-code>');
-        dt_code.text(code.text());
-        pre.replaceWith(dt_code);
-      } else {
-        code.addClass('text-output').unwrap().changeElementType('pre');
-      }
-    });
 
     // localize layout chunks to just output
     $('.layout-chunk').each(function(i, val) {
@@ -679,7 +1131,7 @@
       var layout = $(this).attr('data-layout');
 
       // apply layout to markdown level block elements
-      var elements = $(this).children().not('d-code, pre.text-output, script');
+      var elements = $(this).children().not('div.sourceCode, pre, script');
       elements.each(function(i, el) {
         var layout_div = $('<div class="' + layout + '"></div>');
         if (layout_div.hasClass('shaded')) {
@@ -696,6 +1148,13 @@
       $(this).children().unwrap();
     });
 
+    // remove code block used to force  highlighting css
+    $('.distill-force-highlighting-css').parent().remove();
+
+    // remove empty line numbers inserted by pandoc when using a
+    // custom syntax highlighting theme
+    $('code.sourceCode a:empty').remove();
+
     // load distill framework
     load_distill_framework();
 
@@ -711,12 +1170,26 @@
       if (!have_authors)
         $('d-byline').addClass('hidden');
 
-      // table of contents
-      if (have_authors) // adjust border if we are in authors
-        $('.d-toc').parent().addClass('d-article-with-toc');
+      // article with toc class
+      $('.d-contents').parent().addClass('d-article-with-toc');
 
       // strip links that point to #
       $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
+
+      // add orcid ids
+      $('.authors-affiliations').find('.author').each(function(i, el) {
+        var orcid_id = front_matter.authors[i].orcidID;
+        if (orcid_id) {
+          var a = $('<a></a>');
+          a.attr('href', 'https://orcid.org/' + orcid_id);
+          var img = $('<img></img>');
+          img.addClass('orcid-id');
+          img.attr('alt', 'ORCID ID');
+          img.attr('src','data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg==');
+          a.append(img);
+          $(this).append(a);
+        }
+      });
 
       // hide elements of author/affiliations grid that have no value
       function hide_byline_column(caption) {
@@ -766,14 +1239,9 @@
         grid.children('h3:contains("Affiliations")').text('Affiliation');
       }
 
-      // inject pre code styles (can't do this with a global stylesheet b/c a shadow root is used)
-      $('d-code').each(function(i, val) {
-        var style = document.createElement('style');
-        style.innerHTML = 'pre code { padding-left: 10px; font-size: 12px; border-left: 2px solid rgba(0,0,0,0.1); } ' +
-                          '@media(min-width: 768px) { pre code { padding-left: 18px; font-size: 14px; } }';
-        if (this.shadowRoot)
-          this.shadowRoot.appendChild(style);
-      });
+      // remove d-appendix and d-footnote-list local styles
+      $('d-appendix > style:first-child').remove();
+      $('d-footnote-list > style:first-child').remove();
 
       // move appendix-bottom entries to the bottom
       $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
@@ -809,9 +1277,7 @@
     $('.d-byline a').remove();
 
     // remove toc
-    $('.d-toc-header').remove();
-    $('.d-toc').remove();
-    $('.d-toc-separator').remove();
+    $('.d-contents').remove();
 
     // move appendix elements
     $('h1.appendix, h2.appendix').each(function(i, val) {
@@ -940,8 +1406,9 @@
   </script>
 
   <!--/radix_placeholder_distill-->
-  <script src="bitcoin_files/header-attrs-2.3/header-attrs.js"></script>
+  <script src="bitcoin_files/header-attrs-2.6.4/header-attrs.js"></script>
   <script src="bitcoin_files/jquery-1.11.3/jquery.min.js"></script>
+  <script src="bitcoin_files/anchor-4.2.2/anchor.min.js"></script>
   <script src="bitcoin_files/bowser-1.9.3/bowser.min.js"></script>
   <script src="bitcoin_files/webcomponents-2.0.0/webcomponents.js"></script>
   <script src="bitcoin_files/distill-2.2.21/template.v2.js"></script>
@@ -956,7 +1423,7 @@
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Exploring the recent Bitcoin crash with {tidyquant} and {gganimate}","description":"Bitcoin recently had a significant sell off, crashing 50% in a matter of hours. This undoubtly was due to the uncertainty in markets surrounding the economic impacts of COVID-19, and the consequent reduction in liquidity faced by many different assets. The volatile price action does however make for an interesting case study which this post will explore.","authors":[{"author":"Harry Fisher","authorURL":"https://hfshr.netlify.com/","affiliation":"&nbsp;","affiliationURL":"#"}],"publishedDate":"2020-03-22T00:00:00.000+00:00","citationText":"Fisher, 2020"}
+{"title":"Exploring the recent Bitcoin crash with {tidyquant} and {gganimate}","description":"Bitcoin recently had a significant sell off, crashing 50% in a matter of hours. This undoubtly was due to the uncertainty in markets surrounding the economic impacts of COVID-19, and the consequent reduction in liquidity faced by many different assets. The volatile price action does however make for an interesting case study which this post will explore.","authors":[{"author":"Harry Fisher","authorURL":"https://hfshr.netlify.com/","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2020-03-22T00:00:00.000+00:00","citationText":"Fisher, 2020"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -967,6 +1434,12 @@
 
 <div class="d-title">
 <h1>Exploring the recent Bitcoin crash with {tidyquant} and {gganimate}</h1>
+<!--radix_placeholder_categories-->
+<div class="dt-tags">
+<div class="dt=tag">Bitcoin</div>
+<div class="dt=tag">gganimate</div>
+</div>
+<!--/radix_placeholder_categories-->
 <p><p>Bitcoin recently had a significant sell off, crashing 50% in a matter of hours. This undoubtly was due to the uncertainty in markets surrounding the economic impacts of COVID-19, and the consequent reduction in liquidity faced by many different assets. The volatile price action does however make for an interesting case study which this post will explore.</p></p>
 </div>
 
@@ -978,61 +1451,66 @@
 
 <div class="d-article">
 <h1 id="introduction">Introduction</h1>
-<p><a href="www.bitmex.com">Bitmex</a> is one of the largest cryptocurrency exchanges where Bitcoin is traded. BitMEX provides a great API that can be used to gather all kinds of data from the site regarding trades and orders, and even allows you to build your own trading bot if you’re feeling confident in your programming ability to make a profitable algorithm… However this post will simply collect data from the most recent crash in price and explore what happened using some great R packages including <code>tidyqaunt</code> <span class="citation" data-cites="R-tidyquant">(Dancho and Vaughan <a href="#ref-R-tidyquant" role="doc-biblioref">2020</a>)</span> and <code>gganimate</code> <span class="citation" data-cites="R-gganimate">(Pedersen and Robinson <a href="#ref-R-gganimate" role="doc-biblioref">2020</a>)</span> as well as the usual suspects in the <code>tidyverse</code>.</p>
+<p><a href="www.bitmex.com">Bitmex</a> is one of the largest cryptocurrency exchanges where Bitcoin is traded. BitMEX provides a great API that can be used to gather all kinds of data from the site regarding trades and orders, and even allows you to build your own trading bot if you’re feeling confident in your programming ability to make a profitable algorithm… However this post will simply collect data from the most recent crash in price and explore what happened using some great R packages including <code>tidyqaunt</code> <span class="citation" data-cites="R-tidyquant">(<a href="#ref-R-tidyquant" role="doc-biblioref">Dancho and Vaughan 2020</a>)</span> and <code>gganimate</code> <span class="citation" data-cites="R-gganimate">(<a href="#ref-R-gganimate" role="doc-biblioref">Pedersen and Robinson 2020</a>)</span> as well as the usual suspects in the <code>tidyverse</code>.</p>
 <h1 id="getting-the-data">Getting the data</h1>
 <p>To obtain the necessary data, I first defined a quick function based on the information found on the BitMEX API explorer page (<a href="https://www.bitmex.com/api/explorer" class="uri">https://www.bitmex.com/api/explorer</a>). This function barely scratches the surface at the possible requests available - but does get the data needed.</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-xbt_reader &lt;- function(symbol = &quot;XBT&quot;, 
-                       timeframe = &quot;1d&quot;, 
-                       count = &quot;1000&quot;, 
-                       starttime = &quot;&quot;,
-                       reverse = &#39;false&#39;){
+<div class="sourceCode">
+<pre><code><span class='va'>xbt_reader</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>symbol</span> <span class='op'>=</span> <span class='st'>"XBT"</span>, 
+                       <span class='va'>timeframe</span> <span class='op'>=</span> <span class='st'>"1d"</span>, 
+                       <span class='va'>count</span> <span class='op'>=</span> <span class='st'>"1000"</span>, 
+                       <span class='va'>starttime</span> <span class='op'>=</span> <span class='st'>""</span>,
+                       <span class='va'>reverse</span> <span class='op'>=</span> <span class='st'>'false'</span><span class='op'>)</span><span class='op'>{</span>
   
-  base &lt;- &quot;https://www.bitmex.com/api/v1/trade/bucketed?&quot;
-  symbol = symbol
-  timeframe = timeframe
-  count = count
-  starttime = starttime
+  <span class='va'>base</span> <span class='op'>&lt;-</span> <span class='st'>"https://www.bitmex.com/api/v1/trade/bucketed?"</span>
+  <span class='va'>symbol</span> <span class='op'>=</span> <span class='va'>symbol</span>
+  <span class='va'>timeframe</span> <span class='op'>=</span> <span class='va'>timeframe</span>
+  <span class='va'>count</span> <span class='op'>=</span> <span class='va'>count</span>
+  <span class='va'>starttime</span> <span class='op'>=</span> <span class='va'>starttime</span>
   
-  url &lt;- paste0(base, 
-                &#39;binSize=&#39;, timeframe, 
-                &#39;&amp;partial=false&amp;symbol=&#39;, symbol, 
-                &#39;&amp;count=&#39;, count, 
-                &#39;&amp;reverse=&#39;, reverse,
-                &#39;&amp;startTime=&#39;, starttime)
+  <span class='va'>url</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='va'>base</span>, 
+                <span class='st'>'binSize='</span>, <span class='va'>timeframe</span>, 
+                <span class='st'>'&amp;partial=false&amp;symbol='</span>, <span class='va'>symbol</span>, 
+                <span class='st'>'&amp;count='</span>, <span class='va'>count</span>, 
+                <span class='st'>'&amp;reverse='</span>, <span class='va'>reverse</span>,
+                <span class='st'>'&amp;startTime='</span>, <span class='va'>starttime</span><span class='op'>)</span>
   
- result &lt;- tibble(data = content(GET(url), &quot;parsed&quot;)) %&gt;%
-    unnest_wider(data)
-}</code></pre>
+ <span class='va'>result</span> <span class='op'>&lt;-</span> <span class='fu'>tibble</span><span class='op'>(</span>data <span class='op'>=</span> <span class='fu'>content</span><span class='op'>(</span><span class='fu'>GET</span><span class='op'>(</span><span class='va'>url</span><span class='op'>)</span>, <span class='st'>"parsed"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+    <span class='fu'>unnest_wider</span><span class='op'>(</span><span class='va'>data</span><span class='op'>)</span>
+<span class='op'>}</span>
+</code></pre>
+</div>
 </div>
 <p>Next, I used this function to get the bucketed 5 minute trade data starting from the day before the crash.</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-xbt &lt;- xbt_reader(timeframe = &quot;5m&quot;, starttime = &quot;2020-03-11&quot;) %&gt;% 
-  mutate(timestamp = as_datetime(timestamp))</code></pre>
+<div class="sourceCode">
+<pre><code><span class='va'>xbt</span> <span class='op'>&lt;-</span> <span class='fu'>xbt_reader</span><span class='op'>(</span>timeframe <span class='op'>=</span> <span class='st'>"5m"</span>, starttime <span class='op'>=</span> <span class='st'>"2020-03-11"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>mutate</span><span class='op'>(</span>timestamp <span class='op'>=</span> <span class='fu'>as_datetime</span><span class='op'>(</span><span class='va'>timestamp</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <h1 id="visualising-the-data">Visualising the data</h1>
 <p>The price action can now be plotted using a combination of <code>tidyqaunt</code> and <code>gganimate</code>.</p>
 <div class="layout-chunk" data-layout="l-page">
-<pre class="r"><code>
-xbt %&gt;% 
-  mutate(label = &quot;help&quot;) %&gt;% 
-  ggplot(aes(x = timestamp, y = close)) +
-  geom_candlestick(aes(open = open, high = high, low = low, close= close),
-                   fill_up = &quot;green&quot;,
-                   fill_down = &quot;red&quot;,
-                   colour_up = &quot;green&quot;,
-                   colour_down = &quot;red&quot;) +
-  scale_x_datetime(date_breaks = &quot;12 hour&quot;, date_labels = &quot;%H%M&quot;) +
-  scale_y_continuous(labels = scales::dollar) +
-  labs(y = &quot;Price (USD)&quot;, 
-       x = &quot;Time&quot;)  +
-  transition_time(timestamp) +
-  shadow_mark() +
-  theme_minimal()</code></pre>
-<pre><code>
-NULL</code></pre>
+<div class="sourceCode">
+<pre><code><span class='va'>xbt</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>mutate</span><span class='op'>(</span>label <span class='op'>=</span> <span class='st'>"help"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>ggplot</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>timestamp</span>, y <span class='op'>=</span> <span class='va'>close</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_candlestick</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>open <span class='op'>=</span> <span class='va'>open</span>, high <span class='op'>=</span> <span class='va'>high</span>, low <span class='op'>=</span> <span class='va'>low</span>, close<span class='op'>=</span> <span class='va'>close</span><span class='op'>)</span>,
+                   fill_up <span class='op'>=</span> <span class='st'>"green"</span>,
+                   fill_down <span class='op'>=</span> <span class='st'>"red"</span>,
+                   colour_up <span class='op'>=</span> <span class='st'>"green"</span>,
+                   colour_down <span class='op'>=</span> <span class='st'>"red"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_x_datetime</span><span class='op'>(</span>date_breaks <span class='op'>=</span> <span class='st'>"12 hour"</span>, date_labels <span class='op'>=</span> <span class='st'>"%H%M"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_y_continuous</span><span class='op'>(</span>labels <span class='op'>=</span> <span class='fu'>scales</span><span class='fu'>::</span><span class='va'><a href='https://scales.r-lib.org//reference/label_dollar.html'>dollar</a></span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>labs</span><span class='op'>(</span>y <span class='op'>=</span> <span class='st'>"Price (USD)"</span>, 
+       x <span class='op'>=</span> <span class='st'>"Time"</span><span class='op'>)</span>  <span class='op'>+</span>
+  <span class='fu'>transition_time</span><span class='op'>(</span><span class='va'>timestamp</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>shadow_mark</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>theme_minimal</span><span class='op'>(</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>NULL</code></pre>
 </div>
 <p>As can be seen, this was a dramatic sell of with price dropping from almost 8000 USD to the low 3000 USD mark within a matter of hours, before recovery slightly to around the 5000 USD level.</p>
 <h1 id="ddos-attack">DDoS attack</h1>
@@ -1042,44 +1520,46 @@ More information on the DDoS attacks can be found here: <a href="https://blog.bi
 </aside>
 <p>I’ve adjusted the time interval to the lowest resolution possible (1 minute) to clearly see the effect of the DDoS attacks.</p>
 <div class="layout-chunk" data-layout="l-page">
-<pre class="r"><code>
-xbt_lower &lt;- xbt_reader(timeframe = &quot;1m&quot;, starttime = &quot;2020-03-13&quot;) %&gt;% 
-  mutate(timestamp = as_datetime(timestamp)) %&gt;% 
-  filter(timestamp &gt; &quot;2020-03-13 11:30:00&quot; &amp; timestamp &lt; &quot;2020-03-13 13:30:00&quot; |
-        timestamp &gt; &quot;2020-03-13 01:30:00&quot; &amp; timestamp &lt; &quot;2020-03-13 03:30:00&quot;) %&gt;% 
-  mutate(ddos = case_when(timestamp &gt; &quot;2020-03-13 01:30:00&quot; &amp; timestamp &lt; &quot;2020-03-13 03:30:00&quot; ~ &quot;First attack&quot;,
-                          timestamp &gt; &quot;2020-03-13 11:30:00&quot; &amp; timestamp &lt; &quot;2020-03-13 13:30:00&quot; ~ &quot;Second attack&quot;,
-                          )) 
+<div class="sourceCode">
+<pre><code><span class='va'>xbt_lower</span> <span class='op'>&lt;-</span> <span class='fu'>xbt_reader</span><span class='op'>(</span>timeframe <span class='op'>=</span> <span class='st'>"1m"</span>, starttime <span class='op'>=</span> <span class='st'>"2020-03-13"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>mutate</span><span class='op'>(</span>timestamp <span class='op'>=</span> <span class='fu'>as_datetime</span><span class='op'>(</span><span class='va'>timestamp</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>timestamp</span> <span class='op'>&gt;</span> <span class='st'>"2020-03-13 11:30:00"</span> <span class='op'>&amp;</span> <span class='va'>timestamp</span> <span class='op'>&lt;</span> <span class='st'>"2020-03-13 13:30:00"</span> <span class='op'>|</span>
+        <span class='va'>timestamp</span> <span class='op'>&gt;</span> <span class='st'>"2020-03-13 01:30:00"</span> <span class='op'>&amp;</span> <span class='va'>timestamp</span> <span class='op'>&lt;</span> <span class='st'>"2020-03-13 03:30:00"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>mutate</span><span class='op'>(</span>ddos <span class='op'>=</span> <span class='fu'>case_when</span><span class='op'>(</span><span class='va'>timestamp</span> <span class='op'>&gt;</span> <span class='st'>"2020-03-13 01:30:00"</span> <span class='op'>&amp;</span> <span class='va'>timestamp</span> <span class='op'>&lt;</span> <span class='st'>"2020-03-13 03:30:00"</span> <span class='op'>~</span> <span class='st'>"First attack"</span>,
+                          <span class='va'>timestamp</span> <span class='op'>&gt;</span> <span class='st'>"2020-03-13 11:30:00"</span> <span class='op'>&amp;</span> <span class='va'>timestamp</span> <span class='op'>&lt;</span> <span class='st'>"2020-03-13 13:30:00"</span> <span class='op'>~</span> <span class='st'>"Second attack"</span>,
+                          <span class='op'>)</span><span class='op'>)</span> 
 
 
-p1 &lt;- xbt_lower %&gt;% 
-  ggplot(aes(x = timestamp, y = close)) +
-  geom_candlestick(aes(open = open, high = high, low = low, close= close),
-                   fill_up = &quot;green&quot;,
-                   fill_down = &quot;red&quot;,
-                   colour_up = &quot;green&quot;,
-                   colour_down = &quot;red&quot;)  +
-  facet_wrap(~ddos, scales = &quot;free&quot;) +
-  scale_y_continuous(labels = scales::dollar)+
-  labs(x = &quot;&quot;, y = &quot;Price (USD)&quot;) +
-  theme_minimal()
+<span class='va'>p1</span> <span class='op'>&lt;-</span> <span class='va'>xbt_lower</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>ggplot</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>timestamp</span>, y <span class='op'>=</span> <span class='va'>close</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_candlestick</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>open <span class='op'>=</span> <span class='va'>open</span>, high <span class='op'>=</span> <span class='va'>high</span>, low <span class='op'>=</span> <span class='va'>low</span>, close<span class='op'>=</span> <span class='va'>close</span><span class='op'>)</span>,
+                   fill_up <span class='op'>=</span> <span class='st'>"green"</span>,
+                   fill_down <span class='op'>=</span> <span class='st'>"red"</span>,
+                   colour_up <span class='op'>=</span> <span class='st'>"green"</span>,
+                   colour_down <span class='op'>=</span> <span class='st'>"red"</span><span class='op'>)</span>  <span class='op'>+</span>
+  <span class='fu'>facet_wrap</span><span class='op'>(</span><span class='op'>~</span><span class='va'>ddos</span>, scales <span class='op'>=</span> <span class='st'>"free"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_y_continuous</span><span class='op'>(</span>labels <span class='op'>=</span> <span class='fu'>scales</span><span class='fu'>::</span><span class='va'><a href='https://scales.r-lib.org//reference/label_dollar.html'>dollar</a></span><span class='op'>)</span><span class='op'>+</span>
+  <span class='fu'>labs</span><span class='op'>(</span>x <span class='op'>=</span> <span class='st'>""</span>, y <span class='op'>=</span> <span class='st'>"Price (USD)"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>theme_minimal</span><span class='op'>(</span><span class='op'>)</span>
 
 
 
-p2 &lt;- xbt_lower %&gt;% 
-  ggplot(aes(timestamp, volume/1000)) +
-  geom_col() +
-  facet_wrap(~ddos, scales = &quot;free&quot;) +
-  theme_minimal()  +
-  labs(x = &quot;Time&quot;, y = &quot;Volume&quot;) +
-  theme(
-    strip.background = element_blank(),
-    strip.text.x = element_blank()
-  )
+<span class='va'>p2</span> <span class='op'>&lt;-</span> <span class='va'>xbt_lower</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>ggplot</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span><span class='va'>timestamp</span>, <span class='va'>volume</span><span class='op'>/</span><span class='fl'>1000</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_col</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>facet_wrap</span><span class='op'>(</span><span class='op'>~</span><span class='va'>ddos</span>, scales <span class='op'>=</span> <span class='st'>"free"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>theme_minimal</span><span class='op'>(</span><span class='op'>)</span>  <span class='op'>+</span>
+  <span class='fu'>labs</span><span class='op'>(</span>x <span class='op'>=</span> <span class='st'>"Time"</span>, y <span class='op'>=</span> <span class='st'>"Volume"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>theme</span><span class='op'>(</span>
+    strip.background <span class='op'>=</span> <span class='fu'>element_blank</span><span class='op'>(</span><span class='op'>)</span>,
+    strip.text.x <span class='op'>=</span> <span class='fu'>element_blank</span><span class='op'>(</span><span class='op'>)</span>
+  <span class='op'>)</span>
 
   
-p1 / p2 +
-  plot_annotation(title = &quot;Price data during the DDoS attacks&quot;)</code></pre>
+<span class='va'>p1</span> <span class='op'>/</span> <span class='va'>p2</span> <span class='op'>+</span>
+  <span class='fu'>plot_annotation</span><span class='op'>(</span>title <span class='op'>=</span> <span class='st'>"Price data during the DDoS attacks"</span><span class='op'>)</span>
+</code></pre>
+</div>
 <p><img src="bitcoin_files/figure-html5/unnamed-chunk-4-1.png" width="624" /></p>
 </div>
 <p>The effect of each DDoS is clearly visible from the price data, leaving large gaps for approximately 15 minutes where very few to no trades were placed. Immediately following each attack was a period of extreme volatility, before price was able to stabilise to some degree.</p>
@@ -1087,12 +1567,13 @@ p1 / p2 +
 <h1 id="summary">Summary</h1>
 <p>There are a several other avenues that could be interesting to explore here, such as visualising the order book liquidity during the crash compared to a more “stable” period of time, however I may save that for a follow-up post. I have also been playing with the Bitmex websocket connection which streams real time data from the exchange - I think a shiny app would be really cool to visualise this so may try something there as well.</p>
 <p>Thanks for reading!</p>
-<div id="refs" class="references hanging-indent" role="doc-bibliography">
-<div id="ref-R-tidyquant">
-<p>Dancho, Matt, and Davis Vaughan. 2020. <em>Tidyquant: Tidy Quantitative Financial Analysis</em>. <a href="https://CRAN.R-project.org/package=tidyquant">https://CRAN.R-project.org/package=tidyquant</a>.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="ref-R-tidyquant" class="csl-entry" role="doc-biblioentry">
+Dancho, Matt, and Davis Vaughan. 2020. <em>Tidyquant: Tidy Quantitative Financial Analysis</em>. <a href="https://CRAN.R-project.org/package=tidyquant">https://CRAN.R-project.org/package=tidyquant</a>.
 </div>
-<div id="ref-R-gganimate">
-<p>Pedersen, Thomas Lin, and David Robinson. 2020. <em>Gganimate: A Grammar of Animated Graphics</em>. <a href="https://CRAN.R-project.org/package=gganimate">https://CRAN.R-project.org/package=gganimate</a>.</p>
+<div id="ref-R-gganimate" class="csl-entry" role="doc-biblioentry">
+Pedersen, Thomas Lin, and David Robinson. 2020. <em>Gganimate: A Grammar of Animated Graphics</em>. <a href="https://CRAN.R-project.org/package=gganimate">https://CRAN.R-project.org/package=gganimate</a>.
 </div>
 </div>
 <!--radix_placeholder_article_footer-->
@@ -1106,182 +1587,10 @@ p1 / p2 +
 <!--radix_placeholder_site_after_body-->
 <!--/radix_placeholder_site_after_body-->
 <!--radix_placeholder_appendices-->
-<div class="appendix-bottom"></div>
-<script id="distill-bibliography" type="text/bibtex">
-@Manual{R-base,
-  title = {R: A Language and Environment for Statistical Computing},
-  author = {{R Core Team}},
-  organization = {R Foundation for Statistical Computing},
-  address = {Vienna, Austria},
-  year = {2020},
-  url = {https://www.R-project.org/},
-}
-@Manual{R-dplyr,
-  title = {dplyr: A Grammar of Data Manipulation},
-  author = {Hadley Wickham and Romain François and Lionel Henry and Kirill Müller},
-  year = {2019},
-  note = {R package version 0.8.3},
-  url = {https://CRAN.R-project.org/package=dplyr},
-}
-@Manual{R-forcats,
-  title = {forcats: Tools for Working with Categorical Variables (Factors)},
-  author = {Hadley Wickham},
-  year = {2020},
-  note = {R package version 0.5.0},
-  url = {https://CRAN.R-project.org/package=forcats},
-}
-@Manual{R-gganimate,
-  title = {gganimate: A Grammar of Animated Graphics},
-  author = {Thomas Lin Pedersen and David Robinson},
-  year = {2020},
-  note = {R package version 1.0.5},
-  url = {https://CRAN.R-project.org/package=gganimate},
-}
-@Book{R-ggplot2,
-  author = {Hadley Wickham},
-  title = {ggplot2: Elegant Graphics for Data Analysis},
-  publisher = {Springer-Verlag New York},
-  year = {2016},
-  isbn = {978-3-319-24277-4},
-  url = {https://ggplot2.tidyverse.org},
-}
-@Manual{R-httr,
-  title = {httr: Tools for Working with URLs and HTTP},
-  author = {Hadley Wickham},
-  year = {2019},
-  note = {R package version 1.4.1},
-  url = {https://CRAN.R-project.org/package=httr},
-}
-@Article{R-lubridate,
-  title = {Dates and Times Made Easy with {lubridate}},
-  author = {Garrett Grolemund and Hadley Wickham},
-  journal = {Journal of Statistical Software},
-  year = {2011},
-  volume = {40},
-  number = {3},
-  pages = {1--25},
-  url = {http://www.jstatsoft.org/v40/i03/},
-}
-@Manual{R-papaja,
-  author = {Frederik Aust and Marius Barth},
-  title = {{papaja}: {Create} {APA} manuscripts with {R Markdown}},
-  year = {2018},
-  note = {R package version 0.1.0.9842},
-  url = {https://github.com/crsh/papaja},
-}
-@Manual{R-PerformanceAnalytics,
-  title = {PerformanceAnalytics: Econometric Tools for Performance and Risk Analysis},
-  author = {Brian G. Peterson and Peter Carl},
-  year = {2020},
-  note = {R package version 2.0.4},
-  url = {https://CRAN.R-project.org/package=PerformanceAnalytics},
-}
-@Manual{R-purrr,
-  title = {purrr: Functional Programming Tools},
-  author = {Lionel Henry and Hadley Wickham},
-  year = {2019},
-  note = {R package version 0.3.3},
-  url = {https://CRAN.R-project.org/package=purrr},
-}
-@Manual{R-quantmod,
-  title = {quantmod: Quantitative Financial Modelling Framework},
-  author = {Jeffrey A. Ryan and Joshua M. Ulrich},
-  year = {2019},
-  note = {R package version 0.4-15},
-  url = {https://CRAN.R-project.org/package=quantmod},
-}
-@Manual{R-readr,
-  title = {readr: Read Rectangular Text Data},
-  author = {Hadley Wickham and Jim Hester and Romain Francois},
-  year = {2018},
-  note = {R package version 1.3.1},
-  url = {https://CRAN.R-project.org/package=readr},
-}
-@Book{R-rmarkdown,
-  title = {R Markdown: The Definitive Guide},
-  author = {Yihui Xie and J.J. Allaire and Garrett Grolemund},
-  publisher = {Chapman and Hall/CRC},
-  address = {Boca Raton, Florida},
-  year = {2018},
-  note = {ISBN 9781138359338},
-  url = {https://bookdown.org/yihui/rmarkdown},
-}
-@Manual{R-rStrava,
-  title = {rStrava: Access the Strava API},
-  author = {Pedro Villarroel and Daniel Padfield and Lorenzo Gaborini and Niklas {von Maltzahn}},
-  year = {2020},
-  note = {R package version 1.1.3},
-}
-@Manual{R-stringr,
-  title = {stringr: Simple, Consistent Wrappers for Common String Operations},
-  author = {Hadley Wickham},
-  year = {2019},
-  note = {R package version 1.4.0},
-  url = {https://CRAN.R-project.org/package=stringr},
-}
-@Manual{R-tibble,
-  title = {tibble: Simple Data Frames},
-  author = {Kirill Müller and Hadley Wickham},
-  year = {2019},
-  note = {R package version 2.1.3},
-  url = {https://CRAN.R-project.org/package=tibble},
-}
-@Manual{R-tidyquant,
-  title = {tidyquant: Tidy Quantitative Financial Analysis},
-  author = {Matt Dancho and Davis Vaughan},
-  year = {2020},
-  note = {R package version 1.0.0},
-  url = {https://CRAN.R-project.org/package=tidyquant},
-}
-@Manual{R-tidyr,
-  title = {tidyr: Tidy Messy Data},
-  author = {Hadley Wickham and Lionel Henry},
-  year = {2020},
-  note = {R package version 1.0.2},
-  url = {https://CRAN.R-project.org/package=tidyr},
-}
-@Article{R-tidyverse,
-  title = {Welcome to the {tidyverse}},
-  author = {Hadley Wickham and Mara Averick and Jennifer Bryan and Winston Chang and Lucy D'Agostino McGowan and Romain François and Garrett Grolemund and Alex Hayes and Lionel Henry and Jim Hester and Max Kuhn and Thomas Lin Pedersen and Evan Miller and Stephan Milton Bache and Kirill Müller and Jeroen Ooms and David Robinson and Dana Paige Seidel and Vitalie Spinu and Kohske Takahashi and Davis Vaughan and Claus Wilke and Kara Woo and Hiroaki Yutani},
-  year = {2019},
-  journal = {Journal of Open Source Software},
-  volume = {4},
-  number = {43},
-  pages = {1686},
-  doi = {10.21105/joss.01686},
-}
-@Manual{R-TTR,
-  title = {TTR: Technical Trading Rules},
-  author = {Joshua Ulrich},
-  year = {2019},
-  note = {R package version 0.23-6},
-  url = {https://CRAN.R-project.org/package=TTR},
-}
-@Manual{R-xts,
-  title = {xts: eXtensible Time Series},
-  author = {Jeffrey A. Ryan and Joshua M. Ulrich},
-  year = {2020},
-  note = {R package version 0.12-0},
-  url = {https://CRAN.R-project.org/package=xts},
-}
-@Article{R-zoo,
-  title = {zoo: S3 Infrastructure for Regular and Irregular Time Series},
-  author = {Achim Zeileis and Gabor Grothendieck},
-  journal = {Journal of Statistical Software},
-  year = {2005},
-  volume = {14},
-  number = {6},
-  pages = {1--27},
-  doi = {10.18637/jss.v014.i06},
-}
-@Manual{R-patchwork,
-  title = {patchwork: The Composer of Plots},
-  author = {Thomas Lin Pedersen},
-  year = {2019},
-  note = {R package version 1.0.0},
-  url = {https://CRAN.R-project.org/package=patchwork},
-}
-</script>
+<div class="appendix-bottom">
+<h3 id="references">References</h3>
+<div id="references-listing"></div>
+</div>
 <!--/radix_placeholder_appendices-->
 <!--radix_placeholder_navigation_after_body-->
 <!--/radix_placeholder_navigation_after_body-->
