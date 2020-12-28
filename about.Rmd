@@ -4,7 +4,7 @@ description: "\\> whoami"
 ---
 
 <center>
-![](data/images/pic_bw.png){width=25%} 
+![me](data/images/pic_bw.png){width=25%} 
 </center>
 
 <br>

@@ -2074,6 +2074,10 @@ img[alt=badge] {
   float: left;
 }
 
+img[alt$="<"] {
+  float: left;
+}
+
 .mylinks a{
   color: #eeeeee;
   
@@ -2676,8 +2680,8 @@ Table 1: The decrease in athletes on the ranking list for 2019 and 2020
 Click on column headers to sort each column
 </aside>
 <div class="layout-chunk" data-layout="l-body-outset">
-<div id="htmlwidget-78ba3939133782f4325d" class="reactable html-widget" style="width:auto;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-78ba3939133782f4325d">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"event":[100,1500,200,400,5000,800],"x2019":[1046,1432,978,891,1411,1228],"x2020":[351,669,409,408,124,640],"perc":[0.664435946462715,0.532821229050279,0.581799591002045,0.542087542087542,0.912119064493267,0.478827361563518],"x2019_2":[1321,1158,1035,825,411,1210],"x2020_2":[350,475,441,376,52,566],"perc_2":[0.735049205147615,0.589810017271157,0.573913043478261,0.544242424242424,0.873479318734793,0.532231404958678]},"columns":[{"accessor":"event","name":"Event (m)","type":"numeric","align":"center"},{"accessor":"x2019","name":"2019","type":"numeric","align":"center"},{"accessor":"x2020","name":"2020","type":"numeric","align":"center"},{"accessor":"perc","name":"% Decrease","type":"numeric","align":"center","format":{"cell":{"digits":1,"percent":true},"aggregated":{"digits":1,"percent":true}},"minWidth":120,"style":[{"background":"#FF7F7E","color":"#000"},{"background":"#FFB5B4","color":"#000"},{"background":"#FFA1A0","color":"#000"},{"background":"#FFB1B1","color":"#000"},{"background":"#FF1919","color":"#000"},{"background":"#FFCCCB","color":"#000"}]},{"accessor":"x2019_2","name":"2019","type":"numeric","align":"center"},{"accessor":"x2020_2","name":"2020","type":"numeric","align":"center"},{"accessor":"perc_2","name":"% Decrease","type":"numeric","align":"center","format":{"cell":{"digits":1,"percent":true},"aggregated":{"digits":1,"percent":true}},"minWidth":120,"style":[{"background":"#FF6261","color":"#000"},{"background":"#FF9E9D","color":"#000"},{"background":"#FFA4A3","color":"#000"},{"background":"#FFB0B0","color":"#000"},{"background":"#FF2828","color":"#000"},{"background":"#FFB5B5","color":"#000"}]}],"columnGroups":[{"name":"Men","columns":["x2019","x2020","perc"]},{"name":"Women","columns":["x2019_2","x2020_2","perc_2"]}],"defaultSortDesc":true,"defaultSorted":[{"id":"perc","desc":true}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"dataKey":"865dc4faabfa3a378706fe99281c6e5d","key":"865dc4faabfa3a378706fe99281c6e5d"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-725c586f14d8f0ed61b9" class="reactable html-widget" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-725c586f14d8f0ed61b9">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"event":[100,1500,200,400,5000,800],"x2019":[1046,1432,978,891,1411,1228],"x2020":[351,669,409,408,124,640],"perc":[0.664435946462715,0.532821229050279,0.581799591002045,0.542087542087542,0.912119064493267,0.478827361563518],"x2019_2":[1321,1158,1035,825,411,1210],"x2020_2":[350,475,441,376,52,566],"perc_2":[0.735049205147615,0.589810017271157,0.573913043478261,0.544242424242424,0.873479318734793,0.532231404958678]},"columns":[{"accessor":"event","name":"Event (m)","type":"numeric","align":"center"},{"accessor":"x2019","name":"2019","type":"numeric","align":"center"},{"accessor":"x2020","name":"2020","type":"numeric","align":"center"},{"accessor":"perc","name":"% Decrease","type":"numeric","align":"center","format":{"cell":{"digits":1,"percent":true},"aggregated":{"digits":1,"percent":true}},"minWidth":120,"style":[{"background":"#FF7F7E","color":"#000"},{"background":"#FFB5B4","color":"#000"},{"background":"#FFA1A0","color":"#000"},{"background":"#FFB1B1","color":"#000"},{"background":"#FF1919","color":"#000"},{"background":"#FFCCCB","color":"#000"}]},{"accessor":"x2019_2","name":"2019","type":"numeric","align":"center"},{"accessor":"x2020_2","name":"2020","type":"numeric","align":"center"},{"accessor":"perc_2","name":"% Decrease","type":"numeric","align":"center","format":{"cell":{"digits":1,"percent":true},"aggregated":{"digits":1,"percent":true}},"minWidth":120,"style":[{"background":"#FF6261","color":"#000"},{"background":"#FF9E9D","color":"#000"},{"background":"#FFA4A3","color":"#000"},{"background":"#FFB0B0","color":"#000"},{"background":"#FF2828","color":"#000"},{"background":"#FFB5B5","color":"#000"}]}],"columnGroups":[{"name":"Men","columns":["x2019","x2020","perc"]},{"name":"Women","columns":["x2019_2","x2020_2","perc_2"]}],"defaultSortDesc":true,"defaultSorted":[{"id":"perc","desc":true}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"dataKey":"865dc4faabfa3a378706fe99281c6e5d","key":"865dc4faabfa3a378706fe99281c6e5d"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
 </div>
 <p><br></p>
 <h3 id="distribution-of-performances">Distribution of performances</h3>
@@ -2690,7 +2694,7 @@ Code
 </summary>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre><code><span class='va'>df</span> <span class='op'>&lt;-</span> <span class='va'>clean_rankings</span> <span class='op'>%&gt;%</span> 
+<pre><code><span class='va'>rank_plots</span> <span class='op'>&lt;-</span> <span class='va'>clean_rankings</span> <span class='op'>%&gt;%</span> 
   <span class='fu'>mutate</span><span class='op'>(</span>input_year <span class='op'>=</span> <span class='fu'>fct_rev</span><span class='op'>(</span><span class='va'>input_year</span><span class='op'>)</span>,
          covid_year <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='va'>input_year</span> <span class='op'>==</span> <span class='st'>"2020"</span>, <span class='st'>"covid"</span>, <span class='st'>"pre_covid"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
   <span class='fu'>select</span><span class='op'>(</span><span class='va'>input_year</span>, <span class='va'>time</span>, <span class='va'>rank</span>, <span class='va'>event</span>, <span class='va'>gender</span>, <span class='va'>covid_year</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
@@ -2718,7 +2722,7 @@ Code
 </summary>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre><code><span class='va'>df</span> <span class='op'>%&gt;%</span> 
+<pre><code><span class='va'>rank_plots</span> <span class='op'>%&gt;%</span> 
   <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>rank_group</span> <span class='op'>==</span> <span class='st'>"top_10"</span> <span class='op'>&amp;</span> <span class='va'>gender</span> <span class='op'>==</span> <span class='st'>"M"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
   <span class='fu'>ggplot</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>Performance</span>, 
              y <span class='op'>=</span> <span class='va'>lab</span>, 
@@ -2751,7 +2755,7 @@ Code
         strip.text <span class='op'>=</span> <span class='fu'>element_text</span><span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>14</span>, face <span class='op'>=</span> <span class='st'>"bold"</span>, hjust <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span>,
         strip.background <span class='op'>=</span> <span class='fu'>element_blank</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>-&gt;</span> <span class='va'>p1</span>
 
-<span class='va'>df</span> <span class='op'>%&gt;%</span> 
+<span class='va'>rank_plots</span> <span class='op'>%&gt;%</span> 
   <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>rank_group</span> <span class='op'>==</span> <span class='st'>"top_10"</span> <span class='op'>&amp;</span> <span class='va'>gender</span> <span class='op'>==</span> <span class='st'>"W"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
   <span class='fu'>ggplot</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>Performance</span>, 
              y <span class='op'>=</span> <span class='va'>lab</span>, 
