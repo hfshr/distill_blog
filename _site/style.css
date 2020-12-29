@@ -399,6 +399,7 @@ p code {
 
 d-article div.sourceCode {
     background-color: #222831;
+    border-left: 2px solid rgba(255,255,255,0.6);
 }
 
 pre {
@@ -541,5 +542,4 @@ d-article blockquote {
     font-size: 12px;
     line-height: 1.5em;
 }
-
 
