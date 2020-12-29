@@ -355,44 +355,50 @@ You can drag the nodes around and hover over them for more information regarding
 
 </aside>
 
+```{css}
+
+```
+
+<div class="niceNetwork">
+
 ```{r}
 library(bnviewer)
+  
 
-bnviewer::strength.viewer(
-  bayesianNetwork = avg30,
+strength.viewer(
+	bayesianNetwork = avg30,
   bayesianNetwork.boot.strength = str_network,
   bayesianNetwork.arc.strength.threshold.expression = c(
     "@threshold > 0 & @threshold < 0.5",
     "@threshold >= 0.5 & @threshold <= 0.8",
     "@threshold > 0.8 & @threshold <= 1"
   ),
-  bayesianNetwork.arc.strength.threshold.expression.color = c("red", "yellow", "blue"),
-  bayesianNetwork.arc.strength.threshold.alternative.color = "black",
-  bayesianNetwork.arc.strength.label = TRUE,
-  bayesianNetwork.arc.strength.label.prefix = "",
-  bayesianNetwork.arc.strength.label.color = "black",
-  bayesianNetwork.arc.strength.tooltip = TRUE,
-  bayesianNetwork.edge.scale.min = 1,
-  bayesianNetwork.edge.scale.max = 3,
-  bayesianNetwork.edge.scale.label.min = 12,
-  bayesianNetwork.edge.scale.label.max = 12,
-  bayesianNetwork.width = "100%",
-  bayesianNetwork.height = "500px",
-  bayesianNetwork.layout = "layout_nicely",
-  node.colors = list(
-    background = "black",
-    border = "#2b7ce9",
-    highlight = list(
-      background = "#e91eba",
-      border = "#2b7ce9"
-    )
-  ),
-  node.font = list(color = "black", face = "Arial"),
-  edges.dashes = FALSE
+
+	bayesianNetwork.arc.strength.threshold.expression.color  = c("red", "yellow", "blue"),
+	bayesianNetwork.arc.strength.threshold.alternative.color =  "white",
+	bayesianNetwork.arc.strength.label = TRUE,
+	bayesianNetwork.arc.strength.label.prefix = "",
+	bayesianNetwork.arc.strength.label.color = "white",
+	bayesianNetwork.arc.strength.tooltip = TRUE,
+	bayesianNetwork.edge.scale.min = 1,
+	bayesianNetwork.edge.scale.max = 3,
+	bayesianNetwork.edge.scale.label.min = 14,
+	bayesianNetwork.edge.scale.label.max = 14,
+	bayesianNetwork.width = "100%",
+	bayesianNetwork.height = "800px",
+	bayesianNetwork.layout = "layout_with_sugiyama",
+	node.colors = list(background = "gray",
+						border = "#2b7ce9",
+						highlight = list(background = "#e91eba",
+										border = "#2b7ce9")),
+	
+	node.font = list(color = "white", face="Arial"),
+	edges.dashes = FALSE
 )
 
 ```
 
+</div>
 
 # Summary
 
