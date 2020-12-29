@@ -36,17 +36,17 @@ For those interested, the repository of my completed thesis can be found here: h
 
 # Benefits
 
-**Combine text and code**
+### Combine text and code
 
 The ability to integrate text and R code in the same document to produce tables and figures is extremely useful. 
 No more copy/pasting from Excel to Word for tables and figures!
 
-**Separate files for each chapter**
+### Separate files for each chapter
 
 Large word documents can quickly become unwieldy, and increasingly frustrating to work with as the document grows in length.
 R Markdown lets you easily combine multiple chapters/files into one document when you press knit.
 
-**Learn a new skill**
+### Learn a new skill
 
 I found writing in Markdown really satisfying. 
 Writing a thesis can certainly be a little dull at times, but there were always new things to learn while using Markdown, and this certainly helped keep me motivated when writing wasn't going so well...
@@ -54,20 +54,20 @@ Writing a thesis can certainly be a little dull at times, but there were always 
 
 # Potential downsides 
 
-**Comments** 
+### Comments 
 
 This was the only _major_ issue I faced using Markdown. 
 While my supervisors were happy enough for me to use R Markdown, they were not too keen on learning how to use git and start opening pull requests on my draft chapters...
 So for feedback, I ended up knitting to .docx so comments could be tracked using Microsoft word. 
 The downside to this was that formatting often went astray, but over time they were ok with this after seeing the aesthetically pleasing PDF outputs that were possible. 
 
-**Inevitably you will need to learn some LaTeX**
+### Inevitably you will need to learn some LaTeX
 
 R markdown does a fantastic job and can get you 95% of the way there without ever having to open a .tex file. 
 However there will likely be some fine tuning that is either not easy or not possible to do with R Markdown, and using 
 If unfamiliar with LaTeX, this can be a steep learning curve, but there are ample resources out there to help figure things out.  
 
-**Potential to get distracted from writing**
+### Potential to get distracted from writing
 
 Occasionally I would spend time fiddling with the layout of certain pages, or trying to get a specific table looking a certain way, when I really should have just saved that till after the writing was finished. 
 My tip would be dedicate time to writing and time to editing and try not to mix the two. 
