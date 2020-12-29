@@ -143,19 +143,6 @@ d-article a:hover  {
     font-size: 16px;
 }
 
-d-article table th {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-    border-top: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-d-article table tr:last-of-type td {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-h1.posts-list-caption {
-  border-bottom: none;
-}
-
 
 /*link effects*/
 
@@ -168,7 +155,7 @@ p a, li a, d-appendix a, .sidebar-section-custom a, .sidebar-section.subscribe a
     color: #00adb5;
     transition: background-size .3s;
 }
-
+.sidebar-section.subscribe
 
 p a:hover, p a:focus, li a:hover, li a:focus,
 .sidebar-section-custom a:hover, .sidebar-section-custom a:focus,
@@ -295,10 +282,6 @@ img[alt=badge] {
   float: left;
 }
 
-img[alt$="<"] {
-  float: left;
-}
-
 .mylinks a{
   color: #eeeeee;
   
@@ -399,7 +382,6 @@ p code {
 
 d-article div.sourceCode {
     background-color: #222831;
-    border-left: 2px solid rgba(255,255,255,0.6);
 }
 
 pre {
@@ -543,3 +525,12 @@ d-article blockquote {
     line-height: 1.5em;
 }
 
+
+d-article table th {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+d-article table tr:last-of-type td {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
