@@ -12,463 +12,7 @@
       <title>How has Covid-19 affected UK athletics rankings in 2020?</title>
       <dc:creator>Harry Fisher</dc:creator>
       <link>https://hfshr.xyz/posts/2020-12-26-powerof10-covid</link>
-      <description>
-
-
-&lt;h2 id="tldr"&gt;TL;DR&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;Large drop in the number of athletes on the rankings for 2020.&lt;/li&gt;
-&lt;li&gt;Elite middle distance runners had comparable performances to previous years, sprint performances were noticeably slower.&lt;/li&gt;
-&lt;li&gt;Sub-elite athletes generally had slower performances for all events in 2020 compared to previous years.&lt;/li&gt;
-&lt;li&gt;A mix of lockdown, fewer opportunities to compete and other Covid-related factors likely contributed to the slower performances.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
-&lt;p&gt;Covid-19 has obviously had a hugely detrimental effect on a wide range of sports this year, and at the time of writing still continues to do so. In this post, I wanted to investigate how Covid has impacted track performances in the UK compared to previous seasons. Specifically, I was interested in how the distribution of performances may differ between this season and previous seasons. I also wondered if there may be some differences between the elite athletes who may have had additional opportunities to compete this year (national championships, diamond leagues etc) compared to non-elite athletes, who may have faced the most significant reductions in competitive opportunities.&lt;/p&gt;
-&lt;h3 id="the-data"&gt;The data&lt;/h3&gt;
-&lt;p&gt;I used my &lt;a href="https://powerof10.hfshr.xyz/"&gt;poweRof10&lt;/a&gt; package to collect data from www.thepowerof10.info. Specifically, I gathered the rankings for each season from 2016 to 2020 for both men and women for the following events; 100, 200, 400, 800, 1500 and 5000. If interested, you can see the code I used to collect and prepare the data by expanding the code label below.&lt;/p&gt;
-&lt;details&gt;
-&lt;summary&gt;
-Code
-&lt;/summary&gt;
-&lt;pre class="r"&gt;&lt;code&gt;knitr::opts_chunk$set(echo = FALSE)
-library(poweRof10)
-library(tidyverse)
-library(furrr)
-library(lubridate)
-library(hms)
-library(ggridges)
-library(ggrepel)
-library(see)
-library(patchwork)
-library(ggtext)
-library(extrafont)
-library(reactable)
-
-# function from https://fishandwhistle.net/post/2018/modifying-facet-scales-in-ggplot2/ for tweaking facets
-scale_override &amp;lt;- function(which, scale) {
-  if(!is.numeric(which) || (length(which) != 1) || (which %% 1 != 0)) {
-    stop(&amp;quot;which must be an integer of length 1&amp;quot;)
-  }
-  
-  if(is.null(scale$aesthetics) || !any(c(&amp;quot;x&amp;quot;, &amp;quot;y&amp;quot;) %in% scale$aesthetics)) {
-    stop(&amp;quot;scale must be an x or y position scale&amp;quot;)
-  }
-  
-  structure(list(which = which, scale = scale), class = &amp;quot;scale_override&amp;quot;)
-}
-
-CustomFacetWrap &amp;lt;- ggproto(
-  &amp;quot;CustomFacetWrap&amp;quot;, FacetWrap,
-  init_scales = function(self, layout, x_scale = NULL, y_scale = NULL, params) {
-    # make the initial x, y scales list
-    scales &amp;lt;- ggproto_parent(FacetWrap, self)$init_scales(layout, x_scale, y_scale, params)
-    
-    if(is.null(params$scale_overrides)) return(scales)
-    
-    max_scale_x &amp;lt;- length(scales$x)
-    max_scale_y &amp;lt;- length(scales$y)
-    
-    # ... do some modification of the scales$x and scales$y here based on params$scale_overrides
-    for(scale_override in params$scale_overrides) {
-      which &amp;lt;- scale_override$which
-      scale &amp;lt;- scale_override$scale
-      
-      if(&amp;quot;x&amp;quot; %in% scale$aesthetics) {
-        if(!is.null(scales$x)) {
-          if(which &amp;lt; 0 || which &amp;gt; max_scale_x) stop(&amp;quot;Invalid index of x scale: &amp;quot;, which)
-          scales$x[[which]] &amp;lt;- scale$clone()
-        }
-      } else if(&amp;quot;y&amp;quot; %in% scale$aesthetics) {
-        if(!is.null(scales$y)) {
-          if(which &amp;lt; 0 || which &amp;gt; max_scale_y) stop(&amp;quot;Invalid index of y scale: &amp;quot;, which)
-          scales$y[[which]] &amp;lt;- scale$clone()
-        }
-      } else {
-        stop(&amp;quot;Invalid scale&amp;quot;)
-      }
-    }
-    
-    # return scales
-    scales
-  }
-)
-
-facet_wrap_custom &amp;lt;- function(..., scale_overrides = NULL) {
-  # take advantage of the sanitizing that happens in facet_wrap
-  facet_super &amp;lt;- facet_wrap(...)
-  
-  # sanitize scale overrides
-  if(inherits(scale_overrides, &amp;quot;scale_override&amp;quot;)) {
-    scale_overrides &amp;lt;- list(scale_overrides)
-  } else if(!is.list(scale_overrides) || 
-            !all(vapply(scale_overrides, inherits, &amp;quot;scale_override&amp;quot;, FUN.VALUE = logical(1)))) {
-    stop(&amp;quot;scale_overrides must be a scale_override object or a list of scale_override objects&amp;quot;)
-  }
-  
-  facet_super$params$scale_overrides &amp;lt;- scale_overrides
-  
-  ggproto(NULL, CustomFacetWrap,
-    shrink = facet_super$shrink,
-    params = facet_super$params
-  )
-}
-
-
-### get data ###
-years &amp;lt;- c(2016:2020)
-events &amp;lt;- c(&amp;quot;100&amp;quot;, &amp;quot;200&amp;quot;, &amp;quot;400&amp;quot;, &amp;quot;800&amp;quot;, &amp;quot;1500&amp;quot;, &amp;quot;5000&amp;quot;)
-gender &amp;lt;- c(&amp;quot;M&amp;quot;, &amp;quot;W&amp;quot;)
-
-# grid &amp;lt;- expand_grid(years, events, gender) %&amp;gt;%
-#   as.list()
-# 
-# plan(multisession)
-# all_rankings &amp;lt;- future_pmap_dfr(grid, ~get_event(event = ..2, gender = ..3, year = ..1), .progress = TRUE)
-# plan(sequential)
-# save(all_rankings, file = &amp;quot;rankings.rds&amp;quot;)
-options(digits.secs=2)
-
-load(&amp;quot;rankings.rds&amp;quot;)
-
-# Function to get womens 400 performances in 61.00 format to 1:01.00 format 
-
-time_cleaner &amp;lt;- function(time) {
-  date &amp;lt;- as.numeric(time) * 1000
-  res &amp;lt;- as.POSIXct.numeric(date/1000, origin = &amp;#39;1970-01-01&amp;#39;, format = &amp;quot;%OS&amp;quot;)
-  format(res, format = &amp;#39;%M:%OS&amp;#39;)
-}  
-
-clean_rankings &amp;lt;- all_rankings %&amp;gt;% 
-  select(rank, perf, input_year, event, gender, date, name) %&amp;gt;% 
-  filter(event %in% c(&amp;quot;100&amp;quot;, &amp;quot;200&amp;quot;, &amp;quot;400&amp;quot;, &amp;quot;800&amp;quot;, &amp;quot;1500&amp;quot;, &amp;quot;5000&amp;quot;)) %&amp;gt;% 
-  filter(rank != &amp;quot;&amp;quot;) %&amp;gt;%
-  mutate(event = factor(event, levels = c(&amp;quot;100&amp;quot;, &amp;quot;200&amp;quot;, &amp;quot;400&amp;quot;, &amp;quot;800&amp;quot;, &amp;quot;1500&amp;quot;, &amp;quot;5000&amp;quot;)),
-         rank = as.numeric(rank),
-         perf = str_trim(perf),
-         input_year = factor(input_year, levels = c(&amp;quot;2016&amp;quot;, &amp;quot;2017&amp;quot;, &amp;quot;2018&amp;quot;, &amp;quot;2019&amp;quot;, &amp;quot;2020&amp;quot;))) %&amp;gt;% 
-  mutate(perf = if_else(event == &amp;quot;400&amp;quot; &amp;amp; str_starts(perf, &amp;quot;6&amp;quot;), time_cleaner(perf), perf)) %&amp;gt;% 
-  mutate(perf_x = case_when(event %in% c(&amp;quot;800&amp;quot;, &amp;quot;1500&amp;quot;) ~paste0(&amp;quot;00:0&amp;quot;, perf),
-                              event %in% c(&amp;quot;200&amp;quot;, &amp;quot;400&amp;quot;) &amp;amp; nchar(perf) &amp;lt;= 5 ~paste0(&amp;quot;00:00:&amp;quot;, perf), 
-                              event == &amp;quot;100&amp;quot; ~ ifelse(nchar(perf) &amp;lt; 5, 
-                                                      paste0(&amp;quot;00:00:0&amp;quot;, perf), 
-                                                      paste0(&amp;quot;00:00:&amp;quot;, perf)),
-                              TRUE ~ paste0(&amp;quot;00:&amp;quot;, perf))) %&amp;gt;%  
-  mutate(perf_x = parse_hms(perf_x),
-         perf_x_sec = round(seconds(perf_x), digits = 2),
-         perf_x_sec = round(seconds_to_period(perf_x_sec), 2)) %&amp;gt;% 
-  mutate(time = as_datetime(perf_x_sec)) &lt;/code&gt;&lt;/pre&gt;
-&lt;/details&gt;
-&lt;h3 id="number-of-athletes-on-the-rankings-list"&gt;Number of athletes on the rankings list&lt;/h3&gt;
-&lt;p&gt;Figure @ref(fig:simple-counts) shows the number of athletes on the ranking list for each event over the last five seasons.&lt;/p&gt;
-&lt;details&gt;
-&lt;summary&gt;
-Code
-&lt;/summary&gt;
-&lt;pre class="r"&gt;&lt;code&gt;df &amp;lt;- clean_rankings %&amp;gt;% 
-  group_by(gender, event,  input_year) %&amp;gt;% 
-  mutate(gender = ifelse(gender == &amp;quot;M&amp;quot;, &amp;quot;Men&amp;quot;, &amp;quot;Women&amp;quot;),
-         event = paste(event, &amp;quot;m&amp;quot;)) %&amp;gt;% 
-  count() 
-
-
-ggplot(df, aes(x = input_year, y = n, group = event, colour = event, label = event)) +
-  geom_line() +
-  geom_point() +
-  scale_color_brewer(palette = &amp;quot;Paired&amp;quot;) +
-  scale_y_continuous(breaks = c(250, 500, 750, 1000, 1250, 1500)) +
-  scale_x_discrete(expand = expansion(add = c(0.3, 1))) +
-  geom_hline(yintercept = c(250, 500, 750, 1000, 1250, 1500), linetype = &amp;quot;dashed&amp;quot;, alpha = 0.2) +
-  labs(x = &amp;quot;Season&amp;quot;,
-       y = &amp;quot;Count&amp;quot;,
-       title = &amp;quot;Number of atheletes on the rankings list over the last \nfive seasons for different events&amp;quot;) +
-  geom_text_repel(
-    data = subset(df, input_year == &amp;quot;2020&amp;quot;),
-    nudge_x      = 0.50,
-    direction    = &amp;quot;y&amp;quot;,
-    hjust        = -1.5,
-    segment.size = 0.2,
-    size = 5) +
-  theme_modern(base_family = &amp;quot;roboto&amp;quot;) +
-  facet_wrap(gender ~.) +
-  theme(legend.position = &amp;quot;none&amp;quot;,
-        plot.title = element_text(size = 18),
-        strip.text = element_text(size = 14, face = &amp;quot;bold&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
-&lt;/details&gt;
-&lt;div class="figure"&gt;
-&lt;img src="file3907664223fb5_files/figure-html/simple-counts-1.png" alt="Number of athletes on the rankings" width="960" /&gt;
-&lt;p class="caption"&gt;
-(#fig:simple-counts)Number of athletes on the rankings
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;p&gt;There is a fairly similar trend for both men and women, although women’s 5K does stand out as being particularly low, compared to men’s 5k in previous seasons. Unsurprisingly, we also see a large drop off in the number of athletes on the rankings list in 2020, which is to be expected given the restrictions over the summer resulting in fewer opportunities to compete. There is a similar trend for both men and women with the middle distance events having the most performances, followed by the sprints events, with the 5000 m resulting in the fewest performances.&lt;/p&gt;
-&lt;p&gt;Table @ref(tab:mytbl-4) compares the number of performances in 2019 and 2020 and highlights the percentage decrease between the two seasons. We see a similar trend for both men and women, with 5k performances suffering the greatest decrease (down 91% for men and 87% for women) and the 800 m with the smallest decrease (down 48% for men and 53% for women) out of the events studied.&lt;/p&gt;
-&lt;details&gt;
-&lt;summary&gt;
-Code
-&lt;/summary&gt;
-&lt;pre class="r"&gt;&lt;code&gt;library(reactable)
-
-summary_table &amp;lt;- df %&amp;gt;% 
-  filter(input_year %in% c(&amp;quot;2019&amp;quot;, &amp;quot;2020&amp;quot;)) %&amp;gt;% 
-  pivot_wider(names_from = input_year, values_from = n) %&amp;gt;% 
-  mutate(perc = (`2019` - `2020`) / `2019`) %&amp;gt;% 
-  ungroup()
-
-reds &amp;lt;- function(x) rgb(colorRamp(c(&amp;quot;#ffcccb&amp;quot;, &amp;quot;#ff1919&amp;quot;))(x), maxColorValue = 255)
-
-summary_table %&amp;gt;% 
-  filter(gender == &amp;quot;Men&amp;quot;) %&amp;gt;% 
-  select(-gender) %&amp;gt;% 
-  bind_cols(., summary_table %&amp;gt;% 
-              filter(gender == &amp;quot;Women&amp;quot;) %&amp;gt;% 
-              select(-gender, -event), .name_repair = janitor::make_clean_names) %&amp;gt;% 
-  mutate(event = as.numeric(str_remove(event, &amp;quot; m&amp;quot;))) %&amp;gt;% 
-  reactable(defaultSorted = &amp;quot;perc&amp;quot;,
-            defaultSortOrder = &amp;quot;desc&amp;quot;,
-            columns = list(
-            perc = colDef(name = &amp;quot;% Decrease&amp;quot;, 
-                          minWidth = 120,
-                          format = colFormat(percent = TRUE, digits = 1),
-                          style = function(value) {
-                            normalized &amp;lt;- (value - min(summary_table$perc)) / 
-                              (max(summary_table$perc) - min(summary_table$perc))
-                            color &amp;lt;- reds(normalized)
-                            list(background = color,  color = &amp;quot;#000&amp;quot;)}),
-            perc_2 = colDef(name = &amp;quot;% Decrease&amp;quot;, 
-                            minWidth = 120,
-                          format = colFormat(percent = TRUE, digits = 1),
-                          style = function(value) {
-                            normalized &amp;lt;- (value - min(summary_table$perc)) / 
-                              (max(summary_table$perc) - min(summary_table$perc))
-                            color &amp;lt;- reds(normalized)
-                            list(background = color , color = &amp;quot;#000&amp;quot;)}),
-            x2019 = colDef(name = &amp;quot;2019&amp;quot;),
-            x2020 = colDef(name = &amp;quot;2020&amp;quot;),
-            x2019_2 = colDef(name = &amp;quot;2019&amp;quot;),
-            x2020_2 = colDef(name = &amp;quot;2020&amp;quot;),
-            event = colDef(name = &amp;quot;Event (m)&amp;quot;)),
-          defaultColDef = colDef(align = &amp;quot;center&amp;quot;),
-          columnGroups = list(
-            colGroup(name = &amp;quot;Men&amp;quot;, columns = c(&amp;quot;x2019&amp;quot;, &amp;quot;x2020&amp;quot;, &amp;quot;perc&amp;quot;)),
-            colGroup(name = &amp;quot;Women&amp;quot;, columns = c(&amp;quot;x2019_2&amp;quot;, &amp;quot;x2020_2&amp;quot;, &amp;quot;perc_2&amp;quot;))
-          )) &lt;/code&gt;&lt;/pre&gt;
-&lt;/details&gt;
-&lt;div id="tab:mytbl-4"&gt;
-Table 1: The decrease in athletes on the ranking list for 2019 and 2020
-&lt;/div&gt;
-&lt;p&gt;&lt;span style="display: none;"&gt;(#tab:mytbl-4)&lt;/span&gt;&lt;/p&gt;
-&lt;aside&gt;
-Click on column headers to sort each column
-&lt;/aside&gt;
-&lt;div id="htmlwidget-7e8686013aec79515673" class="reactable html-widget" style="width:auto;height:auto;"&gt;&lt;/div&gt;
-&lt;script type="application/json" data-for="htmlwidget-7e8686013aec79515673"&gt;{"x":{"tag":{"name":"Reactable","attribs":{"data":{"event":[100,1500,200,400,5000,800],"x2019":[1046,1432,978,891,1411,1228],"x2020":[351,669,409,408,124,640],"perc":[0.664435946462715,0.532821229050279,0.581799591002045,0.542087542087542,0.912119064493267,0.478827361563518],"x2019_2":[1321,1158,1035,825,411,1210],"x2020_2":[350,475,441,376,52,566],"perc_2":[0.735049205147615,0.589810017271157,0.573913043478261,0.544242424242424,0.873479318734793,0.532231404958678]},"columns":[{"accessor":"event","name":"Event (m)","type":"numeric","align":"center"},{"accessor":"x2019","name":"2019","type":"numeric","align":"center"},{"accessor":"x2020","name":"2020","type":"numeric","align":"center"},{"accessor":"perc","name":"% Decrease","type":"numeric","align":"center","format":{"cell":{"digits":1,"percent":true},"aggregated":{"digits":1,"percent":true}},"minWidth":120,"style":[{"background":"#FF7F7E","color":"#000"},{"background":"#FFB5B4","color":"#000"},{"background":"#FFA1A0","color":"#000"},{"background":"#FFB1B1","color":"#000"},{"background":"#FF1919","color":"#000"},{"background":"#FFCCCB","color":"#000"}]},{"accessor":"x2019_2","name":"2019","type":"numeric","align":"center"},{"accessor":"x2020_2","name":"2020","type":"numeric","align":"center"},{"accessor":"perc_2","name":"% Decrease","type":"numeric","align":"center","format":{"cell":{"digits":1,"percent":true},"aggregated":{"digits":1,"percent":true}},"minWidth":120,"style":[{"background":"#FF6261","color":"#000"},{"background":"#FF9E9D","color":"#000"},{"background":"#FFA4A3","color":"#000"},{"background":"#FFB0B0","color":"#000"},{"background":"#FF2828","color":"#000"},{"background":"#FFB5B5","color":"#000"}]}],"columnGroups":[{"name":"Men","columns":["x2019","x2020","perc"]},{"name":"Women","columns":["x2019_2","x2020_2","perc_2"]}],"defaultSortDesc":true,"defaultSorted":[{"id":"perc","desc":true}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"dataKey":"865dc4faabfa3a378706fe99281c6e5d","key":"865dc4faabfa3a378706fe99281c6e5d"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}&lt;/script&gt;
-&lt;p&gt;&lt;br&gt;&lt;/p&gt;
-&lt;h3 id="distribution-of-performances"&gt;Distribution of performances&lt;/h3&gt;
-&lt;p&gt;So we already know that there have been far fewer performances this year, but of those performances that have been recorded, how to they compare to the kinds of performances we would see in a “normal” year?&lt;/p&gt;
-&lt;p&gt;To do this, I first calculated the average performance for each rank over the 2016 to 2019 seasons, and then compared the distribution of these average performances to those we’ve seen this year. I’ve coloured the average performance in &lt;span style="color:#0072B2;"&gt;this colour&lt;/span&gt; and highlighted 2020 performances in &lt;span style="color:#D55E00"&gt;this colour&lt;/span&gt;. I have also split the rankings into two groups; “Elite”, defined as the top 10 athletes and “Sub elite”, defined as those athletes occupying ranks 11-100.&lt;/p&gt;
-&lt;p&gt;The y axis on the figure is the &lt;a href="https://ggplot2.tidyverse.org/reference/geom_density.html"&gt;kernel density estimate&lt;/a&gt;, which is a smoothed version of the histogram. For these plots, I’ve removed the y axis label as I wanted the focus to be on the &lt;em&gt;shape&lt;/em&gt; of the density estimate and position relative the the x-axis (performance) for the two groups (average of previous years vs this year), rather than the actual density estimate as I think comparing the shape and position of the curves tells the better story.&lt;/p&gt;
-&lt;details&gt;
-&lt;summary&gt;
-Code
-&lt;/summary&gt;
-&lt;pre class="r"&gt;&lt;code&gt;rank_plots &amp;lt;- clean_rankings %&amp;gt;% 
-  mutate(input_year = fct_rev(input_year),
-         covid_year = ifelse(input_year == &amp;quot;2020&amp;quot;, &amp;quot;covid&amp;quot;, &amp;quot;pre_covid&amp;quot;)) %&amp;gt;% 
-  select(input_year, time, rank, event, gender, covid_year) %&amp;gt;% 
-  group_by(gender, event, input_year) %&amp;gt;% 
-  mutate(rank_group = case_when(rank %in% c(1:10) ~ &amp;quot;top_10&amp;quot;,
-                                rank %in% c(11:100) ~ &amp;quot;11_to_100&amp;quot;,
-                                rank %in% c(101:max(rank)) ~ &amp;quot;101_to_max&amp;quot;),
-         rank_group = factor(rank_group, levels = c(&amp;quot;top_10&amp;quot;, &amp;quot;11_to_100&amp;quot;, &amp;quot;101_to_max&amp;quot;))) %&amp;gt;% 
-  ungroup() %&amp;gt;% 
-  group_by(event, gender, covid_year, rank, rank_group) %&amp;gt;% 
-  mutate(Performance = as_datetime(mean(as.POSIXct(time)))) %&amp;gt;% 
-  ungroup() %&amp;gt;% 
-  mutate(event = paste(event, &amp;quot;m&amp;quot;),
-         event = factor(event, levels = c(&amp;quot;100 m&amp;quot;, &amp;quot;200 m&amp;quot;, &amp;quot;400 m&amp;quot;, &amp;quot;800 m&amp;quot;, &amp;quot;1500 m&amp;quot;, &amp;quot;5000 m&amp;quot;)),
-         lab = &amp;quot;wow&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;/details&gt;
-&lt;h3 id="elite-performances"&gt;Elite performances&lt;/h3&gt;
-&lt;p&gt;Figure @ref(fig:elite-performances) shows the distribution of performances for the top 10 athletes. Interestingly we see that the sprint events (100, 200 and to a slightly lesser extent 400) seem to have slower performances in 2020, compared to the average over 2016-2019 (distributions shifted to the right indicated slower performances). In comparison, the middle distance events (800, 1500) seem to have equivalent (and in some cases even slightly better) performances in 2020 compared to average from previous season.&lt;/p&gt;
-&lt;details&gt;
-&lt;summary&gt;
-Code
-&lt;/summary&gt;
-&lt;pre class="r"&gt;&lt;code&gt;rank_plots %&amp;gt;% 
-  filter(rank_group == &amp;quot;top_10&amp;quot; &amp;amp; gender == &amp;quot;M&amp;quot;) %&amp;gt;% 
-  ggplot(aes(x = Performance, 
-             y = lab, 
-             fill = covid_year, 
-             color = covid_year,
-             linetype = covid_year,
-             alpha = 0.3)) +
-  scale_fill_manual(values = c(&amp;quot;#009E73&amp;quot;, &amp;quot;#0072B2&amp;quot;)) +
-  scale_color_manual(values = c(&amp;quot;#009E73&amp;quot;, &amp;quot;#0072B2&amp;quot;)) +
-  scale_x_datetime(date_labels = &amp;quot;%M:%S&amp;quot;, expand = c(0,0)) +
-  scale_y_discrete(expand = c(0, 0)) +
-  scale_linetype_manual(values = c(&amp;quot;dashed&amp;quot;, &amp;quot;solid&amp;quot;)) +
-  geom_density_ridges(quantile_lines = TRUE, quantiles = 2) +
-    facet_wrap_custom(event~., scales = &amp;quot;free&amp;quot;, ncol = 1, scale_overrides = list(
-                      scale_override(1, scale_x_datetime(breaks = as_datetime(c(&amp;quot;1970-01-01 00:00:10.00&amp;quot;, 
-                                                                                &amp;quot;1970-01-01 00:00:10.50&amp;quot;, 
-                                                                                &amp;quot;1970-01-01 00:00:11.00&amp;quot;)),
-                                                         date_labels = &amp;quot;%OS&amp;quot;)),
-                      scale_override(2, scale_x_datetime(date_labels = &amp;quot;%OS&amp;quot;)),
-                      scale_override(3, scale_x_datetime(date_labels = &amp;quot;%OS&amp;quot;)))) +
-  labs(subtitle = &amp;quot;Top 10 Men&amp;quot;) +
-  coord_cartesian(clip = &amp;quot;off&amp;quot;) +
-  theme_ridges(grid = FALSE,
-               center_axis_labels = TRUE,
-               font_family = &amp;quot;roboto&amp;quot;) +
-  theme(legend.position = &amp;quot;none&amp;quot;,       
-        axis.title.y = element_blank(),
-        axis.text.y = element_blank(),
-        plot.subtitle = element_text(hjust = 0.5, size = 13),
-        strip.text = element_text(size = 14, face = &amp;quot;bold&amp;quot;, hjust = 0),
-        strip.background = element_blank()) -&amp;gt; p1
-
-rank_plots %&amp;gt;% 
-  filter(rank_group == &amp;quot;top_10&amp;quot; &amp;amp; gender == &amp;quot;W&amp;quot;) %&amp;gt;% 
-  ggplot(aes(x = Performance, 
-             y = lab, 
-             fill = covid_year, 
-             color = covid_year, 
-             linetype = covid_year,
-             alpha = 0.3)) +
-  geom_density_ridges(quantile_lines = TRUE, quantiles = 2, alpha = 0.4) +
-  scale_x_datetime(date_labels = &amp;quot;%M:%S&amp;quot;, expand = c(0,0)) +
-  scale_y_discrete(expand = c(0, 0)) +
-  scale_fill_manual(values = c(&amp;quot;#009E73&amp;quot;, &amp;quot;#0072B2&amp;quot;)) +
-  scale_color_manual(values = c(&amp;quot;#009E73&amp;quot;, &amp;quot;#0072B2&amp;quot;)) +
-  scale_linetype_manual(values = c(&amp;quot;dashed&amp;quot;, &amp;quot;solid&amp;quot;)) +
-  facet_wrap_custom(event~., scales = &amp;quot;free&amp;quot;, ncol = 1, scale_overrides = list(
-                      scale_override(1, scale_x_datetime(breaks = as_datetime(c(&amp;quot;1970-01-01 00:00:11.00&amp;quot;,
-                                                                                &amp;quot;1970-01-01 00:00:11.50&amp;quot;,
-                                                                                &amp;quot;1970-01-01 00:00:12.00&amp;quot;)),
-                                                         date_labels = &amp;quot;%OS&amp;quot;)),
-                      scale_override(2, scale_x_datetime(date_labels = &amp;quot;%OS&amp;quot;)),
-                      scale_override(3, scale_x_datetime(date_labels = &amp;quot;%OS&amp;quot;)))) +
-  labs(subtitle = &amp;quot;Top 10 Women&amp;quot;) +
-  coord_cartesian(clip = &amp;quot;off&amp;quot;) +
-  theme_ridges(grid = FALSE,
-               center_axis_labels = TRUE,
-               font_family = &amp;quot;roboto&amp;quot;) +
-  theme(legend.position = &amp;quot;none&amp;quot;,       
-        axis.title.y = element_blank(),
-        axis.text.y = element_blank(),
-        plot.subtitle = element_text(hjust = 0.5, size = 13),
-        strip.text = element_blank(), 
-        strip.background = element_blank()) -&amp;gt; p2
-
-
-
-p1 + p2 +
-  plot_annotation(title = &amp;quot;Comparison of the distribution of performances for &amp;lt;b&amp;gt;&amp;lt;span style = &amp;#39;color:#0072B2;&amp;#39;&amp;gt;2016-2019 &amp;lt;/span&amp;gt;&amp;lt;/b&amp;gt; and &amp;lt;b&amp;gt;&amp;lt;span style = &amp;#39;color:#009E73;&amp;#39;&amp;gt;2020&amp;lt;/span&amp;gt;&amp;lt;/b&amp;gt;.&amp;quot;,
-                  subtitle = &amp;quot;Vertical line indicates the median performance&amp;quot;,
-  theme = theme(plot.title = element_markdown(size = 18),
-                plot.subtitle = element_text(size = 16)))&lt;/code&gt;&lt;/pre&gt;
-&lt;/details&gt;
-&lt;p&gt;&lt;br&gt;&lt;/p&gt;
-&lt;div class="figure"&gt;
-&lt;img src="file3907664223fb5_files/figure-html/elite-performances-1.png" alt="Elite performance distributions for males and females and different events." width="960" data-distill-preview=1 /&gt;
-&lt;p class="caption"&gt;
-(#fig:elite-performances)Elite performance distributions for males and females and different events.
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;h3 id="sub-elite-performances"&gt;Sub-elite performances&lt;/h3&gt;
-&lt;p&gt;Figure @ref(fig:sub-elite-perfs) is the same plot as above, but those those athletes ranked 11-100. We see a similar trend in the sprint events, however the middle distance events also show a shift to the right, indicating slower than average performances for these ranks in 2020.&lt;/p&gt;
-&lt;details&gt;
-&lt;summary&gt;
-Code
-&lt;/summary&gt;
-&lt;pre class="r"&gt;&lt;code&gt;rank_plots %&amp;gt;% 
-  filter(rank_group == &amp;quot;11_to_100&amp;quot; &amp;amp; gender == &amp;quot;M&amp;quot;) %&amp;gt;% 
-  ggplot(aes(x = Performance, 
-             y = lab, 
-             fill = covid_year, 
-             color = covid_year,
-             linetype = covid_year,
-             alpha = 0.3)) +
-  scale_fill_manual(values = c(&amp;quot;#D55E00&amp;quot;, &amp;quot;#0072B2&amp;quot;)) +
-  scale_color_manual(values = c(&amp;quot;#D55E00&amp;quot;, &amp;quot;#0072B2&amp;quot;)) +
-  scale_x_datetime(date_labels = &amp;quot;%M:%S&amp;quot;, expand = c(0,0)) +
-  scale_y_discrete(expand = c(0, 0)) +
-  scale_linetype_manual(values = c(&amp;quot;dashed&amp;quot;, &amp;quot;solid&amp;quot;)) +
-  geom_density_ridges(quantile_lines = TRUE, quantiles = 2) +
-
-    facet_wrap_custom(event~., scales = &amp;quot;free&amp;quot;, ncol = 1, scale_overrides = list(
-                      scale_override(1, scale_x_datetime(breaks = as_datetime(c(&amp;quot;1970-01-01 00:00:10.00&amp;quot;, 
-                                                                                &amp;quot;1970-01-01 00:00:10.50&amp;quot;, 
-                                                                                &amp;quot;1970-01-01 00:00:11.00&amp;quot;)),
-                                                         date_labels = &amp;quot;%OS&amp;quot;)),
-                      scale_override(2, scale_x_datetime(date_labels = &amp;quot;%OS&amp;quot;)),
-                      scale_override(3, scale_x_datetime(date_labels = &amp;quot;%OS&amp;quot;)))) +
-  labs(subtitle = &amp;quot;Ranks 11 to 100 Men&amp;quot;) +
-  coord_cartesian(clip = &amp;quot;off&amp;quot;) +
-  theme_ridges(grid = FALSE,
-               center_axis_labels = TRUE) +
-  theme(legend.position = &amp;quot;none&amp;quot;,       
-        axis.title.y = element_blank(),
-        axis.text.y = element_blank(),
-        plot.subtitle = element_text(hjust = 0.5, size = 13, face = &amp;quot;bold&amp;quot;),
-        strip.text = element_text(size = 14, face = &amp;quot;bold&amp;quot;, hjust = 0),
-        strip.background = element_blank()) -&amp;gt; p1
-
-rank_plots %&amp;gt;% 
-  filter(rank_group == &amp;quot;11_to_100&amp;quot; &amp;amp; gender == &amp;quot;W&amp;quot;) %&amp;gt;% 
-  ggplot(aes(x = Performance, 
-             y = lab, 
-             fill = covid_year, 
-             color = covid_year, 
-             linetype = covid_year,
-             alpha = 0.3)) +
-  geom_density_ridges(quantile_lines = TRUE, quantiles = 2, alpha = 0.4) +
-  scale_x_datetime(date_labels = &amp;quot;%M:%S&amp;quot;, expand = c(0,0)) +
-  scale_y_discrete(expand = c(0, 0)) +
-  scale_fill_manual(values = c(&amp;quot;#D55E00&amp;quot;, &amp;quot;#0072B2&amp;quot;)) +
-  scale_color_manual(values = c(&amp;quot;#D55E00&amp;quot;, &amp;quot;#0072B2&amp;quot;)) +
-  scale_linetype_manual(values = c(&amp;quot;dashed&amp;quot;, &amp;quot;solid&amp;quot;)) +
-  facet_wrap_custom(event~., scales = &amp;quot;free&amp;quot;, ncol = 1, scale_overrides = list(
-    scale_override(1, scale_x_datetime(breaks = as_datetime(c(&amp;quot;1970-01-01 00:00:11.50&amp;quot;,
-                                                              &amp;quot;1970-01-01 00:00:12.00&amp;quot;,
-                                                              &amp;quot;1970-01-01 00:00:12.00&amp;quot;,
-                                                              &amp;quot;1970-01-01 00:00:12.50&amp;quot;)),
-                                                         date_labels = &amp;quot;%OS&amp;quot;)),
-                      scale_override(2, scale_x_datetime(date_labels = &amp;quot;%OS&amp;quot;)))) +
-  labs(subtitle = &amp;quot;Ranks 11 to 100 Women&amp;quot;) +
-  coord_cartesian(clip = &amp;quot;off&amp;quot;) +
-  theme_ridges(grid = FALSE,
-               center_axis_labels = TRUE) +
-  theme(legend.position = &amp;quot;none&amp;quot;,       
-        axis.title.y = element_blank(),
-        axis.text.y = element_blank(),
-        plot.subtitle = element_text(hjust = 0.5, size = 13, face = &amp;quot;bold&amp;quot;),
-        strip.text = element_blank(), 
-        strip.background = element_blank()) -&amp;gt; p2
-
-
-
-p1 + p2 +
-  plot_annotation(title = &amp;quot;Sub-elites: Comparison of the distribution of performances for \n&amp;lt;b&amp;gt;&amp;lt;span style = &amp;#39;color:#0072B2;&amp;#39;&amp;gt;2016-2019 &amp;lt;/span&amp;gt;&amp;lt;/b&amp;gt;and &amp;lt;b&amp;gt;&amp;lt;span style = &amp;#39;color:#D55E00;&amp;#39;&amp;gt;2020&amp;lt;/span&amp;gt;&amp;lt;/b&amp;gt;.&amp;quot;,
-                  subtitle = &amp;quot;Vertical line indicates the median performance&amp;quot;,
-  theme = theme(plot.title = element_markdown(size = 18),
-                plot.subtitle = element_text(size = 16)))&lt;/code&gt;&lt;/pre&gt;
-&lt;/details&gt;
-&lt;div class="figure"&gt;
-&lt;img src="file3907664223fb5_files/figure-html/sub-elite-perfs-1.png" alt="Sub-elite performance distributions for males and females and different events." width="960" /&gt;
-&lt;p class="caption"&gt;
-(#fig:sub-elite-perfs)Sub-elite performance distributions for males and females and different events.
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;h2 id="conclusions"&gt;Conclusions&lt;/h2&gt;
-&lt;p&gt;From this small investigation there are a few key things that stood out to me. Firstly, elite middle distance runners had an excellent year (performance wise) in 2020. This was true for both men and women. In contrast, sprint events were considerably down on their average performances in 2020. My personal take on this is that middle distance runners may have faired better during periods of lockdown compared to sprinters who &lt;em&gt;typically&lt;/em&gt; (I may be stereotyping here…!) make greater use of indoor facilities and therefore may have not been able to prepare as they normally would for the competitive season.&lt;/p&gt;
-&lt;p&gt;For sub-elite athletes (ranks 11 to 100), a consistent trend was apparent across all events, with performances in 2020 being down on the average performance over the last few seasons. This is probably due to a number of factors including, limited access to training facilities and far fewer opportunities to compete, not to mention all the other stresses that 2020 has brought.&lt;/p&gt;
-&lt;p&gt;While this might all sound a little pessimistic, I know athletes are a hardy bunch and fully expect some exceptional performances in all events next year. The limited opportunities to compete this year, while certainly frustrating, may actually be a benefit in the long run… After all, a rest is sometimes as good as a run, and maybe this extended break from intense competition will be a blessing in disguise!&lt;/p&gt;
-&lt;p&gt;Thanks for reading!&lt;/p&gt;
-&lt;h2 class="appendix" id="acknowledgments"&gt;Acknowledgments&lt;/h2&gt;
-&lt;p&gt;As always, big thanks to the powerof10 team who provide an invaluable source for athletes and fans alike!&lt;/p&gt;
-&lt;pre class="r distill-force-highlighting-css"&gt;&lt;code&gt;&lt;/code&gt;&lt;/pre&gt;</description>
-      <distill:md5>f3609281a538629d72a8fca8d3231321</distill:md5>
+      <description>A look into how Covid has impacted the breadth and depth of athletic performances in the UK in 2020.</description>
       <category>R</category>
       <category>athletics</category>
       <guid>https://hfshr.xyz/posts/2020-12-26-powerof10-covid</guid>
@@ -479,8 +23,7 @@ p1 + p2 +
       <title>When one model is not enough: Stacking models with {stacks}</title>
       <dc:creator>Harry Fisher</dc:creator>
       <link>https://hfshr.xyz/posts/2020-11-30-model-stacking</link>
-      <description>&lt;p&gt;A few notes on stacking models with {stacks}.&lt;/p&gt;
-</description>
+      <description>A few notes on stacking models with {stacks}.</description>
       <category>R</category>
       <category>Machine learning</category>
       <guid>https://hfshr.xyz/posts/2020-11-30-model-stacking</guid>
@@ -491,8 +34,7 @@ p1 + p2 +
       <title>{bitmexr} gets a hex logo!</title>
       <dc:creator>Harry Fisher</dc:creator>
       <link>https://hfshr.xyz/posts/2020-11-22-bitmexr-logo</link>
-      <description>&lt;p&gt;Steps to create a simple hex logo using the {hexSticker} package.&lt;/p&gt;
-</description>
+      <description>Steps to create a simple hex logo using the {hexSticker} package.</description>
       <category>R</category>
       <category>Bitcoin</category>
       <category>bitmexr</category>
@@ -504,8 +46,7 @@ p1 + p2 +
       <title>Investigating sports injuries with Bayesian networks using {bnlearn}</title>
       <dc:creator>Harry Fisher</dc:creator>
       <link>https://hfshr.xyz/posts/2020-11-01-bayesian-networks-with-bnlearn</link>
-      <description>&lt;p&gt;This post explores the use of Bayesian networks with the excellent {bnlearn} package to examine the relationship between different risk factors and the probability of sustaining a sports injury.&lt;/p&gt;
-</description>
+      <description>This post explores the use of Bayesian networks with the excellent {bnlearn} package to examine the relationship between different risk factors and the probability of sustaining a sports injury.</description>
       <category>R</category>
       <category>Bayesian Network</category>
       <guid>https://hfshr.xyz/posts/2020-11-01-bayesian-networks-with-bnlearn</guid>
@@ -516,8 +57,7 @@ p1 + p2 +
       <title>Introducing {poweRof10}</title>
       <dc:creator>Harry Fisher</dc:creator>
       <link>https://hfshr.xyz/posts/2020-10-22-introducing-powerof10</link>
-      <description>&lt;p&gt;A quick introduction to a package I created to scrape data from athletics rankings website &lt;a href="http://www.thepowerof10.info"&gt;www.thepowerof10.info&lt;/a&gt;.&lt;/p&gt;
-</description>
+      <description>A quick introduction to a package I created to scrape data from athletics rankings website www.thepowerof10.info.</description>
       <category>R</category>
       <category>athletics</category>
       <guid>https://hfshr.xyz/posts/2020-10-22-introducing-powerof10</guid>
@@ -528,8 +68,7 @@ p1 + p2 +
       <title>Building a python package: Reflections from an R user</title>
       <dc:creator>Harry Fisher</dc:creator>
       <link>https://hfshr.xyz/posts/2020-08-02-python-package</link>
-      <description>&lt;p&gt;In this post I note down some of my experiences with making my first python package, specifically highlighting some of the similarities and differences between R and python when it comes to package building. My hope is that R users looking to expand their pythonic horizons might find something useful!&lt;/p&gt;
-</description>
+      <description>In this post I note down some of my experiences with making my first python package, specifically highlighting some of the similarities and differences between R and python when it comes to package building. My hope is that R users looking to expand their pythonic horizons might find something useful!</description>
       <category>R</category>
       <category>Python</category>
       <guid>https://hfshr.xyz/posts/2020-08-02-python-package</guid>
@@ -540,8 +79,7 @@ p1 + p2 +
       <title>Build with R, deploy with Python (and Heroku)</title>
       <dc:creator>Harry Fisher</dc:creator>
       <link>https://hfshr.xyz/posts/2020-07-14-deploy-model</link>
-      <description>&lt;p&gt;This post looks at a cross-language approach to model deployment - something that may come in useful when working within a large data science / production environment.&lt;/p&gt;
-</description>
+      <description>This post looks at a cross-language approach to model deployment - something that may come in useful when working within a large data science / production environment.</description>
       <category>R</category>
       <category>Python</category>
       <guid>https://hfshr.xyz/posts/2020-07-14-deploy-model</guid>
@@ -552,8 +90,7 @@ p1 + p2 +
       <title>Penguins and nakedpipes</title>
       <dc:creator>Harry Fisher</dc:creator>
       <link>https://hfshr.xyz/posts/2020-06-21-penguins-and-nakedpipes</link>
-      <description>&lt;p&gt;Exploring the new {palmerpenguins} dataset with {nakedpipe} - An alternative to using {magrittr}&amp;#39;s %&amp;gt;%.&lt;/p&gt;
-</description>
+      <description>Exploring the new {palmerpenguins} dataset with {nakedpipe} - An alternative to using {magrittr}'s %&gt;%.</description>
       <category>R</category>
       <guid>https://hfshr.xyz/posts/2020-06-21-penguins-and-nakedpipes</guid>
       <pubDate>Sun, 21 Jun 2020 00:00:00 +0000</pubDate>
@@ -563,9 +100,8 @@ p1 + p2 +
       <title>Opening the black box: Exploring xgboost models with {fastshap} in R</title>
       <dc:creator>Harry Fisher</dc:creator>
       <link>https://hfshr.xyz/posts/2020-06-07-variable-inportance-with-fastshap</link>
-      <description>&lt;p&gt;Being able to understand and explain why a model makes certain predictions is
-important, particularly if your model is being used to make critical business decisions. This post takes a look into the inner workings of a xgboost model by using the {fastshap} package to compute shapely values for the different features in the dataset, allowing deeper insight into the models predictions.&lt;/p&gt;
-</description>
+      <description>Being able to understand and explain why a model makes certain predictions is
+important, particularly if your model is being used to make critical business decisions. This post takes a look into the inner workings of a xgboost model by using the {fastshap} package to compute shapely values for the different features in the dataset, allowing deeper insight into the models predictions.</description>
       <category>R</category>
       <category>Machine learning</category>
       <guid>https://hfshr.xyz/posts/2020-06-07-variable-inportance-with-fastshap</guid>
@@ -576,9 +112,8 @@ important, particularly if your model is being used to make critical business de
       <title>bitmexr 0.3.0: Place, modify and cancel your orders on BitMEX without leaving R! </title>
       <dc:creator>Harry Fisher</dc:creator>
       <link>https://hfshr.xyz/posts/2020-05-25-bitmexr-updates</link>
-      <description>&lt;p&gt;bitmexr 0.3.0 brings some exciting new features to the package. bitmexr now            supports placing, editing and cancelling orders through BitMEX&amp;#39;s API.
-In addition, the testnet version of the API is now supported soyou can try out         managing orders using the package in a risk free environment!&lt;/p&gt;
-</description>
+      <description>bitmexr 0.3.0 brings some exciting new features to the package. bitmexr now            supports placing, editing and cancelling orders through BitMEX's API.
+In addition, the testnet version of the API is now supported soyou can try out         managing orders using the package in a risk free environment!</description>
       <category>bitmexr</category>
       <category>R</category>
       <guid>https://hfshr.xyz/posts/2020-05-25-bitmexr-updates</guid>
@@ -589,8 +124,7 @@ In addition, the testnet version of the API is now supported soyou can try out  
       <title>{tidymodels} workflow with Bayesian optimisation</title>
       <dc:creator>Harry Fisher</dc:creator>
       <link>https://hfshr.xyz/posts/2020-05-23-tidymodel-notes</link>
-      <description>&lt;p&gt;I&amp;#39;ve been collecting a few notes on using the tidymodels workflow for modelling, and thought it might be worth sharing them here. More for personal reference than anything, but someone might find my ramblings useful!&lt;/p&gt;
-</description>
+      <description>I've been collecting a few notes on using the tidymodels workflow for modelling, and thought it might be worth sharing them here. More for personal reference than anything, but someone might find my ramblings useful!</description>
       <category>R</category>
       <category>Machine learning</category>
       <guid>https://hfshr.xyz/posts/2020-05-23-tidymodel-notes</guid>
@@ -601,8 +135,7 @@ In addition, the testnet version of the API is now supported soyou can try out  
       <title>Pretty tables with {gt}</title>
       <dc:creator>Harry Fisher</dc:creator>
       <link>https://hfshr.xyz/posts/2020-05-02-pretty-tables-with-gt</link>
-      <description>&lt;p&gt;Traditionally I have been an ardent user of kable + kableExtra when it comes to creating tables. These packages have served me well, however the CRAN release of a new player in the table package space - gt - promted me to try it out and explore some of the features it had to offer.&lt;/p&gt;
-</description>
+      <description>Traditionally I have been an ardent user of kable + kableExtra when it comes to creating tables. These packages have served me well, however the CRAN release of a new player in the table package space - gt - promted me to try it out and explore some of the features it had to offer.</description>
       <category>Bitcoin</category>
       <category>gt</category>
       <category>ggplot</category>
@@ -616,8 +149,7 @@ In addition, the testnet version of the API is now supported soyou can try out  
       <title>bitmexr: An R client for BitMEX cryptocurrency exchange.</title>
       <dc:creator>Harry Fisher</dc:creator>
       <link>https://hfshr.xyz/posts/2020-04-13-bitmexr</link>
-      <description>&lt;p&gt;How bitmexr came to be.&lt;/p&gt;
-</description>
+      <description>How bitmexr came to be.</description>
       <category>Bitcoin</category>
       <category>R</category>
       <guid>https://hfshr.xyz/posts/2020-04-13-bitmexr</guid>
@@ -628,8 +160,7 @@ In addition, the testnet version of the API is now supported soyou can try out  
       <title>Exploring the recent Bitcoin crash with {tidyquant} and {gganimate}</title>
       <dc:creator>Harry Fisher</dc:creator>
       <link>https://hfshr.xyz/posts/2020-03-22-bitcoin</link>
-      <description>&lt;p&gt;Bitcoin recently had a significant sell off, crashing 50% in a matter of hours. This undoubtly was due to the uncertainty in markets surrounding the economic impacts of COVID-19, and the consequent reduction in liquidity faced by many different assets. The volatile price action does however make for an interesting case study which this post will explore.&lt;/p&gt;
-</description>
+      <description>Bitcoin recently had a significant sell off, crashing 50% in a matter of hours. This undoubtly was due to the uncertainty in markets surrounding the economic impacts of COVID-19, and the consequent reduction in liquidity faced by many different assets. The volatile price action does however make for an interesting case study which this post will explore.</description>
       <category>Bitcoin</category>
       <category>gganimate</category>
       <guid>https://hfshr.xyz/posts/2020-03-22-bitcoin</guid>
@@ -640,8 +171,7 @@ In addition, the testnet version of the API is now supported soyou can try out  
       <title>Writing a thesis in R Markdown</title>
       <dc:creator>Harry Fisher</dc:creator>
       <link>https://hfshr.xyz/posts/2020-03-14-writing-a-thesis-in-r-markdown</link>
-      <description>&lt;p&gt;A short discussion about my experiences using R Markdown to write my PhD thesis&lt;/p&gt;
-</description>
+      <description>A short discussion about my experiences using R Markdown to write my PhD thesis</description>
       <guid>https://hfshr.xyz/posts/2020-03-14-writing-a-thesis-in-r-markdown</guid>
       <pubDate>Sat, 14 Mar 2020 00:00:00 +0000</pubDate>
       <media:content url="https://hfshr.xyz/posts/2020-03-14-writing-a-thesis-in-r-markdown/images/quill.png" medium="image" type="image/png" width="1000" height="1000"/>
@@ -650,8 +180,7 @@ In addition, the testnet version of the API is now supported soyou can try out  
       <title>Athletics rankings</title>
       <dc:creator>Harry Fisher</dc:creator>
       <link>https://hfshr.xyz/posts/2020-03-08-athletics-rankings</link>
-      <description>&lt;p&gt;Using R tools to gather data from an athletics rankings website.&lt;/p&gt;
-</description>
+      <description>Using R tools to gather data from an athletics rankings website.</description>
       <category>athletics</category>
       <guid>https://hfshr.xyz/posts/2020-03-08-athletics-rankings</guid>
       <pubDate>Sun, 08 Mar 2020 00:00:00 +0000</pubDate>
@@ -661,8 +190,7 @@ In addition, the testnet version of the API is now supported soyou can try out  
       <title>First post</title>
       <dc:creator>Harry Fisher</dc:creator>
       <link>https://hfshr.xyz/posts/2020-03-07-first-post-again</link>
-      <description>&lt;p&gt;A fresh start (again)&lt;/p&gt;
-</description>
+      <description>A fresh start (again)</description>
       <guid>https://hfshr.xyz/posts/2020-03-07-first-post-again</guid>
       <pubDate>Sun, 01 Mar 2020 00:00:00 +0000</pubDate>
       <media:content url="https://hfshr.xyz/posts/2020-03-07-first-post-again/images/start.png" medium="image" type="image/png" width="250" height="183"/>
