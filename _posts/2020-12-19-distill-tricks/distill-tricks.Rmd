@@ -117,15 +117,7 @@ Distill has a nice feature where the categories are included as little boxes bel
 ```
 
 
-FA Animations
 
+# Tachyons
 
-
-Is it neccessary? probably not... Does it look cool? I think so!
-
-
-
-
-
-
-
+<button class="bw0 br2 bg-dwyl-teal pa2 white fw1 tc ttu tracked">do what you love</button>

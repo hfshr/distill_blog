@@ -561,11 +561,11 @@ p1 + p2 +
 
 ### Sub-elite performances
 
-Figure \@ref(fig:sub-elite-perfs) is the same plot as above, but those those athletes ranked 11-100. We see a similar trend in the sprint events, however the middle distance events also show a shift to the right, indicating slower than avergage performances for these ranks in 2020.
+Figure \@ref(fig:sub-elite-perfs) is the same plot as above, but those those athletes ranked 11-100. We see a similar trend in the sprint events, however the middle distance events also show a shift to the right, indicating slower than average performances for these ranks in 2020.
 
 <details><summary>Code</summary>
 
-```{r}
+```{r eval=FALSE, echo=TRUE}
 rank_plots %>% 
   filter(rank_group == "11_to_100" & gender == "M") %>% 
   ggplot(aes(x = Performance, 
