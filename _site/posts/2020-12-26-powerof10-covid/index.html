@@ -672,11 +672,6 @@ d-article pre a:hover {
   text-decoration: underline;
 }
 
-d-article details {
-  grid-column: text;
-  margin-bottom: 0.8em;
-}
-
 @media(min-width: 768px) {
 
 d-article pre,
@@ -831,17 +826,6 @@ d-article .citation {
 
 div.hanging-indent{
   margin-left: 1em; text-indent: -1em;
-}
-
-/* Citation hover box */
-
-.tippy-box[data-theme~=light-border] {
-  background-color: rgba(250, 250, 250, 0.95);
-}
-
-.tippy-content > p {
-  margin-bottom: 0;
-  padding: 2px;
 }
 
 
@@ -1509,7 +1493,7 @@ function init_distill() {
     var layout = $(this).attr('data-layout');
 
     // apply layout to markdown level block elements
-    var elements = $(this).children().not('details, div.sourceCode, pre, script');
+    var elements = $(this).children().not('div.sourceCode, pre, script');
     elements.each(function(i, el) {
       var layout_div = $('<div class="' + layout + '"></div>');
       if (layout_div.hasClass('shaded')) {
@@ -1624,20 +1608,6 @@ function init_distill() {
     // move appendix-bottom entries to the bottom
     $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
     $('.appendix-bottom').remove();
-
-    // hoverable references
-    $('span.citation[data-cites]').each(function() {
-      var refHtml = $('#ref-' + $(this).attr('data-cites')).html();
-      window.tippy(this, {
-        allowHTML: true,
-        content: refHtml,
-        maxWidth: 500,
-        interactive: true,
-        interactiveBorder: 10,
-        theme: 'light-border',
-        placement: 'bottom-start'
-      });
-    });
 
     // clear polling timer
     clearInterval(tid);
@@ -2372,6 +2342,8 @@ d-article blockquote {
 .niceNetwork{
   color: #000;
 }
+
+
 </style>
 <!--/radix_placeholder_site_in_header-->
 
@@ -2427,8 +2399,8 @@ d-article blockquote {
 <h1>How has Covid-19 affected UK athletics rankings in 2020?</h1>
 <!--radix_placeholder_categories-->
 <div class="dt-tags">
-  <a href="../../blog.html#category:R" class="dt-tag">R</a>
-  <a href="../../blog.html#category:athletics" class="dt-tag">athletics</a>
+  <a href="../../index.html#category:R" class="dt-tag">R</a>
+  <a href="../../index.html#category:athletics" class="dt-tag">athletics</a>
 </div>
 <!--/radix_placeholder_categories-->
 <p><p>A look into how Covid has impacted the breadth and depth of athletic performances in the UK in 2020.</p></p>
@@ -2714,8 +2686,8 @@ Show code
 </code></pre>
 </div>
 </details>
-<div id="htmlwidget-96ccf668ddfe33abba63" class="reactable html-widget" style="width:auto;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-96ccf668ddfe33abba63">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"event":[100,1500,200,400,5000,800],"x2019":[1046,1432,978,891,1411,1228],"x2020":[351,669,409,408,124,640],"perc":[0.664435946462715,0.532821229050279,0.581799591002045,0.542087542087542,0.912119064493267,0.478827361563518],"x2019_2":[1321,1158,1035,825,411,1210],"x2020_2":[350,475,441,376,52,566],"perc_2":[0.735049205147615,0.589810017271157,0.573913043478261,0.544242424242424,0.873479318734793,0.532231404958678]},"columns":[{"accessor":"event","name":"Event (m)","type":"numeric","align":"center"},{"accessor":"x2019","name":"2019","type":"numeric","align":"center"},{"accessor":"x2020","name":"2020","type":"numeric","align":"center"},{"accessor":"perc","name":"% Decrease","type":"numeric","align":"center","format":{"cell":{"digits":1,"percent":true},"aggregated":{"digits":1,"percent":true}},"minWidth":120,"style":[{"background":"#FF7F7E","color":"#000"},{"background":"#FFB5B4","color":"#000"},{"background":"#FFA1A0","color":"#000"},{"background":"#FFB1B1","color":"#000"},{"background":"#FF1919","color":"#000"},{"background":"#FFCCCB","color":"#000"}]},{"accessor":"x2019_2","name":"2019","type":"numeric","align":"center"},{"accessor":"x2020_2","name":"2020","type":"numeric","align":"center"},{"accessor":"perc_2","name":"% Decrease","type":"numeric","align":"center","format":{"cell":{"digits":1,"percent":true},"aggregated":{"digits":1,"percent":true}},"minWidth":120,"style":[{"background":"#FF6261","color":"#000"},{"background":"#FF9E9D","color":"#000"},{"background":"#FFA4A3","color":"#000"},{"background":"#FFB0B0","color":"#000"},{"background":"#FF2828","color":"#000"},{"background":"#FFB5B5","color":"#000"}]}],"columnGroups":[{"name":"Men","columns":["x2019","x2020","perc"]},{"name":"Women","columns":["x2019_2","x2020_2","perc_2"]}],"defaultSortDesc":true,"defaultSorted":[{"id":"perc","desc":true}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"dataKey":"865dc4faabfa3a378706fe99281c6e5d","key":"865dc4faabfa3a378706fe99281c6e5d"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-4144691fefe7b1550195" class="reactable html-widget" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-4144691fefe7b1550195">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"event":[100,1500,200,400,5000,800],"x2019":[1046,1432,978,891,1411,1228],"x2020":[351,669,409,408,124,640],"perc":[0.664435946462715,0.532821229050279,0.581799591002045,0.542087542087542,0.912119064493267,0.478827361563518],"x2019_2":[1321,1158,1035,825,411,1210],"x2020_2":[350,475,441,376,52,566],"perc_2":[0.735049205147615,0.589810017271157,0.573913043478261,0.544242424242424,0.873479318734793,0.532231404958678]},"columns":[{"accessor":"event","name":"Event (m)","type":"numeric","align":"center"},{"accessor":"x2019","name":"2019","type":"numeric","align":"center"},{"accessor":"x2020","name":"2020","type":"numeric","align":"center"},{"accessor":"perc","name":"% Decrease","type":"numeric","align":"center","format":{"cell":{"digits":1,"percent":true},"aggregated":{"digits":1,"percent":true}},"minWidth":120,"style":[{"background":"#FF7F7E","color":"#000"},{"background":"#FFB5B4","color":"#000"},{"background":"#FFA1A0","color":"#000"},{"background":"#FFB1B1","color":"#000"},{"background":"#FF1919","color":"#000"},{"background":"#FFCCCB","color":"#000"}]},{"accessor":"x2019_2","name":"2019","type":"numeric","align":"center"},{"accessor":"x2020_2","name":"2020","type":"numeric","align":"center"},{"accessor":"perc_2","name":"% Decrease","type":"numeric","align":"center","format":{"cell":{"digits":1,"percent":true},"aggregated":{"digits":1,"percent":true}},"minWidth":120,"style":[{"background":"#FF6261","color":"#000"},{"background":"#FF9E9D","color":"#000"},{"background":"#FFA4A3","color":"#000"},{"background":"#FFB0B0","color":"#000"},{"background":"#FF2828","color":"#000"},{"background":"#FFB5B5","color":"#000"}]}],"columnGroups":[{"name":"Men","columns":["x2019","x2020","perc"]},{"name":"Women","columns":["x2019_2","x2020_2","perc_2"]}],"defaultSortDesc":true,"defaultSorted":[{"id":"perc","desc":true}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"dataKey":"865dc4faabfa3a378706fe99281c6e5d","key":"865dc4faabfa3a378706fe99281c6e5d"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
 </div>
 <p><br></p>
 <h3 id="distribution-of-performances">Distribution of performances</h3>

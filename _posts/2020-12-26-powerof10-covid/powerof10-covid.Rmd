@@ -214,7 +214,7 @@ Table \@ref(tab:mytbl-4) compares the number of performances in 2019 and 2020 an
 Click on column headers to sort each column
 </aside>
 
-```{r layout="l-body-outset"}
+```{r table, layout="l-body-outset"}
 summary_table <- df %>% 
   filter(input_year %in% c("2019", "2020")) %>% 
   pivot_wider(names_from = input_year, values_from = n) %>% 
