@@ -6,6 +6,11 @@
     <atom:link href="https://hfshr.xyz/blog.xml" rel="self" type="application/rss+xml"/>
     <description>Harry Fisher's blog
 </description>
+    <image>
+      <title>Data, Code &amp; Coffee</title>
+      <url>https://hfshr.xyz/favicon.ico</url>
+      <link>https://hfshr.xyz/</link>
+    </image>
     <generator>Distill</generator>
     <lastBuildDate>Sat, 26 Dec 2020 00:00:00 +0000</lastBuildDate>
     <item>

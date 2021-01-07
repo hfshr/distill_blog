@@ -18,7 +18,7 @@ navbar:
     - icon: fas fa-address-card
       href: about.html
     - icon: fab fa-github
-      href: https://github.com/hfshr/distill_blog
+      href: https://github.com/hfshr
     - icon: fab fa-twitter
       href: https://twitter.com/harryfishr 
     - icon: fa fa-rss
@@ -26,20 +26,22 @@ navbar:
   
 google_analytics: "UA-145834792-2"
 
+favicon: favicon.ico
+
 rss:
   full_content: true
 
 collections:
   posts:
-    disqus: hfshr-disqus
     share: [twitter]
-    subscribe: _subscribe.html
     creative_commons: CC BY
     custom: _custom.html
-    authors_metadata: true
+    subscribe: _subscribe.html
+    authors_metadata: false
     categories_metadata: true
+
 output: 
   distill::distill_article:
     includes:
-      in_header: header.html
+      in_header: utterances.html
     css: style.css

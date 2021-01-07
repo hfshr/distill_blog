@@ -23,7 +23,7 @@
 }
 
 .distill-site-nav a:hover {
-  color: #c24914;
+  color: #ff8c00;
 }    
 
 .distill-site-header .logo img {
@@ -55,6 +55,15 @@
   font-weight: 400;
   padding-top: 0px;
   padding-bottom: 10px;
+}
+
+.distill-site-footer p{
+  color: #eeeeee;
+  background-color: #393e46;
+  font-size: 20px;
+  font-weight: 400;
+  padding-top: 0px;
+  padding-bottom: 5px;
 }
 
 /*####################################################*/
@@ -132,7 +141,7 @@ d-article a:hover  {
   text-decoration: none;
   border-bottom: none;
   cursor: pointer;
-  color: #c24914;
+  color: #ff8c00;
 }
 
 .d-contents nav > ul > li > a {
@@ -159,6 +168,7 @@ h1.posts-list-caption {
 
 /*link effects*/
 
+/*
 p a, li a, d-appendix a, .sidebar-section-custom a, .sidebar-section.subscribe a {
     text-decoration: none;
     background-image: linear-gradient(currentColor, currentColor);
@@ -170,10 +180,27 @@ p a, li a, d-appendix a, .sidebar-section-custom a, .sidebar-section.subscribe a
 }
 
 
+
 p a:hover, p a:focus, li a:hover, li a:focus,
 .sidebar-section-custom a:hover, .sidebar-section-custom a:focus,
 .sidebar-section.subscribe a:hover, .sidebar-section.subscribe a:focus {
     background-size: 100% 2px;
+}
+*/
+
+
+html a {
+    text-decoration: none;
+    background-image: linear-gradient(currentColor, currentColor);
+    background-position: 0% 100%;
+    background-repeat: no-repeat;
+    background-size: 0% 2px;
+    color: #00adb5;
+    transition: background-size .3s;
+}
+
+html a:hover, html a:focus {
+  background-size: 100% 2px;
 }
 
 a:hover {
@@ -248,7 +275,7 @@ a:hover {
 
 
 .categories li > a:hover {
-    color: #c24914;
+    color: #ff8c00;
     border-bottom: none;
 }
 
@@ -333,7 +360,7 @@ img[alt$="<"] {
 
 */
 .col-6.mt-3.text-center.d-none.d-sm-block a:hover{
-    color: #c24914;
+    color: #ff8c00;
     text-decoration: none;
 }
 
@@ -432,6 +459,7 @@ pre .img img {
 code a, pre a {
   font-family: ui-monospace, SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
   color: #85AACC;
+  background-image: none;
   text-decoration: none;
 }
 
@@ -547,3 +575,6 @@ d-article blockquote {
   color: #000;
 }
 
+.utterances {
+  height: 267px;
+}

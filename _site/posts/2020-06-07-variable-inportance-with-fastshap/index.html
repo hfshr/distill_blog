@@ -91,6 +91,7 @@ code span.wa { color: #545454; font-weight: bold; font-style: italic; } /* Warni
 
 <link rel="canonical" href="https://hfshr.xyz/posts/2020-06-07-variable-inportance-with-fastshap/"/>
 <link rel="license" href="https://creativecommons.org/licenses/by/4.0/"/>
+<link rel="icon" type="image/vnd.microsoft.icon" href="../../favicon.ico"/>
 
 <!--  https://schema.org/Article -->
 <meta property="article:published" itemprop="datePublished" content="2020-06-07"/>
@@ -1779,7 +1780,34 @@ document.addEventListener('DOMContentLoaded', function() {
   <script src="../../site_libs/webcomponents-2.0.0/webcomponents.js"></script>
   <script src="../../site_libs/distill-2.2.21/template.v2.js"></script>
   <!--radix_placeholder_site_in_header-->
-  <link rel='shortcut icon' type='image/x-icon' href='favicon.ico' />
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    if (!/posts/.test(location.pathname)) {
+      return;
+    }
+
+    var script = document.createElement("script");
+    script.src = "https://utteranc.es/client.js";
+    script.setAttribute("repo", "hfshr/distill_blog");
+    script.setAttribute("issue-term", "og:title");
+    script.setAttribute("crossorigin", "anonymous");
+    script.setAttribute("label", "comment_thread");
+
+    /* wait for article to load, append script to article element */
+    var observer = new MutationObserver(function (mutations, observer) {
+      var article = document.querySelector("d-article");
+      if (article) {
+        observer.disconnect();
+        /* HACK: article scroll */
+        article.setAttribute("style", "overflow-y: hidden");
+        article.appendChild(script);
+      }
+    });
+
+    observer.observe(document.body, { childList: true });
+  });
+  </script>
+
 <script type="text/javascript" cookie-consent="tracking" async src="https://www.googletagmanager.com/gtag/js?id=UA-145834792-2"></script>
 <script type="text/javascript" cookie-consent="tracking">
 window.dataLayer = window.dataLayer || [];
@@ -1813,7 +1841,7 @@ gtag('config', 'UA-145834792-2');
 }
 
 .distill-site-nav a:hover {
-  color: #c24914;
+  color: #ff8c00;
 }    
 
 .distill-site-header .logo img {
@@ -1845,6 +1873,15 @@ gtag('config', 'UA-145834792-2');
   font-weight: 400;
   padding-top: 0px;
   padding-bottom: 10px;
+}
+
+.distill-site-footer p{
+  color: #eeeeee;
+  background-color: #393e46;
+  font-size: 20px;
+  font-weight: 400;
+  padding-top: 0px;
+  padding-bottom: 5px;
 }
 
 /*####################################################*/
@@ -1922,7 +1959,7 @@ d-article a:hover  {
   text-decoration: none;
   border-bottom: none;
   cursor: pointer;
-  color: #c24914;
+  color: #ff8c00;
 }
 
 .d-contents nav > ul > li > a {
@@ -1949,6 +1986,7 @@ h1.posts-list-caption {
 
 /*link effects*/
 
+/*
 p a, li a, d-appendix a, .sidebar-section-custom a, .sidebar-section.subscribe a {
     text-decoration: none;
     background-image: linear-gradient(currentColor, currentColor);
@@ -1960,10 +1998,27 @@ p a, li a, d-appendix a, .sidebar-section-custom a, .sidebar-section.subscribe a
 }
 
 
+
 p a:hover, p a:focus, li a:hover, li a:focus,
 .sidebar-section-custom a:hover, .sidebar-section-custom a:focus,
 .sidebar-section.subscribe a:hover, .sidebar-section.subscribe a:focus {
     background-size: 100% 2px;
+}
+*/
+
+
+html a {
+    text-decoration: none;
+    background-image: linear-gradient(currentColor, currentColor);
+    background-position: 0% 100%;
+    background-repeat: no-repeat;
+    background-size: 0% 2px;
+    color: #00adb5;
+    transition: background-size .3s;
+}
+
+html a:hover, html a:focus {
+  background-size: 100% 2px;
 }
 
 a:hover {
@@ -2038,7 +2093,7 @@ a:hover {
 
 
 .categories li > a:hover {
-    color: #c24914;
+    color: #ff8c00;
     border-bottom: none;
 }
 
@@ -2123,7 +2178,7 @@ img[alt$="<"] {
 
 */
 .col-6.mt-3.text-center.d-none.d-sm-block a:hover{
-    color: #c24914;
+    color: #ff8c00;
     text-decoration: none;
 }
 
@@ -2222,6 +2277,7 @@ pre .img img {
 code a, pre a {
   font-family: ui-monospace, SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
   color: #85AACC;
+  background-image: none;
   text-decoration: none;
 }
 
@@ -2337,6 +2393,9 @@ d-article blockquote {
   color: #000;
 }
 
+.utterances {
+  height: 267px;
+}
 
 </style>
 <!--/radix_placeholder_site_in_header-->
@@ -2372,7 +2431,7 @@ d-article blockquote {
 <a href="../../about.html">
 <i class="fas fa-address-card" aria-hidden="true"></i>
 </a>
-<a href="https://github.com/hfshr/distill_blog">
+<a href="https://github.com/hfshr">
 <i class="fab fa-github" aria-hidden="true"></i>
 </a>
 <a href="https://twitter.com/harryfishr">
@@ -3181,11 +3240,6 @@ Lundberg, Scott M, Bala Nair, Monica S Vavilala, Mayumi Horibe, Michael J Eisses
 <!--radix_placeholder_article_footer-->
 <div class="article-footer">
   <p class="social_footer">
-    <span class="disqus-comments">
-      <i class="fas fa-comments"></i>
-      &nbsp;
-      <span class="disqus-comment-count" data-disqus-identifier="posts/2020-06-07-variable-inportance-with-fastshap/">Comment on this article</span>
-    </span>
     <span class="article-sharing">
       Share: &nbsp;
       <a href="https://twitter.com/share?text=Opening%20the%20black%20box%3A%20Exploring%20xgboost%20models%20with%20%7Bfastshap%7D%20in%20R&amp;url=https%3A%2F%2Fhfshr.xyz%2Fposts%2F2020-06-07-variable-inportance-with-fastshap%2F">
@@ -3193,20 +3247,6 @@ Lundberg, Scott M, Bala Nair, Monica S Vavilala, Mayumi Horibe, Michael J Eisses
       </a>
     </span>
   </p>
-  <script id="dsq-count-scr" src="https://hfshr-disqus.disqus.com/count.js" async></script>
-  <div id="disqus_thread" class="hidden"></div>
-  <script type="text/javascript" cookie-consent="functionality">
-var disqus_config = function () {
-  this.page.url = 'https://hfshr.xyz/posts/2020-06-07-variable-inportance-with-fastshap/';
-  this.page.identifier = 'posts/2020-06-07-variable-inportance-with-fastshap/';
-};
-(function() {
-  var d = document, s = d.createElement('script');
-  s.src = 'https://hfshr-disqus.disqus.com/embed.js';
-  s.setAttribute('data-timestamp', +new Date());
-  (d.head || d.body).appendChild(s);
-})();
-</script>
   <p>
     <div class="subscribe"><!-- Add icon library --> <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -3249,7 +3289,11 @@ Follow me on <a href="https://twitter.com/harryfishr" target="_blank" class="fa 
 <!--radix_placeholder_navigation_after_body-->
 <div class="distill-site-nav distill-site-footer">
   <div class="distill-site-footer">
-    <b>Built with Netlify, R markdown and Distill by RStudio</b>
+    <p>
+  
+  Built with Netlify, R markdown and Distill by RStudio
+  
+</p>
   </div>
 </div>
 <!--/radix_placeholder_navigation_after_body-->

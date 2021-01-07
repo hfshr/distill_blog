@@ -89,6 +89,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <title>Data, Code &amp; Coffee: </title>
 
 
+  <link rel="icon" type="image/vnd.microsoft.icon" href="favicon.ico"/>
 
 
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
@@ -1747,7 +1748,34 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <script src="site_libs/webcomponents-2.0.0/webcomponents.js"></script>
   <script src="site_libs/distill-2.2.21/template.v2.js"></script>
   <!--radix_placeholder_site_in_header-->
-    <link rel='shortcut icon' type='image/x-icon' href='favicon.ico' />
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      if (!/posts/.test(location.pathname)) {
+        return;
+      }
+
+      var script = document.createElement("script");
+      script.src = "https://utteranc.es/client.js";
+      script.setAttribute("repo", "hfshr/distill_blog");
+      script.setAttribute("issue-term", "og:title");
+      script.setAttribute("crossorigin", "anonymous");
+      script.setAttribute("label", "comment_thread");
+
+      /* wait for article to load, append script to article element */
+      var observer = new MutationObserver(function (mutations, observer) {
+        var article = document.querySelector("d-article");
+        if (article) {
+          observer.disconnect();
+          /* HACK: article scroll */
+          article.setAttribute("style", "overflow-y: hidden");
+          article.appendChild(script);
+        }
+      });
+
+      observer.observe(document.body, { childList: true });
+    });
+    </script>
+
   <script type="text/javascript" cookie-consent="tracking" async src="https://www.googletagmanager.com/gtag/js?id=UA-145834792-2"></script>
   <script type="text/javascript" cookie-consent="tracking">
   window.dataLayer = window.dataLayer || [];
@@ -1781,7 +1809,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   }
 
   .distill-site-nav a:hover {
-    color: #c24914;
+    color: #ff8c00;
   }    
 
   .distill-site-header .logo img {
@@ -1813,6 +1841,15 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     font-weight: 400;
     padding-top: 0px;
     padding-bottom: 10px;
+  }
+
+  .distill-site-footer p{
+    color: #eeeeee;
+    background-color: #393e46;
+    font-size: 20px;
+    font-weight: 400;
+    padding-top: 0px;
+    padding-bottom: 5px;
   }
 
   /*####################################################*/
@@ -1890,7 +1927,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     text-decoration: none;
     border-bottom: none;
     cursor: pointer;
-    color: #c24914;
+    color: #ff8c00;
   }
 
   .d-contents nav > ul > li > a {
@@ -1917,6 +1954,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
   /*link effects*/
 
+  /*
   p a, li a, d-appendix a, .sidebar-section-custom a, .sidebar-section.subscribe a {
       text-decoration: none;
       background-image: linear-gradient(currentColor, currentColor);
@@ -1928,10 +1966,27 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   }
 
 
+
   p a:hover, p a:focus, li a:hover, li a:focus,
   .sidebar-section-custom a:hover, .sidebar-section-custom a:focus,
   .sidebar-section.subscribe a:hover, .sidebar-section.subscribe a:focus {
       background-size: 100% 2px;
+  }
+  */
+
+
+  html a {
+      text-decoration: none;
+      background-image: linear-gradient(currentColor, currentColor);
+      background-position: 0% 100%;
+      background-repeat: no-repeat;
+      background-size: 0% 2px;
+      color: #00adb5;
+      transition: background-size .3s;
+  }
+
+  html a:hover, html a:focus {
+    background-size: 100% 2px;
   }
 
   a:hover {
@@ -2006,7 +2061,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 
   .categories li > a:hover {
-      color: #c24914;
+      color: #ff8c00;
       border-bottom: none;
   }
 
@@ -2091,7 +2146,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
   */
   .col-6.mt-3.text-center.d-none.d-sm-block a:hover{
-      color: #c24914;
+      color: #ff8c00;
       text-decoration: none;
   }
 
@@ -2190,6 +2245,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   code a, pre a {
     font-family: ui-monospace, SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
     color: #85AACC;
+    background-image: none;
     text-decoration: none;
   }
 
@@ -2305,10 +2361,39 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     color: #000;
   }
 
+  .utterances {
+    height: 267px;
+  }
 
   </style>
   <!--/radix_placeholder_site_in_header-->
-    <link rel='shortcut icon' type='image/x-icon' href='favicon.ico' />
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      if (!/posts/.test(location.pathname)) {
+        return;
+      }
+
+      var script = document.createElement("script");
+      script.src = "https://utteranc.es/client.js";
+      script.setAttribute("repo", "hfshr/distill_blog");
+      script.setAttribute("issue-term", "og:title");
+      script.setAttribute("crossorigin", "anonymous");
+      script.setAttribute("label", "comment_thread");
+
+      /* wait for article to load, append script to article element */
+      var observer = new MutationObserver(function (mutations, observer) {
+        var article = document.querySelector("d-article");
+        if (article) {
+          observer.disconnect();
+          /* HACK: article scroll */
+          article.setAttribute("style", "overflow-y: hidden");
+          article.appendChild(script);
+        }
+      });
+
+      observer.observe(document.body, { childList: true });
+    });
+    </script>
 
   <link rel="stylesheet" href="style.css" type="text/css"/>
 
@@ -2342,7 +2427,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <a href="about.html">
 <i class="fas fa-address-card" aria-hidden="true"></i>
 </a>
-<a href="https://github.com/hfshr/distill_blog">
+<a href="https://github.com/hfshr">
 <i class="fab fa-github" aria-hidden="true"></i>
 </a>
 <a href="https://twitter.com/harryfishr">
@@ -2497,9 +2582,6 @@ function init_posts_list() {
 <script class="post-metadata" type="text/json">{"categories":["R","athletics"]}</script>
 <div class="metadata">
 <div class="publishedDate">Dec. 26, 2020</div>
-<div class="dt-authors">
-<div class="dt-author">Harry Fisher</div>
-</div>
 </div>
 <div class="thumbnail">
 <img src="posts/2020-12-26-powerof10-covid/powerof10-covid_files/figure-html5/elite-performances-1.png"/>
@@ -2517,9 +2599,6 @@ function init_posts_list() {
 <script class="post-metadata" type="text/json">{"categories":["R","Machine learning"]}</script>
 <div class="metadata">
 <div class="publishedDate">Nov. 30, 2020</div>
-<div class="dt-authors">
-<div class="dt-author">Harry Fisher</div>
-</div>
 </div>
 <div class="thumbnail">
 <img src="posts/2020-11-30-model-stacking/giphy.gif"/>
@@ -2537,9 +2616,6 @@ function init_posts_list() {
 <script class="post-metadata" type="text/json">{"categories":["R","Bitcoin","bitmexr"]}</script>
 <div class="metadata">
 <div class="publishedDate">Nov. 22, 2020</div>
-<div class="dt-authors">
-<div class="dt-author">Harry Fisher</div>
-</div>
 </div>
 <div class="thumbnail">
 <img src="posts/2020-11-22-bitmexr-logo/hex2.png"/>
@@ -2558,9 +2634,6 @@ function init_posts_list() {
 <script class="post-metadata" type="text/json">{"categories":["R","Bayesian Network"]}</script>
 <div class="metadata">
 <div class="publishedDate">Nov. 17, 2020</div>
-<div class="dt-authors">
-<div class="dt-author">Harry Fisher</div>
-</div>
 </div>
 <div class="thumbnail">
 <img src="posts/2020-11-01-bayesian-networks-with-bnlearn/bn.png"/>
@@ -2578,9 +2651,6 @@ function init_posts_list() {
 <script class="post-metadata" type="text/json">{"categories":["R","athletics"]}</script>
 <div class="metadata">
 <div class="publishedDate">Oct. 24, 2020</div>
-<div class="dt-authors">
-<div class="dt-author">Harry Fisher</div>
-</div>
 </div>
 <div class="thumbnail">
 <img src="posts/2020-10-22-introducing-powerof10/po10.jpg"/>
@@ -2598,9 +2668,6 @@ function init_posts_list() {
 <script class="post-metadata" type="text/json">{"categories":["R","Python"]}</script>
 <div class="metadata">
 <div class="publishedDate">Aug. 2, 2020</div>
-<div class="dt-authors">
-<div class="dt-author">Harry Fisher</div>
-</div>
 </div>
 <div class="thumbnail">
 <img data-src="posts/2020-08-02-python-package/pkg.jpeg"/>
@@ -2618,9 +2685,6 @@ function init_posts_list() {
 <script class="post-metadata" type="text/json">{"categories":["R","Python"]}</script>
 <div class="metadata">
 <div class="publishedDate">July 14, 2020</div>
-<div class="dt-authors">
-<div class="dt-author">Harry Fisher</div>
-</div>
 </div>
 <div class="thumbnail">
 <img data-src="posts/2020-07-14-deploy-model/preview.png"/>
@@ -2638,9 +2702,6 @@ function init_posts_list() {
 <script class="post-metadata" type="text/json">{"categories":["R"]}</script>
 <div class="metadata">
 <div class="publishedDate">June 21, 2020</div>
-<div class="dt-authors">
-<div class="dt-author">Harry Fisher</div>
-</div>
 </div>
 <div class="thumbnail">
 <img data-src="posts/2020-06-21-penguins-and-nakedpipes/preview.png"/>
@@ -2657,9 +2718,6 @@ function init_posts_list() {
 <script class="post-metadata" type="text/json">{"categories":["R","Machine learning"]}</script>
 <div class="metadata">
 <div class="publishedDate">June 7, 2020</div>
-<div class="dt-authors">
-<div class="dt-author">Harry Fisher</div>
-</div>
 </div>
 <div class="thumbnail">
 <img data-src="posts/2020-06-07-variable-inportance-with-fastshap/funky.png"/>
@@ -2678,9 +2736,6 @@ important, particularly if your model is being used to make critical business de
 <script class="post-metadata" type="text/json">{"categories":["bitmexr","R"]}</script>
 <div class="metadata">
 <div class="publishedDate">May 25, 2020</div>
-<div class="dt-authors">
-<div class="dt-author">Harry Fisher</div>
-</div>
 </div>
 <div class="thumbnail">
 <img data-src="posts/2020-05-25-bitmexr-updates/update.jpg"/>
@@ -2699,9 +2754,6 @@ In addition, the testnet version of the API is now supported soyou can try out  
 <script class="post-metadata" type="text/json">{"categories":["R","Machine learning"]}</script>
 <div class="metadata">
 <div class="publishedDate">May 23, 2020</div>
-<div class="dt-authors">
-<div class="dt-author">Harry Fisher</div>
-</div>
 </div>
 <div class="thumbnail">
 <img data-src="posts/2020-05-23-tidymodel-notes/tb.jpeg"/>
@@ -2719,9 +2771,6 @@ In addition, the testnet version of the API is now supported soyou can try out  
 <script class="post-metadata" type="text/json">{"categories":["Bitcoin","gt","ggplot","bitmexr","R"]}</script>
 <div class="metadata">
 <div class="publishedDate">May 2, 2020</div>
-<div class="dt-authors">
-<div class="dt-author">Harry Fisher</div>
-</div>
 </div>
 <div class="thumbnail">
 <img data-src="posts/2020-05-02-pretty-tables-with-gt/nice_table.png"/>
@@ -2742,9 +2791,6 @@ In addition, the testnet version of the API is now supported soyou can try out  
 <script class="post-metadata" type="text/json">{"categories":["Bitcoin","R"]}</script>
 <div class="metadata">
 <div class="publishedDate">April 13, 2020</div>
-<div class="dt-authors">
-<div class="dt-author">Harry Fisher</div>
-</div>
 </div>
 <div class="thumbnail">
 <img data-src="posts/2020-04-13-bitmexr/images/price.gif"/>
@@ -2762,9 +2808,6 @@ In addition, the testnet version of the API is now supported soyou can try out  
 <script class="post-metadata" type="text/json">{"categories":["Bitcoin","gganimate"]}</script>
 <div class="metadata">
 <div class="publishedDate">March 22, 2020</div>
-<div class="dt-authors">
-<div class="dt-author">Harry Fisher</div>
-</div>
 </div>
 <div class="thumbnail">
 <img data-src="https://media.giphy.com/media/RgxAkfVQWwkjS/giphy.gif"/>
@@ -2782,9 +2825,6 @@ In addition, the testnet version of the API is now supported soyou can try out  
 <script class="post-metadata" type="text/json">{"categories":[]}</script>
 <div class="metadata">
 <div class="publishedDate">March 14, 2020</div>
-<div class="dt-authors">
-<div class="dt-author">Harry Fisher</div>
-</div>
 </div>
 <div class="thumbnail">
 <img data-src="posts/2020-03-14-writing-a-thesis-in-r-markdown/images/quill.png"/>
@@ -2799,9 +2839,6 @@ In addition, the testnet version of the API is now supported soyou can try out  
 <script class="post-metadata" type="text/json">{"categories":["athletics"]}</script>
 <div class="metadata">
 <div class="publishedDate">March 8, 2020</div>
-<div class="dt-authors">
-<div class="dt-author">Harry Fisher</div>
-</div>
 </div>
 <div class="thumbnail">
 <img data-src="posts/2020-03-08-athletics-rankings/images/rr.png"/>
@@ -2818,9 +2855,6 @@ In addition, the testnet version of the API is now supported soyou can try out  
 <script class="post-metadata" type="text/json">{"categories":[]}</script>
 <div class="metadata">
 <div class="publishedDate">March 1, 2020</div>
-<div class="dt-authors">
-<div class="dt-author">Harry Fisher</div>
-</div>
 </div>
 <div class="thumbnail">
 <img data-src="posts/2020-03-07-first-post-again/images/start.png"/>
@@ -2947,7 +2981,11 @@ Follow me on <a href="https://twitter.com/harryfishr" target="_blank" class="fa 
 <div class="distill-site-nav distill-site-footer">
 <div class="distill-site-footer">
 
-<b>Built with Netlify, R markdown and Distill by RStudio</b>
+<p>
+  
+  Built with Netlify, R markdown and Distill by RStudio
+  
+</p>
 
 </div>
 </div>

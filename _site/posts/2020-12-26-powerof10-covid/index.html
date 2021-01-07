@@ -91,6 +91,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 <link rel="canonical" href="https://hfshr.xyz/posts/2020-12-26-powerof10-covid/"/>
 <link rel="license" href="https://creativecommons.org/licenses/by/4.0/"/>
+<link rel="icon" type="image/vnd.microsoft.icon" href="../../favicon.ico"/>
 
 <!--  https://schema.org/Article -->
 <meta property="article:published" itemprop="datePublished" content="2020-12-26"/>
@@ -1785,7 +1786,34 @@ document.addEventListener('DOMContentLoaded', function() {
   <script src="../../site_libs/webcomponents-2.0.0/webcomponents.js"></script>
   <script src="../../site_libs/distill-2.2.21/template.v2.js"></script>
   <!--radix_placeholder_site_in_header-->
-  <link rel='shortcut icon' type='image/x-icon' href='favicon.ico' />
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    if (!/posts/.test(location.pathname)) {
+      return;
+    }
+
+    var script = document.createElement("script");
+    script.src = "https://utteranc.es/client.js";
+    script.setAttribute("repo", "hfshr/distill_blog");
+    script.setAttribute("issue-term", "og:title");
+    script.setAttribute("crossorigin", "anonymous");
+    script.setAttribute("label", "comment_thread");
+
+    /* wait for article to load, append script to article element */
+    var observer = new MutationObserver(function (mutations, observer) {
+      var article = document.querySelector("d-article");
+      if (article) {
+        observer.disconnect();
+        /* HACK: article scroll */
+        article.setAttribute("style", "overflow-y: hidden");
+        article.appendChild(script);
+      }
+    });
+
+    observer.observe(document.body, { childList: true });
+  });
+  </script>
+
 <script type="text/javascript" cookie-consent="tracking" async src="https://www.googletagmanager.com/gtag/js?id=UA-145834792-2"></script>
 <script type="text/javascript" cookie-consent="tracking">
 window.dataLayer = window.dataLayer || [];
@@ -1819,7 +1847,7 @@ gtag('config', 'UA-145834792-2');
 }
 
 .distill-site-nav a:hover {
-  color: #c24914;
+  color: #ff8c00;
 }    
 
 .distill-site-header .logo img {
@@ -1851,6 +1879,15 @@ gtag('config', 'UA-145834792-2');
   font-weight: 400;
   padding-top: 0px;
   padding-bottom: 10px;
+}
+
+.distill-site-footer p{
+  color: #eeeeee;
+  background-color: #393e46;
+  font-size: 20px;
+  font-weight: 400;
+  padding-top: 0px;
+  padding-bottom: 5px;
 }
 
 /*####################################################*/
@@ -1928,7 +1965,7 @@ d-article a:hover  {
   text-decoration: none;
   border-bottom: none;
   cursor: pointer;
-  color: #c24914;
+  color: #ff8c00;
 }
 
 .d-contents nav > ul > li > a {
@@ -1955,6 +1992,7 @@ h1.posts-list-caption {
 
 /*link effects*/
 
+/*
 p a, li a, d-appendix a, .sidebar-section-custom a, .sidebar-section.subscribe a {
     text-decoration: none;
     background-image: linear-gradient(currentColor, currentColor);
@@ -1966,10 +2004,27 @@ p a, li a, d-appendix a, .sidebar-section-custom a, .sidebar-section.subscribe a
 }
 
 
+
 p a:hover, p a:focus, li a:hover, li a:focus,
 .sidebar-section-custom a:hover, .sidebar-section-custom a:focus,
 .sidebar-section.subscribe a:hover, .sidebar-section.subscribe a:focus {
     background-size: 100% 2px;
+}
+*/
+
+
+html a {
+    text-decoration: none;
+    background-image: linear-gradient(currentColor, currentColor);
+    background-position: 0% 100%;
+    background-repeat: no-repeat;
+    background-size: 0% 2px;
+    color: #00adb5;
+    transition: background-size .3s;
+}
+
+html a:hover, html a:focus {
+  background-size: 100% 2px;
 }
 
 a:hover {
@@ -2044,7 +2099,7 @@ a:hover {
 
 
 .categories li > a:hover {
-    color: #c24914;
+    color: #ff8c00;
     border-bottom: none;
 }
 
@@ -2129,7 +2184,7 @@ img[alt$="<"] {
 
 */
 .col-6.mt-3.text-center.d-none.d-sm-block a:hover{
-    color: #c24914;
+    color: #ff8c00;
     text-decoration: none;
 }
 
@@ -2228,6 +2283,7 @@ pre .img img {
 code a, pre a {
   font-family: ui-monospace, SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
   color: #85AACC;
+  background-image: none;
   text-decoration: none;
 }
 
@@ -2343,6 +2399,9 @@ d-article blockquote {
   color: #000;
 }
 
+.utterances {
+  height: 267px;
+}
 
 </style>
 <!--/radix_placeholder_site_in_header-->
@@ -2378,7 +2437,7 @@ d-article blockquote {
 <a href="../../about.html">
 <i class="fas fa-address-card" aria-hidden="true"></i>
 </a>
-<a href="https://github.com/hfshr/distill_blog">
+<a href="https://github.com/hfshr">
 <i class="fab fa-github" aria-hidden="true"></i>
 </a>
 <a href="https://twitter.com/harryfishr">
@@ -2686,8 +2745,8 @@ Show code
 </code></pre>
 </div>
 </details>
-<div id="htmlwidget-4144691fefe7b1550195" class="reactable html-widget" style="width:auto;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-4144691fefe7b1550195">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"event":[100,1500,200,400,5000,800],"x2019":[1046,1432,978,891,1411,1228],"x2020":[351,669,409,408,124,640],"perc":[0.664435946462715,0.532821229050279,0.581799591002045,0.542087542087542,0.912119064493267,0.478827361563518],"x2019_2":[1321,1158,1035,825,411,1210],"x2020_2":[350,475,441,376,52,566],"perc_2":[0.735049205147615,0.589810017271157,0.573913043478261,0.544242424242424,0.873479318734793,0.532231404958678]},"columns":[{"accessor":"event","name":"Event (m)","type":"numeric","align":"center"},{"accessor":"x2019","name":"2019","type":"numeric","align":"center"},{"accessor":"x2020","name":"2020","type":"numeric","align":"center"},{"accessor":"perc","name":"% Decrease","type":"numeric","align":"center","format":{"cell":{"digits":1,"percent":true},"aggregated":{"digits":1,"percent":true}},"minWidth":120,"style":[{"background":"#FF7F7E","color":"#000"},{"background":"#FFB5B4","color":"#000"},{"background":"#FFA1A0","color":"#000"},{"background":"#FFB1B1","color":"#000"},{"background":"#FF1919","color":"#000"},{"background":"#FFCCCB","color":"#000"}]},{"accessor":"x2019_2","name":"2019","type":"numeric","align":"center"},{"accessor":"x2020_2","name":"2020","type":"numeric","align":"center"},{"accessor":"perc_2","name":"% Decrease","type":"numeric","align":"center","format":{"cell":{"digits":1,"percent":true},"aggregated":{"digits":1,"percent":true}},"minWidth":120,"style":[{"background":"#FF6261","color":"#000"},{"background":"#FF9E9D","color":"#000"},{"background":"#FFA4A3","color":"#000"},{"background":"#FFB0B0","color":"#000"},{"background":"#FF2828","color":"#000"},{"background":"#FFB5B5","color":"#000"}]}],"columnGroups":[{"name":"Men","columns":["x2019","x2020","perc"]},{"name":"Women","columns":["x2019_2","x2020_2","perc_2"]}],"defaultSortDesc":true,"defaultSorted":[{"id":"perc","desc":true}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"dataKey":"865dc4faabfa3a378706fe99281c6e5d","key":"865dc4faabfa3a378706fe99281c6e5d"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-f48a547e9e49e53b1d66" class="reactable html-widget" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-f48a547e9e49e53b1d66">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"event":[100,1500,200,400,5000,800],"x2019":[1046,1432,978,891,1411,1228],"x2020":[351,669,409,408,124,640],"perc":[0.664435946462715,0.532821229050279,0.581799591002045,0.542087542087542,0.912119064493267,0.478827361563518],"x2019_2":[1321,1158,1035,825,411,1210],"x2020_2":[350,475,441,376,52,566],"perc_2":[0.735049205147615,0.589810017271157,0.573913043478261,0.544242424242424,0.873479318734793,0.532231404958678]},"columns":[{"accessor":"event","name":"Event (m)","type":"numeric","align":"center"},{"accessor":"x2019","name":"2019","type":"numeric","align":"center"},{"accessor":"x2020","name":"2020","type":"numeric","align":"center"},{"accessor":"perc","name":"% Decrease","type":"numeric","align":"center","format":{"cell":{"digits":1,"percent":true},"aggregated":{"digits":1,"percent":true}},"minWidth":120,"style":[{"background":"#FF7F7E","color":"#000"},{"background":"#FFB5B4","color":"#000"},{"background":"#FFA1A0","color":"#000"},{"background":"#FFB1B1","color":"#000"},{"background":"#FF1919","color":"#000"},{"background":"#FFCCCB","color":"#000"}]},{"accessor":"x2019_2","name":"2019","type":"numeric","align":"center"},{"accessor":"x2020_2","name":"2020","type":"numeric","align":"center"},{"accessor":"perc_2","name":"% Decrease","type":"numeric","align":"center","format":{"cell":{"digits":1,"percent":true},"aggregated":{"digits":1,"percent":true}},"minWidth":120,"style":[{"background":"#FF6261","color":"#000"},{"background":"#FF9E9D","color":"#000"},{"background":"#FFA4A3","color":"#000"},{"background":"#FFB0B0","color":"#000"},{"background":"#FF2828","color":"#000"},{"background":"#FFB5B5","color":"#000"}]}],"columnGroups":[{"name":"Men","columns":["x2019","x2020","perc"]},{"name":"Women","columns":["x2019_2","x2020_2","perc_2"]}],"defaultSortDesc":true,"defaultSorted":[{"id":"perc","desc":true}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"dataKey":"865dc4faabfa3a378706fe99281c6e5d","key":"865dc4faabfa3a378706fe99281c6e5d"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
 </div>
 <p><br></p>
 <h3 id="distribution-of-performances">Distribution of performances</h3>
@@ -2795,7 +2854,7 @@ Show code
 
 <span class='va'>p1</span> <span class='op'>+</span> <span class='va'>p2</span> <span class='op'>+</span>
   <span class='fu'><a href='https://patchwork.data-imaginist.com/reference/plot_annotation.html'>plot_annotation</a></span><span class='op'>(</span>title <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"Elite athletes: Comparison of the distribution of performances"</span>, 
-                                 <span class='st'>"for &lt;b&gt;&lt;span style = 'color:#0072B2;'&gt;2016-2019 &lt;/span&gt;&lt;/b&gt;and"</span>,
+                                 <span class='st'>"for &lt;b&gt;&lt;span style = 'color:#0072B2;'&gt;2016-2019 &lt;/span&gt;&lt;/b&gt;and "</span>,
                                  <span class='st'>"&lt;b&gt;&lt;span style = 'color:#D55E00;'&gt;2020&lt;/span&gt;&lt;/b&gt;."</span><span class='op'>)</span>,
                   subtitle <span class='op'>=</span> <span class='st'>"Vertical line indicates the median performance"</span>,
   theme <span class='op'>=</span> <span class='fu'>theme</span><span class='op'>(</span>plot.title <span class='op'>=</span> <span class='fu'><a href='https://wilkelab.org/ggtext/reference/element_markdown.html'>element_markdown</a></span><span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>18</span><span class='op'>)</span>,
@@ -2887,7 +2946,7 @@ Show code
 
 <span class='va'>p1</span> <span class='op'>+</span> <span class='va'>p2</span> <span class='op'>+</span>
   <span class='fu'><a href='https://patchwork.data-imaginist.com/reference/plot_annotation.html'>plot_annotation</a></span><span class='op'>(</span>title <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"Sub-elite: Comparison of the distribution of performances"</span>, 
-                                 <span class='st'>"for &lt;b&gt;&lt;span style = 'color:#0072B2;'&gt;2016-2019 &lt;/span&gt;&lt;/b&gt;and"</span>,
+                                 <span class='st'>"for &lt;b&gt;&lt;span style = 'color:#0072B2;'&gt;2016-2019 &lt;/span&gt;&lt;/b&gt;and "</span>,
                                  <span class='st'>"&lt;b&gt;&lt;span style = 'color:#D55E00;'&gt;2020&lt;/span&gt;&lt;/b&gt;."</span><span class='op'>)</span>,
                   subtitle <span class='op'>=</span> <span class='st'>"Vertical line indicates the median performance"</span>,
   theme <span class='op'>=</span> <span class='fu'>theme</span><span class='op'>(</span>plot.title <span class='op'>=</span> <span class='fu'><a href='https://wilkelab.org/ggtext/reference/element_markdown.html'>element_markdown</a></span><span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>18</span><span class='op'>)</span>,
@@ -2913,11 +2972,6 @@ Figure 3: Sub-elite performance distributions for males and females and differen
 <!--radix_placeholder_article_footer-->
 <div class="article-footer">
   <p class="social_footer">
-    <span class="disqus-comments">
-      <i class="fas fa-comments"></i>
-      &nbsp;
-      <span class="disqus-comment-count" data-disqus-identifier="posts/2020-12-26-powerof10-covid/">Comment on this article</span>
-    </span>
     <span class="article-sharing">
       Share: &nbsp;
       <a href="https://twitter.com/share?text=How%20has%20Covid-19%20affected%20UK%20athletics%20rankings%20in%202020%3F&amp;url=https%3A%2F%2Fhfshr.xyz%2Fposts%2F2020-12-26-powerof10-covid%2F">
@@ -2925,20 +2979,6 @@ Figure 3: Sub-elite performance distributions for males and females and differen
       </a>
     </span>
   </p>
-  <script id="dsq-count-scr" src="https://hfshr-disqus.disqus.com/count.js" async></script>
-  <div id="disqus_thread" class="hidden"></div>
-  <script type="text/javascript" cookie-consent="functionality">
-var disqus_config = function () {
-  this.page.url = 'https://hfshr.xyz/posts/2020-12-26-powerof10-covid/';
-  this.page.identifier = 'posts/2020-12-26-powerof10-covid/';
-};
-(function() {
-  var d = document, s = d.createElement('script');
-  s.src = 'https://hfshr-disqus.disqus.com/embed.js';
-  s.setAttribute('data-timestamp', +new Date());
-  (d.head || d.body).appendChild(s);
-})();
-</script>
   <p>
     <div class="subscribe"><!-- Add icon library --> <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -2979,7 +3019,11 @@ Follow me on <a href="https://twitter.com/harryfishr" target="_blank" class="fa 
 <!--radix_placeholder_navigation_after_body-->
 <div class="distill-site-nav distill-site-footer">
   <div class="distill-site-footer">
-    <b>Built with Netlify, R markdown and Distill by RStudio</b>
+    <p>
+  
+  Built with Netlify, R markdown and Distill by RStudio
+  
+</p>
   </div>
 </div>
 <!--/radix_placeholder_navigation_after_body-->

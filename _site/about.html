@@ -89,6 +89,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
   <meta property="description" itemprop="description" content="\&gt; whoami"/>
 
+  <link rel="icon" type="image/vnd.microsoft.icon" href="favicon.ico"/>
 
 
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
@@ -1749,7 +1750,34 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <script src="site_libs/webcomponents-2.0.0/webcomponents.js"></script>
   <script src="site_libs/distill-2.2.21/template.v2.js"></script>
   <!--radix_placeholder_site_in_header-->
-    <link rel='shortcut icon' type='image/x-icon' href='favicon.ico' />
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      if (!/posts/.test(location.pathname)) {
+        return;
+      }
+
+      var script = document.createElement("script");
+      script.src = "https://utteranc.es/client.js";
+      script.setAttribute("repo", "hfshr/distill_blog");
+      script.setAttribute("issue-term", "og:title");
+      script.setAttribute("crossorigin", "anonymous");
+      script.setAttribute("label", "comment_thread");
+
+      /* wait for article to load, append script to article element */
+      var observer = new MutationObserver(function (mutations, observer) {
+        var article = document.querySelector("d-article");
+        if (article) {
+          observer.disconnect();
+          /* HACK: article scroll */
+          article.setAttribute("style", "overflow-y: hidden");
+          article.appendChild(script);
+        }
+      });
+
+      observer.observe(document.body, { childList: true });
+    });
+    </script>
+
   <script type="text/javascript" cookie-consent="tracking" async src="https://www.googletagmanager.com/gtag/js?id=UA-145834792-2"></script>
   <script type="text/javascript" cookie-consent="tracking">
   window.dataLayer = window.dataLayer || [];
@@ -1783,7 +1811,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   }
 
   .distill-site-nav a:hover {
-    color: #c24914;
+    color: #ff8c00;
   }    
 
   .distill-site-header .logo img {
@@ -1815,6 +1843,15 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     font-weight: 400;
     padding-top: 0px;
     padding-bottom: 10px;
+  }
+
+  .distill-site-footer p{
+    color: #eeeeee;
+    background-color: #393e46;
+    font-size: 20px;
+    font-weight: 400;
+    padding-top: 0px;
+    padding-bottom: 5px;
   }
 
   /*####################################################*/
@@ -1892,7 +1929,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     text-decoration: none;
     border-bottom: none;
     cursor: pointer;
-    color: #c24914;
+    color: #ff8c00;
   }
 
   .d-contents nav > ul > li > a {
@@ -1919,6 +1956,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
   /*link effects*/
 
+  /*
   p a, li a, d-appendix a, .sidebar-section-custom a, .sidebar-section.subscribe a {
       text-decoration: none;
       background-image: linear-gradient(currentColor, currentColor);
@@ -1930,10 +1968,27 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   }
 
 
+
   p a:hover, p a:focus, li a:hover, li a:focus,
   .sidebar-section-custom a:hover, .sidebar-section-custom a:focus,
   .sidebar-section.subscribe a:hover, .sidebar-section.subscribe a:focus {
       background-size: 100% 2px;
+  }
+  */
+
+
+  html a {
+      text-decoration: none;
+      background-image: linear-gradient(currentColor, currentColor);
+      background-position: 0% 100%;
+      background-repeat: no-repeat;
+      background-size: 0% 2px;
+      color: #00adb5;
+      transition: background-size .3s;
+  }
+
+  html a:hover, html a:focus {
+    background-size: 100% 2px;
   }
 
   a:hover {
@@ -2008,7 +2063,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 
   .categories li > a:hover {
-      color: #c24914;
+      color: #ff8c00;
       border-bottom: none;
   }
 
@@ -2093,7 +2148,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
   */
   .col-6.mt-3.text-center.d-none.d-sm-block a:hover{
-      color: #c24914;
+      color: #ff8c00;
       text-decoration: none;
   }
 
@@ -2192,6 +2247,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   code a, pre a {
     font-family: ui-monospace, SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
     color: #85AACC;
+    background-image: none;
     text-decoration: none;
   }
 
@@ -2307,10 +2363,39 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     color: #000;
   }
 
+  .utterances {
+    height: 267px;
+  }
 
   </style>
   <!--/radix_placeholder_site_in_header-->
-    <link rel='shortcut icon' type='image/x-icon' href='favicon.ico' />
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      if (!/posts/.test(location.pathname)) {
+        return;
+      }
+
+      var script = document.createElement("script");
+      script.src = "https://utteranc.es/client.js";
+      script.setAttribute("repo", "hfshr/distill_blog");
+      script.setAttribute("issue-term", "og:title");
+      script.setAttribute("crossorigin", "anonymous");
+      script.setAttribute("label", "comment_thread");
+
+      /* wait for article to load, append script to article element */
+      var observer = new MutationObserver(function (mutations, observer) {
+        var article = document.querySelector("d-article");
+        if (article) {
+          observer.disconnect();
+          /* HACK: article scroll */
+          article.setAttribute("style", "overflow-y: hidden");
+          article.appendChild(script);
+        }
+      });
+
+      observer.observe(document.body, { childList: true });
+    });
+    </script>
 
   <link rel="stylesheet" href="style.css" type="text/css"/>
 
@@ -2344,7 +2429,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <a href="about.html">
 <i class="fas fa-address-card" aria-hidden="true"></i>
 </a>
-<a href="https://github.com/hfshr/distill_blog">
+<a href="https://github.com/hfshr">
 <i class="fab fa-github" aria-hidden="true"></i>
 </a>
 <a href="https://twitter.com/harryfishr">
@@ -2370,10 +2455,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 
 <div class="d-article">
-<center>
-<img src="data/images/pic_bw.png" title="fig:" style="width:25.0%" alt="me" />
-</center>
-<p><br> Hi! My name is Harry Fisher, thanks for visiting my site. I currently work as a data scientist based in Cardiff, Wales. Previously, I completed my PhD at Cardiff Metropolitan University in December 2019, investigating risk factors associated with sports injury. I enjoy using R and try to share interesting things on my blog.</p>
+<p>Hi! My name is Harry Fisher, thanks for visiting my site. I currently work as a data scientist based in Cardiff, Wales. Previously, I completed my <a href="https://github.com/hfshr/phd-thesis/blob/master/full_phd.pdf">PhD</a> at Cardiff Metropolitan University in December 2019, investigating risk factors associated with sports injury. I enjoy using R and try to share interesting things on my blog.</p>
 <p>Feel free to get in touch if any of the posts catch your interest!</p>
 <h3 id="r-packages">R packages</h3>
 <p>bitmexr: R Client for the BitMEX Exchange <a href="https://CRAN.R-project.org/package=bitmexr"><img src="https://www.r-pkg.org/badges/version/bitmexr" alt="CRAN status" /></a></p>
@@ -2416,7 +2498,11 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome
 <div class="distill-site-nav distill-site-footer">
 <div class="distill-site-footer">
 
-<b>Built with Netlify, R markdown and Distill by RStudio</b>
+<p>
+  
+  Built with Netlify, R markdown and Distill by RStudio
+  
+</p>
 
 </div>
 </div>

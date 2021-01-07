@@ -366,7 +366,7 @@ rank_plots %>%
 
 p1 + p2 +
   plot_annotation(title = paste0("Elite athletes: Comparison of the distribution of performances", 
-                                 "for <b><span style = 'color:#0072B2;'>2016-2019 </span></b>and",
+                                 "for <b><span style = 'color:#0072B2;'>2016-2019 </span></b>and ",
                                  "<b><span style = 'color:#D55E00;'>2020</span></b>."),
                   subtitle = "Vertical line indicates the median performance",
   theme = theme(plot.title = element_markdown(size = 18),
@@ -450,7 +450,7 @@ rank_plots %>%
 
 p1 + p2 +
   plot_annotation(title = paste0("Sub-elite: Comparison of the distribution of performances", 
-                                 "for <b><span style = 'color:#0072B2;'>2016-2019 </span></b>and",
+                                 "for <b><span style = 'color:#0072B2;'>2016-2019 </span></b>and ",
                                  "<b><span style = 'color:#D55E00;'>2020</span></b>."),
                   subtitle = "Vertical line indicates the median performance",
   theme = theme(plot.title = element_markdown(size = 18),
