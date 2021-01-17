@@ -12,7 +12,57 @@
       <link>https://hfshr.xyz/</link>
     </image>
     <generator>Distill</generator>
-    <lastBuildDate>Sat, 26 Dec 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 17 Jan 2021 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Some musings on the RStudio certifcation process</title>
+      <dc:creator>Harry Fisher</dc:creator>
+      <link>https://hfshr.xyz/posts/2021-01-17-rstudio-certification</link>
+      <description>
+
+
+&lt;h1 id="whats-this-all-about"&gt;What’s this all about?&lt;/h1&gt;
+&lt;p&gt;Recently, I became a certified RStudio instructor and thought I’d share a few of my thoughts on the process.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;First, a little background…&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;During my PhD, I discovered R almost by accident while I was battling the twin-headed demon of Microsoft excel and SPSS, trying with all my might to reshape my data and run some kind (any kind…!) of analysis.&lt;/p&gt;
+&lt;p&gt;At some point I came across &lt;code&gt;reshape2::melt&lt;/code&gt; which described exactly what I wanted to do with my data at that point in time, melt it into oblivion… However, with a bit more googling I actually figured out how to get my data from wide to long format. The sense of accomplishment was palpable. I was hooked.&lt;/p&gt;
+&lt;p&gt;By the end of my PhD I had written my thesis completely in R markdown, worked closely with the author of &lt;code&gt;bnlearn&lt;/code&gt; who helped shaped the analysis I undertook, and managed to get my first job as a data scientist in the financial crime and compliance sector, an alien world for someone with a sports science PhD, but learning R had given me a viable set of skills that someone would actually pay me to use… Who’d of thought!&lt;/p&gt;
+&lt;p&gt;While my journey into R was a little haphazard and certainly took me far longer to figure things out than it should have, I really wanted to try and share my experiences and help someone else who may be in a similar position to me when I first started.&lt;/p&gt;
+&lt;h1 id="becoming-certified"&gt;Becoming certified&lt;/h1&gt;
+&lt;p&gt;I saw the certification process offered by RStudio as a great opportunity to firstly test my understanding of R but also learn how to best educate others in an effective way. While I had some experience teaching in my PhD, I was never “taught” how to teach. I have definitely been guilty for firing up a powerpoint and talking for 50 minutes, clicking though slides and feeling pretty overwhelmed by all the blank faces staring back at me…&lt;/p&gt;
+&lt;p&gt;I had also tried to convert some of my fellow students to R users by showing them how &lt;em&gt;easy&lt;/em&gt; it was to &lt;em&gt;just&lt;/em&gt; read in data, clean data, fit a model and produce a report. “All you have to do is type these functions and press knit!” I would exclaim, often met with bamboozled looks from my audience…&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://hfshr.xyz//posts/2021-01-17-rstudio-certification/bamboozled.jpeg" width="50%" style="display: block; margin: auto;" /&gt;&lt;/p&gt;
+&lt;p&gt;Unsurprisingly, there are far better ways to teach…!&lt;/p&gt;
+&lt;h1 id="the-process"&gt;The process&lt;/h1&gt;
+&lt;p&gt;The best place to find out about the certification process is the RStudio site, which has lots of information about the course: &lt;a href="https://education.rstudio.com/trainers/" class="uri"&gt;https://education.rstudio.com/trainers/&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;In short form, the process looks something like this:&lt;/p&gt;
+&lt;ol style="list-style-type: decimal"&gt;
+&lt;li&gt;&lt;strong&gt;Attend 2 day course of modern teaching practices led by Greg Wilson&lt;/strong&gt; (content is shared &lt;a href="https://drive.google.com/drive/folders/13ohFt3D0EJ5PDbMaWTxnHH-hwA7G0IvY"&gt;here&lt;/a&gt;)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Complete teaching exam&lt;/strong&gt; (prepare an example lesson and answer some questions on teaching course content)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Complete Tidyverse / Shiny exam&lt;/strong&gt; (technical exams based on all things tidyverse and/or shiny)&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;The following diagram nicely summarise the process following completion of the 2 day course:&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://hfshr.xyz//posts/2021-01-17-rstudio-certification/teaching.png" width="642" /&gt;&lt;/p&gt;
+&lt;p&gt;If interested, I’d highly recommend you check out these blog posts by &lt;a href="https://silvia.rbind.io/2020-10-07-rstudio-instructor-certification-tidyverse/#learning-the-pedagogy"&gt;Silvia Canelón&lt;/a&gt; and &lt;a href="https://bcullen.rbind.io/post/2020-09-03-reflections-on-rstudio-instructor-training/"&gt;Brendan Cullen&lt;/a&gt; who have written about the process extensively, and from which I drew most of my inspiration for my lesson materials.&lt;/p&gt;
+&lt;p&gt;The slides I used for my teaching exam are below. You can also check out &lt;a href="https://github.com/hfshr/rstudio-teaching-exam"&gt;this repo&lt;/a&gt; which contains everything I used for the teaching exam.&lt;/p&gt;
+&lt;div class="shareagain" style="min-width:300px;margin:1em auto;"&gt;
+&lt;iframe src="https://split-apply-combine-with-dplyr.netlify.app/#1" width="1600" height="900" style="border:2px solid currentColor;" loading="lazy" allowfullscreen&gt;&lt;/iframe&gt;
+&lt;script&gt;fitvids('.shareagain', {players: 'iframe'});&lt;/script&gt;
+&lt;/div&gt;
+&lt;h1 id="summary"&gt;Summary&lt;/h1&gt;
+&lt;p&gt;Overall, I found the teaching course to be particularly valuable. Greg is a great instructor and the content covers a wide range of different techniques that can be used to improve your teaching. Many of these techniques are applicable to presenting in general, so even if you’re not planning on &lt;em&gt;teaching&lt;/em&gt; per say, there is still a lot of value in learning how to present and engage an audience - something that is even harder in this microsoft teams / zoom world we live in right now.&lt;/p&gt;
+&lt;p&gt;If you have any questions about the becoming certified, feel free to drop me a message and I’d be more than happy try and answer!&lt;/p&gt;
+&lt;p&gt;Thanks for reading!&lt;/p&gt;
+&lt;h2 class="appendix" id="section"&gt;&lt;/h2&gt;
+&lt;p&gt;Here is my badge of honour 😃&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://hfshr.xyz//posts/2021-01-17-rstudio-certification/certificate.png" width="80%" /&gt;&lt;/p&gt;
+&lt;pre class="r distill-force-highlighting-css"&gt;&lt;code&gt;&lt;/code&gt;&lt;/pre&gt;</description>
+      <distill:md5>09449cfe40b02f48d3cbc104eb1f55c0</distill:md5>
+      <category>R</category>
+      <category>Teaching</category>
+      <guid>https://hfshr.xyz/posts/2021-01-17-rstudio-certification</guid>
+      <pubDate>Sun, 17 Jan 2021 00:00:00 +0000</pubDate>
+      <media:content url="https://hfshr.xyz/posts/2021-01-17-rstudio-certification/blackboard.jpeg" medium="image" type="image/jpeg"/>
+    </item>
     <item>
       <title>How has Covid-19 affected UK athletics rankings in 2020?</title>
       <dc:creator>Harry Fisher</dc:creator>

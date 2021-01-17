@@ -1860,6 +1860,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     max-height: 60%;
     display: block;
     margin: 0 auto;
+    vertical-align: middle;
   }
 
   .posts-list .post-preview {
@@ -1914,6 +1915,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
   d-article h1, d-article h2 {
       border-bottom: 1px solid rgb(255 255 255 / 30%);
+      padding-bottom: 5px;
   }
 
     
@@ -2126,10 +2128,10 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     
       background-color: #222831; /* Changing background color */
       color: #eeeeee;
-      border-radius: 20px; /* Making border radius */
+      border-radius: 10px; /* Making border radius */
       width: auto; /* Making auto-sizable width */
       height: auto; /* Making auto-sizable height */
-      padding: 20px 10px 0px 0px;
+      padding: 10px 10px 0px 0px;
       font-size: 18px;
     
   }
@@ -2164,6 +2166,10 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   }
 
 
+
+  .mt-3, .my-3 {
+      margin-top: 0rem !important;
+  }
 
 
   .btn-outline-dark:hover {
@@ -2589,6 +2595,23 @@ function init_posts_list() {
 <div class="posts-container posts-with-sidebar posts-apply-limit l-screen-inset">
 <div class="posts-list">
 <h1 class="posts-list-caption" data-caption=""></h1>
+<a href="posts/2021-01-17-rstudio-certification/" class="post-preview">
+<script class="post-metadata" type="text/json">{"categories":["R","Teaching"]}</script>
+<div class="metadata">
+<div class="publishedDate">Jan. 17, 2021</div>
+</div>
+<div class="thumbnail">
+<img src="posts/2021-01-17-rstudio-certification/blackboard.jpeg"/>
+</div>
+<div class="description">
+<h2>Some musings on the RStudio certifcation process</h2>
+<div class="dt-tags">
+<div class="dt-tag">R</div>
+<div class="dt-tag">Teaching</div>
+</div>
+<p>A few thoughts on...</p>
+</div>
+</a>
 <a href="posts/2020-12-26-powerof10-covid/" class="post-preview">
 <script class="post-metadata" type="text/json">{"categories":["R","athletics"]}</script>
 <div class="metadata">
@@ -2664,7 +2687,7 @@ function init_posts_list() {
 <div class="publishedDate">Oct. 24, 2020</div>
 </div>
 <div class="thumbnail">
-<img src="posts/2020-10-22-introducing-powerof10/po10.jpg"/>
+<img data-src="posts/2020-10-22-introducing-powerof10/po10.jpg"/>
 </div>
 <div class="description">
 <h2>Introducing {poweRof10}</h2>
@@ -2911,7 +2934,7 @@ Follow me on <a href="https://twitter.com/harryfishr" target="_blank" class="fa 
 <ul>
 <li>
 <a href="#category:Articles">Articles</a>
-<span class="category-count">(17)</span>
+<span class="category-count">(18)</span>
 </li>
 <li>
 <a href="#category:athletics">athletics</a>
@@ -2951,7 +2974,11 @@ Follow me on <a href="https://twitter.com/harryfishr" target="_blank" class="fa 
 </li>
 <li>
 <a href="#category:R">R</a>
-<span class="category-count">(13)</span>
+<span class="category-count">(14)</span>
+</li>
+<li>
+<a href="#category:Teaching">Teaching</a>
+<span class="category-count">(1)</span>
 </li>
 </ul>
 </div>

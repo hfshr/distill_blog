@@ -1,6 +1,6 @@
 ---
 title: ""
-image: "data/images/pic_bw.png"
+image: "data/images/harryf-min.png"
 links:
   - label: '<i class="fab fa-twitter fa-3x"></i>'
     url: "https://twitter.com/harryfishr"
@@ -18,7 +18,6 @@ output:
   
 site: distill::distill_website
 ---
-
 
 Sports injury researcher turned Data Scientist based in Cardiff. I enjoy trying to find 
 the story in the numbers. See some of my work on [my blog](./blog.html) or get in touch through any of the links below.

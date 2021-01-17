@@ -173,8 +173,7 @@ predict(xgboost_wflow, train, type = "prob") %>%
   filter(.pred_bad == min(.pred_bad) | .pred_bad == max(.pred_bad)) %>% 
   gt()%>% 
   fmt_number(columns = 2:3,
-             decimals = 3)
-  
+             decimals = 3) 
 ```
 
 We can visualise what features made these extreme predictions like so:

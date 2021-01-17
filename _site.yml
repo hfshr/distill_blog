@@ -28,9 +28,6 @@ google_analytics: "UA-145834792-2"
 
 favicon: favicon.ico
 
-rss:
-  full_content: true
-
 collections:
   posts:
     share: [twitter]
@@ -45,3 +42,8 @@ output:
     includes:
       in_header: utterances.html
     css: style.css
+
+rss:
+  full_content: TRUE
+  categories:
+    - R
