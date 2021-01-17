@@ -1,5 +1,5 @@
 ---
-title: "Some musings on the RStudio certifcation process"
+title: "Some musings on the RStudio certification process"
 description: |
   A few thoughts on...
 author:
