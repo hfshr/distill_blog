@@ -1,6 +1,6 @@
 ---
 title: ""
-image: "data/images/harryf-min.png"
+image: "data/images/harryf-min2.png"
 links:
   - label: '<i class="fab fa-twitter fa-3x"></i>'
     url: "https://twitter.com/harryfishr"
