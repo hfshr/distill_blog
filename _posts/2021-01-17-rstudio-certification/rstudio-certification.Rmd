@@ -18,7 +18,7 @@ draft: false
 
 # What's this all about?
 
-Recently, I became a certified RStudio instructor and thought I'd share a few of my thoughts on the process. 
+Recently, I became [a certified RStudio instructor](https://education.rstudio.com/trainers/people/fisher+harry/) and thought I'd share a few of my thoughts on the process. 
 
 **First, a little background...**
 
