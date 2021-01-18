@@ -1,7 +1,7 @@
 ---
-title: "Some musings on the RStudio certification process"
+title: "Musings on the RStudio instructor training process"
 description: |
-  A few thoughts on...
+  A few thoughts and reflections on my recent experience completing the RStudio instructor training course.
 author:
   - name: Harry Fisher
     url: https://hfshr.xyz
