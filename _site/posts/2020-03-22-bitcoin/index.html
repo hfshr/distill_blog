@@ -131,7 +131,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["bitcoin_files/bowser-1.9.3/bowser.min.js","bitcoin_files/distill-2.2.21/template.v2.js","bitcoin_files/figure-html5/unnamed-chunk-3-1.gif","bitcoin_files/figure-html5/unnamed-chunk-4-1.png","bitcoin_files/header-attrs-2.3/header-attrs.js","bitcoin_files/jquery-1.11.3/jquery.min.js","bitcoin_files/webcomponents-2.0.0/webcomponents.js","r-references.bib"]}
+  {"type":"character","attributes":{},"value":["bitcoin_files/anchor-4.2.2/anchor.min.js","bitcoin_files/bowser-1.9.3/bowser.min.js","bitcoin_files/distill-2.2.21/template.v2.js","bitcoin_files/figure-html5/unnamed-chunk-3-1.gif","bitcoin_files/figure-html5/unnamed-chunk-4-1.png","bitcoin_files/header-attrs-2.3/header-attrs.js","bitcoin_files/header-attrs-2.6.4/header-attrs.js","bitcoin_files/jquery-1.11.3/jquery.min.js","bitcoin_files/webcomponents-2.0.0/webcomponents.js","r-references.bib"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
 <meta name="distill:offset" content="../.."/>
@@ -670,6 +670,11 @@ d-article pre a:hover {
   text-decoration: underline;
 }
 
+d-article details {
+  grid-column: text;
+  margin-bottom: 0.8em;
+}
+
 @media(min-width: 768px) {
 
 d-article pre,
@@ -824,6 +829,17 @@ d-article .citation {
 
 div.hanging-indent{
   margin-left: 1em; text-indent: -1em;
+}
+
+/* Citation hover box */
+
+.tippy-box[data-theme~=light-border] {
+  background-color: rgba(250, 250, 250, 0.95);
+}
+
+.tippy-content > p {
+  margin-bottom: 0;
+  padding: 2px;
 }
 
 
@@ -1491,7 +1507,7 @@ function init_distill() {
     var layout = $(this).attr('data-layout');
 
     // apply layout to markdown level block elements
-    var elements = $(this).children().not('div.sourceCode, pre, script');
+    var elements = $(this).children().not('details, div.sourceCode, pre, script');
     elements.each(function(i, el) {
       var layout_div = $('<div class="' + layout + '"></div>');
       if (layout_div.hasClass('shaded')) {
@@ -1606,6 +1622,20 @@ function init_distill() {
     // move appendix-bottom entries to the bottom
     $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
     $('.appendix-bottom').remove();
+
+    // hoverable references
+    $('span.citation[data-cites]').each(function() {
+      var refHtml = $('#ref-' + $(this).attr('data-cites')).html();
+      window.tippy(this, {
+        allowHTML: true,
+        content: refHtml,
+        maxWidth: 500,
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'light-border',
+        placement: 'bottom-start'
+      });
+    });
 
     // clear polling timer
     clearInterval(tid);
@@ -1766,8 +1796,12 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <!--/radix_placeholder_distill-->
-  <script src="../../site_libs/header-attrs-2.6.4/header-attrs.js"></script>
+  <script src="../../site_libs/header-attrs-2.6.6/header-attrs.js"></script>
   <script src="../../site_libs/jquery-1.11.3/jquery.min.js"></script>
+  <script src="../../site_libs/popper-2.6.0/popper.min.js"></script>
+  <link href="../../site_libs/tippy-6.2.7/tippy.css" rel="stylesheet" />
+  <link href="../../site_libs/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
+  <script src="../../site_libs/tippy-6.2.7/tippy.umd.min.js"></script>
   <script src="../../site_libs/anchor-4.2.2/anchor.min.js"></script>
   <script src="../../site_libs/bowser-1.9.3/bowser.min.js"></script>
   <script src="../../site_libs/webcomponents-2.0.0/webcomponents.js"></script>
@@ -2468,8 +2502,8 @@ d-article blockquote {
 <h1>Exploring the recent Bitcoin crash with {tidyquant} and {gganimate}</h1>
 <!--radix_placeholder_categories-->
 <div class="dt-tags">
-  <a href="../../index.html#category:Bitcoin" class="dt-tag">Bitcoin</a>
-  <a href="../../index.html#category:gganimate" class="dt-tag">gganimate</a>
+  <a href="../../blog.html#category:Bitcoin" class="dt-tag">Bitcoin</a>
+  <a href="../../blog.html#category:gganimate" class="dt-tag">gganimate</a>
 </div>
 <!--/radix_placeholder_categories-->
 <p><p>Bitcoin recently had a significant sell off, crashing 50% in a matter of hours. This undoubtly was due to the uncertainty in markets surrounding the economic impacts of COVID-19, and the consequent reduction in liquidity faced by many different assets. The volatile price action does however make for an interesting case study which this post will explore.</p></p>
@@ -2488,7 +2522,7 @@ d-article blockquote {
 <p>To obtain the necessary data, I first defined a quick function based on the information found on the BitMEX API explorer page (<a href="https://www.bitmex.com/api/explorer" class="uri">https://www.bitmex.com/api/explorer</a>). This function barely scratches the surface at the possible requests available - but does get the data needed.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre><code><span class='va'>xbt_reader</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>symbol</span> <span class='op'>=</span> <span class='st'>"XBT"</span>, 
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>xbt_reader</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>symbol</span> <span class='op'>=</span> <span class='st'>"XBT"</span>, 
                        <span class='va'>timeframe</span> <span class='op'>=</span> <span class='st'>"1d"</span>, 
                        <span class='va'>count</span> <span class='op'>=</span> <span class='st'>"1000"</span>, 
                        <span class='va'>starttime</span> <span class='op'>=</span> <span class='st'>""</span>,
@@ -2507,7 +2541,7 @@ d-article blockquote {
                 <span class='st'>'&amp;reverse='</span>, <span class='va'>reverse</span>,
                 <span class='st'>'&amp;startTime='</span>, <span class='va'>starttime</span><span class='op'>)</span>
   
- <span class='va'>result</span> <span class='op'>&lt;-</span> <span class='fu'>tibble</span><span class='op'>(</span>data <span class='op'>=</span> <span class='fu'>content</span><span class='op'>(</span><span class='fu'>GET</span><span class='op'>(</span><span class='va'>url</span><span class='op'>)</span>, <span class='st'>"parsed"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+ <span class='va'>result</span> <span class='op'>&lt;-</span> <span class='fu'>tibble</span><span class='op'>(</span>data <span class='op'>=</span> <span class='fu'><a href='https://httr.r-lib.org/reference/content.html'>content</a></span><span class='op'>(</span><span class='fu'><a href='https://httr.r-lib.org/reference/GET.html'>GET</a></span><span class='op'>(</span><span class='va'>url</span><span class='op'>)</span>, <span class='st'>"parsed"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
     <span class='fu'>unnest_wider</span><span class='op'>(</span><span class='va'>data</span><span class='op'>)</span>
 <span class='op'>}</span>
 </code></pre>
@@ -2516,8 +2550,8 @@ d-article blockquote {
 <p>Next, I used this function to get the bucketed 5 minute trade data starting from the day before the crash.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre><code><span class='va'>xbt</span> <span class='op'>&lt;-</span> <span class='fu'>xbt_reader</span><span class='op'>(</span>timeframe <span class='op'>=</span> <span class='st'>"5m"</span>, starttime <span class='op'>=</span> <span class='st'>"2020-03-11"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'>mutate</span><span class='op'>(</span>timestamp <span class='op'>=</span> <span class='fu'>as_datetime</span><span class='op'>(</span><span class='va'>timestamp</span><span class='op'>)</span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>xbt</span> <span class='op'>&lt;-</span> <span class='fu'>xbt_reader</span><span class='op'>(</span>timeframe <span class='op'>=</span> <span class='st'>"5m"</span>, starttime <span class='op'>=</span> <span class='st'>"2020-03-11"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>mutate</span><span class='op'>(</span>timestamp <span class='op'>=</span> <span class='fu'><a href='http://lubridate.tidyverse.org/reference/as_date.html'>as_datetime</a></span><span class='op'>(</span><span class='va'>timestamp</span><span class='op'>)</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
@@ -2525,10 +2559,10 @@ d-article blockquote {
 <p>The price action can now be plotted using a combination of <code>tidyqaunt</code> and <code>gganimate</code>.</p>
 <div class="layout-chunk" data-layout="l-page">
 <div class="sourceCode">
-<pre><code><span class='va'>xbt</span> <span class='op'>%&gt;%</span> 
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>xbt</span> <span class='op'>%&gt;%</span> 
   <span class='fu'>mutate</span><span class='op'>(</span>label <span class='op'>=</span> <span class='st'>"help"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
   <span class='fu'>ggplot</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>timestamp</span>, y <span class='op'>=</span> <span class='va'>close</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'>geom_candlestick</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>open <span class='op'>=</span> <span class='va'>open</span>, high <span class='op'>=</span> <span class='va'>high</span>, low <span class='op'>=</span> <span class='va'>low</span>, close<span class='op'>=</span> <span class='va'>close</span><span class='op'>)</span>,
+  <span class='fu'><a href='https://rdrr.io/pkg/tidyquant/man/geom_chart.html'>geom_candlestick</a></span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>open <span class='op'>=</span> <span class='va'>open</span>, high <span class='op'>=</span> <span class='va'>high</span>, low <span class='op'>=</span> <span class='va'>low</span>, close<span class='op'>=</span> <span class='va'>close</span><span class='op'>)</span>,
                    fill_up <span class='op'>=</span> <span class='st'>"green"</span>,
                    fill_down <span class='op'>=</span> <span class='st'>"red"</span>,
                    colour_up <span class='op'>=</span> <span class='st'>"green"</span>,
@@ -2537,12 +2571,12 @@ d-article blockquote {
   <span class='fu'>scale_y_continuous</span><span class='op'>(</span>labels <span class='op'>=</span> <span class='fu'>scales</span><span class='fu'>::</span><span class='va'><a href='https://scales.r-lib.org//reference/label_dollar.html'>dollar</a></span><span class='op'>)</span> <span class='op'>+</span>
   <span class='fu'>labs</span><span class='op'>(</span>y <span class='op'>=</span> <span class='st'>"Price (USD)"</span>, 
        x <span class='op'>=</span> <span class='st'>"Time"</span><span class='op'>)</span>  <span class='op'>+</span>
-  <span class='fu'>transition_time</span><span class='op'>(</span><span class='va'>timestamp</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'>shadow_mark</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://gganimate.com/reference/transition_time.html'>transition_time</a></span><span class='op'>(</span><span class='va'>timestamp</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://gganimate.com/reference/shadow_mark.html'>shadow_mark</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
   <span class='fu'>theme_minimal</span><span class='op'>(</span><span class='op'>)</span>
 </code></pre>
 </div>
-<pre><code>NULL</code></pre>
+<p><img src="bitcoin_files/figure-html5/unnamed-chunk-3-1.gif" /><!-- --></p>
 </div>
 <p>As can be seen, this was a dramatic sell of with price dropping from almost 8000 USD to the low 3000 USD mark within a matter of hours, before recovery slightly to around the 5000 USD level.</p>
 <h1 id="ddos-attack">DDoS attack</h1>
@@ -2553,8 +2587,8 @@ More information on the DDoS attacks can be found here: <a href="https://blog.bi
 <p>I’ve adjusted the time interval to the lowest resolution possible (1 minute) to clearly see the effect of the DDoS attacks.</p>
 <div class="layout-chunk" data-layout="l-page">
 <div class="sourceCode">
-<pre><code><span class='va'>xbt_lower</span> <span class='op'>&lt;-</span> <span class='fu'>xbt_reader</span><span class='op'>(</span>timeframe <span class='op'>=</span> <span class='st'>"1m"</span>, starttime <span class='op'>=</span> <span class='st'>"2020-03-13"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'>mutate</span><span class='op'>(</span>timestamp <span class='op'>=</span> <span class='fu'>as_datetime</span><span class='op'>(</span><span class='va'>timestamp</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>xbt_lower</span> <span class='op'>&lt;-</span> <span class='fu'>xbt_reader</span><span class='op'>(</span>timeframe <span class='op'>=</span> <span class='st'>"1m"</span>, starttime <span class='op'>=</span> <span class='st'>"2020-03-13"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>mutate</span><span class='op'>(</span>timestamp <span class='op'>=</span> <span class='fu'><a href='http://lubridate.tidyverse.org/reference/as_date.html'>as_datetime</a></span><span class='op'>(</span><span class='va'>timestamp</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
   <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>timestamp</span> <span class='op'>&gt;</span> <span class='st'>"2020-03-13 11:30:00"</span> <span class='op'>&amp;</span> <span class='va'>timestamp</span> <span class='op'>&lt;</span> <span class='st'>"2020-03-13 13:30:00"</span> <span class='op'>|</span>
         <span class='va'>timestamp</span> <span class='op'>&gt;</span> <span class='st'>"2020-03-13 01:30:00"</span> <span class='op'>&amp;</span> <span class='va'>timestamp</span> <span class='op'>&lt;</span> <span class='st'>"2020-03-13 03:30:00"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
   <span class='fu'>mutate</span><span class='op'>(</span>ddos <span class='op'>=</span> <span class='fu'>case_when</span><span class='op'>(</span><span class='va'>timestamp</span> <span class='op'>&gt;</span> <span class='st'>"2020-03-13 01:30:00"</span> <span class='op'>&amp;</span> <span class='va'>timestamp</span> <span class='op'>&lt;</span> <span class='st'>"2020-03-13 03:30:00"</span> <span class='op'>~</span> <span class='st'>"First attack"</span>,
@@ -2564,7 +2598,7 @@ More information on the DDoS attacks can be found here: <a href="https://blog.bi
 
 <span class='va'>p1</span> <span class='op'>&lt;-</span> <span class='va'>xbt_lower</span> <span class='op'>%&gt;%</span> 
   <span class='fu'>ggplot</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>timestamp</span>, y <span class='op'>=</span> <span class='va'>close</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'>geom_candlestick</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>open <span class='op'>=</span> <span class='va'>open</span>, high <span class='op'>=</span> <span class='va'>high</span>, low <span class='op'>=</span> <span class='va'>low</span>, close<span class='op'>=</span> <span class='va'>close</span><span class='op'>)</span>,
+  <span class='fu'><a href='https://rdrr.io/pkg/tidyquant/man/geom_chart.html'>geom_candlestick</a></span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>open <span class='op'>=</span> <span class='va'>open</span>, high <span class='op'>=</span> <span class='va'>high</span>, low <span class='op'>=</span> <span class='va'>low</span>, close<span class='op'>=</span> <span class='va'>close</span><span class='op'>)</span>,
                    fill_up <span class='op'>=</span> <span class='st'>"green"</span>,
                    fill_down <span class='op'>=</span> <span class='st'>"red"</span>,
                    colour_up <span class='op'>=</span> <span class='st'>"green"</span>,
@@ -2589,7 +2623,7 @@ More information on the DDoS attacks can be found here: <a href="https://blog.bi
 
   
 <span class='va'>p1</span> <span class='op'>/</span> <span class='va'>p2</span> <span class='op'>+</span>
-  <span class='fu'>plot_annotation</span><span class='op'>(</span>title <span class='op'>=</span> <span class='st'>"Price data during the DDoS attacks"</span><span class='op'>)</span>
+  <span class='fu'><a href='https://patchwork.data-imaginist.com/reference/plot_annotation.html'>plot_annotation</a></span><span class='op'>(</span>title <span class='op'>=</span> <span class='st'>"Price data during the DDoS attacks"</span><span class='op'>)</span>
 </code></pre>
 </div>
 <p><img src="bitcoin_files/figure-html5/unnamed-chunk-4-1.png" width="624" /></p>
@@ -2599,7 +2633,7 @@ More information on the DDoS attacks can be found here: <a href="https://blog.bi
 <h1 id="summary">Summary</h1>
 <p>There are a several other avenues that could be interesting to explore here, such as visualising the order book liquidity during the crash compared to a more “stable” period of time, however I may save that for a follow-up post. I have also been playing with the Bitmex websocket connection which streams real time data from the exchange - I think a shiny app would be really cool to visualise this so may try something there as well.</p>
 <p>Thanks for reading!</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
 <div id="ref-R-tidyquant" class="csl-entry" role="doc-biblioentry">
 Dancho, Matt, and Davis Vaughan. 2020. <em>Tidyquant: Tidy Quantitative Financial Analysis</em>. <a href="https://CRAN.R-project.org/package=tidyquant">https://CRAN.R-project.org/package=tidyquant</a>.

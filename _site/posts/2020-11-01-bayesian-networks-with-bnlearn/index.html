@@ -676,6 +676,11 @@ d-article pre a:hover {
   text-decoration: underline;
 }
 
+d-article details {
+  grid-column: text;
+  margin-bottom: 0.8em;
+}
+
 @media(min-width: 768px) {
 
 d-article pre,
@@ -830,6 +835,17 @@ d-article .citation {
 
 div.hanging-indent{
   margin-left: 1em; text-indent: -1em;
+}
+
+/* Citation hover box */
+
+.tippy-box[data-theme~=light-border] {
+  background-color: rgba(250, 250, 250, 0.95);
+}
+
+.tippy-content > p {
+  margin-bottom: 0;
+  padding: 2px;
 }
 
 
@@ -1497,7 +1513,7 @@ function init_distill() {
     var layout = $(this).attr('data-layout');
 
     // apply layout to markdown level block elements
-    var elements = $(this).children().not('div.sourceCode, pre, script');
+    var elements = $(this).children().not('details, div.sourceCode, pre, script');
     elements.each(function(i, el) {
       var layout_div = $('<div class="' + layout + '"></div>');
       if (layout_div.hasClass('shaded')) {
@@ -1612,6 +1628,20 @@ function init_distill() {
     // move appendix-bottom entries to the bottom
     $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
     $('.appendix-bottom').remove();
+
+    // hoverable references
+    $('span.citation[data-cites]').each(function() {
+      var refHtml = $('#ref-' + $(this).attr('data-cites')).html();
+      window.tippy(this, {
+        allowHTML: true,
+        content: refHtml,
+        maxWidth: 500,
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'light-border',
+        placement: 'bottom-start'
+      });
+    });
 
     // clear polling timer
     clearInterval(tid);
@@ -1772,13 +1802,17 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <!--/radix_placeholder_distill-->
-  <script src="../../site_libs/header-attrs-2.6.4/header-attrs.js"></script>
+  <script src="../../site_libs/header-attrs-2.6.6/header-attrs.js"></script>
   <script src="../../site_libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
   <link href="../../site_libs/vis-4.20.1/vis.css" rel="stylesheet" />
   <script src="../../site_libs/vis-4.20.1/vis.min.js"></script>
   <script src="../../site_libs/visNetwork-binding-2.0.9/visNetwork.js"></script>
   <link href="../../site_libs/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" />
   <script src="../../site_libs/jquery-1.11.3/jquery.min.js"></script>
+  <script src="../../site_libs/popper-2.6.0/popper.min.js"></script>
+  <link href="../../site_libs/tippy-6.2.7/tippy.css" rel="stylesheet" />
+  <link href="../../site_libs/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
+  <script src="../../site_libs/tippy-6.2.7/tippy.umd.min.js"></script>
   <script src="../../site_libs/anchor-4.2.2/anchor.min.js"></script>
   <script src="../../site_libs/bowser-1.9.3/bowser.min.js"></script>
   <script src="../../site_libs/webcomponents-2.0.0/webcomponents.js"></script>
@@ -2479,8 +2513,8 @@ d-article blockquote {
 <h1>Investigating sports injuries with Bayesian networks using {bnlearn}</h1>
 <!--radix_placeholder_categories-->
 <div class="dt-tags">
-  <a href="../../index.html#category:R" class="dt-tag">R</a>
-  <a href="../../index.html#category:Bayesian_Network" class="dt-tag">Bayesian Network</a>
+  <a href="../../blog.html#category:R" class="dt-tag">R</a>
+  <a href="../../blog.html#category:Bayesian_Network" class="dt-tag">Bayesian Network</a>
 </div>
 <!--/radix_placeholder_categories-->
 <p><p>This post explores the use of Bayesian networks with the excellent {bnlearn} package to examine the relationship between different risk factors and the probability of sustaining a sports injury.</p></p>
@@ -2549,7 +2583,7 @@ d-article blockquote {
 <p>Data can be found here: <a href="https://raw.githubusercontent.com/hfshr/distill_blog/master/_posts/2020-11-01-bayesian-networks-with-bnlearn/injuries.csv" class="uri">https://raw.githubusercontent.com/hfshr/distill_blog/master/_posts/2020-11-01-bayesian-networks-with-bnlearn/injuries.csv</a></p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre><code><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span>
 <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://www.bnlearn.com/'>bnlearn</a></span><span class='op'>)</span>
 <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/rstudio/gt'>gt</a></span><span class='op'>)</span>
 
@@ -2561,7 +2595,7 @@ d-article blockquote {
 <p>Each variable has two levels, as shown below:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre><code><span class='va'>injuries</span> <span class='op'>%&gt;%</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>injuries</span> <span class='op'>%&gt;%</span>
   <span class='fu'>gather</span><span class='op'>(</span><span class='va'>var</span>, <span class='va'>value</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'>count</span><span class='op'>(</span><span class='va'>var</span>, <span class='va'>value</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'>select</span><span class='op'>(</span><span class='op'>-</span><span class='va'>n</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
@@ -2575,7 +2609,7 @@ d-article blockquote {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#uisjraolyj .gt_table {
+#orbrdlqxud .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -2600,7 +2634,7 @@ d-article blockquote {
   border-left-color: #D3D3D3;
 }
 
-#uisjraolyj .gt_heading {
+#orbrdlqxud .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2612,7 +2646,7 @@ d-article blockquote {
   border-right-color: #D3D3D3;
 }
 
-#uisjraolyj .gt_title {
+#orbrdlqxud .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2622,7 +2656,7 @@ d-article blockquote {
   border-bottom-width: 0;
 }
 
-#uisjraolyj .gt_subtitle {
+#orbrdlqxud .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2632,13 +2666,13 @@ d-article blockquote {
   border-top-width: 0;
 }
 
-#uisjraolyj .gt_bottom_border {
+#orbrdlqxud .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#uisjraolyj .gt_col_headings {
+#orbrdlqxud .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2653,7 +2687,7 @@ d-article blockquote {
   border-right-color: #D3D3D3;
 }
 
-#uisjraolyj .gt_col_heading {
+#orbrdlqxud .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2673,7 +2707,7 @@ d-article blockquote {
   overflow-x: hidden;
 }
 
-#uisjraolyj .gt_column_spanner_outer {
+#orbrdlqxud .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2685,15 +2719,15 @@ d-article blockquote {
   padding-right: 4px;
 }
 
-#uisjraolyj .gt_column_spanner_outer:first-child {
+#orbrdlqxud .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#uisjraolyj .gt_column_spanner_outer:last-child {
+#orbrdlqxud .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#uisjraolyj .gt_column_spanner {
+#orbrdlqxud .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2705,7 +2739,7 @@ d-article blockquote {
   width: 100%;
 }
 
-#uisjraolyj .gt_group_heading {
+#orbrdlqxud .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2727,7 +2761,7 @@ d-article blockquote {
   vertical-align: middle;
 }
 
-#uisjraolyj .gt_empty_group_heading {
+#orbrdlqxud .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2742,15 +2776,15 @@ d-article blockquote {
   vertical-align: middle;
 }
 
-#uisjraolyj .gt_from_md > :first-child {
+#orbrdlqxud .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#uisjraolyj .gt_from_md > :last-child {
+#orbrdlqxud .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#uisjraolyj .gt_row {
+#orbrdlqxud .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2769,7 +2803,7 @@ d-article blockquote {
   overflow-x: hidden;
 }
 
-#uisjraolyj .gt_stub {
+#orbrdlqxud .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2781,7 +2815,7 @@ d-article blockquote {
   padding-left: 12px;
 }
 
-#uisjraolyj .gt_summary_row {
+#orbrdlqxud .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2791,7 +2825,7 @@ d-article blockquote {
   padding-right: 5px;
 }
 
-#uisjraolyj .gt_first_summary_row {
+#orbrdlqxud .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2801,7 +2835,7 @@ d-article blockquote {
   border-top-color: #D3D3D3;
 }
 
-#uisjraolyj .gt_grand_summary_row {
+#orbrdlqxud .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2811,7 +2845,7 @@ d-article blockquote {
   padding-right: 5px;
 }
 
-#uisjraolyj .gt_first_grand_summary_row {
+#orbrdlqxud .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2821,11 +2855,11 @@ d-article blockquote {
   border-top-color: #D3D3D3;
 }
 
-#uisjraolyj .gt_striped {
+#orbrdlqxud .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#uisjraolyj .gt_table_body {
+#orbrdlqxud .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2834,7 +2868,7 @@ d-article blockquote {
   border-bottom-color: #D3D3D3;
 }
 
-#uisjraolyj .gt_footnotes {
+#orbrdlqxud .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2848,13 +2882,13 @@ d-article blockquote {
   border-right-color: #D3D3D3;
 }
 
-#uisjraolyj .gt_footnote {
+#orbrdlqxud .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#uisjraolyj .gt_sourcenotes {
+#orbrdlqxud .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2868,46 +2902,46 @@ d-article blockquote {
   border-right-color: #D3D3D3;
 }
 
-#uisjraolyj .gt_sourcenote {
+#orbrdlqxud .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#uisjraolyj .gt_left {
+#orbrdlqxud .gt_left {
   text-align: left;
 }
 
-#uisjraolyj .gt_center {
+#orbrdlqxud .gt_center {
   text-align: center;
 }
 
-#uisjraolyj .gt_right {
+#orbrdlqxud .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#uisjraolyj .gt_font_normal {
+#orbrdlqxud .gt_font_normal {
   font-weight: normal;
 }
 
-#uisjraolyj .gt_font_bold {
+#orbrdlqxud .gt_font_bold {
   font-weight: bold;
 }
 
-#uisjraolyj .gt_font_italic {
+#orbrdlqxud .gt_font_italic {
   font-style: italic;
 }
 
-#uisjraolyj .gt_super {
+#orbrdlqxud .gt_super {
   font-size: 65%;
 }
 
-#uisjraolyj .gt_footnote_marks {
+#orbrdlqxud .gt_footnote_marks {
   font-style: italic;
   font-size: 65%;
 }
 </style>
-<div id="uisjraolyj" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
+<div id="orbrdlqxud" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
   
   <thead class="gt_col_headings">
     <tr>
@@ -2991,7 +3025,7 @@ d-article blockquote {
 <p>To start, I simply extract the names of the variables into two character strings, one for the “explanatory” variables and one for the “control” variables. I’ll use these character vectors in later steps.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre><code><span class='co'># select names of measured variables</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># select names of measured variables</span>
 <span class='va'>explanatory_vars</span> <span class='op'>&lt;-</span> <span class='va'>injuries</span> <span class='op'>%&gt;%</span>
   <span class='fu'>select</span><span class='op'>(</span><span class='va'>stiffness</span><span class='op'>:</span><span class='va'>fffs</span>, <span class='va'>injured</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='op'>)</span>
@@ -3006,7 +3040,7 @@ d-article blockquote {
 <p>Next, I create a blacklist to restrict certain arcs between specific nodes from being learnt in the network. Specifically, I restrict the direction of the arcs from control <span class="math inline">\(\rightarrow\)</span> explanatory and restrict some arcs between the control variables, as these are not of interest.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre><code><span class='co'>## create blacklist</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'>## create blacklist</span>
 
 <span class='va'>black_list</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/expand.grid.html'>expand.grid</a></span><span class='op'>(</span>
   from <span class='op'>=</span> <span class='va'>explanatory_vars</span>,
@@ -3025,7 +3059,7 @@ d-article blockquote {
 <p>I also enforce a relationship between <code>nlebase</code> <span class="math inline">\(\rightarrow\)</span> <code>injured</code>. This is a relationship is often found in the literature, although for reasons I won’t get into here wasn’t apparent in the data I collected, but I still wanted to include this relationship in my analysis.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre><code><span class='co'>## create whitelist</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'>## create whitelist</span>
 <span class='va'>white_list</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>
   from <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"nlebase"</span><span class='op'>)</span>,
   to <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"injured"</span><span class='op'>)</span>
@@ -3040,7 +3074,7 @@ d-article blockquote {
 </aside>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre><code><span class='co'># set seed for reproducibility</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># set seed for reproducibility</span>
 <span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>122</span><span class='op'>)</span>
 
 <span class='va'>str_network</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/bnlearn/man/arc.strength.html'>boot.strength</a></span><span class='op'>(</span>
@@ -3058,14 +3092,14 @@ d-article blockquote {
 <p>Using the <code>averaged.network</code> function, I select all the arcs that were present in at least 30% of the learnt networks, this is equivalent to an arc strength of 0.3. An arc strength of 1 indicates that the arc was always present in the network, with the value decreasing as arcs were found in fewer networks.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre><code><span class='va'>avg30</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/bnlearn/man/arc.strength.html'>averaged.network</a></span><span class='op'>(</span><span class='va'>str_network</span>, threshold <span class='op'>=</span> <span class='fl'>0.30</span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>avg30</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/bnlearn/man/arc.strength.html'>averaged.network</a></span><span class='op'>(</span><span class='va'>str_network</span>, threshold <span class='op'>=</span> <span class='fl'>0.30</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
 <p>We can now plot the network to visualise the relationships that have been learnt. I use the <code>strength.plot</code> function which shows the strength of the relationship between arcs via different line styles in the plot. Thin, dashed arcs indicate the weakest arcs (arc strength below 0.50), whereas thick solid arcs indicate the strongest arcs (arc strengths approaching 1).</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre><code><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>Rgraphviz</span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>Rgraphviz</span><span class='op'>)</span>
 
 <span class='va'>gR</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/bnlearn/man/strength.plot.html'>strength.plot</a></span><span class='op'>(</span>
   <span class='va'>avg30</span>,
@@ -3092,7 +3126,7 @@ d-article blockquote {
 <p>Now we have learnt the network structure, we can use the network to answer queries about the probabilistic relationships in the network. This is achieved thorough using the conditional probabilities tables that give us the probability of an event, given other events. For example, take the stiffness node from the network above. We see there are two arcs linked to the stiffness node, pi <span class="math inline">\(\rightarrow\)</span> stiffness and gender <span class="math inline">\(\rightarrow\)</span> stiffness. To see these probability tables we can simple use:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre><code><span class='co'># fit the network to the data</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># fit the network to the data</span>
 <span class='va'>fitted</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/bnlearn/man/bn.fit.html'>bn.fit</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/bnlearn/man/cpdag.html'>cextend</a></span><span class='op'>(</span><span class='va'>avg30</span><span class='op'>)</span>, <span class='va'>injuries</span><span class='op'>)</span>
 
 <span class='co'># Conditional probabilities for the stiffness node</span>
@@ -3120,7 +3154,7 @@ I’ve used likelihood weighting here(method = “lw”) which is an approximate
 </aside>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre><code><span class='co'># ask the query</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># ask the query</span>
 <span class='fu'><a href='https://rdrr.io/pkg/bnlearn/man/cpquery.html'>cpquery</a></span><span class='op'>(</span><span class='va'>fitted</span>,
   event <span class='op'>=</span> <span class='op'>(</span><span class='va'>injured</span> <span class='op'>==</span> <span class='st'>"injured"</span><span class='op'>)</span>,
   evidence <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>stiffness <span class='op'>=</span> <span class='st'>"High"</span><span class='op'>)</span>,
@@ -3133,7 +3167,7 @@ I’ve used likelihood weighting here(method = “lw”) which is an approximate
 <p>Likewise we can ask the same question for when stiffness == “Low”</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre><code><span class='fu'><a href='https://rdrr.io/pkg/bnlearn/man/cpquery.html'>cpquery</a></span><span class='op'>(</span><span class='va'>fitted</span>,
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/pkg/bnlearn/man/cpquery.html'>cpquery</a></span><span class='op'>(</span><span class='va'>fitted</span>,
   event <span class='op'>=</span> <span class='op'>(</span><span class='va'>injured</span> <span class='op'>==</span> <span class='st'>"injured"</span><span class='op'>)</span>,
   evidence <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>stiffness <span class='op'>=</span> <span class='st'>"Low"</span><span class='op'>)</span>,
   method <span class='op'>=</span> <span class='st'>"lw"</span>
@@ -3146,7 +3180,7 @@ I’ve used likelihood weighting here(method = “lw”) which is an approximate
 <p>Now, this can get a little repetitive when you want to investigate lots of variables with different combinations, so I created a function that enables multiple variables to be passed in. It’s a bit lengthy and could probably be simplified a little, but it does the job…!</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre><code><span class='va'>probability_generator</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>.data</span>, <span class='va'>vars</span>, <span class='va'>outcome</span>, <span class='va'>state</span>, <span class='va'>model</span>, <span class='va'>repeats</span> <span class='op'>=</span> <span class='fl'>500000</span><span class='op'>)</span> <span class='op'>{</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>probability_generator</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>.data</span>, <span class='va'>vars</span>, <span class='va'>outcome</span>, <span class='va'>state</span>, <span class='va'>model</span>, <span class='va'>repeats</span> <span class='op'>=</span> <span class='fl'>500000</span><span class='op'>)</span> <span class='op'>{</span>
   <span class='va'>all.levels</span> <span class='op'>&lt;-</span> <span class='kw'>if</span> <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/any.html'>any</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>vars</span><span class='op'>)</span> <span class='op'>&gt;</span> <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
     <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span><span class='op'>(</span><span class='va'>.data</span><span class='op'>[</span>, <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>.data</span><span class='op'>)</span> <span class='op'>%in%</span> <span class='va'>vars</span><span class='op'>)</span><span class='op'>]</span>, <span class='va'>levels</span><span class='op'>)</span>
   <span class='op'>}</span> <span class='kw'>else</span> <span class='op'>{</span>
@@ -3205,7 +3239,7 @@ I’ve used likelihood weighting here(method = “lw”) which is an approximate
 <p>For example for the injured node we can do:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre><code><span class='fu'><a href='https://rdrr.io/pkg/bnlearn/man/mb.html'>mb</a></span><span class='op'>(</span><span class='va'>avg30</span>, <span class='st'>"injured"</span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/pkg/bnlearn/man/mb.html'>mb</a></span><span class='op'>(</span><span class='va'>avg30</span>, <span class='st'>"injured"</span><span class='op'>)</span>
 </code></pre>
 </div>
 <pre><code>[1] &quot;nlebase&quot;   &quot;clevel&quot;    &quot;hours&quot;     &quot;stiffness&quot; &quot;balance&quot;  </code></pre>
@@ -3214,7 +3248,7 @@ I’ve used likelihood weighting here(method = “lw”) which is an approximate
 <p>With our <code>probability_generator</code> function, we can now pass in these nodes and find out the probability of the injured node being in the injured state for every combination of the nodes in the markov blanket. Remember each node can contains only two possible states, so we should end up with 2^5 = 32 combinations.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre><code><span class='va'>markov_blanket</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/bnlearn/man/mb.html'>mb</a></span><span class='op'>(</span><span class='va'>avg30</span>, <span class='st'>"injured"</span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>markov_blanket</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/bnlearn/man/mb.html'>mb</a></span><span class='op'>(</span><span class='va'>avg30</span>, <span class='st'>"injured"</span><span class='op'>)</span>
 
 <span class='va'>res</span> <span class='op'>&lt;-</span> <span class='fu'>probability_generator</span><span class='op'>(</span><span class='va'>injuries</span>,
   vars <span class='op'>=</span> <span class='va'>markov_blanket</span>,
@@ -3232,7 +3266,7 @@ I’ve used likelihood weighting here(method = “lw”) which is an approximate
 <p>32 combinations may be a bit much to look at, so here I make a quick function to get the top 3 highest and lowest probabilities for comparison.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre><code><span class='va'>toptail</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>data</span>, <span class='va'>n</span><span class='op'>)</span> <span class='op'>{</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>toptail</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>data</span>, <span class='va'>n</span><span class='op'>)</span> <span class='op'>{</span>
   <span class='va'>data</span> <span class='op'>%&gt;%</span>
     <span class='fu'>top_n</span><span class='op'>(</span><span class='va'>n</span>, <span class='va'>prob</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
     <span class='fu'>bind_rows</span><span class='op'>(</span><span class='va'>.</span>, <span class='va'>data</span> <span class='op'>%&gt;%</span>
@@ -3680,7 +3714,7 @@ I’ve used likelihood weighting here(method = “lw”) which is an approximate
 <div class="niceNetwork">
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre><code><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://robsonfernandes.net/bnviewer/'>bnviewer</a></span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://robsonfernandes.net/bnviewer/'>bnviewer</a></span><span class='op'>)</span>
   
 
 <span class='fu'><a href='https://rdrr.io/pkg/bnviewer/man/strength.viewer.html'>strength.viewer</a></span><span class='op'>(</span>

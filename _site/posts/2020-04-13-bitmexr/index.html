@@ -53,35 +53,35 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #545454; font-weight: bold; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #a1024a; } /* BaseN */
+code span.al { color: #ad0000; } /* Alert */
+code span.an { color: #5e5e5e; } /* Annotation */
+code span.at { color: #20794d; } /* Attribute */
+code span.bn { color: #ad0000; } /* BaseN */
 code span.bu { } /* BuiltIn */
-code span.cf { color: #007faa; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #008000; } /* Char */
-code span.cn { color: #d91e18; } /* Constant */
-code span.co { color: #545454; } /* Comment */
-code span.cv { color: #545454; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #aa5d00; } /* DataType */
-code span.dv { color: #a1024a; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.cf { color: #007ba5; } /* ControlFlow */
+code span.ch { color: #20794d; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #5e5e5e; } /* Comment */
+code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+code span.dt { color: #ad0000; } /* DataType */
+code span.dv { color: #ad0000; } /* DecVal */
+code span.er { color: #ad0000; } /* Error */
 code span.ex { } /* Extension */
-code span.fl { color: #a1024a; } /* Float */
-code span.fu { color: #4254a7; } /* Function */
+code span.fl { color: #ad0000; } /* Float */
+code span.fu { color: #4758ab; } /* Function */
 code span.im { } /* Import */
-code span.in { color: #545454; font-weight: bold; } /* Information */
-code span.kw { color: #007faa; font-weight: bold; } /* Keyword */
-code span.op { color: #696969; } /* Operator */
-code span.ot { color: #007faa; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #008000; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #008000; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #008000; } /* VerbatimString */
-code span.wa { color: #545454; font-weight: bold; font-style: italic; } /* Warning */
+code span.in { color: #5e5e5e; } /* Information */
+code span.kw { color: #007ba5; } /* Keyword */
+code span.op { color: #5e5e5e; } /* Operator */
+code span.ot { color: #007ba5; } /* Other */
+code span.pp { color: #ad0000; } /* Preprocessor */
+code span.sc { color: #20794d; } /* SpecialChar */
+code span.ss { color: #20794d; } /* SpecialString */
+code span.st { color: #20794d; } /* String */
+code span.va { color: #111111; } /* Variable */
+code span.vs { color: #20794d; } /* VerbatimString */
+code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </style>
 
   <!--radix_placeholder_meta_tags-->
@@ -133,7 +133,7 @@ code span.wa { color: #545454; font-weight: bold; font-style: italic; } /* Warni
 <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["bitmexr_files/figure-html5/gganimate-1.gif","bitmexr_files/figure-html5/unnamed-chunk-9-1.png","images/price.gif","images/warning.png","r-references.bib"]}
+  {"type":"character","attributes":{},"value":["bitmexr_files/anchor-4.2.2/anchor.min.js","bitmexr_files/bowser-1.9.3/bowser.min.js","bitmexr_files/distill-2.2.21/template.v2.js","bitmexr_files/figure-html5/gganimate-1.gif","bitmexr_files/figure-html5/unnamed-chunk-9-1.png","bitmexr_files/header-attrs-2.5/header-attrs.js","bitmexr_files/jquery-1.11.3/jquery.min.js","bitmexr_files/pagedtable-1.1/css/pagedtable.css","bitmexr_files/pagedtable-1.1/js/pagedtable.js","bitmexr_files/webcomponents-2.0.0/webcomponents.js","images/price.gif","images/warning.png","r-references.bib"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
 <meta name="distill:offset" content="../.."/>
@@ -672,6 +672,11 @@ d-article pre a:hover {
   text-decoration: underline;
 }
 
+d-article details {
+  grid-column: text;
+  margin-bottom: 0.8em;
+}
+
 @media(min-width: 768px) {
 
 d-article pre,
@@ -826,6 +831,17 @@ d-article .citation {
 
 div.hanging-indent{
   margin-left: 1em; text-indent: -1em;
+}
+
+/* Citation hover box */
+
+.tippy-box[data-theme~=light-border] {
+  background-color: rgba(250, 250, 250, 0.95);
+}
+
+.tippy-content > p {
+  margin-bottom: 0;
+  padding: 2px;
 }
 
 
@@ -1493,7 +1509,7 @@ function init_distill() {
     var layout = $(this).attr('data-layout');
 
     // apply layout to markdown level block elements
-    var elements = $(this).children().not('div.sourceCode, pre, script');
+    var elements = $(this).children().not('details, div.sourceCode, pre, script');
     elements.each(function(i, el) {
       var layout_div = $('<div class="' + layout + '"></div>');
       if (layout_div.hasClass('shaded')) {
@@ -1608,6 +1624,20 @@ function init_distill() {
     // move appendix-bottom entries to the bottom
     $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
     $('.appendix-bottom').remove();
+
+    // hoverable references
+    $('span.citation[data-cites]').each(function() {
+      var refHtml = $('#ref-' + $(this).attr('data-cites')).html();
+      window.tippy(this, {
+        allowHTML: true,
+        content: refHtml,
+        maxWidth: 500,
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'light-border',
+        placement: 'bottom-start'
+      });
+    });
 
     // clear polling timer
     clearInterval(tid);
@@ -1768,10 +1798,14 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <!--/radix_placeholder_distill-->
-  <script src="../../site_libs/header-attrs-2.5/header-attrs.js"></script>
+  <script src="../../site_libs/header-attrs-2.6.6/header-attrs.js"></script>
   <link href="../../site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
   <script src="../../site_libs/pagedtable-1.1/js/pagedtable.js"></script>
   <script src="../../site_libs/jquery-1.11.3/jquery.min.js"></script>
+  <script src="../../site_libs/popper-2.6.0/popper.min.js"></script>
+  <link href="../../site_libs/tippy-6.2.7/tippy.css" rel="stylesheet" />
+  <link href="../../site_libs/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
+  <script src="../../site_libs/tippy-6.2.7/tippy.umd.min.js"></script>
   <script src="../../site_libs/anchor-4.2.2/anchor.min.js"></script>
   <script src="../../site_libs/bowser-1.9.3/bowser.min.js"></script>
   <script src="../../site_libs/webcomponents-2.0.0/webcomponents.js"></script>
@@ -2472,8 +2506,8 @@ d-article blockquote {
 <h1>bitmexr: An R client for BitMEX cryptocurrency exchange.</h1>
 <!--radix_placeholder_categories-->
 <div class="dt-tags">
-  <a href="../../index.html#category:Bitcoin" class="dt-tag">Bitcoin</a>
-  <a href="../../index.html#category:R" class="dt-tag">R</a>
+  <a href="../../blog.html#category:Bitcoin" class="dt-tag">Bitcoin</a>
+  <a href="../../blog.html#category:R" class="dt-tag">R</a>
 </div>
 <!--/radix_placeholder_categories-->
 <p><p>How bitmexr came to be.</p></p>
@@ -2492,7 +2526,7 @@ d-article blockquote {
 <p>Currently you can install <code>bitmexr</code> from github, but hopefully the package will be on CRAN soon.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre><code><span class='fu'>remotes</span><span class='fu'>::</span><span class='fu'><a href='https://remotes.r-lib.org/reference/install_github.html'>install_github</a></span><span class='op'>(</span><span class='st'>"hfshr/bitmexr"</span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'>remotes</span><span class='fu'>::</span><span class='fu'><a href='https://remotes.r-lib.org/reference/install_github.html'>install_github</a></span><span class='op'>(</span><span class='st'>"hfshr/bitmexr"</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
@@ -2512,7 +2546,7 @@ d-article blockquote {
 </ul>
 <div class="layout-chunk" data-layout="l-body-outset">
 <div class="sourceCode">
-<pre><code><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/hfshr/bitmexr'>bitmexr</a></span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/hfshr/bitmexr'>bitmexr</a></span><span class='op'>)</span>
 <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span>
 <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/rstudio/rmarkdown'>rmarkdown</a></span><span class='op'>)</span>
 <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://yihui.org/knitr/'>knitr</a></span><span class='op'>)</span>
@@ -2526,13 +2560,13 @@ d-article blockquote {
   <span class='fu'><a href='https://rdrr.io/pkg/knitr/man/kable.html'>kable</a></span><span class='op'>(</span><span class='op'>)</span>
 </code></pre>
 </div>
-<table>
+<table style="width:100%;">
 <colgroup>
 <col style="width: 20%" />
 <col style="width: 7%" />
 <col style="width: 5%" />
-<col style="width: 6%" />
-<col style="width: 6%" />
+<col style="width: 5%" />
+<col style="width: 8%" />
 <col style="width: 14%" />
 <col style="width: 11%" />
 <col style="width: 13%" />
@@ -2553,59 +2587,59 @@ d-article blockquote {
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">2020-11-01 10:54:05</td>
+<td style="text-align: left;">2021-01-26 21:15:22</td>
 <td style="text-align: left;">XBTUSD</td>
-<td style="text-align: left;">Sell</td>
-<td style="text-align: right;">10000</td>
-<td style="text-align: right;">13754</td>
-<td style="text-align: left;">ZeroMinusTick</td>
-<td style="text-align: right;">72710000</td>
-<td style="text-align: right;">0.7271000</td>
-<td style="text-align: right;">10000</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">2020-11-01 10:54:04</td>
-<td style="text-align: left;">XBTUSD</td>
-<td style="text-align: left;">Sell</td>
-<td style="text-align: right;">1263</td>
-<td style="text-align: right;">13754</td>
-<td style="text-align: left;">ZeroMinusTick</td>
-<td style="text-align: right;">9183273</td>
-<td style="text-align: right;">0.0918327</td>
-<td style="text-align: right;">1263</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">2020-11-01 10:54:04</td>
-<td style="text-align: left;">XBTUSD</td>
-<td style="text-align: left;">Sell</td>
-<td style="text-align: right;">1041</td>
-<td style="text-align: right;">13754</td>
-<td style="text-align: left;">ZeroMinusTick</td>
-<td style="text-align: right;">7569111</td>
-<td style="text-align: right;">0.0756911</td>
-<td style="text-align: right;">1041</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">2020-11-01 10:54:04</td>
-<td style="text-align: left;">XBTUSD</td>
-<td style="text-align: left;">Sell</td>
-<td style="text-align: right;">696</td>
-<td style="text-align: right;">13754</td>
-<td style="text-align: left;">ZeroMinusTick</td>
-<td style="text-align: right;">5060616</td>
-<td style="text-align: right;">0.0506062</td>
-<td style="text-align: right;">696</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">2020-11-01 10:54:01</td>
-<td style="text-align: left;">XBTUSD</td>
-<td style="text-align: left;">Sell</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">13754</td>
+<td style="text-align: left;">Buy</td>
+<td style="text-align: right;">11</td>
+<td style="text-align: right;">32099.5</td>
 <td style="text-align: left;">MinusTick</td>
-<td style="text-align: right;">7271</td>
-<td style="text-align: right;">0.0000727</td>
-<td style="text-align: right;">1</td>
+<td style="text-align: right;">34265</td>
+<td style="text-align: right;">0.0003427</td>
+<td style="text-align: right;">11</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2021-01-26 21:15:22</td>
+<td style="text-align: left;">XBTUSD</td>
+<td style="text-align: left;">Buy</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">32103.5</td>
+<td style="text-align: left;">ZeroPlusTick</td>
+<td style="text-align: right;">31150</td>
+<td style="text-align: right;">0.0003115</td>
+<td style="text-align: right;">10</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2021-01-26 21:15:22</td>
+<td style="text-align: left;">XBTUSD</td>
+<td style="text-align: left;">Buy</td>
+<td style="text-align: right;">11</td>
+<td style="text-align: right;">32103.5</td>
+<td style="text-align: left;">PlusTick</td>
+<td style="text-align: right;">34265</td>
+<td style="text-align: right;">0.0003427</td>
+<td style="text-align: right;">11</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2021-01-26 21:15:22</td>
+<td style="text-align: left;">XBTUSD</td>
+<td style="text-align: left;">Sell</td>
+<td style="text-align: right;">356</td>
+<td style="text-align: right;">32103.0</td>
+<td style="text-align: left;">MinusTick</td>
+<td style="text-align: right;">1108940</td>
+<td style="text-align: right;">0.0110894</td>
+<td style="text-align: right;">356</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2021-01-26 21:15:22</td>
+<td style="text-align: left;">XBTUSD</td>
+<td style="text-align: left;">Buy</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">32103.5</td>
+<td style="text-align: left;">MinusTick</td>
+<td style="text-align: right;">31150</td>
+<td style="text-align: right;">0.0003115</td>
+<td style="text-align: right;">10</td>
 </tr>
 </tbody>
 </table>
@@ -2615,7 +2649,7 @@ d-article blockquote {
 </ul>
 <div class="layout-chunk" data-layout="l-page">
 <div class="sourceCode">
-<pre><code><span class='fu'><a href='https://hfshr.github.io/bitmexr//reference/bucket_trades.html'>bucket_trades</a></span><span class='op'>(</span>symbol <span class='op'>=</span> <span class='st'>"XBTUSD"</span>, count <span class='op'>=</span> <span class='fl'>5</span>, binSize <span class='op'>=</span> <span class='st'>"1d"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://hfshr.github.io/bitmexr//reference/bucket_trades.html'>bucket_trades</a></span><span class='op'>(</span>symbol <span class='op'>=</span> <span class='st'>"XBTUSD"</span>, count <span class='op'>=</span> <span class='fl'>5</span>, binSize <span class='op'>=</span> <span class='st'>"1d"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
   <span class='fu'><a href='https://rdrr.io/pkg/knitr/man/kable.html'>kable</a></span><span class='op'>(</span><span class='op'>)</span>
 </code></pre>
 </div>
@@ -2654,79 +2688,79 @@ d-article blockquote {
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">2020-11-01</td>
+<td style="text-align: left;">2021-01-26</td>
 <td style="text-align: left;">XBTUSD</td>
-<td style="text-align: right;">13557.5</td>
-<td style="text-align: right;">14135.0</td>
-<td style="text-align: right;">13421.0</td>
-<td style="text-align: right;">13802.5</td>
-<td style="text-align: right;">367719</td>
-<td style="text-align: right;">1772871976</td>
-<td style="text-align: right;">13762.73</td>
-<td style="text-align: right;">10</td>
-<td style="text-align: right;">1.288186e+13</td>
-<td style="text-align: right;">128818.6</td>
-<td style="text-align: right;">1772871976</td>
+<td style="text-align: right;">32290.5</td>
+<td style="text-align: right;">34872.5</td>
+<td style="text-align: right;">31910.5</td>
+<td style="text-align: right;">32221.0</td>
+<td style="text-align: right;">365181</td>
+<td style="text-align: right;">3037356566</td>
+<td style="text-align: right;">33444.82</td>
+<td style="text-align: right;">19717</td>
+<td style="text-align: right;">9.082232e+12</td>
+<td style="text-align: right;">90822.32</td>
+<td style="text-align: right;">3037356566</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">2020-10-31</td>
+<td style="text-align: left;">2021-01-25</td>
 <td style="text-align: left;">XBTUSD</td>
-<td style="text-align: right;">13461.5</td>
-<td style="text-align: right;">13675.0</td>
-<td style="text-align: right;">13119.5</td>
-<td style="text-align: right;">13557.5</td>
-<td style="text-align: right;">366800</td>
-<td style="text-align: right;">1884089370</td>
-<td style="text-align: right;">13401.23</td>
-<td style="text-align: right;">2879</td>
-<td style="text-align: right;">1.405910e+13</td>
-<td style="text-align: right;">140591.0</td>
-<td style="text-align: right;">1884089370</td>
+<td style="text-align: right;">32090.0</td>
+<td style="text-align: right;">33120.0</td>
+<td style="text-align: right;">30936.0</td>
+<td style="text-align: right;">32290.5</td>
+<td style="text-align: right;">265458</td>
+<td style="text-align: right;">1904546206</td>
+<td style="text-align: right;">32195.75</td>
+<td style="text-align: right;">120</td>
+<td style="text-align: right;">5.916641e+12</td>
+<td style="text-align: right;">59166.41</td>
+<td style="text-align: right;">1904546206</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">2020-10-30</td>
+<td style="text-align: left;">2021-01-24</td>
 <td style="text-align: left;">XBTUSD</td>
-<td style="text-align: right;">13268.0</td>
-<td style="text-align: right;">13638.0</td>
-<td style="text-align: right;">12983.0</td>
-<td style="text-align: right;">13461.5</td>
-<td style="text-align: right;">348667</td>
-<td style="text-align: right;">1960110483</td>
-<td style="text-align: right;">13328.00</td>
-<td style="text-align: right;">12</td>
-<td style="text-align: right;">1.470738e+13</td>
-<td style="text-align: right;">147073.8</td>
-<td style="text-align: right;">1960110483</td>
+<td style="text-align: right;">33003.0</td>
+<td style="text-align: right;">33475.0</td>
+<td style="text-align: right;">31413.0</td>
+<td style="text-align: right;">32090.0</td>
+<td style="text-align: right;">330265</td>
+<td style="text-align: right;">2248018972</td>
+<td style="text-align: right;">32351.99</td>
+<td style="text-align: right;">1000</td>
+<td style="text-align: right;">6.949015e+12</td>
+<td style="text-align: right;">69490.15</td>
+<td style="text-align: right;">2248018972</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">2020-10-29</td>
+<td style="text-align: left;">2021-01-23</td>
 <td style="text-align: left;">XBTUSD</td>
-<td style="text-align: right;">13642.5</td>
-<td style="text-align: right;">13854.5</td>
-<td style="text-align: right;">12905.5</td>
-<td style="text-align: right;">13268.0</td>
-<td style="text-align: right;">441363</td>
-<td style="text-align: right;">2590188154</td>
-<td style="text-align: right;">13376.14</td>
-<td style="text-align: right;">3017</td>
-<td style="text-align: right;">1.936561e+13</td>
-<td style="text-align: right;">193656.1</td>
-<td style="text-align: right;">2590188154</td>
+<td style="text-align: right;">30810.5</td>
+<td style="text-align: right;">33835.5</td>
+<td style="text-align: right;">28802.0</td>
+<td style="text-align: right;">33003.0</td>
+<td style="text-align: right;">521626</td>
+<td style="text-align: right;">4047359471</td>
+<td style="text-align: right;">31367.63</td>
+<td style="text-align: right;">26824</td>
+<td style="text-align: right;">1.290434e+13</td>
+<td style="text-align: right;">129043.44</td>
+<td style="text-align: right;">4047359471</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">2020-10-28</td>
+<td style="text-align: left;">2021-01-22</td>
 <td style="text-align: left;">XBTUSD</td>
-<td style="text-align: right;">13069.0</td>
-<td style="text-align: right;">13801.5</td>
-<td style="text-align: right;">13060.0</td>
-<td style="text-align: right;">13642.5</td>
-<td style="text-align: right;">385202</td>
-<td style="text-align: right;">2128904272</td>
-<td style="text-align: right;">13460.76</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">1.581721e+13</td>
-<td style="text-align: right;">158172.1</td>
-<td style="text-align: right;">2128904272</td>
+<td style="text-align: right;">35489.0</td>
+<td style="text-align: right;">35598.0</td>
+<td style="text-align: right;">29961.0</td>
+<td style="text-align: right;">30810.5</td>
+<td style="text-align: right;">607882</td>
+<td style="text-align: right;">4827957533</td>
+<td style="text-align: right;">32393.91</td>
+<td style="text-align: right;">140</td>
+<td style="text-align: right;">1.490733e+13</td>
+<td style="text-align: right;">149073.34</td>
+<td style="text-align: right;">4827957533</td>
 </tr>
 </tbody>
 </table>
@@ -2742,7 +2776,7 @@ d-article blockquote {
 <p>For example, say you want to get hourly bucketed trade data from the 2019-01-01 to 2020-01-01.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre><code><span class='fu'><a href='https://hfshr.github.io/bitmexr//reference/bucket_trades.html'>bucket_trades</a></span><span class='op'>(</span>startTime <span class='op'>=</span> <span class='st'>"2019-01-01"</span>, 
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://hfshr.github.io/bitmexr//reference/bucket_trades.html'>bucket_trades</a></span><span class='op'>(</span>startTime <span class='op'>=</span> <span class='st'>"2019-01-01"</span>, 
               endTime <span class='op'>=</span> <span class='st'>"2020-01-01"</span>, 
               binSize <span class='op'>=</span> <span class='st'>"1h"</span>,
               symbol <span class='op'>=</span> <span class='st'>"XBTUSD"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
@@ -2768,7 +2802,7 @@ d-article blockquote {
 <p>This is where the map_* variants come in handy.</p>
 <div class="layout-chunk" data-layout="l-page">
 <div class="sourceCode">
-<pre><code><span class='fu'><a href='https://hfshr.github.io/bitmexr//reference/map_bucket_trades.html'>map_bucket_trades</a></span><span class='op'>(</span>start_date <span class='op'>=</span> <span class='st'>"2019-01-01"</span>, 
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://hfshr.github.io/bitmexr//reference/map_bucket_trades.html'>map_bucket_trades</a></span><span class='op'>(</span>start_date <span class='op'>=</span> <span class='st'>"2019-01-01"</span>, 
                   end_date <span class='op'>=</span> <span class='st'>"2020-01-01"</span>, 
                   binSize <span class='op'>=</span> <span class='st'>"1h"</span>,
                   symbol <span class='op'>=</span> <span class='st'>"XBTUSD"</span>,
@@ -2787,7 +2821,7 @@ d-article blockquote {
 <p>The following example gets the every trade for “XBTUSD” between 12:00 and 12:15 on the 6th June 2019.</p>
 <div class="layout-chunk" data-layout="l-page">
 <div class="sourceCode">
-<pre><code><span class='fu'><a href='https://hfshr.github.io/bitmexr//reference/map_trades.html'>map_trades</a></span><span class='op'>(</span>symbol <span class='op'>=</span> <span class='st'>"XBTUSD"</span>,
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://hfshr.github.io/bitmexr//reference/map_trades.html'>map_trades</a></span><span class='op'>(</span>symbol <span class='op'>=</span> <span class='st'>"XBTUSD"</span>,
            start_date <span class='op'>=</span> <span class='st'>"2019-06-01 12:00:00"</span>,
            end_date <span class='op'>=</span> <span class='st'>"2019-06-01 12:15:00"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='op'>-</span><span class='va'>trdMatchID</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='co'># unique trade identifier, not particularly interesting</span>
@@ -2803,7 +2837,7 @@ d-article blockquote {
 <p>This short 15 minute time interval resulted in ~6000 trades being returned - consequently this function should only be used for very specific time intervals where you require individual trade data. A warning is given if a time interval of greater than 1 day is provided. For example:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre><code><span class='fu'><a href='https://rdrr.io/pkg/knitr/man/include_graphics.html'>include_graphics</a></span><span class='op'>(</span><span class='st'>"images/warning.png"</span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/pkg/knitr/man/include_graphics.html'>include_graphics</a></span><span class='op'>(</span><span class='st'>"images/warning.png"</span><span class='op'>)</span>
 </code></pre>
 </div>
 <p><img src="images/warning.png" width="100%" /></p>
@@ -2811,7 +2845,7 @@ d-article blockquote {
 <p>In contrast, using <code>bucket_trades()</code> with the smallest binSize setting summarises those 6000 rows into 16 - one for each minute between 12:00 and 12:15.</p>
 <div class="layout-chunk" data-layout="l-page">
 <div class="sourceCode">
-<pre><code><span class='fu'><a href='https://hfshr.github.io/bitmexr//reference/bucket_trades.html'>bucket_trades</a></span><span class='op'>(</span>symbol <span class='op'>=</span> <span class='st'>"XBTUSD"</span>,
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://hfshr.github.io/bitmexr//reference/bucket_trades.html'>bucket_trades</a></span><span class='op'>(</span>symbol <span class='op'>=</span> <span class='st'>"XBTUSD"</span>,
               startTime <span class='op'>=</span> <span class='st'>"2019-06-01 12:00:00"</span>,
               endTime <span class='op'>=</span> <span class='st'>"2019-06-01 12:15:00"</span>,
               binSize <span class='op'>=</span> <span class='st'>"1m"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
@@ -2825,11 +2859,11 @@ d-article blockquote {
 </div>
 </div>
 <h2 id="use-with-other-packages">Use with other packages</h2>
-<p><code>bitmexr</code> simply allows the user to <em>get</em> the data. With data in hand, there are several fantastic packages that can be used to help explore, visualise the data further. Two personal favourites are <code>tidyquant</code><span class="citation" data-cites="R-tidyquant">(Dancho and Vaughan <a href="#ref-R-tidyquant" role="doc-biblioref">2020</a>)</span> and <code>gganimate</code><span class="citation" data-cites="R-gganimate">(Pedersen and Robinson <a href="#ref-R-gganimate" role="doc-biblioref">2020</a>)</span>.</p>
+<p><code>bitmexr</code> simply allows the user to <em>get</em> the data. With data in hand, there are several fantastic packages that can be used to help explore, visualise the data further. Two personal favourites are <code>tidyquant</code><span class="citation" data-cites="R-tidyquant">(<a href="#ref-R-tidyquant" role="doc-biblioref">Dancho and Vaughan 2020</a>)</span> and <code>gganimate</code><span class="citation" data-cites="R-gganimate">(<a href="#ref-R-gganimate" role="doc-biblioref">Pedersen and Robinson 2020</a>)</span>.</p>
 <p>Combining <code>bitmexr</code> and <code>tidyquant</code> makes it easy to perform financial analysis. For example, comparing the monthly returns of the two most traded contracts on Bitmex</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre><code><span class='va'>btc_year</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://purrr.tidyverse.org/reference/map.html'>map_dfr</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"XBTUSD"</span>, <span class='st'>"ETHUSD"</span><span class='op'>)</span>, <span class='op'>~</span><span class='fu'><a href='https://hfshr.github.io/bitmexr//reference/map_bucket_trades.html'>map_bucket_trades</a></span><span class='op'>(</span>symbol <span class='op'>=</span> <span class='va'>.x</span>,
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>btc_year</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://purrr.tidyverse.org/reference/map.html'>map_dfr</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"XBTUSD"</span>, <span class='st'>"ETHUSD"</span><span class='op'>)</span>, <span class='op'>~</span><span class='fu'><a href='https://hfshr.github.io/bitmexr//reference/map_bucket_trades.html'>map_bucket_trades</a></span><span class='op'>(</span>symbol <span class='op'>=</span> <span class='va'>.x</span>,
                                                               binSize <span class='op'>=</span> <span class='st'>"1d"</span><span class='op'>)</span><span class='op'>)</span>
 
 <span class='va'>btc_year</span> <span class='op'>%&gt;%</span> 
@@ -2852,7 +2886,7 @@ d-article blockquote {
 <p>A personal favourite was the parabolic rise in late 2017…</p>
 <div class="layout-chunk" data-layout="l-body-outset">
 <div class="sourceCode">
-<pre><code><span class='va'>vol</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://hfshr.github.io/bitmexr//reference/map_bucket_trades.html'>map_bucket_trades</a></span><span class='op'>(</span>start_date <span class='op'>=</span> <span class='st'>"2017-08-05"</span>,
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>vol</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://hfshr.github.io/bitmexr//reference/map_bucket_trades.html'>map_bucket_trades</a></span><span class='op'>(</span>start_date <span class='op'>=</span> <span class='st'>"2017-08-05"</span>,
                          end_date <span class='op'>=</span> <span class='st'>"2017-12-25"</span>,
                          symbol <span class='op'>=</span> <span class='st'>"XBTUSD"</span>,
                          binSize <span class='op'>=</span> <span class='st'>"1h"</span><span class='op'>)</span>
@@ -2879,12 +2913,12 @@ d-article blockquote {
 </div>
 <p>…but I’ll spare the pain of showing what came next…!</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
-<div id="refs" class="references hanging-indent" role="doc-bibliography">
-<div id="ref-R-tidyquant">
-<p>Dancho, Matt, and Davis Vaughan. 2020. <em>Tidyquant: Tidy Quantitative Financial Analysis</em>. <a href="https://CRAN.R-project.org/package=tidyquant">https://CRAN.R-project.org/package=tidyquant</a>.</p>
+<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="ref-R-tidyquant" class="csl-entry" role="doc-biblioentry">
+Dancho, Matt, and Davis Vaughan. 2020. <em>Tidyquant: Tidy Quantitative Financial Analysis</em>. <a href="https://CRAN.R-project.org/package=tidyquant">https://CRAN.R-project.org/package=tidyquant</a>.
 </div>
-<div id="ref-R-gganimate">
-<p>Pedersen, Thomas Lin, and David Robinson. 2020. <em>Gganimate: A Grammar of Animated Graphics</em>. <a href="https://CRAN.R-project.org/package=gganimate">https://CRAN.R-project.org/package=gganimate</a>.</p>
+<div id="ref-R-gganimate" class="csl-entry" role="doc-biblioentry">
+Pedersen, Thomas Lin, and David Robinson. 2020. <em>Gganimate: A Grammar of Animated Graphics</em>. <a href="https://CRAN.R-project.org/package=gganimate">https://CRAN.R-project.org/package=gganimate</a>.
 </div>
 </div>
 <!--radix_placeholder_article_footer-->

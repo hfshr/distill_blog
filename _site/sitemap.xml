@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" version="1.0">
   <url>
     <loc>https://hfshr.xyz/about.html</loc>
-    <lastmod>2021-01-07T09:47:39+00:00</lastmod>
+    <lastmod>2021-01-26T20:55:47+00:00</lastmod>
   </url>
   <url>
     <loc>https://hfshr.xyz/blog.html</loc>
@@ -22,19 +22,19 @@
   </url>
   <url>
     <loc>https://hfshr.xyz/posts/2020-12-26-powerof10-covid/</loc>
-    <lastmod>2021-01-07T11:31:46+00:00</lastmod>
+    <lastmod>2021-01-26T20:34:31+00:00</lastmod>
   </url>
   <url>
     <loc>https://hfshr.xyz/posts/2020-11-30-model-stacking/</loc>
-    <lastmod>2020-12-02T16:13:53+00:00</lastmod>
+    <lastmod>2021-01-26T21:41:16+00:00</lastmod>
   </url>
   <url>
     <loc>https://hfshr.xyz/posts/2020-11-22-bitmexr-logo/</loc>
-    <lastmod>2020-12-13T08:58:22+00:00</lastmod>
+    <lastmod>2021-01-26T20:23:58+00:00</lastmod>
   </url>
   <url>
     <loc>https://hfshr.xyz/posts/2020-11-01-bayesian-networks-with-bnlearn/</loc>
-    <lastmod>2020-12-29T18:18:37+00:00</lastmod>
+    <lastmod>2021-01-26T21:29:38+00:00</lastmod>
   </url>
   <url>
     <loc>https://hfshr.xyz/posts/2020-10-22-introducing-powerof10/</loc>
@@ -50,11 +50,11 @@
   </url>
   <url>
     <loc>https://hfshr.xyz/posts/2020-06-21-penguins-and-nakedpipes/</loc>
-    <lastmod>2020-12-02T16:13:53+00:00</lastmod>
+    <lastmod>2021-01-26T21:27:40+00:00</lastmod>
   </url>
   <url>
     <loc>https://hfshr.xyz/posts/2020-06-07-variable-inportance-with-fastshap/</loc>
-    <lastmod>2020-12-02T16:13:53+00:00</lastmod>
+    <lastmod>2021-01-26T21:54:42+00:00</lastmod>
   </url>
   <url>
     <loc>https://hfshr.xyz/posts/2020-05-25-bitmexr-updates/</loc>
@@ -66,15 +66,15 @@
   </url>
   <url>
     <loc>https://hfshr.xyz/posts/2020-05-02-pretty-tables-with-gt/</loc>
-    <lastmod>2020-12-02T16:13:53+00:00</lastmod>
+    <lastmod>2021-01-26T21:14:31+00:00</lastmod>
   </url>
   <url>
     <loc>https://hfshr.xyz/posts/2020-04-13-bitmexr/</loc>
-    <lastmod>2020-12-02T16:13:53+00:00</lastmod>
+    <lastmod>2021-01-26T21:18:49+00:00</lastmod>
   </url>
   <url>
     <loc>https://hfshr.xyz/posts/2020-03-22-bitcoin/</loc>
-    <lastmod>2020-12-27T12:27:07+00:00</lastmod>
+    <lastmod>2021-01-26T21:24:39+00:00</lastmod>
   </url>
   <url>
     <loc>https://hfshr.xyz/posts/2020-03-14-writing-a-thesis-in-r-markdown/</loc>
