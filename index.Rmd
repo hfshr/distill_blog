@@ -11,15 +11,21 @@ links:
   - label: '<i class="fab fa-linkedin-in fa-3x"></i>'
     url: "https://www.linkedin.com/in/drharryfisher/"
     
-output:
-  postcards::jolla:
-    includes:
-      before_body: particles.html
+output: postcards::jolla
   
 site: distill::distill_website
 ---
 
-Sports injury researcher turned Data Scientist based in Cardiff. I enjoy trying to find 
-the story in the numbers. See some of my work on [my blog](./blog.html) or get in touch through any of the links below.
+
+
+* I'm Harry, a data scientist with a love for <a href = "https://www.r-project.org/">R</a> and good coffee ☕
+* I occasionally write about things I am working on <a href = "blog.html">here</a> 📝
+* If you like, you can find out more about me <a href = "about.html">here</a> 🙋
+* Or get in touch using the links below 📩
+
+
+
+
+
 
 

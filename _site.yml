@@ -4,12 +4,8 @@ description: |
   Harry Fisher's blog
 output_dir: "_site"
 base_url: https://hfshr.xyz/
-repository_url: https://github.com/hfshr/distill_blog
 navbar:
   search: false
-  logo: 
-      image: "data/images/coffee_new3.png"
-      href: index.html
   right:
     - icon: fas fa-home
       href: index.html
@@ -36,11 +32,12 @@ collections:
     subscribe: _subscribe.html
     authors_metadata: false
     categories_metadata: true
+    feed_items_max: 5
 
 output: 
   distill::distill_article:
     includes:
-      in_header: utterances.html
+      in_header: [utterances.html]
     css: style.css
 
 rss:

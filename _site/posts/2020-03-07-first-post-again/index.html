@@ -1776,31 +1776,54 @@ gtag('config', 'UA-145834792-2');
 <style type="text/css">
 @import url('https://fonts.googleapis.com/css2?family=Lato');
 @import url('https://fonts.googleapis.com/css2?family=Roboto');
+@import url(https://fonts.googleapis.com/css?family=Noto+Sans:400,400i,700,700i&display=swap);
 @import url('https://fonts.googleapis.com/css2?family=Fira+Mono');
-@import url('https://fonts.googleapis.com/css2?family=Dosis');
 
 
+/* #222831 */
+:root {
+  --text-font-family: 'Noto Sans';
+  --text-header: 'Lato';
+  --main-text-color: #eeeeee;
+  --secondary-text-color: #72faca;
+  --surface1: #262626;
+  --surface2: #393e46;
+  --main-link: #72faca;
+  
+}
+
+/*
+:root[color-mode="dark"] {
+  --surface1: 
+  --surface2: #333333;
+  --surface3: #404040;
+  --element1: #eeeeee;
+  --element2: #dddddd;
+  --element3: #cccccc;
+  --elementInverse: #111;
+  --primary: #8fceff;
+  --secondary: #72faca;
+  --tertiary: #eee8a9;
+  --box-shadow: 20px 20px 60px #1d1d1d, -20px -20px 60px #272727;
+}
+*/
 /* nav bar */
 
 .distill-site-nav {
-  font-family: 'Dosis', sans-serif;
+  font-family: var(--text-header), sans-serif;
   color: #fff;
-  background-color: #393e46;
+  background-color: var(--surface2);
   font-size: 25px;
   font-weight: 400;
 }
 
 
 .distill-site-nav a {
-  font-family: 'Dosis', sans-serif;
+  font-family: var(--text-header), sans-serif;
   font-weight: 500;
   font-size: 25px;
   color: #fff;
 }
-
-.distill-site-nav a:hover {
-  color: #ff8c00;
-}    
 
 .distill-site-header .logo img {
     display: block;
@@ -1817,7 +1840,7 @@ gtag('config', 'UA-145834792-2');
 /* https://codepen.io/sdthornton/pen/wBZdXq */
 .distill-site-header {
   box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
-  font-family: 'Dosis', sans-serif;
+  font-family: 'Lato', sans-serif;
   color: #fff;
   background-color: #393e46;
   font-size: 20px;
@@ -1833,9 +1856,9 @@ gtag('config', 'UA-145834792-2');
   padding-bottom: 10px;
 }
 
-.distill-site-footer p{
+.distill-site-footer p {
   color: #eeeeee;
-  background-color: #393e46;
+  background-color: var(--surface2);
   font-size: 20px;
   font-weight: 400;
   padding-top: 0px;
@@ -1858,17 +1881,17 @@ gtag('config', 'UA-145834792-2');
 }
 
 .posts-list h1 {
-   font-family: 'Dosis', sans-serif; !important;
+   font-family: 'Lato';
    font-weight: 600;
 }
 
 
 .posts-list .description p {
-    font-family: 'Roboto', sans-serif; !important;
+    font-family: var(--text-font-family);
 }
 
 .posts-list .description h2 {
-    font-family: 'Dosis', sans-serif; !important;
+    font-family: 'Lato';
 }
 
 .posts-list .post-preview .metadata {
@@ -1886,13 +1909,13 @@ gtag('config', 'UA-145834792-2');
 /*##################################################*/
 
 body, p {
-  font-family: 'Roboto', 'Libre Baskerville', 'Helvetica Neue'; 
+  font-family: var(--text-font-family);
   text-transform: none;
   font-weight: 200;
   line-height: 1.6; 
   font-size: 1em;
-  background-color: #222831;
-  color: #eeeeee;
+  background-color: var(--surface1);
+  color: var(--main-text-color);
   font-style: normal;
 }
 
@@ -1923,14 +1946,14 @@ d-article a:hover  {
   text-decoration: none;
   border-bottom: none;
   cursor: pointer;
-  color: #ff8c00;
+  color: var(--secondary-text-color);
 }
 
 .d-contents nav > ul > li > a {
     font-weight: 200;
     text-decoration: none;
     border-bottom: none;
-    color: #eeeeee;
+    color:var(--main-text-color);
     font-size: 16px;
 }
 
@@ -1977,7 +2000,7 @@ html a {
     background-position: 0% 100%;
     background-repeat: no-repeat;
     background-size: 0% 2px;
-    color: #00adb5;
+    color: var(--main-link);
     transition: background-size .3s;
 }
 
@@ -1990,10 +2013,19 @@ a:hover {
 }
 
 .categories .category-count {
-    color: #00adb5;
+    color: var(--main-link);
 }
 
+a.post-preview {
+  color: var(--main-text-color);
+}
 
+.distill-site-nav a {
+  background-image: none;
+}
+
+.distill-site-nav a:hover {
+  color: var(--main-link);
 }
 
 /*##################################################*/
@@ -2007,7 +2039,7 @@ a:hover {
 }
 
 .sidebar-section-custom h2{
-  font-family: 'Dosis', sans-serif;
+  font-family: var(--text-header);
   text-align: center;
   font-size: 25px;
   border-bottom: 1px solid rgb(255 255 255 / 30%);
@@ -2022,13 +2054,13 @@ a:hover {
 }
 
 .sidebar-section.subscribe h3{
-  font-family: 'Dosis', sans-serif; 
+  font-family: var(--text-header);
   font-weight: 700;
   
 }
 
 .sidebar-section.categories h3{
-  font-family: 'Dosis', sans-serif; 
+  font-family: var(--text-header);
   font-weight: 700;
 }
 
@@ -2037,27 +2069,27 @@ a:hover {
 /* colour tags */
 .dt-tags .dt-tag {
     display: inline-block;
-    color: #eeeeee;
+    color: var(--main-text-color);
     padding: 0.3em 0.4em;
     margin-right: 0.2em;
     margin-bottom: 0.4em;
     font-size: 14px;
     border: 1px solid rgba(238,238,238);
-    background-color: #222831;
+    background-color: var(--surface1);
     border-radius: 3px;
     text-transform: uppercase;
     font-weight: 900;
 }
 
 .posts-list .dt-tags .dt-tag {
-    color: #eeeeee;
+    color: var(--main-text-color);
     border: 1px solid rgba(238,238,238);
     font-size: 14px;
 }
 
 
 .categories li > a:hover {
-    color: #ff8c00;
+    color: var(--secondary-text-color); 
     border-bottom: none;
 }
 
@@ -2120,10 +2152,10 @@ img[alt$="<"] {
 
 .col-6.mt-3.text-center.d-none.d-sm-block {
   
-    background-color: #222831; /* Changing background color */
-    color: #eeeeee;
+    background-color: var(--surface1); /* Changing background color */
+    color: var(--main-text-color);
     border-radius: 10px; /* Making border radius */
-    width: auto; /* Making auto-sizable width */
+    box-sizing: content-box; /* Making auto-sizable width */
     height: auto; /* Making auto-sizable height */
     padding: 10px 10px 0px 0px;
     font-size: 18px;
@@ -2142,13 +2174,13 @@ img[alt$="<"] {
 
 */
 .col-6.mt-3.text-center.d-none.d-sm-block a:hover{
-    color: #ff8c00;
+    color: var(--secondary-text-color);
     text-decoration: none;
 }
 
 
 .btn {
-  background-color: #222831;
+  background-color: var(--surface1);
   color: #eeeeee;
 }
 
@@ -2168,7 +2200,7 @@ hr {
 
 .btn-outline-dark:hover {
     color: #eeeeee;
-    background-color: #222831;
+    background-color: var(--surface1);
     border-color: #f8f8f8;
 }
 
@@ -2211,7 +2243,7 @@ p code {
  
 
 d-article div.sourceCode {
-    background-color: #222831;
+    background-color: var(--surface1);
     border-left: 2px solid rgba(255,255,255,0.6);
 }
 
@@ -2223,7 +2255,7 @@ pre {
 }
 
 pre, code {
-  background-color: #222831;
+  background-color: var(--surface1);
 }
 
 pre code {
@@ -2377,6 +2409,14 @@ d-article blockquote {
 }
 
 
+.col-6 ul li {
+  margin-left: 0px;
+  list-style-type: '>  ';
+  }
+
+.col-6 {
+    flex: none;
+    max-width: max-content;
 
 </style>
 <!--/radix_placeholder_site_in_header-->
@@ -2397,9 +2437,6 @@ d-article blockquote {
 <header class="header header--fixed" role="banner">
 <nav class="distill-site-nav distill-site-header">
 <div class="nav-left">
-<a class="logo" href="../../index.html">
-<img src="../../data/images/coffee_new3.png" alt="Logo"/>
-</a>
 <a href="../../index.html" class="title">Data, Code &amp; Coffee</a>
 </div>
 <div class="nav-right">
@@ -2478,10 +2515,8 @@ Follow me on <a href="https://twitter.com/harryfishr" target="_blank" class="fa 
 <!--/radix_placeholder_site_after_body-->
 <!--radix_placeholder_appendices-->
 <div class="appendix-bottom">
-  <h3 id="updates-and-corrections">Corrections</h3>
-  <p>If you see mistakes or want to suggest changes, please <a href="https://github.com/hfshr/distill_blog/issues/new">create an issue</a> on the source repository.</p>
   <h3 id="reuse">Reuse</h3>
-  <p>Text and figures are licensed under Creative Commons Attribution <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. Source code is available at <a href="https://github.com/hfshr/distill_blog">https://github.com/hfshr/distill_blog</a>, unless otherwise noted. The figures that have been reused from other sources don't fall under this license and can be recognized by a note in their caption: "Figure from ...".</p>
+  <p>Text and figures are licensed under Creative Commons Attribution <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. The figures that have been reused from other sources don't fall under this license and can be recognized by a note in their caption: "Figure from ...".</p>
   <h3 id="citation">Citation</h3>
   <p>For attribution, please cite this work as</p>
   <pre class="citation-appendix short">Fisher (2020, March 1). Data, Code &amp; Coffee: First post. Retrieved from https://hfshr.xyz/posts/2020-03-07-first-post-again/</pre>

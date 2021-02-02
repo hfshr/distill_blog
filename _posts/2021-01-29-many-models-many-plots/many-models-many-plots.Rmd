@@ -1,0 +1,55 @@
+---
+title: "Many models, many plots, many pages!"
+description: |
+  A quick post showing a cool {knitr} trick you can use when creating a pdf with many plots.
+author:
+  - name: Harry Fisher
+    url: https://hfshr.xyz
+date: 01-29-2021
+output:
+  distill::distill_article:
+    self_contained: false
+draft: true
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval = FALSE)
+```
+
+I wanted to share a cool knitr trick I recently discovered thanks to this SO post: 
+
+
+```{r}
+library(tidyverse)
+library(ggfortify)
+library(survival)
+
+by_drug <- veteran %>% 
+  nest_by(celltype) %>% 
+  mutate(model = list(survfit(Surv(time, status) ~ trt, data = data)),
+         plot = list(autoplot(model)),
+         name = str_glue("Survival curve by treatmeant for celltype: {celltype}"))
+```
+
+```{r}
+all_plots <- as.list(by_drug$plot)
+names(all_plots) <- by_drug$name
+```
+
+
+```{r fig.cap=names(all_plots), results='asis'}
+
+for(plot in names(all_plots)){
+  print(all_plots[[plot]])
+  cat('\\newpage')
+}
+
+```
+
+
+
+<iframe frameborder="0" scrolling="no"
+     width="640" height="480"
+     src="many-plots-demo.pdf">
+</iframe>

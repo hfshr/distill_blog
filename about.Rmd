@@ -3,7 +3,7 @@ title: "Hello World"
 description: "\\> whoami"
 ---
 
-Hi! My name is Harry Fisher, thanks for visiting my site. I currently work as a data scientist based in Cardiff, Wales. Previously, I completed my [PhD](https://github.com/hfshr/phd-thesis/blob/master/full_phd.pdf) at Cardiff Metropolitan University in December 2019, investigating risk factors associated with sports injury. I enjoy using R and try to share interesting things on my blog.
+Hi! My name is Harry Fisher, thanks for visiting my site. I currently work as a research data scientist at [Pharmatelligence](http://www.pharmatelligence.co.uk/our-experts.php) based in Cardiff, Wales. I enjoy using R and recently became a RStudio [certified instructor](https://education.rstudio.com/trainers/people/fisher+harry/). Previously, I completed my [PhD](https://github.com/hfshr/phd-thesis/blob/master/full_phd.pdf) at Cardiff Metropolitan University in December 2019, investigating risk factors associated with sports injury. I enjoy writing about things I'm working on and try to share some interesting things I discover on my blog.
 
 Feel free to get in touch if any of the posts catch your interest!
 
@@ -11,7 +11,7 @@ Feel free to get in touch if any of the posts catch your interest!
 
 bitmexr: R Client for the BitMEX Exchange [![CRAN status](https://www.r-pkg.org/badges/version/bitmexr)](https://CRAN.R-project.org/package=bitmexr)
 
-poweRof10: Tools to scrape data from www.thepowerof10.info [![ ](https://img.shields.io/badge/just-for%20fun-blue.svg)](https://github.com/hfshr/poweRof10) 
+poweRof10: Tools to scrape data from www.thepowerof10.info [![](https://img.shields.io/badge/just-for%20fun-blue.svg)](https://github.com/hfshr/poweRof10) 
 
 ### Research
   
