@@ -16,16 +16,7 @@ output: postcards::jolla
 site: distill::distill_website
 ---
 
-
-
 * I'm Harry, a data scientist with a love for <a href = "https://www.r-project.org/">R</a> and good coffee ☕
 * I occasionally write about things I am working on <a href = "blog.html">here</a> 📝
 * If you like, you can find out more about me <a href = "about.html">here</a> 🙋
 * Or get in touch using the links below 📩
-
-
-
-
-
-
-

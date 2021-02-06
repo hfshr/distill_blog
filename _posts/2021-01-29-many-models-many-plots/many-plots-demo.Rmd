@@ -8,22 +8,21 @@ lof: true
 knitr::opts_chunk$set(echo = TRUE, message = FALSE)
 ```
 
-A quick example showing how to 
+\newpage
 
 ```{r}
 library(tidyverse)
-library(ggfortify)
 library(survival)
 library(survminer)
 
-by_drug <- veteran %>% 
+by_celltype <- veteran %>% 
   nest_by(celltype) %>% 
   mutate(model = list(survfit(Surv(time, status) ~ trt, data = data)),
          name = str_glue("Survival curve by treatmeant for celltype: {celltype}"),
          plot = list(ggsurvplot(model, data)))
 
-all_plots <- as.list(by_drug$plot)
-names(all_plots) <- by_drug$name
+all_plots <- as.list(by_celltype$plot)
+names(all_plots) <- by_celltype$name
 ```
 
 ```{r fig.cap = names(all_plots), results='asis', fig.height=5}
