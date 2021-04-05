@@ -2621,7 +2621,7 @@ You can use the <code>Rcpp</code> chunk setting, or set the chunk option engine 
 <span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> result;</span>
 <span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 </div>
-<p>Few extra things have happened and I’ll attempt to explain… First we create <code>result</code> which is a numeric vector the size of the vector that we pass in to the function. Then we use a for loop with the syntax <code>for(init; check; increment)</code>. We initiate the loop with a new variable <code>i = 0</code> and keep looping until i is less than n (the size of our vector). Finally the <code>++i</code> tells the loop to increment the value of i each time the loop completes.</p>
+<p>Few extra things have happened and I’ll attempt to explain… First we create <code>result</code> which is a numeric vector the size of the vector that we pass in to the function. Then we use a for loop with the syntax <code>for(init; check; increment)</code>. We initiate the loop with a new variable <code>i = 0</code> and keep looping while i is less than n (the size of our vector). Finally the <code>++i</code> tells the loop to increment the value of i each time the loop completes.</p>
 <aside>
 doubleUPPP has three P’s to indicate it accepts a vector. Maybe this naming convention will catch on?
 </aside>
@@ -2668,8 +2668,8 @@ using namespace Rcpp;
 <pre><code># A tibble: 2 x 6
   expression                  min   median `itr/sec` mem_alloc
   &lt;bch:expr&gt;             &lt;bch:tm&gt; &lt;bch:tm&gt;     &lt;dbl&gt; &lt;bch:byt&gt;
-1 doubleR(big_vector)    159.95ms 164.79ms      6.06    7.89MB
-2 doubleUPPP(big_vector)   8.71ms   9.04ms    107.      7.64MB
+1 doubleR(big_vector)     155.8ms 159.59ms      6.26    7.89MB
+2 doubleUPPP(big_vector)   8.91ms   9.24ms    107.      7.64MB
 # … with 1 more variable: gc/sec &lt;dbl&gt;</code></pre>
 </div>
 <p>Quite the improvement! Now lets just ignore for a moment that we could simply use <code>big_vector + big_vector</code> to get the same result (and is faster than both <code>doubleR</code> and <code>doubleUPPP</code>…).</p>
@@ -2708,8 +2708,8 @@ using namespace Rcpp;
 9   95 22.8    2166
 10 123 19.2    2362</code></pre>
 </div>
-<p>Pretty cool despite this function being entirely useless as you could easily do the same thing in R.</p>
-<p>Another cool feature is the ability to use R functions in c++ code. Here is a another completely useless example using the <code>emo::ji</code> function with a string input.</p>
+<p>Nice! (Although my function is pretty useless in practice…)</p>
+<p>Another cool feature is the ability to use R functions in c++ code. Here is another completely useless example using the <code>emo::ji</code> function with a string input.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode" id="cb10"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;Rcpp.h&gt;</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="kw">using</span> <span class="kw">namespace</span> Rcpp;</span>

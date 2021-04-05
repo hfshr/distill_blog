@@ -96,7 +96,7 @@ NumericVector doubleUPPP (NumericVector x) {
 }
 ```
 
-Few extra things have happened and I'll attempt to explain... First we create `result` which is a numeric vector the size of the vector that we pass in to the function. Then we use a for loop with the syntax `for(init; check; increment)`. We initiate the loop with a new variable `i = 0` and keep looping until i is less than n (the size of our vector). Finally the `++i` tells the loop to increment the value of i each time the loop completes.
+Few extra things have happened and I'll attempt to explain... First we create `result` which is a numeric vector the size of the vector that we pass in to the function. Then we use a for loop with the syntax `for(init; check; increment)`. We initiate the loop with a new variable `i = 0` and keep looping while i is less than n (the size of our vector). Finally the `++i` tells the loop to increment the value of i each time the loop completes.
 
 <aside>
 doubleUPPP has three P's to indicate it accepts a vector. Maybe this naming convention will catch on?
@@ -175,9 +175,9 @@ Here it is in action with our old friend `mtcars`:
 carFacts(mtcars, var1 = "hp", var2 = "mpg")[1:10,]
 ```
 
-Pretty cool despite this function being entirely useless as you could easily do the same thing in R.
+Nice! (Although my function is pretty useless in practice...) 
 
-Another cool feature is the ability to use R functions in c++ code. Here is a another completely useless example using the `emo::ji` function with a string input.
+Another cool feature is the ability to use R functions in c++ code. Here is another completely useless example using the `emo::ji` function with a string input.
 
 ```{Rcpp}
 #include <Rcpp.h>
