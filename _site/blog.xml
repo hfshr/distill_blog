@@ -12,7 +12,17 @@
       <link>https://hfshr.xyz/</link>
     </image>
     <generator>Distill</generator>
-    <lastBuildDate>Fri, 29 Jan 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 04 Apr 2021 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Zero to consciously incompetent with {Rcpp}</title>
+      <dc:creator>Harry Fisher</dc:creator>
+      <link>https://hfshr.xyz/posts/2021-04-04-learning-rcpp</link>
+      <description>Exploring the world of {Rcpp} through the eyes of a complete novice.</description>
+      <category>Rcpp</category>
+      <guid>https://hfshr.xyz/posts/2021-04-04-learning-rcpp</guid>
+      <pubDate>Sun, 04 Apr 2021 00:00:00 +0000</pubDate>
+      <media:content url="https://hfshr.xyz/posts/2021-04-04-learning-rcpp/rcpp-logo-blue-dial.png" medium="image" type="image/png" width="400" height="413"/>
+    </item>
     <item>
       <title>Many models, many plots, many pages!</title>
       <dc:creator>Harry Fisher</dc:creator>
@@ -54,18 +64,6 @@
       <guid>https://hfshr.xyz/posts/2020-11-30-model-stacking</guid>
       <pubDate>Mon, 30 Nov 2020 00:00:00 +0000</pubDate>
       <media:content url="https://hfshr.xyz/posts/2020-11-30-model-stacking/giphy.gif" medium="image" type="image/gif"/>
-    </item>
-    <item>
-      <title>{bitmexr} gets a hex logo!</title>
-      <dc:creator>Harry Fisher</dc:creator>
-      <link>https://hfshr.xyz/posts/2020-11-22-bitmexr-logo</link>
-      <description>Steps to create a simple hex logo using the {hexSticker} package.</description>
-      <category>R</category>
-      <category>Bitcoin</category>
-      <category>bitmexr</category>
-      <guid>https://hfshr.xyz/posts/2020-11-22-bitmexr-logo</guid>
-      <pubDate>Sun, 22 Nov 2020 00:00:00 +0000</pubDate>
-      <media:content url="https://hfshr.xyz/posts/2020-11-22-bitmexr-logo/hex2.png" medium="image" type="image/png" width="350" height="405"/>
     </item>
   </channel>
 </rss>
