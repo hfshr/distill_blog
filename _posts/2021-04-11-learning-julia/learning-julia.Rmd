@@ -1,0 +1,115 @@
+---
+title: "learning-julia"
+description: |
+  A short description of the post.
+author:
+  - name: Harry Fisher
+    url: https://hfshr.xyz
+date: 04-11-2021
+output:
+  distill::distill_article:
+    self_contained: false
+draft: true    
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+xaringanExtra::use_panelset()
+library(JuliaCall)
+library(tidyverse)
+julia <- julia_setup()
+```
+
+I have been a bit language-curious of late. In my last post I had a go a learning some c++ through the excellent `Rcpp` package. 
+In this post I attempt to do a bit of a side by side comparison of R and Julia, mainly to help me get a better understanding of the language, but also it may be useful for someone who is tidyverse orietated to see how they can do something similar in Julia. Julia has some really interesting features that certainly make it worth exploring, so here goes...!
+
+One caveat - my Julia code will likely be 
+
+To get Julia working in R, first install
+
+
+
+# Getting the data
+
+::::: {.panelset}
+
+::: {.panel}
+
+## Julia {.panel-name}
+
+Installing packages in Julia like so:
+
+```{julia, eval = FALSE}
+using Pkg
+Pkg.add("CSV")
+```
+
+Once installed we load the package with `using`
+
+```{julia}
+using CSV
+using DataFrames
+using Statistics
+```
+
+Now we can get our data
+
+```{julia}
+mtcars_jl = CSV.read(download("https://raw.githubusercontent.com/plotly/datasets/master/mtcars.csv"), DataFrame)
+```
+
+:::
+
+::: {.panel}
+
+## R {.panel-name}
+
+```{r}
+(mtcars <- read_csv("https://raw.githubusercontent.com/plotly/datasets/master/mtcars.csv", col_types = cols()))
+
+```
+
+:::
+
+:::::
+
+# Exploring the data
+
+
+::::: {.panelset}
+
+::: {.panel}
+
+## Julia {.panel-name}
+
+
+::: 
+
+::: {.panel}
+
+## R {.panel-name}
+
+
+:::
+
+:::::
+
+
+::::: {.panelset}
+
+::: {.panel}
+
+## Julia {.panel-name}
+
+
+::: 
+
+::: {.panel}
+
+## R {.panel-name}
+
+
+:::
+
+:::::

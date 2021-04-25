@@ -19,6 +19,7 @@ navbar:
       href: https://twitter.com/harryfishr 
     - icon: fa fa-rss
       href: blog.xml
+    - icon: fa fa-lightbulb-o
   
 google_analytics: "UA-145834792-2"
 
@@ -38,6 +39,7 @@ output:
   distill::distill_article:
     includes:
       in_header: [utterances.html]
+      after_body: "_after_body.html"
     css: style.css
 
 rss:
