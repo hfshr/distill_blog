@@ -351,13 +351,9 @@ I recently found the `bnviewer` package which provides an alternative way to vis
 
 <aside>
 
-You can drag the nodes around and hover over them for more information regarding the arcs.
+You can drag the nodes around and hover over them for more information regarding the arcs. Also looks better in dark mode - click the light bulb in the site header!
 
 </aside>
-
-```{css}
-
-```
 
 <div class="niceNetwork">
 
@@ -375,10 +371,10 @@ strength.viewer(
   ),
 
 	bayesianNetwork.arc.strength.threshold.expression.color  = c("red", "yellow", "blue"),
-	bayesianNetwork.arc.strength.threshold.alternative.color =  "white",
+	bayesianNetwork.arc.strength.threshold.alternative.color =  "pink",
 	bayesianNetwork.arc.strength.label = TRUE,
 	bayesianNetwork.arc.strength.label.prefix = "",
-	bayesianNetwork.arc.strength.label.color = "white",
+	bayesianNetwork.arc.strength.label.color = "pink",
 	bayesianNetwork.arc.strength.tooltip = TRUE,
 	bayesianNetwork.edge.scale.min = 1,
 	bayesianNetwork.edge.scale.max = 3,
@@ -392,7 +388,7 @@ strength.viewer(
 						highlight = list(background = "#e91eba",
 										border = "#2b7ce9")),
 	
-	node.font = list(color = "white", face="Arial"),
+	node.font = list(color = "pink", face="Arial"),
 	edges.dashes = FALSE
 )
 
