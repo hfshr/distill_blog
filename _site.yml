@@ -7,19 +7,19 @@ base_url: https://hfshr.xyz/
 navbar:
   search: false
   right:
-    - icon: fas fa-home
+    - icon: fa-home
       href: index.html
-    - icon: fas fa-pencil-alt
+    - icon: fa-pencil-alt
       href: blog.html
-    - icon: fas fa-address-card
+    - icon: fa-address-card
       href: about.html
-    - icon: fab fa-github
+    - icon: fa-github
       href: https://github.com/hfshr
-    - icon: fab fa-twitter
+    - icon: fa-twitter
       href: https://twitter.com/harryfishr 
     - icon: fa fa-rss
       href: blog.xml
-    - icon: fa fa-lightbulb-o
+    - icon: fa-lightbulb-o
   
 google_analytics: "UA-145834792-2"
 
