@@ -9,7 +9,7 @@ navbar:
   right:
     - icon: fa-home
       href: index.html
-    - icon: fa-pencil-alt
+    - icon: fa-pencil-square-o
       href: blog.html
     - icon: fa-address-card
       href: about.html
