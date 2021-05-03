@@ -369,12 +369,11 @@ strength.viewer(
     "@threshold >= 0.5 & @threshold <= 0.8",
     "@threshold > 0.8 & @threshold <= 1"
   ),
-
 	bayesianNetwork.arc.strength.threshold.expression.color  = c("red", "yellow", "blue"),
-	bayesianNetwork.arc.strength.threshold.alternative.color =  "pink",
+	bayesianNetwork.arc.strength.threshold.alternative.color =  "lightgreen",
 	bayesianNetwork.arc.strength.label = TRUE,
 	bayesianNetwork.arc.strength.label.prefix = "",
-	bayesianNetwork.arc.strength.label.color = "pink",
+	bayesianNetwork.arc.strength.label.color = "lightgreen",
 	bayesianNetwork.arc.strength.tooltip = TRUE,
 	bayesianNetwork.edge.scale.min = 1,
 	bayesianNetwork.edge.scale.max = 3,
@@ -388,10 +387,9 @@ strength.viewer(
 						highlight = list(background = "#e91eba",
 										border = "#2b7ce9")),
 	
-	node.font = list(color = "pink", face="Arial"),
+	node.font = list(color = "lightgreen", face="Arial"),
 	edges.dashes = FALSE
 )
-
 ```
 
 </div>
