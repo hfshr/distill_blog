@@ -6,27 +6,27 @@
       "description": "\\> whoami",
       "author": [],
       "contents": "\nHi! My name is Harry Fisher, thanks for visiting my site. I currently work as a research data scientist at Pharmatelligence based in Cardiff, Wales. I enjoy using R and recently became a RStudio certified instructor. Previously, I completed my PhD at Cardiff Metropolitan University in December 2019, investigating risk factors associated with sports injury. I enjoy writing about things I’m working on and try to share some interesting things I discover on my blog.\nFeel free to get in touch if any of the posts catch your interest!\nR packages\nbitmexr: R Client for the BitMEX Exchange \npoweRof10: Tools to scrape data from www.thepowerof10.info \nResearch\nFisher et al. 2020. An interdisciplinary examination of stress and injury in athletes. [Link]\nFisher et al. 2016. Relationship between Force Production during Isometric Squats and Knee Flexion Angles during Landing. Journal of Strength and Conditioning. [pdf]\nContact\n\n\n\n   \n\n\n\n\n\n",
-      "last_modified": "2021-05-09T10:19:48+01:00"
+      "last_modified": "2021-05-09T10:30:46+01:00"
     },
     {
       "path": "blog.html",
       "title": "",
       "author": [],
       "contents": "\n\n\n\n",
-      "last_modified": "2021-05-09T10:19:50+01:00"
+      "last_modified": "2021-05-09T10:30:47+01:00"
     },
     {
       "path": "index.html",
       "title": "",
       "author": [],
       "contents": "\n\n          \n          \n          Data, Code & Coffee\n          \n          \n          \n          \n          \n          \n          \n          \n          \n          \n          \n          \n          \n          \n          \n          \n          \n          \n          \n          \n          \n          \n          \n          ☰\n          \n          \n      \n        \n          \n            \n          \n          \n            \n              I’m Harry, a data scientist with a love for R and good coffee ☕\n              I occasionally write about things I am working on here 📝\n              If you like, you can find out more about me here 🙋\n              Or get in touch using the links below 📩\n              \n            \n              I’m Harry, a data scientist with a love for R and good coffee ☕\n              I occasionally write about things I am working on here 📝\n              If you like, you can find out more about me here 🙋\n              Or get in touch using the links below 📩\n              \n          \n\n          \n            \n              \n                  \n                    \n                      \n                    \n                  \n                \n                                \n                  \n                    \n                      \n                    \n                  \n                \n                                \n                  \n                    \n                      \n                    \n                  \n                \n                                \n                  \n                    \n                      \n                    \n                  \n                \n                              \n          \n\n          \n            \n              \n                                \n                  \n                    \n                  \n                \n                                \n                  \n                    \n                  \n                \n                                \n                  \n                    \n                  \n                \n                                \n                  \n                    \n                  \n                \n                              \n            \n          \n        \n      \n    \n\n    \n    \n    \n          const toggle = document.getElementsByClassName(\"far fa-lightbulb\")[0];\n\n          let theme = localStorage.getItem(\"theme\");\n\n          if (!theme) {\n            if (window.matchMedia(\"(prefers-color-scheme: dark)\").matches ) {\n              theme = \"dark\";\n            } else {\n              theme = \"dark\";\n            }\n          }\n          setTheme();\n\n          function switchTheme() {\n            if (theme === \"light\") {\n              theme = \"dark\";\n            } else {\n              theme = \"light\";\n            }\n            localStorage.setItem(\"theme\", theme);\n            setTheme();\n            console.log(theme);\n          }\n\n          function setTheme() {\n            if (theme === \"light\") {\n              \n              document.body.classList.remove('light');\n            } else {\n              document.body.classList.add('light');\n            }\n          }\n\n          toggle.addEventListener('click', switchTheme)\n\n          \n          \n\n          \n            \n          Made with , , and the  Distill package.\n\n          \n\n\n          \n          \n          \n\n    \n  ",
-      "last_modified": "2021-05-09T10:19:50+01:00"
+      "last_modified": "2021-05-09T10:30:48+01:00"
     },
     {
       "path": "README.html",
       "author": [],
       "contents": "\n\nBlog\nMy personal website / blog. Based on the distill theme by Rstudio.\n\n\n",
-      "last_modified": "2021-05-09T10:19:50+01:00"
+      "last_modified": "2021-05-09T10:30:48+01:00"
     }
   ],
   "collections": ["posts/posts.json"]
