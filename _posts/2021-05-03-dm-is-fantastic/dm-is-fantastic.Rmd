@@ -1,37 +1,49 @@
 ---
 title: "{dm} is fantastic!"
 description: |
-  A quick overview of the {dm} package for working with relational data      models in R
+  A quick overview of the {dm} package for working with relational data      models in R.
 author:
   - name: Harry Fisher
     url: https://hfshr.xyz
-date: 05-03-2021
+date: 05-09-2021
 output:
   distill::distill_article:
     self_contained: false
+categories:
+  - R
+  - SQL
 preview: dm.png
-draft: true
+draft: false
 editor_options: 
   chunk_output_type: console
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-library(tidyverse)
-library(dm)
+```{css, echo = FALSE}
+d-article pre {
+overflow: auto !important;
+}
 ```
 
-Sometimes as an R user you may find yourself needing to work with data that is stored in a remote database. 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE,
+  message = TRUE,
+  comment = "#>"
+)
+fansi::set_knit_hooks(knitr::knit_hooks, which = c("output", "message"))
+options(crayon.enabled = knitr::is_html_output(excludes = "gfm"), width = 75, cli.width = 75)
 
-`dbplyr` allows you to use the majority of dplyr/tidyr functions on a remote table, automagically converting these commands into the necessary sql and returing the result when you call `collect()`. `dm` extends this concept and adds extra functionality for working with the whole database by  
+library(tidyverse)
+library(dm)
+library(dbplyr)
+```
 
+Sometimes as an R user you may find yourself needing to work with data that is stored in a remote database, but want to continue to use your R-orientated workflow. The `dm` package by [Kirill Müller](https://www.cynkra.com/about.html) provides some great tools for doing exactly that, and in this post I wanted to share some of the functions I've found particularly useful. 
 
-
+Now, you may already be familiar with the `dbplyr` package which allows you to use the majority of dplyr/tidyr functions on a remote table by auto-magically converting these commands into the necessary SQL and returning the result back to R when you call `collect()`. `dm` extends this concept and adds extra functionality for working with the whole database, making it a very valuable tool. For the examples in this post, I've set up a local SQL server, and copied over the `dm::dm_nycflights13()` example database that is included in the `dm` package.
 
 ```{r eval = FALSE}
-install.packages("dm")
-
-library(dm)
+# Setup for examples using SQL server
 
 con <- DBI::dbConnect(odbc::odbc(),
                       Driver   = "ODBC Driver 17 for SQL Server",
@@ -47,7 +59,7 @@ DBI::dbSendQuery(con, "CREATE DATABASE nycflights")
 copy_dm_to(con, dm = flights, temporary = FALSE)
 ```
 
-Next I rerun the connection, but this time specifying the newly created nycflights database.
+Next I rerun the connection, but this time specifying the newly created `nycflights` database.
 
 ```{r}
 con <- DBI::dbConnect(odbc::odbc(),
@@ -59,27 +71,153 @@ con <- DBI::dbConnect(odbc::odbc(),
                       Port     = 1433)
 ```
 
-Now our data is in the database we can begin working with it. To connect to the database and learn the connections, we can use `dm_from_src`. Setting the `learn_keys` argument to `TRUE` means dm will attempt to discover the primary and foreign keys between the tables, however this currently only work with MS SQL databases
+Now our data is in the database we can begin working with it. To connect to the database and learn the connections, we can use `dm_from_src()`. Setting the `learn_keys` argument to `TRUE` means dm will attempt to discover the primary and foreign keys between the tables, however this currently only works with Postgres and SQL Server databases.
 
 ```{r}
 flights <- dm_from_src(con, learn_keys = TRUE)
+
+flights
 ```
 
-
-A really great feature of dm is the ability to plot the database to visulaise the links between tables. We can do this by using the `dm_draw` function
+A really great feature of `dm` is the ability to plot the database to visualise the links between tables. We can do this by using the `dm_draw()` function
 
 ```{r}
 dm_draw(flights)
 ```
 
-Now for some reason, the planes tables should be connected to the flights tables, but when copying the data over during the setup I got an error...We can manually create the links  
+Now, there is a small issue with the nycflights data in that some of the `tailnum` values are not present in both the flights and planes table. However, we can manually create the link by adding an additional foreign key using `dm_add_fk()`.
 
 ```{r}
 flights <- flights %>% 
   dm_add_fk(table = flights, columns = tailnum, ref_table = planes)
+
+flights
 ```
 
+And if we draw the model again we can see that planes is now connected to the flights table. I've also added some extra styling to show how easy it is to customise these plots with `dm`. 
+
+<aside>
+You can use `dm_get_available_colors()` to see all possible colours
+</aside>
+
 ```{r}
-dm_draw(flights)
+flights %>% 
+  dm_set_colors(
+    salmon4 = flights,
+    violetred1 = airlines,
+    royalblue4 = planes,
+    wheat = airports
+  ) %>% 
+  dm_draw(rankdir = "TB",
+          view_type = "title_only",
+          edge_attrs = "arrowhead = vee")
+
 ```
+
+## Working with the data
+
+So, now we have a data model set up we can begin working with it. `dm` contains a range of `dm_*` functions that work in a similar way to their `dpylr` equivalents, but they can affect the whole data model object. For example, we can select certain tables and use filters on the whole data model. Lets drop the `weather` table as we aren't too interested in weather for the time being.
+
+```{r}
+flights <- flights %>% 
+  dm_select_tbl(-weather)
+
+flights
+
+```
+
+By printing the dm object, we can see the `weather` table is no longer part of the dm object.
+
+Lets say we are particular interested in finding out about Alaska Airlines Inc. We can use `dm_filter()` to find all the linked information for this airline in our data model.
+
+```{r}
+flights_filt <- flights %>% 
+  dm_filter(flights, carrier == "AA") 
+
+flights_filt
+```
+
+Now we can see we have some additional information regarding the filter when we print the data model. In order to apply this filter, we have a couple of possibilities. If we were interested in returning all the rows in the `airports` table, we could apply this filter directly to that table using `dm_apply_filters_to_tbl()`.
+
+```{r}
+flights_filt %>% 
+  dm_apply_filters_to_tbl(airports)
+```
+
+Sometimes, we might want to return all tables with the filter applied. dm provides the `dm_flattern_to_tbl()` function to do exactly that. First we need to apply the filter to the dm object, and then we can "flattern" to a single table, specifying the type of join we would like to use. `dm` will create the joins based on the keys already defined in the dm object.
+
+```{r}
+flights_filt %>% 
+  dm_apply_filters() %>% 
+  dm_flatten_to_tbl(start = flights, airports, planes, join = left_join)
+```
+
+The `start` argument is the table that we want to join the others onto. You can optionally supply tables names that you want to join (in this case airports and planes), or specify nothing to join _all_ tables. Finally you can also specify the type of join you would like to use (`left_join` is the default).
+
+Before flattening to a single table, it can sometimes be useful to see how many rows each tables has after you have applied the filter.
+
+```{r}
+flights_filt %>% 
+  dm_apply_filters() %>% 
+  dm_nrow()
+```
+
+This can be good to double check the filter has done what you think it was going to do!
+
+To see what's going on under the hood here, we can use `show_query()`.
+
+```{r}
+flights_filt %>% 
+  dm_apply_filters() %>% 
+  dm_flatten_to_tbl(start = flights, airports, planes, join = left_join) %>% 
+  show_query()
+```
+
+So with just a few line of code we were able to generate this fairly lengthy SQL statement. Pretty neat 😎.
+
+## Zooming with dm's
+
+Anther cool feature in  dm is the ability to "zoom" into a table and use a dplyr style workflow on that table. This will be very familiar if you have ever used `dbplyr`. Lets zoom into the `planes` table and find the mean number of seats for each manufacturer.
+
+```{r}
+zoomed <- flights_filt %>% 
+  dm_zoom_to(planes) %>% 
+  group_by(manufacturer) %>% 
+  summarise(mean_seats = mean(seats, na.rm = TRUE)) %>% 
+  arrange(desc(mean_seats))
+
+zoomed
+```
+
+After using `dm_zoom_to()` to select the planes table the rest of the code should look fairly familiar. We now have a couple of options for what we want to do with our new zoomed in table. We might want to overwrite the existing planes table with our new summary table. If that was the case we could use the `dm_update_zoomed()` to replace the original table with the one we have just created. An alternative (a potentially less destructive) approach is to create a new table containing the summary information.
+
+```{r}
+flights_updated <- zoomed %>% 
+  dm_insert_zoomed(new_tbl_name = "planes_summary")
+
+flights_updated
+```
+
+Now this particular summary table doesn't need to link to any of the other tables, but the [dm zoomed vingette](https://cynkra.github.io/dm/articles/tech-dm-zoom.html) provides lots of great examples for how one might link summary tables into the dm object.
+
+```{r}
+dm_draw(flights_updated)
+```
+
+However, we may want to access this table and include it in our report. We can access a specific table easily by using the `pull_tbl()` function.
+
+```{r}
+flights_updated %>% 
+  pull_tbl(planes_summary) %>% 
+  collect() %>% 
+  reactable::reactable()
+```
+
+Nice!
+
+## Conclusion
+
+So that was a quick overview of some of the functions I've found particularly useful. `dm` can do much more though so check out the site https://cynkra.github.io/dm/index.html which contains a great mix of tutorials and technical articles which make the package extremely accessible and fun to use. 
+
+Thanks for reading!
 

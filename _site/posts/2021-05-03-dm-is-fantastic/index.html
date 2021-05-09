@@ -1,0 +1,2944 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+  <meta name="generator" content="distill" />
+
+  <style type="text/css">
+  /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
+  body {
+    visibility: hidden;
+  }
+  </style>
+
+ <!--radix_placeholder_import_source-->
+ <!--/radix_placeholder_import_source-->
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ad0000; } /* Alert */
+code span.an { color: #5e5e5e; } /* Annotation */
+code span.at { } /* Attribute */
+code span.bn { color: #ad0000; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007ba5; } /* ControlFlow */
+code span.ch { color: #20794d; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #5e5e5e; } /* Comment */
+code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+code span.dt { color: #ad0000; } /* DataType */
+code span.dv { color: #ad0000; } /* DecVal */
+code span.er { color: #ad0000; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #ad0000; } /* Float */
+code span.fu { color: #4758ab; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #5e5e5e; } /* Information */
+code span.kw { color: #007ba5; } /* Keyword */
+code span.op { color: #5e5e5e; } /* Operator */
+code span.ot { color: #007ba5; } /* Other */
+code span.pp { color: #ad0000; } /* Preprocessor */
+code span.sc { color: #5e5e5e; } /* SpecialChar */
+code span.ss { color: #20794d; } /* SpecialString */
+code span.st { color: #20794d; } /* String */
+code span.va { color: #111111; } /* Variable */
+code span.vs { color: #20794d; } /* VerbatimString */
+code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+</style>
+
+  <!--radix_placeholder_meta_tags-->
+<title>Data, Code &amp; Coffee: {dm} is fantastic!</title>
+
+<meta property="description" itemprop="description" content="A quick overview of the {dm} package for working with relational data      models in R."/>
+
+<link rel="canonical" href="https://hfshr.xyz/posts/2021-05-03-dm-is-fantastic/"/>
+<link rel="license" href="https://creativecommons.org/licenses/by/4.0/"/>
+<link rel="icon" type="image/vnd.microsoft.icon" href="../../favicon.ico"/>
+
+<!--  https://schema.org/Article -->
+<meta property="article:published" itemprop="datePublished" content="2021-05-09"/>
+<meta property="article:created" itemprop="dateCreated" content="2021-05-09"/>
+<meta name="article:author" content="Harry Fisher"/>
+
+<!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
+<meta property="og:title" content="Data, Code &amp; Coffee: {dm} is fantastic!"/>
+<meta property="og:type" content="article"/>
+<meta property="og:description" content="A quick overview of the {dm} package for working with relational data      models in R."/>
+<meta property="og:url" content="https://hfshr.xyz/posts/2021-05-03-dm-is-fantastic/"/>
+<meta property="og:image" content="https://hfshr.xyz/posts/2021-05-03-dm-is-fantastic/dm.png"/>
+<meta property="og:image:width" content="1356"/>
+<meta property="og:image:height" content="761"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:site_name" content="Data, Code &amp; Coffee"/>
+
+<!--  https://dev.twitter.com/cards/types/summary -->
+<meta property="twitter:card" content="summary_large_image"/>
+<meta property="twitter:title" content="Data, Code &amp; Coffee: {dm} is fantastic!"/>
+<meta property="twitter:description" content="A quick overview of the {dm} package for working with relational data      models in R."/>
+<meta property="twitter:url" content="https://hfshr.xyz/posts/2021-05-03-dm-is-fantastic/"/>
+<meta property="twitter:image" content="https://hfshr.xyz/posts/2021-05-03-dm-is-fantastic/dm.png"/>
+<meta property="twitter:image:width" content="1356"/>
+<meta property="twitter:image:height" content="761"/>
+
+<!--  https://scholar.google.com/intl/en/scholar/inclusion.html#indexing -->
+<meta name="citation_title" content="Data, Code &amp; Coffee: {dm} is fantastic!"/>
+<meta name="citation_fulltext_html_url" content="https://hfshr.xyz/posts/2021-05-03-dm-is-fantastic/"/>
+<meta name="citation_fulltext_world_readable" content=""/>
+<meta name="citation_online_date" content="2021/05/09"/>
+<meta name="citation_publication_date" content="2021/05/09"/>
+<meta name="citation_author" content="Harry Fisher"/>
+<!--/radix_placeholder_meta_tags-->
+  <!--radix_placeholder_rmarkdown_metadata-->
+
+<script type="text/json" id="radix-rmarkdown-metadata">
+{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["creative_commons","title","description","author","date","output","categories","preview","draft","editor_options","citation_url","canonical_url"]}},"value":[{"type":"character","attributes":{},"value":["CC BY"]},{"type":"character","attributes":{},"value":["{dm} is fantastic!"]},{"type":"character","attributes":{},"value":["A quick overview of the {dm} package for working with relational data      models in R."]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Harry Fisher"]},{"type":"character","attributes":{},"value":["https://hfshr.xyz"]}]}]},{"type":"character","attributes":{},"value":["05-09-2021"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"character","attributes":{},"value":["R","SQL"]},{"type":"character","attributes":{},"value":["dm.png"]},{"type":"logical","attributes":{},"value":[false]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["chunk_output_type"]}},"value":[{"type":"character","attributes":{},"value":["console"]}]},{"type":"character","attributes":{},"value":["https://hfshr.xyz/posts/2021-05-03-dm-is-fantastic/"]},{"type":"character","attributes":{},"value":["https://hfshr.xyz/posts/2021-05-03-dm-is-fantastic/"]}]}
+</script>
+<!--/radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-resource-manifest">
+  {"type":"character","attributes":{},"value":["dm-is-fantastic_files/anchor-4.2.2/anchor.min.js","dm-is-fantastic_files/bowser-1.9.3/bowser.min.js","dm-is-fantastic_files/core-js-2.5.3/LICENSE","dm-is-fantastic_files/core-js-2.5.3/package.json","dm-is-fantastic_files/core-js-2.5.3/shim.min.js","dm-is-fantastic_files/DiagrammeR-styles-0.2/styles.css","dm-is-fantastic_files/distill-2.2.21/template.v2.js","dm-is-fantastic_files/grViz-binding-1.0.6.1/grViz.js","dm-is-fantastic_files/header-attrs-2.7.13/header-attrs.js","dm-is-fantastic_files/header-attrs-2.7.4/header-attrs.js","dm-is-fantastic_files/htmlwidgets-1.5.3/htmlwidgets.js","dm-is-fantastic_files/jquery-1.11.3/jquery.min.js","dm-is-fantastic_files/popper-2.6.0/popper.min.js","dm-is-fantastic_files/react-17.0.0/AUTHORS","dm-is-fantastic_files/react-17.0.0/LICENSE.txt","dm-is-fantastic_files/react-17.0.0/react-dom.min.js","dm-is-fantastic_files/react-17.0.0/react.min.js","dm-is-fantastic_files/reactable-binding-0.2.3/reactable.js","dm-is-fantastic_files/reactwidget-1.0.0/react-tools.js","dm-is-fantastic_files/reactwidget-1.0.0/react-tools.js.map","dm-is-fantastic_files/tippy-6.2.7/tippy-bundle.umd.min.js","dm-is-fantastic_files/tippy-6.2.7/tippy-light-border.css","dm-is-fantastic_files/tippy-6.2.7/tippy.css","dm-is-fantastic_files/tippy-6.2.7/tippy.umd.min.js","dm-is-fantastic_files/viz-1.8.2/viz.js","dm-is-fantastic_files/webcomponents-2.0.0/webcomponents.js","dm.png"]}
+  </script>
+  <!--radix_placeholder_navigation_in_header-->
+<meta name="distill:offset" content="../.."/>
+
+<script type="application/javascript">
+
+  window.headroom_prevent_pin = false;
+
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+
+    // initialize headroom for banner
+    var header = $('header').get(0);
+    var headerHeight = header.offsetHeight;
+    var headroom = new Headroom(header, {
+      tolerance: 5,
+      onPin : function() {
+        if (window.headroom_prevent_pin) {
+          window.headroom_prevent_pin = false;
+          headroom.unpin();
+        }
+      }
+    });
+    headroom.init();
+    if(window.location.hash)
+      headroom.unpin();
+    $(header).addClass('headroom--transition');
+
+    // offset scroll location for banner on hash change
+    // (see: https://github.com/WickyNilliams/headroom.js/issues/38)
+    window.addEventListener("hashchange", function(event) {
+      window.scrollTo(0, window.pageYOffset - (headerHeight + 25));
+    });
+
+    // responsive menu
+    $('.distill-site-header').each(function(i, val) {
+      var topnav = $(this);
+      var toggle = topnav.find('.nav-toggle');
+      toggle.on('click', function() {
+        topnav.toggleClass('responsive');
+      });
+    });
+
+    // nav dropdowns
+    $('.nav-dropbtn').click(function(e) {
+      $(this).next('.nav-dropdown-content').toggleClass('nav-dropdown-active');
+      $(this).parent().siblings('.nav-dropdown')
+         .children('.nav-dropdown-content').removeClass('nav-dropdown-active');
+    });
+    $("body").click(function(e){
+      $('.nav-dropdown-content').removeClass('nav-dropdown-active');
+    });
+    $(".nav-dropdown").click(function(e){
+      e.stopPropagation();
+    });
+  });
+</script>
+
+<style type="text/css">
+
+/* Theme (user-documented overrideables for nav appearance) */
+
+.distill-site-nav {
+  color: rgba(255, 255, 255, 0.8);
+  background-color: #0F2E3D;
+  font-size: 15px;
+  font-weight: 300;
+}
+
+.distill-site-nav a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.distill-site-nav a:hover {
+  color: white;
+}
+
+@media print {
+  .distill-site-nav {
+    display: none;
+  }
+}
+
+.distill-site-header {
+
+}
+
+.distill-site-footer {
+
+}
+
+
+/* Site Header */
+
+.distill-site-header {
+  width: 100%;
+  box-sizing: border-box;
+  z-index: 3;
+}
+
+.distill-site-header .nav-left {
+  display: inline-block;
+  margin-left: 8px;
+}
+
+@media screen and (max-width: 768px) {
+  .distill-site-header .nav-left {
+    margin-left: 0;
+  }
+}
+
+
+.distill-site-header .nav-right {
+  float: right;
+  margin-right: 8px;
+}
+
+.distill-site-header a,
+.distill-site-header .title {
+  display: inline-block;
+  text-align: center;
+  padding: 14px 10px 14px 10px;
+}
+
+.distill-site-header .title {
+  font-size: 18px;
+  min-width: 150px;
+}
+
+.distill-site-header .logo {
+  padding: 0;
+}
+
+.distill-site-header .logo img {
+  display: none;
+  max-height: 20px;
+  width: auto;
+  margin-bottom: -4px;
+}
+
+.distill-site-header .nav-image img {
+  max-height: 18px;
+  width: auto;
+  display: inline-block;
+  margin-bottom: -3px;
+}
+
+
+
+@media screen and (min-width: 1000px) {
+  .distill-site-header .logo img {
+    display: inline-block;
+  }
+  .distill-site-header .nav-left {
+    margin-left: 20px;
+  }
+  .distill-site-header .nav-right {
+    margin-right: 20px;
+  }
+  .distill-site-header .title {
+    padding-left: 12px;
+  }
+}
+
+
+.distill-site-header .nav-toggle {
+  display: none;
+}
+
+.nav-dropdown {
+  display: inline-block;
+  position: relative;
+}
+
+.nav-dropdown .nav-dropbtn {
+  border: none;
+  outline: none;
+  color: rgba(255, 255, 255, 0.8);
+  padding: 16px 10px;
+  background-color: transparent;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  margin: 0;
+  margin-top: 1px;
+  z-index: 2;
+}
+
+.nav-dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: white;
+  min-width: 200px;
+  border: 1px solid rgba(0,0,0,0.15);
+  border-radius: 4px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+  z-index: 1;
+  margin-top: 2px;
+  white-space: nowrap;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.nav-dropdown-content hr {
+  margin-top: 4px;
+  margin-bottom: 4px;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.nav-dropdown-active {
+  display: block;
+}
+
+.nav-dropdown-content a, .nav-dropdown-content .nav-dropdown-header {
+  color: black;
+  padding: 6px 24px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.nav-dropdown-content .nav-dropdown-header {
+  display: block;
+  padding: 5px 24px;
+  padding-bottom: 0;
+  text-transform: uppercase;
+  font-size: 14px;
+  color: #999999;
+  white-space: nowrap;
+}
+
+.nav-dropdown:hover .nav-dropbtn {
+  color: white;
+}
+
+.nav-dropdown-content a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.nav-right .nav-dropdown-content {
+  margin-left: -45%;
+  right: 0;
+}
+
+@media screen and (max-width: 768px) {
+  .distill-site-header a, .distill-site-header .nav-dropdown  {display: none;}
+  .distill-site-header a.nav-toggle {
+    float: right;
+    display: block;
+  }
+  .distill-site-header .title {
+    margin-left: 0;
+  }
+  .distill-site-header .nav-right {
+    margin-right: 0;
+  }
+  .distill-site-header {
+    overflow: hidden;
+  }
+  .nav-right .nav-dropdown-content {
+    margin-left: 0;
+  }
+}
+
+
+@media screen and (max-width: 768px) {
+  .distill-site-header.responsive {position: relative; min-height: 500px; }
+  .distill-site-header.responsive a.nav-toggle {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  .distill-site-header.responsive a,
+  .distill-site-header.responsive .nav-dropdown {
+    display: block;
+    text-align: left;
+  }
+  .distill-site-header.responsive .nav-left,
+  .distill-site-header.responsive .nav-right {
+    width: 100%;
+  }
+  .distill-site-header.responsive .nav-dropdown {float: none;}
+  .distill-site-header.responsive .nav-dropdown-content {position: relative;}
+  .distill-site-header.responsive .nav-dropdown .nav-dropbtn {
+    display: block;
+    width: 100%;
+    text-align: left;
+  }
+}
+
+/* Site Footer */
+
+.distill-site-footer {
+  width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+  z-index: 3;
+  margin-top: 30px;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  text-align: center;
+}
+
+/* Headroom */
+
+d-title {
+  padding-top: 6rem;
+}
+
+@media print {
+  d-title {
+    padding-top: 4rem;
+  }
+}
+
+.headroom {
+  z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.headroom--transition {
+  transition: all .4s ease-in-out;
+}
+
+.headroom--unpinned {
+  top: -100px;
+}
+
+.headroom--pinned {
+  top: 0;
+}
+
+/* adjust viewport for navbar height */
+/* helps vertically center bootstrap (non-distill) content */
+.min-vh-100 {
+  min-height: calc(100vh - 100px) !important;
+}
+
+</style>
+
+<script src="../../site_libs/jquery-1.11.3/jquery.min.js"></script>
+<link href="../../site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet"/>
+<link href="../../site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet"/>
+<script src="../../site_libs/headroom-0.9.4/headroom.min.js"></script>
+<!--/radix_placeholder_navigation_in_header-->
+  <!--radix_placeholder_distill-->
+
+<style type="text/css">
+
+body {
+  background-color: white;
+}
+
+.pandoc-table {
+  width: 100%;
+}
+
+.pandoc-table>caption {
+  margin-bottom: 10px;
+}
+
+.pandoc-table th:not([align]) {
+  text-align: left;
+}
+
+.pagedtable-footer {
+  font-size: 15px;
+}
+
+d-byline .byline {
+  grid-template-columns: 2fr 2fr;
+}
+
+d-byline .byline h3 {
+  margin-block-start: 1.5em;
+}
+
+d-byline .byline .authors-affiliations h3 {
+  margin-block-start: 0.5em;
+}
+
+.authors-affiliations .orcid-id {
+  width: 16px;
+  height:16px;
+  margin-left: 4px;
+  margin-right: 4px;
+  vertical-align: middle;
+  padding-bottom: 2px;
+}
+
+d-title .dt-tags {
+  margin-top: 1em;
+  grid-column: text;
+}
+
+.dt-tags .dt-tag {
+  text-decoration: none;
+  display: inline-block;
+  color: rgba(0,0,0,0.6);
+  padding: 0em 0.4em;
+  margin-right: 0.5em;
+  margin-bottom: 0.4em;
+  font-size: 70%;
+  border: 1px solid rgba(0,0,0,0.2);
+  border-radius: 3px;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+d-article table.gt_table td,
+d-article table.gt_table th {
+  border-bottom: none;
+}
+
+.html-widget {
+  margin-bottom: 2.0em;
+}
+
+.l-screen-inset {
+  padding-right: 16px;
+}
+
+.l-screen .caption {
+  margin-left: 10px;
+}
+
+.shaded {
+  background: rgb(247, 247, 247);
+  padding-top: 20px;
+  padding-bottom: 20px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.shaded .html-widget {
+  margin-bottom: 0;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.shaded .shaded-content {
+  background: white;
+}
+
+.text-output {
+  margin-top: 0;
+  line-height: 1.5em;
+}
+
+.hidden {
+  display: none !important;
+}
+
+d-article {
+  padding-top: 2.5rem;
+  padding-bottom: 30px;
+}
+
+d-appendix {
+  padding-top: 30px;
+}
+
+d-article>p>img {
+  width: 100%;
+}
+
+d-article h2 {
+  margin: 1rem 0 1.5rem 0;
+}
+
+d-article h3 {
+  margin-top: 1.5rem;
+}
+
+d-article iframe {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  margin-bottom: 2.0em;
+  width: 100%;
+}
+
+/* Tweak code blocks */
+
+d-article div.sourceCode code,
+d-article pre code {
+  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+}
+
+d-article pre,
+d-article div.sourceCode,
+d-article div.sourceCode pre {
+  overflow: auto;
+}
+
+d-article div.sourceCode {
+  background-color: white;
+}
+
+d-article div.sourceCode pre {
+  padding-left: 10px;
+  font-size: 12px;
+  border-left: 2px solid rgba(0,0,0,0.1);
+}
+
+d-article pre {
+  font-size: 12px;
+  color: black;
+  background: none;
+  margin-top: 0;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.5;
+
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
+d-article pre a {
+  border-bottom: none;
+}
+
+d-article pre a:hover {
+  border-bottom: none;
+  text-decoration: underline;
+}
+
+d-article details {
+  grid-column: text;
+  margin-bottom: 0.8em;
+}
+
+@media(min-width: 768px) {
+
+d-article pre,
+d-article div.sourceCode,
+d-article div.sourceCode pre {
+  overflow: visible !important;
+}
+
+d-article div.sourceCode pre {
+  padding-left: 18px;
+  font-size: 14px;
+}
+
+d-article pre {
+  font-size: 14px;
+}
+
+}
+
+figure img.external {
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+  padding: 18px;
+  box-sizing: border-box;
+}
+
+/* CSS for d-contents */
+
+.d-contents {
+  grid-column: text;
+  color: rgba(0,0,0,0.8);
+  font-size: 0.9em;
+  padding-bottom: 1em;
+  margin-bottom: 1em;
+  padding-bottom: 0.5em;
+  margin-bottom: 1em;
+  padding-left: 0.25em;
+  justify-self: start;
+}
+
+@media(min-width: 1000px) {
+  .d-contents.d-contents-float {
+    height: 0;
+    grid-column-start: 1;
+    grid-column-end: 4;
+    justify-self: center;
+    padding-right: 3em;
+    padding-left: 2em;
+  }
+}
+
+.d-contents nav h3 {
+  font-size: 18px;
+  margin-top: 0;
+  margin-bottom: 1em;
+}
+
+.d-contents li {
+  list-style-type: none
+}
+
+.d-contents nav > ul {
+  padding-left: 0;
+}
+
+.d-contents ul {
+  padding-left: 1em
+}
+
+.d-contents nav ul li {
+  margin-top: 0.6em;
+  margin-bottom: 0.2em;
+}
+
+.d-contents nav a {
+  font-size: 13px;
+  border-bottom: none;
+  text-decoration: none
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.d-contents nav a:hover {
+  text-decoration: underline solid rgba(0, 0, 0, 0.6)
+}
+
+.d-contents nav > ul > li > a {
+  font-weight: 600;
+}
+
+.d-contents nav > ul > li > ul {
+  font-weight: inherit;
+}
+
+.d-contents nav > ul > li > ul > li {
+  margin-top: 0.2em;
+}
+
+
+.d-contents nav ul {
+  margin-top: 0;
+  margin-bottom: 0.25em;
+}
+
+.d-article-with-toc h2:nth-child(2) {
+  margin-top: 0;
+}
+
+
+/* Figure */
+
+.figure {
+  position: relative;
+  margin-bottom: 2.5em;
+  margin-top: 1.5em;
+}
+
+.figure img {
+  width: 100%;
+}
+
+.figure .caption {
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 12px;
+  line-height: 1.5em;
+}
+
+.figure img.external {
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+  padding: 18px;
+  box-sizing: border-box;
+}
+
+.figure .caption a {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.figure .caption b,
+.figure .caption strong, {
+  font-weight: 600;
+  color: rgba(0, 0, 0, 1.0);
+}
+
+/* Citations */
+
+d-article .citation {
+  color: inherit;
+  cursor: inherit;
+}
+
+div.hanging-indent{
+  margin-left: 1em; text-indent: -1em;
+}
+
+/* Citation hover box */
+
+.tippy-box[data-theme~=light-border] {
+  background-color: rgba(250, 250, 250, 0.95);
+}
+
+.tippy-content > p {
+  margin-bottom: 0;
+  padding: 2px;
+}
+
+
+/* Tweak 1000px media break to show more text */
+
+@media(min-width: 1000px) {
+  .base-grid,
+  distill-header,
+  d-title,
+  d-abstract,
+  d-article,
+  d-appendix,
+  distill-appendix,
+  d-byline,
+  d-footnote-list,
+  d-citation-list,
+  distill-footer {
+    grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
+    grid-column-gap: 16px;
+  }
+
+  .grid {
+    grid-column-gap: 16px;
+  }
+
+  d-article {
+    font-size: 1.06rem;
+    line-height: 1.7em;
+  }
+  figure .caption, .figure .caption, figure figcaption {
+    font-size: 13px;
+  }
+}
+
+@media(min-width: 1180px) {
+  .base-grid,
+  distill-header,
+  d-title,
+  d-abstract,
+  d-article,
+  d-appendix,
+  distill-appendix,
+  d-byline,
+  d-footnote-list,
+  d-citation-list,
+  distill-footer {
+    grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+    grid-column-gap: 32px;
+  }
+
+  .grid {
+    grid-column-gap: 32px;
+  }
+}
+
+
+/* Get the citation styles for the appendix (not auto-injected on render since
+   we do our own rendering of the citation appendix) */
+
+d-appendix .citation-appendix,
+.d-appendix .citation-appendix {
+  font-size: 11px;
+  line-height: 15px;
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
+  padding-left: 18px;
+  border: 1px solid rgba(0,0,0,0.1);
+  background: rgba(0, 0, 0, 0.02);
+  padding: 10px 18px;
+  border-radius: 3px;
+  color: rgba(150, 150, 150, 1);
+  overflow: hidden;
+  margin-top: -12px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+/* Include appendix styles here so they can be overridden */
+
+d-appendix {
+  contain: layout style;
+  font-size: 0.8em;
+  line-height: 1.7em;
+  margin-top: 60px;
+  margin-bottom: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  color: rgba(0,0,0,0.5);
+  padding-top: 60px;
+  padding-bottom: 48px;
+}
+
+d-appendix h3 {
+  grid-column: page-start / text-start;
+  font-size: 15px;
+  font-weight: 500;
+  margin-top: 1em;
+  margin-bottom: 0;
+  color: rgba(0,0,0,0.65);
+}
+
+d-appendix h3 + * {
+  margin-top: 1em;
+}
+
+d-appendix ol {
+  padding: 0 0 0 15px;
+}
+
+@media (min-width: 768px) {
+  d-appendix ol {
+    padding: 0 0 0 30px;
+    margin-left: -30px;
+  }
+}
+
+d-appendix li {
+  margin-bottom: 1em;
+}
+
+d-appendix a {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+d-appendix > * {
+  grid-column: text;
+}
+
+d-appendix > d-footnote-list,
+d-appendix > d-citation-list,
+d-appendix > distill-appendix {
+  grid-column: screen;
+}
+
+/* Include footnote styles here so they can be overridden */
+
+d-footnote-list {
+  contain: layout style;
+}
+
+d-footnote-list > * {
+  grid-column: text;
+}
+
+d-footnote-list a.footnote-backlink {
+  color: rgba(0,0,0,0.3);
+  padding-left: 0.5em;
+}
+
+
+
+/* Anchor.js */
+
+.anchorjs-link {
+  /*transition: all .25s linear; */
+  text-decoration: none;
+  border-bottom: none;
+}
+*:hover > .anchorjs-link {
+  margin-left: -1.125em !important;
+  text-decoration: none;
+  border-bottom: none;
+}
+
+/* Social footer */
+
+.social_footer {
+  margin-top: 30px;
+  margin-bottom: 0;
+  color: rgba(0,0,0,0.67);
+}
+
+.disqus-comments {
+  margin-right: 30px;
+}
+
+.disqus-comment-count {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+}
+
+#disqus_thread {
+  margin-top: 30px;
+}
+
+.article-sharing a {
+  border-bottom: none;
+  margin-right: 8px;
+}
+
+.article-sharing a:hover {
+  border-bottom: none;
+}
+
+.sidebar-section.subscribe {
+  font-size: 12px;
+  line-height: 1.6em;
+}
+
+.subscribe p {
+  margin-bottom: 0.5em;
+}
+
+
+.article-footer .subscribe {
+  font-size: 15px;
+  margin-top: 45px;
+}
+
+
+.sidebar-section.custom {
+  font-size: 12px;
+  line-height: 1.6em;
+}
+
+.custom p {
+  margin-bottom: 0.5em;
+}
+
+/* Styles for listing layout (hide title) */
+.layout-listing d-title, .layout-listing .d-title {
+  display: none;
+}
+
+/* Styles for posts lists (not auto-injected) */
+
+
+.posts-with-sidebar {
+  padding-left: 45px;
+  padding-right: 45px;
+}
+
+.posts-list .description h2,
+.posts-list .description p {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+}
+
+.posts-list .description h2 {
+  font-weight: 700;
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.posts-list h2.post-tag {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  padding-bottom: 12px;
+}
+.posts-list {
+  margin-top: 60px;
+  margin-bottom: 24px;
+}
+
+.posts-list .post-preview {
+  text-decoration: none;
+  overflow: hidden;
+  display: block;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 24px 0;
+}
+
+.post-preview-last {
+  border-bottom: none !important;
+}
+
+.posts-list .posts-list-caption {
+  grid-column: screen;
+  font-weight: 400;
+}
+
+.posts-list .post-preview h2 {
+  margin: 0 0 6px 0;
+  line-height: 1.2em;
+  font-style: normal;
+  font-size: 24px;
+}
+
+.posts-list .post-preview p {
+  margin: 0 0 12px 0;
+  line-height: 1.4em;
+  font-size: 16px;
+}
+
+.posts-list .post-preview .thumbnail {
+  box-sizing: border-box;
+  margin-bottom: 24px;
+  position: relative;
+  max-width: 500px;
+}
+.posts-list .post-preview img {
+  width: 100%;
+  display: block;
+}
+
+.posts-list .metadata {
+  font-size: 12px;
+  line-height: 1.4em;
+  margin-bottom: 18px;
+}
+
+.posts-list .metadata > * {
+  display: inline-block;
+}
+
+.posts-list .metadata .publishedDate {
+  margin-right: 2em;
+}
+
+.posts-list .metadata .dt-authors {
+  display: block;
+  margin-top: 0.3em;
+  margin-right: 2em;
+}
+
+.posts-list .dt-tags {
+  display: block;
+  line-height: 1em;
+}
+
+.posts-list .dt-tags .dt-tag {
+  display: inline-block;
+  color: rgba(0,0,0,0.6);
+  padding: 0.3em 0.4em;
+  margin-right: 0.2em;
+  margin-bottom: 0.4em;
+  font-size: 60%;
+  border: 1px solid rgba(0,0,0,0.2);
+  border-radius: 3px;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.posts-list img {
+  opacity: 1;
+}
+
+.posts-list img[data-src] {
+  opacity: 0;
+}
+
+.posts-more {
+  clear: both;
+}
+
+
+.posts-sidebar {
+  font-size: 16px;
+}
+
+.posts-sidebar h3 {
+  font-size: 16px;
+  margin-top: 0;
+  margin-bottom: 0.5em;
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
+.sidebar-section {
+  margin-bottom: 30px;
+}
+
+.categories ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.categories li {
+  color: rgba(0, 0, 0, 0.8);
+  margin-bottom: 0;
+}
+
+.categories li>a {
+  border-bottom: none;
+}
+
+.categories li>a:hover {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+}
+
+.categories .active {
+  font-weight: 600;
+}
+
+.categories .category-count {
+  color: rgba(0, 0, 0, 0.4);
+}
+
+
+@media(min-width: 768px) {
+  .posts-list .post-preview h2 {
+    font-size: 26px;
+  }
+  .posts-list .post-preview .thumbnail {
+    float: right;
+    width: 30%;
+    margin-bottom: 0;
+  }
+  .posts-list .post-preview .description {
+    float: left;
+    width: 45%;
+  }
+  .posts-list .post-preview .metadata {
+    float: left;
+    width: 20%;
+    margin-top: 8px;
+  }
+  .posts-list .post-preview p {
+    margin: 0 0 12px 0;
+    line-height: 1.5em;
+    font-size: 16px;
+  }
+  .posts-with-sidebar .posts-list {
+    float: left;
+    width: 75%;
+  }
+  .posts-with-sidebar .posts-sidebar {
+    float: right;
+    width: 20%;
+    margin-top: 60px;
+    padding-top: 24px;
+    padding-bottom: 24px;
+  }
+}
+
+
+/* Improve display for browsers without grid (IE/Edge <= 15) */
+
+.downlevel {
+  line-height: 1.6em;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+  margin: 0;
+}
+
+.downlevel .d-title {
+  padding-top: 6rem;
+  padding-bottom: 1.5rem;
+}
+
+.downlevel .d-title h1 {
+  font-size: 50px;
+  font-weight: 700;
+  line-height: 1.1em;
+  margin: 0 0 0.5rem;
+}
+
+.downlevel .d-title p {
+  font-weight: 300;
+  font-size: 1.2rem;
+  line-height: 1.55em;
+  margin-top: 0;
+}
+
+.downlevel .d-byline {
+  padding-top: 0.8em;
+  padding-bottom: 0.8em;
+  font-size: 0.8rem;
+  line-height: 1.8em;
+}
+
+.downlevel .section-separator {
+  border: none;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.downlevel .d-article {
+  font-size: 1.06rem;
+  line-height: 1.7em;
+  padding-top: 1rem;
+  padding-bottom: 2rem;
+}
+
+
+.downlevel .d-appendix {
+  padding-left: 0;
+  padding-right: 0;
+  max-width: none;
+  font-size: 0.8em;
+  line-height: 1.7em;
+  margin-bottom: 0;
+  color: rgba(0,0,0,0.5);
+  padding-top: 40px;
+  padding-bottom: 48px;
+}
+
+.downlevel .footnotes ol {
+  padding-left: 13px;
+}
+
+.downlevel .base-grid,
+.downlevel .distill-header,
+.downlevel .d-title,
+.downlevel .d-abstract,
+.downlevel .d-article,
+.downlevel .d-appendix,
+.downlevel .distill-appendix,
+.downlevel .d-byline,
+.downlevel .d-footnote-list,
+.downlevel .d-citation-list,
+.downlevel .distill-footer,
+.downlevel .appendix-bottom,
+.downlevel .posts-container {
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+@media(min-width: 768px) {
+  .downlevel .base-grid,
+  .downlevel .distill-header,
+  .downlevel .d-title,
+  .downlevel .d-abstract,
+  .downlevel .d-article,
+  .downlevel .d-appendix,
+  .downlevel .distill-appendix,
+  .downlevel .d-byline,
+  .downlevel .d-footnote-list,
+  .downlevel .d-citation-list,
+  .downlevel .distill-footer,
+  .downlevel .appendix-bottom,
+  .downlevel .posts-container {
+  padding-left: 150px;
+  padding-right: 150px;
+  max-width: 900px;
+}
+}
+
+.downlevel pre code {
+  display: block;
+  border-left: 2px solid rgba(0, 0, 0, .1);
+  padding: 0 0 0 20px;
+  font-size: 14px;
+}
+
+.downlevel code, .downlevel pre {
+  color: black;
+  background: none;
+  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.5;
+
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
+.downlevel .posts-list .post-preview {
+  color: inherit;
+}
+
+
+
+</style>
+
+<script type="application/javascript">
+
+function is_downlevel_browser() {
+  if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
+                                 window.navigator.userAgent)) {
+    return true;
+  } else {
+    return window.load_distill_framework === undefined;
+  }
+}
+
+// show body when load is complete
+function on_load_complete() {
+
+  // add anchors
+  if (window.anchors) {
+    window.anchors.options.placement = 'left';
+    window.anchors.add('d-article > h2, d-article > h3, d-article > h4, d-article > h5');
+  }
+
+
+  // set body to visible
+  document.body.style.visibility = 'visible';
+
+  // force redraw for leaflet widgets
+  if (window.HTMLWidgets) {
+    var maps = window.HTMLWidgets.findAll(".leaflet");
+    $.each(maps, function(i, el) {
+      var map = this.getMap();
+      map.invalidateSize();
+      map.eachLayer(function(layer) {
+        if (layer instanceof L.TileLayer)
+          layer.redraw();
+      });
+    });
+  }
+
+  // trigger 'shown' so htmlwidgets resize
+  $('d-article').trigger('shown');
+}
+
+function init_distill() {
+
+  init_common();
+
+  // create front matter
+  var front_matter = $('<d-front-matter></d-front-matter>');
+  $('#distill-front-matter').wrap(front_matter);
+
+  // create d-title
+  $('.d-title').changeElementType('d-title');
+
+  // create d-byline
+  var byline = $('<d-byline></d-byline>');
+  $('.d-byline').replaceWith(byline);
+
+  // create d-article
+  var article = $('<d-article></d-article>');
+  $('.d-article').wrap(article).children().unwrap();
+
+  // move posts container into article
+  $('.posts-container').appendTo($('d-article'));
+
+  // create d-appendix
+  $('.d-appendix').changeElementType('d-appendix');
+
+  // flag indicating that we have appendix items
+  var appendix = $('.appendix-bottom').children('h3').length > 0;
+
+  // replace footnotes with <d-footnote>
+  $('.footnote-ref').each(function(i, val) {
+    appendix = true;
+    var href = $(this).attr('href');
+    var id = href.replace('#', '');
+    var fn = $('#' + id);
+    var fn_p = $('#' + id + '>p');
+    fn_p.find('.footnote-back').remove();
+    var text = fn_p.html();
+    var dtfn = $('<d-footnote></d-footnote>');
+    dtfn.html(text);
+    $(this).replaceWith(dtfn);
+  });
+  // remove footnotes
+  $('.footnotes').remove();
+
+  // move refs into #references-listing
+  $('#references-listing').replaceWith($('#refs'));
+
+  $('h1.appendix, h2.appendix').each(function(i, val) {
+    $(this).changeElementType('h3');
+  });
+  $('h3.appendix').each(function(i, val) {
+    var id = $(this).attr('id');
+    $('.d-contents a[href="#' + id + '"]').parent().remove();
+    appendix = true;
+    $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
+  });
+
+  // show d-appendix if we have appendix content
+  $("d-appendix").css('display', appendix ? 'grid' : 'none');
+
+  // localize layout chunks to just output
+  $('.layout-chunk').each(function(i, val) {
+
+    // capture layout
+    var layout = $(this).attr('data-layout');
+
+    // apply layout to markdown level block elements
+    var elements = $(this).children().not('details, div.sourceCode, pre, script');
+    elements.each(function(i, el) {
+      var layout_div = $('<div class="' + layout + '"></div>');
+      if (layout_div.hasClass('shaded')) {
+        var shaded_content = $('<div class="shaded-content"></div>');
+        $(this).wrap(shaded_content);
+        $(this).parent().wrap(layout_div);
+      } else {
+        $(this).wrap(layout_div);
+      }
+    });
+
+
+    // unwrap the layout-chunk div
+    $(this).children().unwrap();
+  });
+
+  // remove code block used to force  highlighting css
+  $('.distill-force-highlighting-css').parent().remove();
+
+  // remove empty line numbers inserted by pandoc when using a
+  // custom syntax highlighting theme
+  $('code.sourceCode a:empty').remove();
+
+  // load distill framework
+  load_distill_framework();
+
+  // wait for window.distillRunlevel == 4 to do post processing
+  function distill_post_process() {
+
+    if (!window.distillRunlevel || window.distillRunlevel < 4)
+      return;
+
+    // hide author/affiliations entirely if we have no authors
+    var front_matter = JSON.parse($("#distill-front-matter").html());
+    var have_authors = front_matter.authors && front_matter.authors.length > 0;
+    if (!have_authors)
+      $('d-byline').addClass('hidden');
+
+    // article with toc class
+    $('.d-contents').parent().addClass('d-article-with-toc');
+
+    // strip links that point to #
+    $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
+
+    // add orcid ids
+    $('.authors-affiliations').find('.author').each(function(i, el) {
+      var orcid_id = front_matter.authors[i].orcidID;
+      if (orcid_id) {
+        var a = $('<a></a>');
+        a.attr('href', 'https://orcid.org/' + orcid_id);
+        var img = $('<img></img>');
+        img.addClass('orcid-id');
+        img.attr('alt', 'ORCID ID');
+        img.attr('src','data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg==');
+        a.append(img);
+        $(this).append(a);
+      }
+    });
+
+    // hide elements of author/affiliations grid that have no value
+    function hide_byline_column(caption) {
+      $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
+    }
+
+    // affiliations
+    var have_affiliations = false;
+    for (var i = 0; i<front_matter.authors.length; ++i) {
+      var author = front_matter.authors[i];
+      if (author.affiliation !== "&nbsp;") {
+        have_affiliations = true;
+        break;
+      }
+    }
+    if (!have_affiliations)
+      $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
+
+    // published date
+    if (!front_matter.publishedDate)
+      hide_byline_column("Published");
+
+    // document object identifier
+    var doi = $('d-byline').find('h3:contains("DOI")');
+    var doi_p = doi.next().empty();
+    if (!front_matter.doi) {
+      // if we have a citation and valid citationText then link to that
+      if ($('#citation').length > 0 && front_matter.citationText) {
+        doi.html('Citation');
+        $('<a href="#citation"></a>')
+          .text(front_matter.citationText)
+          .appendTo(doi_p);
+      } else {
+        hide_byline_column("DOI");
+      }
+    } else {
+      $('<a></a>')
+         .attr('href', "https://doi.org/" + front_matter.doi)
+         .html(front_matter.doi)
+         .appendTo(doi_p);
+    }
+
+     // change plural form of authors/affiliations
+    if (front_matter.authors.length === 1) {
+      var grid = $('.authors-affiliations');
+      grid.children('h3:contains("Authors")').text('Author');
+      grid.children('h3:contains("Affiliations")').text('Affiliation');
+    }
+
+    // remove d-appendix and d-footnote-list local styles
+    $('d-appendix > style:first-child').remove();
+    $('d-footnote-list > style:first-child').remove();
+
+    // move appendix-bottom entries to the bottom
+    $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
+    $('.appendix-bottom').remove();
+
+    // hoverable references
+    $('span.citation[data-cites]').each(function() {
+      var refs = $(this).attr('data-cites').split(" ");
+      var refHtml = refs.map(function(ref) {
+        return "<p>" + $('#ref-' + ref).html() + "</p>";
+      }).join("\n");
+      window.tippy(this, {
+        allowHTML: true,
+        content: refHtml,
+        maxWidth: 500,
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'light-border',
+        placement: 'bottom-start'
+      });
+    });
+
+    // clear polling timer
+    clearInterval(tid);
+
+    // show body now that everything is ready
+    on_load_complete();
+  }
+
+  var tid = setInterval(distill_post_process, 50);
+  distill_post_process();
+
+}
+
+function init_downlevel() {
+
+  init_common();
+
+   // insert hr after d-title
+  $('.d-title').after($('<hr class="section-separator"/>'));
+
+  // check if we have authors
+  var front_matter = JSON.parse($("#distill-front-matter").html());
+  var have_authors = front_matter.authors && front_matter.authors.length > 0;
+
+  // manage byline/border
+  if (!have_authors)
+    $('.d-byline').remove();
+  $('.d-byline').after($('<hr class="section-separator"/>'));
+  $('.d-byline a').remove();
+
+  // remove toc
+  $('.d-contents').remove();
+
+  // move appendix elements
+  $('h1.appendix, h2.appendix').each(function(i, val) {
+    $(this).changeElementType('h3');
+  });
+  $('h3.appendix').each(function(i, val) {
+    $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
+  });
+
+
+  // inject headers into references and footnotes
+  var refs_header = $('<h3></h3>');
+  refs_header.text('References');
+  $('#refs').prepend(refs_header);
+
+  var footnotes_header = $('<h3></h3');
+  footnotes_header.text('Footnotes');
+  $('.footnotes').children('hr').first().replaceWith(footnotes_header);
+
+  // move appendix-bottom entries to the bottom
+  $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
+  $('.appendix-bottom').remove();
+
+  // remove appendix if it's empty
+  if ($('.d-appendix').children().length === 0)
+    $('.d-appendix').remove();
+
+  // prepend separator above appendix
+  $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
+
+  // trim code
+  $('pre>code').each(function(i, val) {
+    $(this).html($.trim($(this).html()));
+  });
+
+  // move posts-container right before article
+  $('.posts-container').insertBefore($('.d-article'));
+
+  $('body').addClass('downlevel');
+
+  on_load_complete();
+}
+
+
+function init_common() {
+
+  // jquery plugin to change element types
+  (function($) {
+    $.fn.changeElementType = function(newType) {
+      var attrs = {};
+
+      $.each(this[0].attributes, function(idx, attr) {
+        attrs[attr.nodeName] = attr.nodeValue;
+      });
+
+      this.replaceWith(function() {
+        return $("<" + newType + "/>", attrs).append($(this).contents());
+      });
+    };
+  })(jQuery);
+
+  // prevent underline for linked images
+  $('a > img').parent().css({'border-bottom' : 'none'});
+
+  // mark non-body figures created by knitr chunks as 100% width
+  $('.layout-chunk').each(function(i, val) {
+    var figures = $(this).find('img, .html-widget');
+    if ($(this).attr('data-layout') !== "l-body") {
+      figures.css('width', '100%');
+    } else {
+      figures.css('max-width', '100%');
+      figures.filter("[width]").each(function(i, val) {
+        var fig = $(this);
+        fig.css('width', fig.attr('width') + 'px');
+      });
+
+    }
+  });
+
+  // auto-append index.html to post-preview links in file: protocol
+  // and in rstudio ide preview
+  $('.post-preview').each(function(i, val) {
+    if (window.location.protocol === "file:")
+      $(this).attr('href', $(this).attr('href') + "index.html");
+  });
+
+  // get rid of index.html references in header
+  if (window.location.protocol !== "file:") {
+    $('.distill-site-header a[href]').each(function(i,val) {
+      $(this).attr('href', $(this).attr('href').replace("index.html", "./"));
+    });
+  }
+
+  // add class to pandoc style tables
+  $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
+  $('.kable-table').children('table').addClass('pandoc-table');
+
+  // add figcaption style to table captions
+  $('caption').parent('table').addClass("figcaption");
+
+  // initialize posts list
+  if (window.init_posts_list)
+    window.init_posts_list();
+
+  // implmement disqus comment link
+  $('.disqus-comment-count').click(function() {
+    window.headroom_prevent_pin = true;
+    $('#disqus_thread').toggleClass('hidden');
+    if (!$('#disqus_thread').hasClass('hidden')) {
+      var offset = $(this).offset();
+      $(window).resize();
+      $('html, body').animate({
+        scrollTop: offset.top - 35
+      });
+    }
+  });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  if (is_downlevel_browser())
+    init_downlevel();
+  else
+    window.addEventListener('WebComponentsReady', init_distill);
+});
+
+</script>
+
+<!--/radix_placeholder_distill-->
+  <script src="../../site_libs/header-attrs-2.7.13/header-attrs.js"></script>
+  <script src="../../site_libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
+  <script src="../../site_libs/viz-1.8.2/viz.js"></script>
+  <link href="../../site_libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet" />
+  <script src="../../site_libs/grViz-binding-1.0.6.1/grViz.js"></script>
+  <script src="../../site_libs/core-js-2.5.3/shim.min.js"></script>
+  <script src="../../site_libs/react-17.0.0/react.min.js"></script>
+  <script src="../../site_libs/react-17.0.0/react-dom.min.js"></script>
+  <script src="../../site_libs/reactwidget-1.0.0/react-tools.js"></script>
+  <script src="../../site_libs/reactable-binding-0.2.3/reactable.js"></script>
+  <script src="../../site_libs/jquery-1.11.3/jquery.min.js"></script>
+  <script src="../../site_libs/popper-2.6.0/popper.min.js"></script>
+  <link href="../../site_libs/tippy-6.2.7/tippy.css" rel="stylesheet" />
+  <link href="../../site_libs/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
+  <script src="../../site_libs/tippy-6.2.7/tippy.umd.min.js"></script>
+  <script src="../../site_libs/anchor-4.2.2/anchor.min.js"></script>
+  <script src="../../site_libs/bowser-1.9.3/bowser.min.js"></script>
+  <script src="../../site_libs/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="../../site_libs/distill-2.2.21/template.v2.js"></script>
+  <!--radix_placeholder_site_in_header-->
+
+<script src="https://use.fontawesome.com/7f151bf2e8.js"></script>
+<script src="https://kit.fontawesome.com/9ea7d0ea4f.js" crossorigin="anonymous"></script>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    if (!/posts/.test(location.pathname)) {
+      return;
+    }
+
+    var script = document.createElement("script");
+    script.src = "https://utteranc.es/client.js";
+    script.setAttribute("repo", "hfshr/distill_blog");
+    script.setAttribute("issue-term", "og:title");
+    script.setAttribute("crossorigin", "anonymous");
+    script.setAttribute("label", "comment_thread");
+
+    /* wait for article to load, append script to article element */
+    var observer = new MutationObserver(function (mutations, observer) {
+      var article = document.querySelector("d-article");
+      if (article) {
+        observer.disconnect();
+        /* HACK: article scroll */
+        article.setAttribute("style", "overflow-y: hidden");
+        article.appendChild(script);
+      }
+    });
+
+    observer.observe(document.body, { childList: true });
+  });
+  </script>
+
+<script type="text/javascript" cookie-consent="tracking" async src="https://www.googletagmanager.com/gtag/js?id=UA-145834792-2"></script>
+<script type="text/javascript" cookie-consent="tracking">
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'UA-145834792-2');
+</script>
+<style type="text/css">
+@import url('https://fonts.googleapis.com/css2?family=Lato');
+@import url('https://fonts.googleapis.com/css2?family=Roboto');
+@import url(https://fonts.googleapis.com/css?family=Noto+Sans:400,400i,700,700i&display=swap);
+@import url('https://fonts.googleapis.com/css2?family=Fira+Mono');
+
+
+/* #222831 */
+:root {
+  --text-font-family: 'Noto Sans';
+  --text-header: 'Lato';
+  --main-text-color: #eeeeee;
+  --secondary-text-color: #72faca;
+  --surface1: #262626;
+  --surface2: #393e46;
+  --main-link: #72faca;
+  --boarder: rgba(255, 255, 255, 0.31);
+  
+}
+
+
+.light {
+  --surface1: white;
+  --surface2: #333333;
+  --main-text-color: #373D3F;
+  --main-link: #0bbd7e;
+  --secondary-text-color: #0bbd7e;
+  --boarder: rgba(0, 0, 0, 0.31);
+}
+
+
+/* nav bar */
+
+.distill-site-nav {
+  font-family: var(--text-header), sans-serif;
+  color: #fff;
+  background-color: var(--surface2);
+  font-size: 25px;
+  font-weight: 400;
+}
+
+
+.distill-site-nav a {
+  font-family: var(--text-header), sans-serif;
+  font-weight: 500;
+  font-size: 25px;
+  color: #fff;
+}
+
+.distill-site-header .logo img {
+    display: block;
+    max-height: 25px;
+    width: auto;
+}
+
+.distill-site-header .title {
+    font-size: 25px;
+    min-width: 150px;
+    font-weight: 700;
+}
+
+/* https://codepen.io/sdthornton/pen/wBZdXq */
+.distill-site-header {
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+  font-family: 'Lato', sans-serif;
+  color: #fff;
+  background-color: #393e46;
+  font-size: 20px;
+  font-weight: 400;
+}
+
+.distill-site-footer {
+  color: #eeeeee;
+  background-color: #393e46;
+  font-size: 20px;
+  font-weight: 400;
+  padding-top: 0px;
+  padding-bottom: 10px;
+}
+
+.distill-site-footer p {
+  color: #eeeeee;
+  background-color: #393e46;
+  font-size: 20px;
+  font-weight: 400;
+  padding-top: 0px;
+  padding-bottom: 5px;
+}
+
+.distill-site-footer a {
+  font-size: 20px;
+  background-color: #393e46;
+  color: #72faca;
+}
+
+.distill-site-footer svg {
+  height: 20px;
+  fill: #72faca;
+}
+
+/*####################################################*/
+
+
+.posts-list .post-preview .thumbnail img { 
+  max-width: 60%;
+  max-height: 60%;
+  display: block;
+  margin: 0 auto;
+  vertical-align: middle;
+}
+
+.posts-list .post-preview {
+  border-bottom: 0.5px solid var(--boarder);
+}
+
+.posts-list h1 {
+   font-family: 'Lato';
+   font-weight: 600;
+}
+
+
+.posts-list .description p {
+    font-family: var(--text-font-family);
+}
+
+.posts-list .description h2 {
+    font-family: 'Lato';
+}
+
+.posts-list .post-preview .metadata {
+    float: left;
+    width: 15%;
+    margin-top: 8px;
+}
+
+.posts-list .metadata {
+    font-size: 16px;
+    line-height: 1.4em;
+    margin-bottom: 18px;
+}
+
+/*##################################################*/
+
+body, p {
+  font-family: var(--text-font-family);
+  text-transform: none;
+  font-weight: 200;
+  line-height: 1.6; 
+  font-size: 1em;
+  background-color: var(--surface1);
+  color: var(--main-text-color);
+  font-style: normal;
+}
+
+
+strong {
+  font-weight: bold;
+}
+
+
+d-article {
+   color: var(--main-text-color);
+   border-top: 1px solid var(--boarder);
+}
+
+
+d-article h1, d-article h2 {
+    border-bottom: 1px solid var(--boarder);
+    padding-bottom: 5px;
+}
+
+  
+
+d-article a {
+    border-bottom: none;
+    text-decoration: none;
+}
+
+d-article a:hover  {
+  text-decoration: none;
+  border-bottom: none;
+  cursor: pointer;
+  color: var(--secondary-text-color);
+}
+
+.d-contents nav > ul > li > a {
+    font-weight: 200;
+    text-decoration: none;
+    border-bottom: none;
+    color:var(--main-text-color);
+    font-size: 16px;
+}
+
+d-article table th {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+d-article table tr:last-of-type td {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+h1.posts-list-caption {
+  border-bottom: none;
+}
+
+
+html a {
+    text-decoration: none;
+    background-image: linear-gradient(currentColor, currentColor);
+    background-position: 0% 100%;
+    background-repeat: no-repeat;
+    background-size: 0% 2px;
+    color: var(--main-link);
+    transition: background-size .3s;
+}
+
+html a:hover, html a:focus {
+  background-size: 100% 2px;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+.categories .category-count {
+    color: var(--main-link);
+}
+
+a.post-preview {
+  color: var(--main-text-color);
+}
+
+.distill-site-nav a {
+  background-image: none;
+}
+
+.distill-site-nav a:hover {
+  color: var(--main-link);
+}
+
+/*##################################################*/
+
+/*SIDE BAR*/
+
+.sidebar-section-custom{
+  font-size: 15px;
+  text-align: justify;
+  line-height: 1.6; 
+}
+
+.sidebar-section-custom h2{
+  font-family: var(--text-header);
+  text-align: center;
+  font-size: 25px;
+  border-bottom: 1px solid rgb(255 255 255 / 30%);
+  
+}
+
+.sidebar-section.subscribe {
+  font-size: 15px;
+  text-align: justify;
+  line-height: 1.7; 
+  
+}
+
+.sidebar-section.subscribe h3{
+  font-family: var(--text-header);
+  font-weight: 700;
+  
+}
+
+.sidebar-section.categories h3{
+  font-family: var(--text-header);
+  font-weight: 700;
+}
+
+
+
+/* colour tags */
+.dt-tags .dt-tag {
+    display: inline-block;
+    color: var(--main-text-color);
+    padding: 0.3em 0.4em;
+    margin-right: 0.2em;
+    margin-bottom: 0.4em;
+    font-size: 14px;
+    border: 1px solid var(--main-text-color);
+    background-color: var(--surface1);
+    border-radius: 3px;
+    text-transform: uppercase;
+    font-weight: 900;
+}
+
+.posts-list .dt-tags .dt-tag {
+    color: var(--main-text-color);
+    border: 1px solid var(--main-text-color);
+    font-size: 14px;
+}
+
+
+.categories li > a:hover {
+    color: var(--secondary-text-color); 
+    border-bottom: none;
+}
+
+
+
+img[alt=badge] { 
+  width: 85px; 
+  height: 20px; 
+  float: left;
+}
+
+img[alt$="<"] {
+  float: left;
+}
+
+.mylinks a{
+  color: var(--main-text-color);
+  
+}
+
+.center{
+  text-align: center;
+}
+
+
+.col-6.mt-3.text-center.d-none.d-sm-block {
+  
+    background-color: var(--surface1); /* Changing background color */
+    color: var(--main-text-color);
+    border-radius: 10px; /* Making border radius */
+    box-sizing: content-box; /* Making auto-sizable width */
+    height: auto; /* Making auto-sizable height */
+    padding: 10px 10px 0px 0px;
+    font-size: 18px;
+  
+}
+
+.col-6.mt-3.text-center.d-none.d-sm-block p{
+    color: var(--main-text-color);
+}
+
+/*
+.col-6.mt-3.text-center.d-none.d-sm-block a{
+    color: #eeeeee;
+    text-decoration: underline;
+}
+
+*/
+.col-6.mt-3.text-center.d-none.d-sm-block a:hover{
+    color: var(--secondary-text-color);
+    text-decoration: none;
+}
+
+
+.btn {
+  background-color: var(--surface1);
+  color: var(--main-text-color);
+}
+
+hr {
+    box-sizing: content-box;
+    height: 0;
+    overflow: visible;
+    border-top: 1px solid var(--boarder);
+}
+
+
+
+.mt-3, .my-3 {
+    margin-top: 0rem !important;
+}
+
+
+.btn-outline-dark:hover {
+    color: var(--main-text-color);
+    background-color: var(--surface1);
+    border-color: #f8f8f8;
+}
+
+
+d-byline {
+    color: var(--main-text-color);
+    border-top: 1px solid var(--boarder);
+}
+
+d-byline h3 {
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--main-text-color);
+    margin: 0;
+    text-transform: uppercase;
+}
+
+
+/*##########################################################*/
+
+/* code chunks */
+
+/* CODE FORMATTING */
+
+code {
+  font-size: 1.2em;
+}
+
+/* Highlight code in text but not in code chunk */
+p code {
+    color: #eee;
+    font-size: 1.0em;
+    background: #7d828a;
+    border-radius: 3px;
+    padding: 0 3px;
+    margin: 0 4px;
+    word-wrap: break-word;
+    letter-spacing: normal;
+} 
+ 
+
+d-article div.sourceCode {
+    background-color: var(--surface1);
+    border-left: 2px solid var(--boarder);
+}
+
+pre {
+  word-wrap: normal;
+  word-break: normal;
+  /*border: 1px solid #eee;*/
+  border: 0px !important;
+}
+
+pre, code {
+  background-color: var(--surface1);
+}
+
+pre code {
+  overflow: auto;
+  word-wrap: normal;
+  white-space: pre;
+}
+
+pre .img {
+  margin: 5px 0;
+}
+
+pre .img img {
+  background-color: #aaa;
+  display: block;
+  height: auto;
+}
+
+code a, pre a {
+  font-family: ui-monospace, SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
+  color: #85AACC;
+  background-image: none;
+  text-decoration: none;
+}
+
+a.sourceLine:hover {
+  text-decoration: none;
+}
+
+.fl      {color: #ae81ff;}
+.fu      {color: #636fa5;} /* function */
+.ch,.st  {color: #33b374;} /* string */
+.kw      {color: #f92672;} /* keyword */
+.co      {color: #696d70;} /* comment */
+.va      {color: #fd971f;} /* values */
+
+.message { color: #eeeeee;   font-weight: bolder;}
+.error   { color: orange;  font-weight: bolder;}
+.warning { color: #6A0366; font-weight: bolder;}
+
+code span.va {
+    color: #fd971f;
+}
+
+code span.st {
+    color: #33b374;
+}
+
+code span.op {
+    color: var(--main-text-color);
+}
+
+code span.fl {
+    color: #ff0202;
+}
+
+code span.fu {
+    color: #768eff;
+}
+
+code span.co {
+    color: #adadad;
+}
+
+d-article pre {
+  color:var(--main-text-color);
+}
+
+/* Appendix */
+
+d-appendix {
+  color: var(--main-text-color);
+  font-size: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.31);
+  font-size: 1em;
+}
+
+
+d-appendix h3{
+  color: var(--main-text-color);
+  font-size: 1rem;
+}
+
+.social_footer {
+    margin-top: 30px;
+    margin-bottom: 0;
+    color: var(--main-text-color);
+}
+
+d-article aside {
+    color: var(--main-text-color);
+}
+
+/* ############################################## */
+
+/* MISC */
+
+figcaption, .figcaption {
+    color: var(--main-text-color);
+    font-size: 12px;
+    line-height: 1.5em;
+}
+
+
+
+.ReactTable {
+    height: 100%;
+    background-color: #383c3b00;
+}
+
+/*
+svg {
+  background-color: white;
+}
+*/
+
+div#i4VSD54I16UA7LSG1UCX8 {
+  background-color: white;
+}
+
+d-article blockquote {
+    border-left: 2px solid rgba(255, 255, 255, 0.2);
+    
+}
+
+
+.figure .caption {
+    color: var(--main-text-color)  ;
+    font-size: 12px;
+    line-height: 1.5em;
+}
+
+.niceNetwork{
+  color: var(--main-text-color);
+}
+
+.utterances {
+  height: 267px;
+}
+
+.col-6 {
+    flex: none;
+    max-width: max-content;
+
+}
+
+.col-6 ul li {
+  list-style-type: '>  ';
+  }
+  
+.col-6 ul {
+  text-align: center;
+  list-style-position: inside;
+}  
+
+
+</style>
+<!--/radix_placeholder_site_in_header-->
+
+
+</head>
+
+<body>
+
+<!--radix_placeholder_front_matter-->
+
+<script id="distill-front-matter" type="text/json">
+{"title":"{dm} is fantastic!","description":"A quick overview of the {dm} package for working with relational data      models in R.","authors":[{"author":"Harry Fisher","authorURL":"https://hfshr.xyz","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2021-05-09T00:00:00.000+01:00","citationText":"Fisher, 2021"}
+</script>
+
+<!--/radix_placeholder_front_matter-->
+<!--radix_placeholder_navigation_before_body-->
+<header class="header header--fixed" role="banner">
+<nav class="distill-site-nav distill-site-header">
+<div class="nav-left">
+<a href="../../index.html" class="title">Data, Code &amp; Coffee</a>
+</div>
+<div class="nav-right">
+<a href="../../index.html">
+<i class="fas fa-home" aria-hidden="true"></i>
+</a>
+<a href="../../blog.html">
+<i class="fas fa-pencil-alt" aria-hidden="true"></i>
+</a>
+<a href="../../about.html">
+<i class="fas fa-address-card" aria-hidden="true"></i>
+</a>
+<a href="https://github.com/hfshr">
+<i class="fab fa-github" aria-hidden="true"></i>
+</a>
+<a href="https://twitter.com/harryfishr">
+<i class="fab fa-twitter" aria-hidden="true"></i>
+</a>
+<a href="../../blog.xml">
+<i class="fas fa-rss" aria-hidden="true"></i>
+</a>
+<a>
+<i class="far fa-lightbulb" aria-hidden="true"></i>
+</a>
+<a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
+</div>
+</nav>
+</header>
+<!--/radix_placeholder_navigation_before_body-->
+<!--radix_placeholder_site_before_body-->
+<!--/radix_placeholder_site_before_body-->
+
+<div class="d-title">
+<h1>{dm} is fantastic!</h1>
+<!--radix_placeholder_categories-->
+<div class="dt-tags">
+  <a href="../../blog.html#category:R" class="dt-tag">R</a>
+  <a href="../../blog.html#category:SQL" class="dt-tag">SQL</a>
+</div>
+<!--/radix_placeholder_categories-->
+<p><p>A quick overview of the {dm} package for working with relational data models in R.</p></p>
+</div>
+
+<div class="d-byline">
+  Harry Fisher <a href="https://hfshr.xyz" class="uri">https://hfshr.xyz</a> 
+  
+<br/>05-09-2021
+</div>
+
+<div class="d-article">
+<div class="layout-chunk" data-layout="l-body">
+<style type="text/css">
+d-article pre {
+overflow: auto !important;
+}
+</style>
+</div>
+<p>Sometimes as an R user you may find yourself needing to work with data that is stored in a remote database, but want to continue to use your R-orientated workflow. The <code>dm</code> package by <a href="https://www.cynkra.com/about.html">Kirill Müller</a> provides some great tools for doing exactly that, and in this post I wanted to share some of the functions I’ve found particularly useful.</p>
+<p>Now, you may already be familiar with the <code>dbplyr</code> package which allows you to use the majority of dplyr/tidyr functions on a remote table by auto-magically converting these commands into the necessary SQL and returning the result back to R when you call <code>collect()</code>. <code>dm</code> extends this concept and adds extra functionality for working with the whole database, making it a very valuable tool. For the examples in this post, I’ve set up a local SQL server, and copied over the <code>dm::dm_nycflights13()</code> example database that is included in the <code>dm</code> package.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># Setup for examples using SQL server</span>
+
+<span class='va'>con</span> <span class='op'>&lt;-</span> <span class='fu'>DBI</span><span class='fu'>::</span><span class='fu'><a href='https://dbi.r-dbi.org/reference/dbConnect.html'>dbConnect</a></span><span class='op'>(</span><span class='fu'>odbc</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/odbc/man/odbc.html'>odbc</a></span><span class='op'>(</span><span class='op'>)</span>,
+                      Driver   <span class='op'>=</span> <span class='st'>"ODBC Driver 17 for SQL Server"</span>,
+                      Server   <span class='op'>=</span> <span class='st'>"localhost"</span>,
+                      UID      <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Sys.getenv.html'>Sys.getenv</a></span><span class='op'>(</span><span class='st'>"SQL_user"</span><span class='op'>)</span>,
+                      PWD      <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Sys.getenv.html'>Sys.getenv</a></span><span class='op'>(</span><span class='st'>"SQL_password"</span><span class='op'>)</span>,
+                      Port     <span class='op'>=</span> <span class='fl'>1433</span><span class='op'>)</span>
+
+<span class='va'>flights</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://cynkra.github.io/dm/reference/dm_nycflights13.html'>dm_nycflights13</a></span><span class='op'>(</span><span class='op'>)</span>
+
+<span class='fu'>DBI</span><span class='fu'>::</span><span class='fu'><a href='https://dbi.r-dbi.org/reference/dbSendQuery.html'>dbSendQuery</a></span><span class='op'>(</span><span class='va'>con</span>, <span class='st'>"CREATE DATABASE nycflights"</span><span class='op'>)</span>
+
+<span class='fu'><a href='https://cynkra.github.io/dm/reference/copy_dm_to.html'>copy_dm_to</a></span><span class='op'>(</span><span class='va'>con</span>, dm <span class='op'>=</span> <span class='va'>flights</span>, temporary <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<p>Next I rerun the connection, but this time specifying the newly created <code>nycflights</code> database.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>con</span> <span class='op'>&lt;-</span> <span class='fu'>DBI</span><span class='fu'>::</span><span class='fu'><a href='https://dbi.r-dbi.org/reference/dbConnect.html'>dbConnect</a></span><span class='op'>(</span><span class='fu'>odbc</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/odbc/man/odbc.html'>odbc</a></span><span class='op'>(</span><span class='op'>)</span>,
+                      Driver   <span class='op'>=</span> <span class='st'>"ODBC Driver 17 for SQL Server"</span>,
+                      Server   <span class='op'>=</span> <span class='st'>"localhost"</span>,
+                      Database <span class='op'>=</span> <span class='st'>"nycflights"</span>,
+                      UID      <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Sys.getenv.html'>Sys.getenv</a></span><span class='op'>(</span><span class='st'>"SQL_user"</span><span class='op'>)</span>,
+                      PWD      <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Sys.getenv.html'>Sys.getenv</a></span><span class='op'>(</span><span class='st'>"SQL_password"</span><span class='op'>)</span>,
+                      Port     <span class='op'>=</span> <span class='fl'>1433</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<p>Now our data is in the database we can begin working with it. To connect to the database and learn the connections, we can use <code>dm_from_src()</code>. Setting the <code>learn_keys</code> argument to <code>TRUE</code> means dm will attempt to discover the primary and foreign keys between the tables, however this currently only works with Postgres and SQL Server databases.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://cynkra.github.io/dm/reference/dm_from_src.html'>dm_from_src</a></span><span class='op'>(</span><span class='va'>con</span>, learn_keys <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+
+<span class='va'>flights</span>
+</code></pre>
+</div>
+<PRE class="fansi fansi-output"><CODE>#&gt; <span style='color: #00BB00;'>──</span><span> </span><span style='color: #00BB00;'>Table source</span><span> </span><span style='color: #00BB00;'>───────────────────────────────────────────────────────────</span><span>
+#&gt; src:  Microsoft SQL Server 15.00.4123[dbo@h-xps/nycflights]
+#&gt; </span><span style='color: #555555;'>──</span><span> </span><span style='color: #555555;'>Metadata</span><span> </span><span style='color: #555555;'>───────────────────────────────────────────────────────────────</span><span>
+#&gt; Tables: `airlines`, `airports`, `flights`, `planes`, `weather`
+#&gt; Columns: 53
+#&gt; Primary keys: 3
+#&gt; Foreign keys: 2
+</span></CODE></PRE>
+</div>
+<p>A really great feature of <code>dm</code> is the ability to plot the database to visualise the links between tables. We can do this by using the <code>dm_draw()</code> function</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://cynkra.github.io/dm/reference/dm_draw.html'>dm_draw</a></span><span class='op'>(</span><span class='va'>flights</span><span class='op'>)</span>
+</code></pre>
+</div>
+<div id="htmlwidget-92a8b3f0a6b624b92097" style="width:624px;height:384px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-92a8b3f0a6b624b92097">{"x":{"diagram":"#data_model\ndigraph {\ngraph [rankdir=LR tooltip=\"Data Model\" ]\n\nnode [margin=0 fontcolor = \"#444444\" ]\n\nedge [color = \"#555555\", arrowsize = 1, ]\n\npack=true\npackmode= \"node\"\n\n  \"airlines\" [label = <<TABLE ALIGN=\"LEFT\" BORDER=\"1\" CELLBORDER=\"0\" CELLSPACING=\"0\" COLOR=\"#555555\">\n    <TR>\n      <TD COLSPAN=\"1\" BGCOLOR=\"#EFEBDD\" BORDER=\"0\"><FONT COLOR=\"#000000\">airlines<\/FONT>\n<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\" PORT=\"carrier\"><U>carrier<\/U><\/TD>\n    <\/TR>\n  <\/TABLE>>, shape = \"plaintext\"] \n\n  \"airports\" [label = <<TABLE ALIGN=\"LEFT\" BORDER=\"1\" CELLBORDER=\"0\" CELLSPACING=\"0\" COLOR=\"#555555\">\n    <TR>\n      <TD COLSPAN=\"1\" BGCOLOR=\"#EFEBDD\" BORDER=\"0\"><FONT COLOR=\"#000000\">airports<\/FONT>\n<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\" PORT=\"faa\"><U>faa<\/U><\/TD>\n    <\/TR>\n  <\/TABLE>>, shape = \"plaintext\"] \n\n  \"flights\" [label = <<TABLE ALIGN=\"LEFT\" BORDER=\"1\" CELLBORDER=\"0\" CELLSPACING=\"0\" COLOR=\"#555555\">\n    <TR>\n      <TD COLSPAN=\"1\" BGCOLOR=\"#EFEBDD\" BORDER=\"0\"><FONT COLOR=\"#000000\">flights<\/FONT>\n<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\" PORT=\"carrier\">carrier<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\" PORT=\"origin\">origin<\/TD>\n    <\/TR>\n  <\/TABLE>>, shape = \"plaintext\"] \n\n  \"planes\" [label = <<TABLE ALIGN=\"LEFT\" BORDER=\"1\" CELLBORDER=\"0\" CELLSPACING=\"0\" COLOR=\"#555555\">\n    <TR>\n      <TD COLSPAN=\"1\" BGCOLOR=\"#EFEBDD\" BORDER=\"0\"><FONT COLOR=\"#000000\">planes<\/FONT>\n<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\" PORT=\"tailnum\"><U>tailnum<\/U><\/TD>\n    <\/TR>\n  <\/TABLE>>, shape = \"plaintext\"] \n\n  \"weather\" [label = <<TABLE ALIGN=\"LEFT\" BORDER=\"1\" CELLBORDER=\"0\" CELLSPACING=\"0\" COLOR=\"#555555\">\n    <TR>\n      <TD COLSPAN=\"1\" BGCOLOR=\"#EFEBDD\" BORDER=\"0\"><FONT COLOR=\"#000000\">weather<\/FONT>\n<\/TD>\n    <\/TR>\n  <\/TABLE>>, shape = \"plaintext\"] \n\n\"flights\":\"carrier\"->\"airlines\":\"carrier\"\n\"flights\":\"origin\"->\"airports\":\"faa\"\n}","config":{"engine":null,"options":null}},"evals":[],"jsHooks":[]}</script>
+</div>
+<p>Now, there is a small issue with the nycflights data in that some of the <code>tailnum</code> values are not present in both the flights and planes table. However, we can manually create the link by adding an additional foreign key using <code>dm_add_fk()</code>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>&lt;-</span> <span class='va'>flights</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'><a href='https://cynkra.github.io/dm/reference/dm_add_fk.html'>dm_add_fk</a></span><span class='op'>(</span>table <span class='op'>=</span> <span class='va'>flights</span>, columns <span class='op'>=</span> <span class='va'>tailnum</span>, ref_table <span class='op'>=</span> <span class='va'>planes</span><span class='op'>)</span>
+
+<span class='va'>flights</span>
+</code></pre>
+</div>
+<PRE class="fansi fansi-output"><CODE>#&gt; <span style='color: #00BB00;'>──</span><span> </span><span style='color: #00BB00;'>Table source</span><span> </span><span style='color: #00BB00;'>───────────────────────────────────────────────────────────</span><span>
+#&gt; src:  Microsoft SQL Server 15.00.4123[dbo@h-xps/nycflights]
+#&gt; </span><span style='color: #555555;'>──</span><span> </span><span style='color: #555555;'>Metadata</span><span> </span><span style='color: #555555;'>───────────────────────────────────────────────────────────────</span><span>
+#&gt; Tables: `airlines`, `airports`, `flights`, `planes`, `weather`
+#&gt; Columns: 53
+#&gt; Primary keys: 3
+#&gt; Foreign keys: 3
+</span></CODE></PRE>
+</div>
+<p>And if we draw the model again we can see that planes is now connected to the flights table. I’ve also added some extra styling to show how easy it is to customise these plots with <code>dm</code>.</p>
+<aside>
+You can use <code>dm_get_available_colors()</code> to see all possible colours
+</aside>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'><a href='https://cynkra.github.io/dm/reference/dm_set_colors.html'>dm_set_colors</a></span><span class='op'>(</span>
+    salmon4 <span class='op'>=</span> <span class='va'>flights</span>,
+    violetred1 <span class='op'>=</span> <span class='va'>airlines</span>,
+    royalblue4 <span class='op'>=</span> <span class='va'>planes</span>,
+    wheat <span class='op'>=</span> <span class='va'>airports</span>
+  <span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'><a href='https://cynkra.github.io/dm/reference/dm_draw.html'>dm_draw</a></span><span class='op'>(</span>rankdir <span class='op'>=</span> <span class='st'>"TB"</span>,
+          view_type <span class='op'>=</span> <span class='st'>"title_only"</span>,
+          edge_attrs <span class='op'>=</span> <span class='st'>"arrowhead = vee"</span><span class='op'>)</span>
+</code></pre>
+</div>
+<div id="htmlwidget-786d69978b70ff22b324" style="width:624px;height:384px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-786d69978b70ff22b324">{"x":{"diagram":"#data_model\ndigraph {\ngraph [rankdir=TB tooltip=\"Data Model\" ]\n\nnode [margin=0 fontcolor = \"#444444\" ]\n\nedge [color = \"#555555\", arrowsize = 1, arrowhead = vee]\n\npack=true\npackmode= \"node\"\n\n  \"airlines\" [label = <<TABLE ALIGN=\"LEFT\" BORDER=\"1\" CELLBORDER=\"0\" CELLSPACING=\"0\" COLOR=\"#AA2964AA\">\n    <TR>\n      <TD COLSPAN=\"1\" BGCOLOR=\"#FF3E96FF\" BORDER=\"0\"><FONT COLOR=\"#FFFFFF\">airlines<\/FONT>\n<\/TD>\n    <\/TR>\n  <\/TABLE>>, shape = \"plaintext\"] \n\n  \"airports\" [label = <<TABLE ALIGN=\"LEFT\" BORDER=\"1\" CELLBORDER=\"0\" CELLSPACING=\"0\" COLOR=\"#A39477AA\">\n    <TR>\n      <TD COLSPAN=\"1\" BGCOLOR=\"#F5DEB3FF\" BORDER=\"0\"><FONT COLOR=\"#000000\">airports<\/FONT>\n<\/TD>\n    <\/TR>\n  <\/TABLE>>, shape = \"plaintext\"] \n\n  \"flights\" [label = <<TABLE ALIGN=\"LEFT\" BORDER=\"1\" CELLBORDER=\"0\" CELLSPACING=\"0\" COLOR=\"#5C3226AA\">\n    <TR>\n      <TD COLSPAN=\"1\" BGCOLOR=\"#8B4C39FF\" BORDER=\"0\"><FONT COLOR=\"#FFFFFF\">flights<\/FONT>\n<\/TD>\n    <\/TR>\n  <\/TABLE>>, shape = \"plaintext\"] \n\n  \"planes\" [label = <<TABLE ALIGN=\"LEFT\" BORDER=\"1\" CELLBORDER=\"0\" CELLSPACING=\"0\" COLOR=\"#1A2A5CAA\">\n    <TR>\n      <TD COLSPAN=\"1\" BGCOLOR=\"#27408BFF\" BORDER=\"0\"><FONT COLOR=\"#FFFFFF\">planes<\/FONT>\n<\/TD>\n    <\/TR>\n  <\/TABLE>>, shape = \"plaintext\"] \n\n  \"weather\" [label = <<TABLE ALIGN=\"LEFT\" BORDER=\"1\" CELLBORDER=\"0\" CELLSPACING=\"0\" COLOR=\"#555555\">\n    <TR>\n      <TD COLSPAN=\"1\" BGCOLOR=\"#EFEBDD\" BORDER=\"0\"><FONT COLOR=\"#000000\">weather<\/FONT>\n<\/TD>\n    <\/TR>\n  <\/TABLE>>, shape = \"plaintext\"] \n\n\"flights\":\"carrier\"->\"airlines\":\"carrier\"\n\"flights\":\"origin\"->\"airports\":\"faa\"\n\"flights\":\"tailnum\"->\"planes\":\"tailnum\"\n}","config":{"engine":null,"options":null}},"evals":[],"jsHooks":[]}</script>
+</div>
+<h2 id="working-with-the-data">Working with the data</h2>
+<p>So, now we have a data model set up we can begin working with it. <code>dm</code> contains a range of <code>dm_*</code> functions that work in a similar way to their <code>dpylr</code> equivalents, but they can affect the whole data model object. For example, we can select certain tables and use filters on the whole data model. Lets drop the <code>weather</code> table as we aren’t too interested in weather for the time being.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>&lt;-</span> <span class='va'>flights</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'><a href='https://cynkra.github.io/dm/reference/dm_select_tbl.html'>dm_select_tbl</a></span><span class='op'>(</span><span class='op'>-</span><span class='va'>weather</span><span class='op'>)</span>
+
+<span class='va'>flights</span>
+</code></pre>
+</div>
+<PRE class="fansi fansi-output"><CODE>#&gt; <span style='color: #00BB00;'>──</span><span> </span><span style='color: #00BB00;'>Table source</span><span> </span><span style='color: #00BB00;'>───────────────────────────────────────────────────────────</span><span>
+#&gt; src:  Microsoft SQL Server 15.00.4123[dbo@h-xps/nycflights]
+#&gt; </span><span style='color: #555555;'>──</span><span> </span><span style='color: #555555;'>Metadata</span><span> </span><span style='color: #555555;'>───────────────────────────────────────────────────────────────</span><span>
+#&gt; Tables: `airlines`, `airports`, `flights`, `planes`
+#&gt; Columns: 38
+#&gt; Primary keys: 3
+#&gt; Foreign keys: 3
+</span></CODE></PRE>
+</div>
+<p>By printing the dm object, we can see the <code>weather</code> table is no longer part of the dm object.</p>
+<p>Lets say we are particular interested in finding out about Alaska Airlines Inc. We can use <code>dm_filter()</code> to find all the linked information for this airline in our data model.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights_filt</span> <span class='op'>&lt;-</span> <span class='va'>flights</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'><a href='https://cynkra.github.io/dm/reference/dm_filter.html'>dm_filter</a></span><span class='op'>(</span><span class='va'>flights</span>, <span class='va'>carrier</span> <span class='op'>==</span> <span class='st'>"AA"</span><span class='op'>)</span> 
+
+<span class='va'>flights_filt</span>
+</code></pre>
+</div>
+<PRE class="fansi fansi-output"><CODE>#&gt; <span style='color: #00BB00;'>──</span><span> </span><span style='color: #00BB00;'>Table source</span><span> </span><span style='color: #00BB00;'>───────────────────────────────────────────────────────────</span><span>
+#&gt; src:  Microsoft SQL Server 15.00.4123[dbo@h-xps/nycflights]
+#&gt; </span><span style='color: #555555;'>──</span><span> </span><span style='color: #555555;'>Metadata</span><span> </span><span style='color: #555555;'>───────────────────────────────────────────────────────────────</span><span>
+#&gt; Tables: `airlines`, `airports`, `flights`, `planes`
+#&gt; Columns: 38
+#&gt; Primary keys: 3
+#&gt; Foreign keys: 3
+#&gt; </span><span style='color: #BBBB00;'>──</span><span> </span><span style='color: #BBBB00;'>Filters</span><span> </span><span style='color: #BBBB00;'>────────────────────────────────────────────────────────────────</span><span>
+#&gt; flights: carrier == "AA"
+</span></CODE></PRE>
+</div>
+<p>Now we can see we have some additional information regarding the filter when we print the data model. In order to apply this filter, we have a couple of possibilities. If we were interested in returning all the rows in the <code>airports</code> table, we could apply this filter directly to that table using <code>dm_apply_filters_to_tbl()</code>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights_filt</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'><a href='https://cynkra.github.io/dm/reference/dm_filter.html'>dm_apply_filters_to_tbl</a></span><span class='op'>(</span><span class='va'>airports</span><span class='op'>)</span>
+</code></pre>
+</div>
+<PRE class="fansi fansi-output"><CODE>#&gt; <span style='color: #555555;'># Source:   lazy query [?? x 8]</span><span>
+#&gt; </span><span style='color: #555555;'># Database: Microsoft SQL Server 15.00.4123[dbo@h-xps/nycflights]</span><span>
+#&gt;   faa   name                lat   lon   alt    tz dst   tzone         
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>             </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>         
+#&gt; </span><span style='color: #555555;'>1</span><span> LGA   La Guardia         40.8 -</span><span style='color: #BB0000;'>73.9</span><span>    22    -</span><span style='color: #BB0000;'>5</span><span> A     America/New_Y…
+#&gt; </span><span style='color: #555555;'>2</span><span> EWR   Newark Liberty I…  40.7 -</span><span style='color: #BB0000;'>74.2</span><span>    18    -</span><span style='color: #BB0000;'>5</span><span> A     America/New_Y…
+#&gt; </span><span style='color: #555555;'>3</span><span> JFK   John F Kennedy I…  40.6 -</span><span style='color: #BB0000;'>73.8</span><span>    13    -</span><span style='color: #BB0000;'>5</span><span> A     America/New_Y…
+</span></CODE></PRE>
+</div>
+<p>Sometimes, we might want to return all tables with the filter applied. dm provides the <code>dm_flattern_to_tbl()</code> function to do exactly that. First we need to apply the filter to the dm object, and then we can “flattern” to a single table, specifying the type of join we would like to use. <code>dm</code> will create the joins based on the keys already defined in the dm object.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights_filt</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'><a href='https://cynkra.github.io/dm/reference/dm_filter.html'>dm_apply_filters</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'><a href='https://cynkra.github.io/dm/reference/dm_flatten_to_tbl.html'>dm_flatten_to_tbl</a></span><span class='op'>(</span>start <span class='op'>=</span> <span class='va'>flights</span>, <span class='va'>airports</span>, <span class='va'>planes</span>, join <span class='op'>=</span> <span class='va'>left_join</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>#&gt; Renamed columns:
+#&gt; * year -&gt; flights.year, planes.year</code></pre>
+<PRE class="fansi fansi-output"><CODE>#&gt; <span style='color: #555555;'># Source:   lazy query [?? x 34]</span><span>
+#&gt; </span><span style='color: #555555;'># Database: Microsoft SQL Server 15.00.4123[dbo@h-xps/nycflights]</span><span>
+#&gt;    flights.year month   day dep_time sched_dep_time dep_delay arr_time
+#&gt;           </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span>         </span><span style='text-decoration: underline;'>2</span><span>013     1    10      531            540        -</span><span style='color: #BB0000;'>9</span><span>      832
+#&gt; </span><span style='color: #555555;'> 2</span><span>         </span><span style='text-decoration: underline;'>2</span><span>013     1    10      553            600        -</span><span style='color: #BB0000;'>7</span><span>      837
+#&gt; </span><span style='color: #555555;'> 3</span><span>         </span><span style='text-decoration: underline;'>2</span><span>013     1    10      555            600        -</span><span style='color: #BB0000;'>5</span><span>      733
+#&gt; </span><span style='color: #555555;'> 4</span><span>         </span><span style='text-decoration: underline;'>2</span><span>013     1    10      604            610        -</span><span style='color: #BB0000;'>6</span><span>      851
+#&gt; </span><span style='color: #555555;'> 5</span><span>         </span><span style='text-decoration: underline;'>2</span><span>013     1    10      604            610        -</span><span style='color: #BB0000;'>6</span><span>      858
+#&gt; </span><span style='color: #555555;'> 6</span><span>         </span><span style='text-decoration: underline;'>2</span><span>013     1    10      625            630        -</span><span style='color: #BB0000;'>5</span><span>      753
+#&gt; </span><span style='color: #555555;'> 7</span><span>         </span><span style='text-decoration: underline;'>2</span><span>013     1    10      633            630         3     </span><span style='text-decoration: underline;'>1</span><span>142
+#&gt; </span><span style='color: #555555;'> 8</span><span>         </span><span style='text-decoration: underline;'>2</span><span>013     1    10      652            659        -</span><span style='color: #BB0000;'>7</span><span>      942
+#&gt; </span><span style='color: #555555;'> 9</span><span>         </span><span style='text-decoration: underline;'>2</span><span>013     1    10      659            700        -</span><span style='color: #BB0000;'>1</span><span>     </span><span style='text-decoration: underline;'>1</span><span>013
+#&gt; </span><span style='color: #555555;'>10</span><span>         </span><span style='text-decoration: underline;'>2</span><span>013     1    10      700            700         0      837
+#&gt; </span><span style='color: #555555;'># … with more rows, and 27 more variables: sched_arr_time &lt;int&gt;,</span><span>
+#&gt; </span><span style='color: #555555;'>#   arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;, tailnum &lt;chr&gt;,</span><span>
+#&gt; </span><span style='color: #555555;'>#   origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;,</span><span>
+#&gt; </span><span style='color: #555555;'>#   hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;, name &lt;chr&gt;,</span><span>
+#&gt; </span><span style='color: #555555;'>#   lat &lt;dbl&gt;, lon &lt;dbl&gt;, alt &lt;dbl&gt;, tz &lt;dbl&gt;, dst &lt;chr&gt;,</span><span>
+#&gt; </span><span style='color: #555555;'>#   tzone &lt;chr&gt;, planes.year &lt;int&gt;, type &lt;chr&gt;, manufacturer &lt;chr&gt;,</span><span>
+#&gt; </span><span style='color: #555555;'>#   model &lt;chr&gt;, engines &lt;int&gt;, seats &lt;int&gt;, speed &lt;int&gt;,</span><span>
+#&gt; </span><span style='color: #555555;'>#   engine &lt;chr&gt;</span><span>
+</span></CODE></PRE>
+</div>
+<p>The <code>start</code> argument is the table that we want to join the others onto. You can optionally supply tables names that you want to join (in this case airports and planes), or specify nothing to join <em>all</em> tables. Finally you can also specify the type of join you would like to use (<code>left_join</code> is the default).</p>
+<p>Before flattening to a single table, it can sometimes be useful to see how many rows each tables has after you have applied the filter.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights_filt</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'><a href='https://cynkra.github.io/dm/reference/dm_filter.html'>dm_apply_filters</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'><a href='https://cynkra.github.io/dm/reference/dm_nrow.html'>dm_nrow</a></span><span class='op'>(</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>#&gt; airlines airports  flights   planes 
+#&gt;        1        3     1089      118</code></pre>
+</div>
+<p>This can be good to double check the filter has done what you think it was going to do!</p>
+<p>To see what’s going on under the hood here, we can use <code>show_query()</code>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights_filt</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'><a href='https://cynkra.github.io/dm/reference/dm_filter.html'>dm_apply_filters</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'><a href='https://cynkra.github.io/dm/reference/dm_flatten_to_tbl.html'>dm_flatten_to_tbl</a></span><span class='op'>(</span>start <span class='op'>=</span> <span class='va'>flights</span>, <span class='va'>airports</span>, <span class='va'>planes</span>, join <span class='op'>=</span> <span class='va'>left_join</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>show_query</span><span class='op'>(</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>#&gt; Renamed columns:
+#&gt; * year -&gt; flights.year, planes.year</code></pre>
+<pre><code>#&gt; &lt;SQL&gt;
+#&gt; SELECT &quot;flights.year&quot;, &quot;month&quot;, &quot;day&quot;, &quot;dep_time&quot;, &quot;sched_dep_time&quot;, &quot;dep_delay&quot;, &quot;arr_time&quot;, &quot;sched_arr_time&quot;, &quot;arr_delay&quot;, &quot;carrier&quot;, &quot;flight&quot;, &quot;LHS&quot;.&quot;tailnum&quot; AS &quot;tailnum&quot;, &quot;origin&quot;, &quot;dest&quot;, &quot;air_time&quot;, &quot;distance&quot;, &quot;hour&quot;, &quot;minute&quot;, &quot;time_hour&quot;, &quot;name&quot;, &quot;lat&quot;, &quot;lon&quot;, &quot;alt&quot;, &quot;tz&quot;, &quot;dst&quot;, &quot;tzone&quot;, &quot;planes.year&quot;, &quot;type&quot;, &quot;manufacturer&quot;, &quot;model&quot;, &quot;engines&quot;, &quot;seats&quot;, &quot;speed&quot;, &quot;engine&quot;
+#&gt; FROM (SELECT &quot;flights.year&quot;, &quot;month&quot;, &quot;day&quot;, &quot;dep_time&quot;, &quot;sched_dep_time&quot;, &quot;dep_delay&quot;, &quot;arr_time&quot;, &quot;sched_arr_time&quot;, &quot;arr_delay&quot;, &quot;carrier&quot;, &quot;flight&quot;, &quot;tailnum&quot;, &quot;origin&quot;, &quot;dest&quot;, &quot;air_time&quot;, &quot;distance&quot;, &quot;hour&quot;, &quot;minute&quot;, &quot;time_hour&quot;, &quot;name&quot;, &quot;lat&quot;, &quot;lon&quot;, &quot;alt&quot;, &quot;tz&quot;, &quot;dst&quot;, &quot;tzone&quot;
+#&gt; FROM (SELECT &quot;year&quot; AS &quot;flights.year&quot;, &quot;month&quot;, &quot;day&quot;, &quot;dep_time&quot;, &quot;sched_dep_time&quot;, &quot;dep_delay&quot;, &quot;arr_time&quot;, &quot;sched_arr_time&quot;, &quot;arr_delay&quot;, &quot;carrier&quot;, &quot;flight&quot;, &quot;tailnum&quot;, &quot;origin&quot;, &quot;dest&quot;, &quot;air_time&quot;, &quot;distance&quot;, &quot;hour&quot;, &quot;minute&quot;, &quot;time_hour&quot;
+#&gt; FROM &quot;dbo&quot;.&quot;flights&quot;
+#&gt; WHERE (&quot;carrier&quot; = &#39;AA&#39;)) &quot;LHS&quot;
+#&gt; LEFT JOIN (SELECT * FROM &quot;dbo&quot;.&quot;airports&quot; AS &quot;LHS&quot;
+#&gt; WHERE EXISTS (
+#&gt;   SELECT 1 FROM (SELECT *
+#&gt; FROM &quot;dbo&quot;.&quot;flights&quot;
+#&gt; WHERE (&quot;carrier&quot; = &#39;AA&#39;)) &quot;RHS&quot;
+#&gt;   WHERE (&quot;LHS&quot;.&quot;faa&quot; = &quot;RHS&quot;.&quot;origin&quot;)
+#&gt; )) &quot;RHS&quot;
+#&gt; ON (&quot;LHS&quot;.&quot;origin&quot; = &quot;RHS&quot;.&quot;faa&quot;)
+#&gt; ) &quot;LHS&quot;
+#&gt; LEFT JOIN (SELECT &quot;tailnum&quot;, &quot;year&quot; AS &quot;planes.year&quot;, &quot;type&quot;, &quot;manufacturer&quot;, &quot;model&quot;, &quot;engines&quot;, &quot;seats&quot;, &quot;speed&quot;, &quot;engine&quot;
+#&gt; FROM (SELECT * FROM &quot;dbo&quot;.&quot;planes&quot; AS &quot;LHS&quot;
+#&gt; WHERE EXISTS (
+#&gt;   SELECT 1 FROM (SELECT *
+#&gt; FROM &quot;dbo&quot;.&quot;flights&quot;
+#&gt; WHERE (&quot;carrier&quot; = &#39;AA&#39;)) &quot;RHS&quot;
+#&gt;   WHERE (&quot;LHS&quot;.&quot;tailnum&quot; = &quot;RHS&quot;.&quot;tailnum&quot;)
+#&gt; )) &quot;q01&quot;) &quot;RHS&quot;
+#&gt; ON (&quot;LHS&quot;.&quot;tailnum&quot; = &quot;RHS&quot;.&quot;tailnum&quot;)</code></pre>
+</div>
+<p>So with just a few line of code we were able to generate this fairly lengthy SQL statement. Pretty neat 😎.</p>
+<h2 id="zooming-with-dms">Zooming with dm’s</h2>
+<p>Anther cool feature in dm is the ability to “zoom” into a table and use a dplyr style workflow on that table. This will be very familiar if you have ever used <code>dbplyr</code>. Lets zoom into the <code>planes</code> table and find the mean number of seats for each manufacturer.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>zoomed</span> <span class='op'>&lt;-</span> <span class='va'>flights_filt</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'><a href='https://cynkra.github.io/dm/reference/dm_zoom_to.html'>dm_zoom_to</a></span><span class='op'>(</span><span class='va'>planes</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>manufacturer</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span><span class='op'>(</span>mean_seats <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>seats</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/arrange.html'>arrange</a></span><span class='op'>(</span><span class='fu'>desc</span><span class='op'>(</span><span class='va'>mean_seats</span><span class='op'>)</span><span class='op'>)</span>
+
+<span class='va'>zoomed</span>
+</code></pre>
+</div>
+<PRE class="fansi fansi-output"><CODE>#&gt; <span style='color: #555555;'># Zoomed table: planes</span><span>
+#&gt; </span><span style='color: #555555;'># Source:       lazy query [?? x 2]</span><span>
+#&gt; </span><span style='color: #555555;'># Database:     Microsoft SQL Server 15.00.4123[dbo@h-xps/nycflights]</span><span>
+#&gt; </span><span style='color: #555555;'># Ordered by:   desc(mean_seats)</span><span>
+#&gt;    manufacturer                  mean_seats
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                              </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span> AIRBUS                               221
+#&gt; </span><span style='color: #555555;'> 2</span><span> AIRBUS INDUSTRIE                     187
+#&gt; </span><span style='color: #555555;'> 3</span><span> BOEING                               175
+#&gt; </span><span style='color: #555555;'> 4</span><span> MCDONNELL DOUGLAS                    162
+#&gt; </span><span style='color: #555555;'> 5</span><span> MCDONNELL DOUGLAS CORPORATION        142
+#&gt; </span><span style='color: #555555;'> 6</span><span> MCDONNELL DOUGLAS AIRCRAFT CO        142
+#&gt; </span><span style='color: #555555;'> 7</span><span> DOUGLAS                              102
+#&gt; </span><span style='color: #555555;'> 8</span><span> BOMBARDIER INC                        74
+#&gt; </span><span style='color: #555555;'> 9</span><span> CANADAIR                              55
+#&gt; </span><span style='color: #555555;'>10</span><span> EMBRAER                               45
+#&gt; </span><span style='color: #555555;'># … with more rows</span><span>
+</span></CODE></PRE>
+</div>
+<p>After using <code>dm_zoom_to()</code> to select the planes table the rest of the code should look fairly familiar. We now have a couple of options for what we want to do with our new zoomed in table. We might want to overwrite the existing planes table with our new summary table. If that was the case we could use the <code>dm_update_zoomed()</code> to replace the original table with the one we have just created. An alternative (a potentially less destructive) approach is to create a new table containing the summary information.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights_updated</span> <span class='op'>&lt;-</span> <span class='va'>zoomed</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'><a href='https://cynkra.github.io/dm/reference/dm_zoom_to.html'>dm_insert_zoomed</a></span><span class='op'>(</span>new_tbl_name <span class='op'>=</span> <span class='st'>"planes_summary"</span><span class='op'>)</span>
+
+<span class='va'>flights_updated</span>
+</code></pre>
+</div>
+<PRE class="fansi fansi-output"><CODE>#&gt; <span style='color: #00BB00;'>──</span><span> </span><span style='color: #00BB00;'>Table source</span><span> </span><span style='color: #00BB00;'>───────────────────────────────────────────────────────────</span><span>
+#&gt; src:  Microsoft SQL Server 15.00.4123[dbo@h-xps/nycflights]
+#&gt; </span><span style='color: #555555;'>──</span><span> </span><span style='color: #555555;'>Metadata</span><span> </span><span style='color: #555555;'>───────────────────────────────────────────────────────────────</span><span>
+#&gt; Tables: `airlines`, `airports`, `flights`, `planes`, `planes_summary`
+#&gt; Columns: 40
+#&gt; Primary keys: 3
+#&gt; Foreign keys: 3
+#&gt; </span><span style='color: #BBBB00;'>──</span><span> </span><span style='color: #BBBB00;'>Filters</span><span> </span><span style='color: #BBBB00;'>────────────────────────────────────────────────────────────────</span><span>
+#&gt; flights: carrier == "AA"
+</span></CODE></PRE>
+</div>
+<p>Now this particular summary table doesn’t need to link to any of the other tables, but the <a href="https://cynkra.github.io/dm/articles/tech-dm-zoom.html">dm zoomed vingette</a> provides lots of great examples for how one might link summary tables into the dm object.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://cynkra.github.io/dm/reference/dm_draw.html'>dm_draw</a></span><span class='op'>(</span><span class='va'>flights_updated</span><span class='op'>)</span>
+</code></pre>
+</div>
+<div id="htmlwidget-2c35dd30fd5b13909e0b" style="width:624px;height:384px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-2c35dd30fd5b13909e0b">{"x":{"diagram":"#data_model\ndigraph {\ngraph [rankdir=LR tooltip=\"Data Model\" ]\n\nnode [margin=0 fontcolor = \"#444444\" ]\n\nedge [color = \"#555555\", arrowsize = 1, ]\n\npack=true\npackmode= \"node\"\n\n  \"airlines\" [label = <<TABLE ALIGN=\"LEFT\" BORDER=\"1\" CELLBORDER=\"0\" CELLSPACING=\"0\" COLOR=\"#555555\">\n    <TR>\n      <TD COLSPAN=\"1\" BGCOLOR=\"#EFEBDD\" BORDER=\"0\"><FONT COLOR=\"#000000\">airlines<\/FONT>\n<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\" PORT=\"carrier\"><U>carrier<\/U><\/TD>\n    <\/TR>\n  <\/TABLE>>, shape = \"plaintext\"] \n\n  \"airports\" [label = <<TABLE ALIGN=\"LEFT\" BORDER=\"1\" CELLBORDER=\"0\" CELLSPACING=\"0\" COLOR=\"#555555\">\n    <TR>\n      <TD COLSPAN=\"1\" BGCOLOR=\"#EFEBDD\" BORDER=\"0\"><FONT COLOR=\"#000000\">airports<\/FONT>\n<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\" PORT=\"faa\"><U>faa<\/U><\/TD>\n    <\/TR>\n  <\/TABLE>>, shape = \"plaintext\"] \n\n  \"flights\" [label = <<TABLE ALIGN=\"LEFT\" BORDER=\"1\" CELLBORDER=\"0\" CELLSPACING=\"0\" COLOR=\"#555555\">\n    <TR>\n      <TD COLSPAN=\"1\" BGCOLOR=\"#EFEBDD\" BORDER=\"0\"><FONT COLOR=\"#000000\">flights<\/FONT>\n<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\" PORT=\"carrier\">carrier<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\" PORT=\"tailnum\">tailnum<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\" PORT=\"origin\">origin<\/TD>\n    <\/TR>\n  <\/TABLE>>, shape = \"plaintext\"] \n\n  \"planes\" [label = <<TABLE ALIGN=\"LEFT\" BORDER=\"1\" CELLBORDER=\"0\" CELLSPACING=\"0\" COLOR=\"#555555\">\n    <TR>\n      <TD COLSPAN=\"1\" BGCOLOR=\"#EFEBDD\" BORDER=\"0\"><FONT COLOR=\"#000000\">planes<\/FONT>\n<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\" PORT=\"tailnum\"><U>tailnum<\/U><\/TD>\n    <\/TR>\n  <\/TABLE>>, shape = \"plaintext\"] \n\n  \"planes_summary\" [label = <<TABLE ALIGN=\"LEFT\" BORDER=\"1\" CELLBORDER=\"0\" CELLSPACING=\"0\" COLOR=\"#555555\">\n    <TR>\n      <TD COLSPAN=\"1\" BGCOLOR=\"#EFEBDD\" BORDER=\"0\"><FONT COLOR=\"#000000\">planes_summary<\/FONT>\n<\/TD>\n    <\/TR>\n  <\/TABLE>>, shape = \"plaintext\"] \n\n\"flights\":\"carrier\"->\"airlines\":\"carrier\"\n\"flights\":\"origin\"->\"airports\":\"faa\"\n\"flights\":\"tailnum\"->\"planes\":\"tailnum\"\n}","config":{"engine":null,"options":null}},"evals":[],"jsHooks":[]}</script>
+</div>
+<p>However, we may want to access this table and include it in our report. We can access a specific table easily by using the <code>pull_tbl()</code> function.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights_updated</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'><a href='https://cynkra.github.io/dm/reference/pull_tbl.html'>pull_tbl</a></span><span class='op'>(</span><span class='va'>planes_summary</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/compute.html'>collect</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>reactable</span><span class='fu'>::</span><span class='fu'><a href='https://glin.github.io/reactable/reference/reactable.html'>reactable</a></span><span class='op'>(</span><span class='op'>)</span>
+</code></pre>
+</div>
+<div id="htmlwidget-f755695eb8f3b47a8d33" class="reactable html-widget" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-f755695eb8f3b47a8d33">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"manufacturer":["AIRBUS","AIRBUS INDUSTRIE","BOEING","MCDONNELL DOUGLAS","MCDONNELL DOUGLAS AIRCRAFT CO","MCDONNELL DOUGLAS CORPORATION","DOUGLAS","BOMBARDIER INC","CANADAIR","EMBRAER","GULFSTREAM AEROSPACE","DEHAVILLAND","SIKORSKY","AVIONS MARCEL DASSAULT","LEARJET INC","BEECH","BELL","AGUSTA SPA","PIPER","CESSNA","ROBINSON HELICOPTER CO","CIRRUS DESIGN CORP","KILDALL GARY","HURLEY JAMES LARRY","CANADAIR LTD","JOHN G HESS","MARZ BARRY","PAIR MIKE E","FRIEDEMANN JON","AVIAT AIRCRAFT INC","LAMBERT RICHARD","AMERICAN AIRCRAFT INC","BARKER JACK L","LEBLANC GLENN T","STEWART MACO"],"mean_seats":[221,187,175,162,142,142,102,74,55,45,22,16,14,12,11,9,8,8,6,5,5,4,2,2,2,2,2,2,2,2,2,2,2,2,2]},"columns":[{"accessor":"manufacturer","name":"manufacturer","type":"character"},{"accessor":"mean_seats","name":"mean_seats","type":"numeric"}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"dataKey":"5ce4c706e174c39f8edd4a9c74c91c57","key":"5ce4c706e174c39f8edd4a9c74c91c57"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+</div>
+<p>Nice!</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>So that was a quick overview of some of the functions I’ve found particularly useful. <code>dm</code> can do much more though so check out the site <a href="https://cynkra.github.io/dm/index.html" class="uri">https://cynkra.github.io/dm/index.html</a> which contains a great mix of tutorials and technical articles which make the package extremely accessible and fun to use.</p>
+<p>Thanks for reading!</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<!--radix_placeholder_article_footer-->
+<div class="article-footer">
+  <p class="social_footer">
+    <span class="article-sharing">
+      Share: &nbsp;
+      <a href="https://twitter.com/share?text=%7Bdm%7D%20is%20fantastic%21&amp;url=https%3A%2F%2Fhfshr.xyz%2Fposts%2F2021-05-03-dm-is-fantastic%2F">
+        <i class="fab fa-twitter"></i>
+      </a>
+    </span>
+  </p>
+  <p>
+    <div class="subscribe">Follow me on <a href="https://twitter.com/harryfishr" target="_blank" class="fab fa-twitter" style="font-size:16px;"></a> and subscribe to <a href="https://rweekly.org">rweekly</a> for updates on this blog.
+
+
+</div>
+  </p>
+</div>
+<!--/radix_placeholder_article_footer-->
+</div>
+
+<div class="d-appendix">
+</div>
+
+
+<!--radix_placeholder_site_after_body-->
+<script>
+const toggle = document.getElementsByClassName("far fa-lightbulb")[0];
+
+let theme = localStorage.getItem("theme");
+
+if (!theme) {
+  if (window.matchMedia("(prefers-color-scheme: dark)").matches ) {
+    theme = "dark";
+  } else {
+    theme = "dark";
+  }
+}
+setTheme();
+
+function switchTheme() {
+  if (theme === "light") {
+    theme = "dark";
+  } else {
+    theme = "light";
+  }
+  localStorage.setItem("theme", theme);
+  setTheme();
+  console.log(theme);
+}
+
+function setTheme() {
+  if (theme === "light") {
+    
+    document.body.classList.remove('light');
+  } else {
+    document.body.classList.add('light');
+  }
+}
+
+toggle.addEventListener('click', switchTheme)
+
+</script>
+
+<!--/radix_placeholder_site_after_body-->
+<!--radix_placeholder_appendices-->
+<div class="appendix-bottom">
+  <h3 id="reuse">Reuse</h3>
+  <p>Text and figures are licensed under Creative Commons Attribution <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. The figures that have been reused from other sources don't fall under this license and can be recognized by a note in their caption: "Figure from ...".</p>
+  <h3 id="citation">Citation</h3>
+  <p>For attribution, please cite this work as</p>
+  <pre class="citation-appendix short">Fisher (2021, May 9). Data, Code &amp; Coffee: {dm} is fantastic!. Retrieved from https://hfshr.xyz/posts/2021-05-03-dm-is-fantastic/</pre>
+  <p>BibTeX citation</p>
+  <pre class="citation-appendix long">@misc{fisher2021{dm},
+  author = {Fisher, Harry},
+  title = {Data, Code &amp; Coffee: {dm} is fantastic!},
+  url = {https://hfshr.xyz/posts/2021-05-03-dm-is-fantastic/},
+  year = {2021}
+}</pre>
+</div>
+<!--/radix_placeholder_appendices-->
+<!--radix_placeholder_navigation_after_body-->
+<div class="distill-site-nav distill-site-footer">
+  <div class="distill-site-footer">
+    <p>
+  
+Made with <svg viewBox="0 0 512 512"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>, <a href="https://github.com/hfshr"><svg viewBox="0 0 384 512"><path d="M384 144c0-44.2-35.8-80-80-80s-80 35.8-80 80c0 36.4 24.3 67.1 57.5 76.8-.6 16.1-4.2 28.5-11 36.9-15.4 19.2-49.3 22.4-85.2 25.7-28.2 2.6-57.4 5.4-81.3 16.9v-144c32.5-10.2 56-40.5 56-76.3 0-44.2-35.8-80-80-80S0 35.8 0 80c0 35.8 23.5 66.1 56 76.3v199.3C23.5 365.9 0 396.2 0 432c0 44.2 35.8 80 80 80s80-35.8 80-80c0-34-21.2-63.1-51.2-74.6 3.1-5.2 7.8-9.8 14.9-13.4 16.2-8.2 40.4-10.4 66.1-12.8 42.2-3.9 90-8.4 118.2-43.4 14-17.4 21.1-39.8 21.6-67.9 31.6-10.8 54.4-40.7 54.4-75.9zM80 64c8.8 0 16 7.2 16 16s-7.2 16-16 16-16-7.2-16-16 7.2-16 16-16zm0 384c-8.8 0-16-7.2-16-16s7.2-16 16-16 16 7.2 16 16-7.2 16-16 16zm224-320c8.8 0 16 7.2 16 16s-7.2 16-16 16-16-7.2-16-16 7.2-16 16-16z"/></svg></a>, and the <a href="https://cran.r-project.org/"><svg viewBox="0 0 581 512"><path d="M581 226.6C581 119.1 450.9 32 290.5 32S0 119.1 0 226.6C0 322.4 103.3 402 239.4 418.1V480h99.1v-61.5c24.3-2.7 47.6-7.4 69.4-13.9L448 480h112l-67.4-113.7c54.5-35.4 88.4-84.9 88.4-139.7zm-466.8 14.5c0-73.5 98.9-133 220.8-133s211.9 40.7 211.9 133c0 50.1-26.5 85-70.3 106.4-2.4-1.6-4.7-2.9-6.4-3.7-10.2-5.2-27.8-10.5-27.8-10.5s86.6-6.4 86.6-92.7-90.6-87.9-90.6-87.9h-199V361c-74.1-21.5-125.2-67.1-125.2-119.9zm225.1 38.3v-55.6c57.8 0 87.8-6.8 87.8 27.3 0 36.5-38.2 28.3-87.8 28.3zm-.9 72.5H365c10.8 0 18.9 11.7 24 19.2-16.1 1.9-33 2.8-50.6 2.9v-22.1z"/></svg></a> <a href="https://github.com/rstudio/distill">Distill</a> package.
+
+</p>
+  </div>
+</div>
+<!--/radix_placeholder_navigation_after_body-->
+
+
+</body>
+
+</html>
