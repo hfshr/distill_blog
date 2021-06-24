@@ -1,0 +1,39 @@
+---
+title: "Introducing {qbr}"
+description: |
+  An R interface to jquery Query-Builder.
+author:
+  - name: Harry Fisher
+    url: https://hfshr.xyz
+date: 2021-06-20
+output:
+  distill::distill_article:
+    self_contained: false
+draft: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+I've been spending quite a bit of time in the world of shiny recently, and a particular problem I was facing meant I decided to dip my toe into the seemingly magical world of `htmlwidgets`. In brief, I needed a way for users to construct potential complex queries of a database. While this is certainly possible to do using native shiny inputs, I ~was being lazy~ wanted to see if I could leverage something that had already been created. After a bit of googling I came across [queryBuilder](https://querybuilder.js.org/index.html), a jquery plugin that provides UI component to create queries and filters. After playing around with the demos on the site, I was very impressed with the functionality and , and even better, someone had already made an R wrapper for the library!
+
+However this was where I started to run into some problems. The original queryBuilder has a vast array of settings that can be configured, including additional plugins and widgets that help add additional functionality. The existing R wrappers for queryBuilder only implemented a few of these settings, and I found myself wanting to access other settings which were not yet implemented. So I thought I'd have a go at creating my own version, taking inspiration from  [harveyl888/queryBuilder](https://github.com/harveyl888/queryBuilder) with the aim of including as much of the functionality as possible of the original queryBuilder. 
+
+# Example
+
+Here is a quick example filtering the palmer penguins dataset with a few of the different settings configured
+
+<div class="l-screen-inset">
+<iframe src ="https://harryfish.shinyapps.io/qbr_demo/" allowfullscreen =""
+scrolling="yes" width = "100%" height = "800px" frameboarder="0"  data-external="1"></iframe>
+</div>
+
+
+Here is the list
+
+```{r}
+
+```
+
+

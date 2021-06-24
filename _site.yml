@@ -38,7 +38,7 @@ collections:
 output: 
   distill::distill_article:
     includes:
-      in_header: [utterances.html]
+      in_header: "_utterances.html"
       after_body: "_after_body.html"
     css: style.css
 

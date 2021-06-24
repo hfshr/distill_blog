@@ -69,6 +69,7 @@ con <- DBI::dbConnect(odbc::odbc(),
                       UID      = Sys.getenv("SQL_user"),
                       PWD      = Sys.getenv("SQL_password"),
                       Port     = 1433)
+
 ```
 
 Now our data is in the database we can begin working with it. To connect to the database and learn the connections, we can use `dm_from_src()`. Setting the `learn_keys` argument to `TRUE` means dm will attempt to discover the primary and foreign keys between the tables, however this currently only works with Postgres and SQL Server databases.
