@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:distill="https://distill.pub/journal/" version="2.0">
+  <channel>
+    <title>Data, Code &amp; Coffee</title>
+    <link>https://hfshr.xyz/</link>
+    <atom:link href="https://hfshr.xyz/blog.xml" rel="self" type="application/rss+xml"/>
+    <description>Harry Fisher's blog
+</description>
+    <image>
+      <title>Data, Code &amp; Coffee</title>
+      <url>https://hfshr.xyz/favicon.ico</url>
+      <link>https://hfshr.xyz/</link>
+    </image>
+    <generator>Distill</generator>
+    <lastBuildDate>Sat, 19 Jun 2021 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>{dm} is fantastic!</title>
+      <dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Harry Fisher</dc:creator>
+      <link>https://hfshr.xyz/posts/2021-05-03-dm-is-fantastic</link>
+      <description>A quick overview of the {dm} package for working with relational data      models in R.</description>
+      <category>R</category>
+      <category>SQL</category>
+      <guid>https://hfshr.xyz/posts/2021-05-03-dm-is-fantastic</guid>
+      <pubDate>Sun, 09 May 2021 00:00:00 +0000</pubDate>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://hfshr.xyz/posts/2021-05-03-dm-is-fantastic/dm.png" medium="image" type="image/png" width="1356" height="761"/>
+    </item>
+    <item>
+      <title>Musings on the RStudio instructor training process</title>
+      <dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Harry Fisher</dc:creator>
+      <link>https://hfshr.xyz/posts/2021-01-17-rstudio-certification</link>
+      <description>A few thoughts and reflections on my recent experience completing the RStudio instructor training course.</description>
+      <category>R</category>
+      <category>Teaching</category>
+      <guid>https://hfshr.xyz/posts/2021-01-17-rstudio-certification</guid>
+      <pubDate>Sun, 17 Jan 2021 00:00:00 +0000</pubDate>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://hfshr.xyz/posts/2021-01-17-rstudio-certification/blackboard.jpeg" medium="image" type="image/jpeg"/>
+    </item>
+  </channel>
+</rss>

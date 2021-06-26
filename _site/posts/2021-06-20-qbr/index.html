@@ -135,7 +135,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["qbr_files/anchor-4.2.2/anchor.min.js","qbr_files/bowser-1.9.3/bowser.min.js","qbr_files/distill-2.2.21/template.v2.js","qbr_files/header-attrs-2.8/header-attrs.js","qbr_files/header-attrs-2.9.1/header-attrs.js","qbr_files/jquery-1.11.3/jquery.min.js","qbr_files/popper-2.6.0/popper.min.js","qbr_files/tippy-6.2.7/tippy-bundle.umd.min.js","qbr_files/tippy-6.2.7/tippy-light-border.css","qbr_files/tippy-6.2.7/tippy.css","qbr_files/tippy-6.2.7/tippy.umd.min.js","qbr_files/webcomponents-2.0.0/webcomponents.js","qbr.png"]}
+  {"type":"character","attributes":{},"value":["qbr_files/anchor-4.2.2/anchor.min.js","qbr_files/bowser-1.9.3/bowser.min.js","qbr_files/distill-2.2.21/template.v2.js","qbr_files/figure-html5/unnamed-chunk-2-1.png","qbr_files/header-attrs-2.8/header-attrs.js","qbr_files/header-attrs-2.9.1/header-attrs.js","qbr_files/jquery-1.11.3/jquery.min.js","qbr_files/popper-2.6.0/popper.min.js","qbr_files/tippy-6.2.7/tippy-bundle.umd.min.js","qbr_files/tippy-6.2.7/tippy-light-border.css","qbr_files/tippy-6.2.7/tippy.css","qbr_files/tippy-6.2.7/tippy.umd.min.js","qbr_files/webcomponents-2.0.0/webcomponents.js","qbr.png"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
 <meta name="distill:offset" content="../.."/>
@@ -2505,23 +2505,179 @@ d-article blockquote {
 </div>
 
 <div class="d-article">
-<p>I’ve been spending quite a bit of time in the world of shiny recently, and a particular problem I was facing meant I decided to dip my toe into the seemingly magical world of <code>htmlwidgets</code>. In brief, I needed a way for users to construct potential complex queries of a database. While this is certainly possible to do using native shiny inputs, I ~was being lazy~ wanted to see if I could leverage something that had already been created. After a bit of googling I came across <a href="https://querybuilder.js.org/index.html">queryBuilder</a>, a jquery plugin that provides UI component to create queries and filters. After playing around with the demos on the site, I was very impressed with the functionality and , and even better, someone had already made an R wrapper for the library!</p>
-<p>However this was where I started to run into some problems. The original queryBuilder has a vast array of settings that can be configured, including additional plugins and widgets that help add additional functionality. The existing R wrappers for queryBuilder only implemented a few of these settings, and I found myself wanting to access other settings which were not yet implemented. So I thought I’d have a go at creating my own version, taking inspiration from <a href="https://github.com/harveyl888/queryBuilder">harveyl888/queryBuilder</a> with the aim of including as much of the functionality as possible of the original queryBuilder.</p>
+<p>I’ve been spending quite a bit of time in the world of shiny recently, and a particular problem I was facing meant I decided to dip my toe into the seemingly magical world of <a href="https://www.htmlwidgets.org/">htmlwidgets</a>. In brief, I needed a way for users to interactively construct complex queries that would be used to integrate a large database. While this is certainly possible to do using native shiny inputs, I <del>was being lazy</del> wanted to see if I could leverage something that had already been created. After a bit of googling I came across <a href="https://querybuilder.js.org/index.html">queryBuilder</a>, a jquery plugin that provides UI component to create queries and filters. After playing around with the demos on the site, I was very impressed with the functionality and, and even better, someone had already made an R wrapper for the library! (See <a href="https://github.com/harveyl888/queryBuilder">harveyl888/queryBuilder</a> and <a href="https://github.com/Yannael/queryBuildR">Yannael/queryBuildR</a>).</p>
+<p>However this was where I started to run into some problems. The original queryBuilder has a vast array of settings that can be configured, including additional plugins and widgets that help add additional functionality to the builder. The existing R wrappers for queryBuilder only implemented a few of these settings, and I found myself wanting to access other settings which were not yet implemented. So I thought I’d have a go at creating my own version, taking inspiration from <a href="https://github.com/harveyl888/queryBuilder">harveyl888/queryBuilder</a> with the aim of including as much of the functionality as possible of the original queryBuilder.</p>
 <h2 id="example">Example</h2>
-<p>Here is a quick example filtering the palmer penguins dataset with a few of the different settings configured.</p>
+<p>You can install <code>qbr</code> from github:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'>#install.packages("remotes")</span>
+<span class='fu'>remotes</span><span class='fu'>::</span><span class='fu'><a href='https://remotes.r-lib.org/reference/install_github.html'>install_github</a></span><span class='op'>(</span><span class='st'>"hfshr/qbr"</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<p>and also check out the repository here: <a href="https://github.com/hfshr/qbr">hfshr/qbr</a></p>
+<p>Here is a quick example in shiny filtering the palmer penguins dataset with a few of the different settings configured. Code for the app is also below.</p>
 <aside>
 <a href="https://harryfish.shinyapps.io/qbr_demo/" class="uri">https://harryfish.shinyapps.io/qbr_demo/</a>
 </aside>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+Show code
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://shiny.rstudio.com/'>shiny</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>qbr</span><span class='op'>)</span>
+
+<span class='va'>ui</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/fluidPage.html'>fluidPage</a></span><span class='op'>(</span>
+  <span class='co'># Application title</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/titlePanel.html'>titlePanel</a></span><span class='op'>(</span><span class='st'>"QueryBuilder demo"</span><span class='op'>)</span>,
+  <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/sidebarLayout.html'>mainPanel</a></span><span class='op'>(</span>
+    <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/fluidPage.html'>fluidRow</a></span><span class='op'>(</span>
+      <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/column.html'>column</a></span><span class='op'>(</span>
+        <span class='fl'>8</span>,
+        <span class='fu'><a href='https://rdrr.io/pkg/qbr/man/queryBuilder-shiny.html'>queryBuilderOutput</a></span><span class='op'>(</span><span class='st'>"querybuilder"</span>,
+          width <span class='op'>=</span> <span class='fl'>620</span>,
+          height <span class='op'>=</span> <span class='fl'>300</span>
+        <span class='op'>)</span>
+      <span class='op'>)</span>,
+      <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/column.html'>column</a></span><span class='op'>(</span>
+        <span class='fl'>4</span>,
+        <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/htmlOutput.html'>uiOutput</a></span><span class='op'>(</span><span class='st'>"txtValidation"</span><span class='op'>)</span>
+      <span class='op'>)</span>
+    <span class='op'>)</span>
+  <span class='op'>)</span>,
+  <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/fluidPage.html'>fluidRow</a></span><span class='op'>(</span>
+    <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/column.html'>column</a></span><span class='op'>(</span>
+      width <span class='op'>=</span> <span class='fl'>6</span>,
+      <span class='fu'><a href='https://rdrr.io/pkg/htmltools/man/builder.html'>h3</a></span><span class='op'>(</span><span class='st'>"dplyr filter"</span><span class='op'>)</span>,
+      <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/textOutput.html'>verbatimTextOutput</a></span><span class='op'>(</span><span class='st'>"txtFilterList"</span><span class='op'>)</span>,
+    <span class='op'>)</span>,
+    <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/column.html'>column</a></span><span class='op'>(</span>
+      width <span class='op'>=</span> <span class='fl'>6</span>,
+      <span class='fu'><a href='https://rdrr.io/pkg/htmltools/man/builder.html'>h3</a></span><span class='op'>(</span><span class='st'>"SQL filter"</span><span class='op'>)</span>,
+      <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/textOutput.html'>verbatimTextOutput</a></span><span class='op'>(</span><span class='st'>"txtSQL"</span><span class='op'>)</span>
+    <span class='op'>)</span>
+  <span class='op'>)</span>,
+  <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/fluidPage.html'>fluidRow</a></span><span class='op'>(</span>
+    <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/column.html'>column</a></span><span class='op'>(</span>
+      width <span class='op'>=</span> <span class='fl'>12</span>,
+      <span class='fu'><a href='https://rdrr.io/pkg/htmltools/man/builder.html'>h3</a></span><span class='op'>(</span><span class='st'>"dplyr filter applied to a table"</span><span class='op'>)</span>,
+      <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/renderDataTable.html'>dataTableOutput</a></span><span class='op'>(</span><span class='st'>"txtFilterResult"</span><span class='op'>)</span>
+    <span class='op'>)</span>
+  <span class='op'>)</span>
+<span class='op'>)</span>
+
+<span class='co'># Define server logic required to draw a histogram</span>
+<span class='va'>server</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>input</span>, <span class='va'>output</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='va'>filters</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
+    <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
+      id <span class='op'>=</span> <span class='st'>"species"</span>,
+      label <span class='op'>=</span> <span class='st'>"Species"</span>,
+      type <span class='op'>=</span> <span class='st'>"string"</span>,
+      input <span class='op'>=</span> <span class='st'>"select"</span>,
+      description <span class='op'>=</span> <span class='st'>"Shift-click to select multiple!"</span>,
+      values <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='st'>"Adelie"</span>, <span class='st'>"Gentoo"</span>, <span class='st'>"Chinstrap"</span><span class='op'>)</span>,
+      multiple <span class='op'>=</span> <span class='cn'>TRUE</span>,
+      operators <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"equal"</span>, <span class='st'>"not_equal"</span>, <span class='st'>"in"</span><span class='op'>)</span>
+    <span class='op'>)</span>,
+    <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
+      id <span class='op'>=</span> <span class='st'>"sex"</span>,
+      label <span class='op'>=</span> <span class='st'>"Sex"</span>,
+      input <span class='op'>=</span> <span class='st'>"checkbox"</span>,
+      values <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
+        <span class='st'>"male"</span>,
+        <span class='st'>"female"</span>
+      <span class='op'>)</span>,
+      operators <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"equal"</span>, <span class='st'>"not_equal"</span>, <span class='st'>"in"</span><span class='op'>)</span>
+    <span class='op'>)</span>,
+    <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
+      id <span class='op'>=</span> <span class='st'>"bill_length_mm"</span>,
+      label <span class='op'>=</span> <span class='st'>"Bill length"</span>,
+      type <span class='op'>=</span> <span class='st'>"integer"</span>,
+      validation <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
+        min <span class='op'>=</span> <span class='fl'>0</span>,
+        max <span class='op'>=</span> <span class='fl'>100</span>
+      <span class='op'>)</span>,
+      plugin <span class='op'>=</span> <span class='st'>"slider"</span>,
+      plugin_config <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
+        min <span class='op'>=</span> <span class='fl'>0</span>,
+        max <span class='op'>=</span> <span class='fl'>100</span>,
+        value <span class='op'>=</span> <span class='fl'>0</span>
+      <span class='op'>)</span>
+    <span class='op'>)</span>
+  <span class='op'>)</span>
+
+  <span class='va'>output</span><span class='op'>$</span><span class='va'>txtValidation</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/renderUI.html'>renderUI</a></span><span class='op'>(</span><span class='op'>{</span>
+    <span class='kw'>if</span> <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/Logic.html'>isFALSE</a></span><span class='op'>(</span><span class='va'>input</span><span class='op'>$</span><span class='va'>querybuilder_validate</span><span class='op'>)</span> <span class='op'>||</span> <span class='fu'><a href='https://rdrr.io/r/base/NULL.html'>is.null</a></span><span class='op'>(</span><span class='va'>input</span><span class='op'>$</span><span class='va'>querybuilder_validate</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
+      <span class='fu'><a href='https://rdrr.io/pkg/htmltools/man/builder.html'>h3</a></span><span class='op'>(</span><span class='st'>"INVALID QUERY"</span>, style <span class='op'>=</span> <span class='st'>"color:red"</span><span class='op'>)</span>
+    <span class='op'>}</span> <span class='kw'>else</span> <span class='op'>{</span>
+      <span class='fu'><a href='https://rdrr.io/pkg/htmltools/man/builder.html'>h3</a></span><span class='op'>(</span><span class='st'>"VALID QUERY"</span>, style <span class='op'>=</span> <span class='st'>"color:green"</span><span class='op'>)</span>
+    <span class='op'>}</span>
+  <span class='op'>}</span><span class='op'>)</span>
+
+  <span class='va'>output</span><span class='op'>$</span><span class='va'>querybuilder</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/qbr/man/queryBuilder-shiny.html'>renderQueryBuilder</a></span><span class='op'>(</span><span class='op'>{</span>
+    <span class='fu'><a href='https://rdrr.io/pkg/qbr/man/queryBuilder.html'>queryBuilder</a></span><span class='op'>(</span>
+      filters <span class='op'>=</span> <span class='va'>filters</span>,
+      plugins <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
+        <span class='st'>"sortable"</span> <span class='op'>=</span> <span class='cn'>NA</span>,
+        <span class='st'>"bt-tooltip-errors"</span> <span class='op'>=</span> <span class='cn'>NA</span>,
+        <span class='st'>"bt-checkbox"</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='st'>"color"</span> <span class='op'>=</span> <span class='st'>"primary"</span><span class='op'>)</span>,
+        <span class='st'>"filter-description"</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='st'>"mode"</span> <span class='op'>=</span> <span class='st'>"bootbox"</span><span class='op'>)</span>,
+        <span class='st'>"unique-filter"</span> <span class='op'>=</span> <span class='cn'>NA</span>
+      <span class='op'>)</span>,
+      display_errors <span class='op'>=</span> <span class='cn'>TRUE</span>,
+      allow_empty <span class='op'>=</span> <span class='cn'>FALSE</span>,
+      select_placeholder <span class='op'>=</span> <span class='st'>"###"</span>
+    <span class='op'>)</span>
+  <span class='op'>}</span><span class='op'>)</span>
+
+  <span class='va'>output</span><span class='op'>$</span><span class='va'>txtFilterList</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/renderPrint.html'>renderPrint</a></span><span class='op'>(</span><span class='op'>{</span>
+    <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/req.html'>req</a></span><span class='op'>(</span><span class='va'>input</span><span class='op'>$</span><span class='va'>querybuilder_validate</span><span class='op'>)</span>
+    <span class='fu'><a href='https://rdrr.io/pkg/qbr/man/filterTable.html'>filterTable</a></span><span class='op'>(</span>
+      filters <span class='op'>=</span> <span class='va'>input</span><span class='op'>$</span><span class='va'>querybuilder_out</span>,
+      data <span class='op'>=</span> <span class='fu'>palmerpenguins</span><span class='fu'>::</span><span class='va'><a href='https://allisonhorst.github.io/palmerpenguins/reference/penguins.html'>penguins</a></span>,
+      output <span class='op'>=</span> <span class='st'>"text"</span>
+    <span class='op'>)</span>
+  <span class='op'>}</span><span class='op'>)</span>
+
+
+  <span class='va'>output</span><span class='op'>$</span><span class='va'>txtFilterResult</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/renderDataTable.html'>renderDataTable</a></span><span class='op'>(</span>
+    <span class='op'>{</span>
+      <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/req.html'>req</a></span><span class='op'>(</span><span class='va'>input</span><span class='op'>$</span><span class='va'>querybuilder_validate</span><span class='op'>)</span>
+      <span class='fu'><a href='https://rdrr.io/pkg/qbr/man/filterTable.html'>filterTable</a></span><span class='op'>(</span>
+        filters <span class='op'>=</span> <span class='va'>input</span><span class='op'>$</span><span class='va'>querybuilder_out</span>,
+        data <span class='op'>=</span> <span class='fu'>palmerpenguins</span><span class='fu'>::</span><span class='va'><a href='https://allisonhorst.github.io/palmerpenguins/reference/penguins.html'>penguins</a></span>,
+        output <span class='op'>=</span> <span class='st'>"table"</span>
+      <span class='op'>)</span>
+    <span class='op'>}</span>,
+    options <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
+      pageLength <span class='op'>=</span> <span class='fl'>5</span>,
+      scrollY <span class='op'>=</span> <span class='st'>"200px"</span>,
+      scrollX <span class='op'>=</span> <span class='cn'>TRUE</span>
+    <span class='op'>)</span>
+  <span class='op'>)</span>
+
+  <span class='va'>output</span><span class='op'>$</span><span class='va'>txtSQL</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/renderPrint.html'>renderPrint</a></span><span class='op'>(</span><span class='op'>{</span>
+    <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/req.html'>req</a></span><span class='op'>(</span><span class='va'>input</span><span class='op'>$</span><span class='va'>querybuilder_validate</span><span class='op'>)</span>
+    <span class='va'>input</span><span class='op'>$</span><span class='va'>querybuilder_sql</span>
+  <span class='op'>}</span><span class='op'>)</span>
+<span class='op'>}</span>
+
+<span class='co'># Run the application</span>
+<span class='fu'><a href='https://rdrr.io/pkg/shiny/man/shinyApp.html'>shinyApp</a></span><span class='op'>(</span>ui <span class='op'>=</span> <span class='va'>ui</span>, server <span class='op'>=</span> <span class='va'>server</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+</div>
 <div class="l-screen-inset">
 <iframe src="https://harryfish.shinyapps.io/qbr_demo/" allowfullscreen scrolling="yes" width="100%" height="800px" frameboarder="0" data-external="1">
 </iframe>
 </div>
-<h2 id="settings">Settings</h2>
-<p>The widget revolves around the list of options which you create for each filter. For example, below is the code used to specify the filters used in the demo app.</p>
-<div class="layout-chunk" data-layout="l-body">
-
-</div>
-<p>However these settings barely scratch the surface of what is possible and the original queryBuilder site (<a href="https://querybuilder.js.org/" class="uri">https://querybuilder.js.org/</a>) is well worth a visit to see the full potential of the widget.</p>
+<h2 id="summary">Summary</h2>
+<p>These settings barely scratch the surface of what is possible and the original queryBuilder site (<a href="https://querybuilder.js.org/" class="uri">https://querybuilder.js.org/</a>) is well worth a visit to see the full potential of the widget. Also a special thanks to <a href="https://github.com/harveyl888/queryBuilder">harveyl888/queryBuilder</a> on which <code>qbr</code> is heavily based. If you find something that isn’t implemented feel free to open an issue <a href="https://github.com/hfshr/qbr/issues">hfshr/qbr</a>.</p>
+<p>Thanks for reading!</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <div class="article-footer">
