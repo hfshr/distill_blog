@@ -20,7 +20,6 @@ poweRof10: Tools to scrape data from www.thepowerof10.info [![](https://img.shie
 * Fisher et al. 2016. Relationship between Force Production during Isometric Squats and Knee Flexion Angles during Landing. Journal of Strength and Conditioning. [[pdf]](data/pdfs/fisher-2016.pdf)
 
 ### Contact
-<!-- Add font awesome icons --> 
 
 <div class="mylinks">
 <p style="text-align: center;">

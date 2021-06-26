@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" version="1.0">
   <url>
     <loc>https://hfshr.xyz/about.html</loc>
-    <lastmod>2021-02-01T19:25:18+00:00</lastmod>
+    <lastmod>2021-06-26T08:10:02+01:00</lastmod>
   </url>
   <url>
     <loc>https://hfshr.xyz/blog.html</loc>
@@ -10,11 +10,15 @@
   </url>
   <url>
     <loc>https://hfshr.xyz/</loc>
-    <lastmod>2021-02-06T12:37:40+00:00</lastmod>
+    <lastmod>2021-06-26T08:41:47+01:00</lastmod>
   </url>
   <url>
     <loc>https://hfshr.xyz/README.html</loc>
     <lastmod>2020-12-02T16:13:53+00:00</lastmod>
+  </url>
+  <url>
+    <loc>https://hfshr.xyz/posts/2021-06-20-qbr/</loc>
+    <lastmod>2021-06-26T08:39:03+01:00</lastmod>
   </url>
   <url>
     <loc>https://hfshr.xyz/posts/2021-05-03-dm-is-fantastic/</loc>

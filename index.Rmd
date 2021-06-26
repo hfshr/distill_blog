@@ -2,13 +2,13 @@
 title: ""
 image: "data/images/harryf-min2.png"
 links:
-  - label: '<i class="fab fa-twitter fa-3x"></i>'
+  - label: twitter
     url: "https://twitter.com/harryfishr"
-  - label: '<i class="fab fa-github fa-3x"></i>'
+  - label: github
     url: "https://github.com/hfshr"
-  - label: '<i class="far fa-envelope fa-3x"></i>'
+  - label: email
     url: "mailto:harryfisher21@email.com"
-  - label: '<i class="fab fa-linkedin-in fa-3x"></i>'
+  - label: linkedin
     url: "https://www.linkedin.com/in/drharryfisher/"
     
 output: postcards::jolla
