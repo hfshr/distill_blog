@@ -77,7 +77,7 @@ See the [Authentication vignette](https://hfshr.github.io/bitmexr/articles/authe
 
 ## Speed boost 
 
-With authentication set up, `map_trades()` and `map_bucket_trades()` get a speed boost due to increased API limit when using authentication. Simply set `use_auth = TRUE` to get these functions running at 60 API call per minute `r icon::fa_rocket()`.
+With authentication set up, `map_trades()` and `map_bucket_trades()` get a speed boost due to increased API limit when using authentication. Simply set `use_auth = TRUE` to get these functions running at 60 API call per minute.
 
 ## Additional API endpoints
 
@@ -106,4 +106,4 @@ Current ideas for a future release:
 - Support for easily placing bulk orders 
 - Rstudio addin for easy order submission
 
-Of course, any feedback / ideas are more than welcome! [`r  icon::fa_github()`](https://www.github.com/hfshr/bitmexr)
+Of course, any feedback / ideas are more than welcome! (https://www.github.com/hfshr/bitmexr)

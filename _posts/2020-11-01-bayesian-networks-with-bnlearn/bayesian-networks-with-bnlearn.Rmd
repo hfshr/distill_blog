@@ -16,7 +16,7 @@ output:
     self_contained: false
     toc: true
     toc_float: true
-draft: false
+draft: true
 ---
 
 ```{r setup, include=FALSE}
@@ -359,7 +359,7 @@ You can drag the nodes around and hover over them for more information regarding
 
 ```{r}
 library(bnviewer)
-  
+
 
 strength.viewer(
 	bayesianNetwork = avg30,
@@ -386,7 +386,7 @@ strength.viewer(
 						border = "#2b7ce9",
 						highlight = list(background = "#e91eba",
 										border = "#2b7ce9")),
-	
+
 	node.font = list(color = "lightgreen", face="Arial"),
 	edges.dashes = FALSE
 )

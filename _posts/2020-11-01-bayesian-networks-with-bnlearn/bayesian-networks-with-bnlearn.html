@@ -56,7 +56,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }
 code span.al { color: #ad0000; } /* Alert */
 code span.an { color: #5e5e5e; } /* Annotation */
-code span.at { color: #20794d; } /* Attribute */
+code span.at { } /* Attribute */
 code span.bn { color: #ad0000; } /* BaseN */
 code span.bu { } /* BuiltIn */
 code span.cf { color: #007ba5; } /* ControlFlow */
@@ -77,7 +77,7 @@ code span.kw { color: #007ba5; } /* Keyword */
 code span.op { color: #5e5e5e; } /* Operator */
 code span.ot { color: #007ba5; } /* Other */
 code span.pp { color: #ad0000; } /* Preprocessor */
-code span.sc { color: #20794d; } /* SpecialChar */
+code span.sc { color: #5e5e5e; } /* SpecialChar */
 code span.ss { color: #20794d; } /* SpecialString */
 code span.st { color: #20794d; } /* String */
 code span.va { color: #111111; } /* Variable */
@@ -114,12 +114,12 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","preview","categories","bibliography","output","draft"]}},"value":[{"type":"character","attributes":{},"value":["Investigating sports injuries with Bayesian networks using {bnlearn}"]},{"type":"character","attributes":{},"value":["This post explores the use of Bayesian networks with the excellent {bnlearn} package to examine the relationship between different risk factors and the probability of sustaining a sports injury.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Harry Fisher"]},{"type":"character","attributes":{},"value":["https://www.hfshr.xyz"]}]}]},{"type":"character","attributes":{},"value":["11-17-2020"]},{"type":"character","attributes":{},"value":["bn.png"]},{"type":"character","attributes":{},"value":["R","Bayesian Network"]},{"type":"character","attributes":{},"value":["r-references.bib"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained","toc","toc_float"]}},"value":[{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]},{"type":"logical","attributes":{},"value":[true]}]}]},{"type":"logical","attributes":{},"value":[false]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","preview","categories","bibliography","output","draft"]}},"value":[{"type":"character","attributes":{},"value":["Investigating sports injuries with Bayesian networks using {bnlearn}"]},{"type":"character","attributes":{},"value":["This post explores the use of Bayesian networks with the excellent {bnlearn} package to examine the relationship between different risk factors and the probability of sustaining a sports injury.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Harry Fisher"]},{"type":"character","attributes":{},"value":["https://www.hfshr.xyz"]}]}]},{"type":"character","attributes":{},"value":["11-17-2020"]},{"type":"character","attributes":{},"value":["bn.png"]},{"type":"character","attributes":{},"value":["R","Bayesian Network"]},{"type":"character","attributes":{},"value":["r-references.bib"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained","toc","toc_float"]}},"value":[{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]},{"type":"logical","attributes":{},"value":[true]}]}]},{"type":"logical","attributes":{},"value":[true]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["bayesian-networks-with-bnlearn_files/anchor-4.2.2/anchor.min.js","bayesian-networks-with-bnlearn_files/bowser-1.9.3/bowser.min.js","bayesian-networks-with-bnlearn_files/distill-2.2.21/template.v2.js","bayesian-networks-with-bnlearn_files/figure-html5/unnamed-chunk-4-1.png","bayesian-networks-with-bnlearn_files/figure-html5/unnamed-chunk-8-1.png","bayesian-networks-with-bnlearn_files/font-awesome-4.7.0/css/font-awesome.css","bayesian-networks-with-bnlearn_files/font-awesome-4.7.0/css/font-awesome.css.map","bayesian-networks-with-bnlearn_files/font-awesome-4.7.0/css/font-awesome.min.css","bayesian-networks-with-bnlearn_files/font-awesome-4.7.0/fonts/fontawesome-webfont.eot","bayesian-networks-with-bnlearn_files/font-awesome-4.7.0/fonts/fontawesome-webfont.svg","bayesian-networks-with-bnlearn_files/font-awesome-4.7.0/fonts/fontawesome-webfont.ttf","bayesian-networks-with-bnlearn_files/font-awesome-4.7.0/fonts/fontawesome-webfont.woff","bayesian-networks-with-bnlearn_files/font-awesome-4.7.0/fonts/fontawesome-webfont.woff2","bayesian-networks-with-bnlearn_files/font-awesome-4.7.0/fonts/FontAwesome.otf","bayesian-networks-with-bnlearn_files/font-awesome-4.7.0/less/animated.less","bayesian-networks-with-bnlearn_files/font-awesome-4.7.0/less/bordered-pulled.less","bayesian-networks-with-bnlearn_files/font-awesome-4.7.0/less/core.less","bayesian-networks-with-bnlearn_files/font-awesome-4.7.0/less/fixed-width.less","bayesian-networks-with-bnlearn_files/font-awesome-4.7.0/less/font-awesome.less","bayesian-networks-with-bnlearn_files/font-awesome-4.7.0/less/icons.less","bayesian-networks-with-bnlearn_files/font-awesome-4.7.0/less/larger.less","bayesian-networks-with-bnlearn_files/font-awesome-4.7.0/less/list.less","bayesian-networks-with-bnlearn_files/font-awesome-4.7.0/less/mixins.less","bayesian-networks-with-bnlearn_files/font-awesome-4.7.0/less/path.less","bayesian-networks-with-bnlearn_files/font-awesome-4.7.0/less/rotated-flipped.less","bayesian-networks-with-bnlearn_files/font-awesome-4.7.0/less/screen-reader.less","bayesian-networks-with-bnlearn_files/font-awesome-4.7.0/less/stacked.less","bayesian-networks-with-bnlearn_files/font-awesome-4.7.0/less/variables.less","bayesian-networks-with-bnlearn_files/font-awesome-4.7.0/scss/_animated.scss","bayesian-networks-with-bnlearn_files/font-awesome-4.7.0/scss/_bordered-pulled.scss","bayesian-networks-with-bnlearn_files/font-awesome-4.7.0/scss/_core.scss","bayesian-networks-with-bnlearn_files/font-awesome-4.7.0/scss/_fixed-width.scss","bayesian-networks-with-bnlearn_files/font-awesome-4.7.0/scss/_icons.scss","bayesian-networks-with-bnlearn_files/font-awesome-4.7.0/scss/_larger.scss","bayesian-networks-with-bnlearn_files/font-awesome-4.7.0/scss/_list.scss","bayesian-networks-with-bnlearn_files/font-awesome-4.7.0/scss/_mixins.scss","bayesian-networks-with-bnlearn_files/font-awesome-4.7.0/scss/_path.scss","bayesian-networks-with-bnlearn_files/font-awesome-4.7.0/scss/_rotated-flipped.scss","bayesian-networks-with-bnlearn_files/font-awesome-4.7.0/scss/_screen-reader.scss","bayesian-networks-with-bnlearn_files/font-awesome-4.7.0/scss/_stacked.scss","bayesian-networks-with-bnlearn_files/font-awesome-4.7.0/scss/_variables.scss","bayesian-networks-with-bnlearn_files/font-awesome-4.7.0/scss/font-awesome.scss","bayesian-networks-with-bnlearn_files/header-attrs-2.5/header-attrs.js","bayesian-networks-with-bnlearn_files/header-attrs-2.6.4/header-attrs.js","bayesian-networks-with-bnlearn_files/header-attrs-2.6.6/header-attrs.js","bayesian-networks-with-bnlearn_files/header-attrs-2.7.4/header-attrs.js","bayesian-networks-with-bnlearn_files/htmlwidgets-1.5.1/htmlwidgets.js","bayesian-networks-with-bnlearn_files/htmlwidgets-1.5.3/htmlwidgets.js","bayesian-networks-with-bnlearn_files/jquery-1.11.3/jquery.min.js","bayesian-networks-with-bnlearn_files/popper-2.6.0/popper.min.js","bayesian-networks-with-bnlearn_files/tippy-6.2.7/tippy-bundle.umd.min.js","bayesian-networks-with-bnlearn_files/tippy-6.2.7/tippy-light-border.css","bayesian-networks-with-bnlearn_files/tippy-6.2.7/tippy.css","bayesian-networks-with-bnlearn_files/tippy-6.2.7/tippy.umd.min.js","bayesian-networks-with-bnlearn_files/vis-4.20.1/img/network/acceptDeleteIcon.png","bayesian-networks-with-bnlearn_files/vis-4.20.1/img/network/addNodeIcon.png","bayesian-networks-with-bnlearn_files/vis-4.20.1/img/network/backIcon.png","bayesian-networks-with-bnlearn_files/vis-4.20.1/img/network/connectIcon.png","bayesian-networks-with-bnlearn_files/vis-4.20.1/img/network/cross.png","bayesian-networks-with-bnlearn_files/vis-4.20.1/img/network/cross2.png","bayesian-networks-with-bnlearn_files/vis-4.20.1/img/network/deleteIcon.png","bayesian-networks-with-bnlearn_files/vis-4.20.1/img/network/downArrow.png","bayesian-networks-with-bnlearn_files/vis-4.20.1/img/network/editIcon.png","bayesian-networks-with-bnlearn_files/vis-4.20.1/img/network/leftArrow.png","bayesian-networks-with-bnlearn_files/vis-4.20.1/img/network/minus.png","bayesian-networks-with-bnlearn_files/vis-4.20.1/img/network/plus.png","bayesian-networks-with-bnlearn_files/vis-4.20.1/img/network/rightArrow.png","bayesian-networks-with-bnlearn_files/vis-4.20.1/img/network/upArrow.png","bayesian-networks-with-bnlearn_files/vis-4.20.1/img/network/zoomExtends.png","bayesian-networks-with-bnlearn_files/vis-4.20.1/vis.css","bayesian-networks-with-bnlearn_files/vis-4.20.1/vis.min.js","bayesian-networks-with-bnlearn_files/visNetwork-binding-2.0.9/visNetwork.js","bayesian-networks-with-bnlearn_files/webcomponents-2.0.0/webcomponents.js","bn.png","injuries.csv","r-references.bib"]}
+  {"type":"character","attributes":{},"value":["bayesian-networks-with-bnlearn_files/anchor-4.2.2/anchor.min.js","bayesian-networks-with-bnlearn_files/bowser-1.9.3/bowser.min.js","bayesian-networks-with-bnlearn_files/distill-2.2.21/template.v2.js","bayesian-networks-with-bnlearn_files/figure-html5/unnamed-chunk-8-1.png","bayesian-networks-with-bnlearn_files/header-attrs-2.9.1/header-attrs.js","bayesian-networks-with-bnlearn_files/jquery-1.11.3/jquery.min.js","bayesian-networks-with-bnlearn_files/popper-2.6.0/popper.min.js","bayesian-networks-with-bnlearn_files/tippy-6.2.7/tippy-bundle.umd.min.js","bayesian-networks-with-bnlearn_files/tippy-6.2.7/tippy-light-border.css","bayesian-networks-with-bnlearn_files/tippy-6.2.7/tippy.css","bayesian-networks-with-bnlearn_files/tippy-6.2.7/tippy.umd.min.js","bayesian-networks-with-bnlearn_files/webcomponents-2.0.0/webcomponents.js","bn.png","injuries.csv","r-references.bib"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1266,7 +1266,10 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
       // hoverable references
       $('span.citation[data-cites]').each(function() {
-        var refHtml = $('#ref-' + $(this).attr('data-cites')).html();
+        var refs = $(this).attr('data-cites').split(" ");
+        var refHtml = refs.map(function(ref) {
+          return "<p>" + $('#ref-' + ref).html() + "</p>";
+        }).join("\n");
         window.tippy(this, {
           allowHTML: true,
           content: refHtml,
@@ -1437,7 +1440,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </script>
 
   <!--/radix_placeholder_distill-->
-  <script src="bayesian-networks-with-bnlearn_files/header-attrs-2.7.4/header-attrs.js"></script>
+  <script src="bayesian-networks-with-bnlearn_files/header-attrs-2.9.1/header-attrs.js"></script>
   <script src="bayesian-networks-with-bnlearn_files/htmlwidgets-1.5.3/htmlwidgets.js"></script>
   <link href="bayesian-networks-with-bnlearn_files/vis-4.20.1/vis.css" rel="stylesheet" />
   <script src="bayesian-networks-with-bnlearn_files/vis-4.20.1/vis.min.js"></script>
@@ -1572,7 +1575,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#zlfqwjbzkb .gt_table {
+#ouiyvrtpnx .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -1597,7 +1600,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   border-left-color: #D3D3D3;
 }
 
-#zlfqwjbzkb .gt_heading {
+#ouiyvrtpnx .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1609,7 +1612,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   border-right-color: #D3D3D3;
 }
 
-#zlfqwjbzkb .gt_title {
+#ouiyvrtpnx .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1619,7 +1622,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   border-bottom-width: 0;
 }
 
-#zlfqwjbzkb .gt_subtitle {
+#ouiyvrtpnx .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1629,13 +1632,13 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   border-top-width: 0;
 }
 
-#zlfqwjbzkb .gt_bottom_border {
+#ouiyvrtpnx .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#zlfqwjbzkb .gt_col_headings {
+#ouiyvrtpnx .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1650,7 +1653,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   border-right-color: #D3D3D3;
 }
 
-#zlfqwjbzkb .gt_col_heading {
+#ouiyvrtpnx .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1670,7 +1673,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   overflow-x: hidden;
 }
 
-#zlfqwjbzkb .gt_column_spanner_outer {
+#ouiyvrtpnx .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1682,15 +1685,15 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   padding-right: 4px;
 }
 
-#zlfqwjbzkb .gt_column_spanner_outer:first-child {
+#ouiyvrtpnx .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#zlfqwjbzkb .gt_column_spanner_outer:last-child {
+#ouiyvrtpnx .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#zlfqwjbzkb .gt_column_spanner {
+#ouiyvrtpnx .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1702,7 +1705,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   width: 100%;
 }
 
-#zlfqwjbzkb .gt_group_heading {
+#ouiyvrtpnx .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1724,7 +1727,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   vertical-align: middle;
 }
 
-#zlfqwjbzkb .gt_empty_group_heading {
+#ouiyvrtpnx .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1739,15 +1742,15 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   vertical-align: middle;
 }
 
-#zlfqwjbzkb .gt_from_md > :first-child {
+#ouiyvrtpnx .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#zlfqwjbzkb .gt_from_md > :last-child {
+#ouiyvrtpnx .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#zlfqwjbzkb .gt_row {
+#ouiyvrtpnx .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1766,7 +1769,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   overflow-x: hidden;
 }
 
-#zlfqwjbzkb .gt_stub {
+#ouiyvrtpnx .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1778,7 +1781,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   padding-left: 12px;
 }
 
-#zlfqwjbzkb .gt_summary_row {
+#ouiyvrtpnx .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1788,7 +1791,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   padding-right: 5px;
 }
 
-#zlfqwjbzkb .gt_first_summary_row {
+#ouiyvrtpnx .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1798,7 +1801,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   border-top-color: #D3D3D3;
 }
 
-#zlfqwjbzkb .gt_grand_summary_row {
+#ouiyvrtpnx .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1808,7 +1811,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   padding-right: 5px;
 }
 
-#zlfqwjbzkb .gt_first_grand_summary_row {
+#ouiyvrtpnx .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1818,11 +1821,11 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   border-top-color: #D3D3D3;
 }
 
-#zlfqwjbzkb .gt_striped {
+#ouiyvrtpnx .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#zlfqwjbzkb .gt_table_body {
+#ouiyvrtpnx .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1831,7 +1834,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   border-bottom-color: #D3D3D3;
 }
 
-#zlfqwjbzkb .gt_footnotes {
+#ouiyvrtpnx .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1845,13 +1848,13 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   border-right-color: #D3D3D3;
 }
 
-#zlfqwjbzkb .gt_footnote {
+#ouiyvrtpnx .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#zlfqwjbzkb .gt_sourcenotes {
+#ouiyvrtpnx .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1865,46 +1868,46 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   border-right-color: #D3D3D3;
 }
 
-#zlfqwjbzkb .gt_sourcenote {
+#ouiyvrtpnx .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#zlfqwjbzkb .gt_left {
+#ouiyvrtpnx .gt_left {
   text-align: left;
 }
 
-#zlfqwjbzkb .gt_center {
+#ouiyvrtpnx .gt_center {
   text-align: center;
 }
 
-#zlfqwjbzkb .gt_right {
+#ouiyvrtpnx .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#zlfqwjbzkb .gt_font_normal {
+#ouiyvrtpnx .gt_font_normal {
   font-weight: normal;
 }
 
-#zlfqwjbzkb .gt_font_bold {
+#ouiyvrtpnx .gt_font_bold {
   font-weight: bold;
 }
 
-#zlfqwjbzkb .gt_font_italic {
+#ouiyvrtpnx .gt_font_italic {
   font-style: italic;
 }
 
-#zlfqwjbzkb .gt_super {
+#ouiyvrtpnx .gt_super {
   font-size: 65%;
 }
 
-#zlfqwjbzkb .gt_footnote_marks {
+#ouiyvrtpnx .gt_footnote_marks {
   font-style: italic;
   font-size: 65%;
 }
 </style>
-<div id="zlfqwjbzkb" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
+<div id="ouiyvrtpnx" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
   
   <thead class="gt_col_headings">
     <tr>
@@ -2063,8 +2066,14 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>Rgraphviz</span><span class='op'>)</span>
-
-<span class='va'>gR</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/bnlearn/man/strength.plot.html'>strength.plot</a></span><span class='op'>(</span>
+</code></pre>
+</div>
+<pre><code>Error in setMethod(&quot;path&quot;, cl, where = topenv(parent.frame()), function(object,  : 
+  the environment &#39;base&#39; is locked; cannot assign methods for function &#39;path&#39;
+Error in setMethod(&quot;nodes&quot;, cl, where = topenv(parent.frame()), function(object) .nodes(object)) : 
+  the environment &#39;base&#39; is locked; cannot assign methods for function &#39;nodes&#39;</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>gR</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/bnlearn/man/strength.plot.html'>strength.plot</a></span><span class='op'>(</span>
   <span class='va'>avg30</span>,
   <span class='va'>str_network</span>,
   shape <span class='op'>=</span> <span class='st'>"rectangle"</span>,
@@ -2099,16 +2108,16 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <pre><code>, , gender = female
 
          pi
-stiffness injury no injury
-     High 0.7333    0.1304
-     Low  0.2667    0.8696
+stiffness    injury no injury
+     High 0.7333333 0.1304348
+     Low  0.2666667 0.8695652
 
 , , gender = male
 
          pi
-stiffness injury no injury
-     High 0.6337    0.6087
-     Low  0.3663    0.3913</code></pre>
+stiffness    injury no injury
+     High 0.6336634 0.6086957
+     Low  0.3663366 0.3913043</code></pre>
 </div>
 <p>We can use this information to make a number of statements, for example, females with a previous injury (pi) are more likely to have “High” stiffness compared to males.</p>
 <p>We may want to be a little more specific with our queries, for example say we want to know what the probability of an injury when stiffness == “High.” We can use <code>bnlearn::cpquery()</code> to ask this very question.</p>
@@ -2125,7 +2134,7 @@ I’ve used likelihood weighting here(method = “lw”) which is an approximate
 <span class='op'>)</span>
 </code></pre>
 </div>
-<pre><code>[1] 0.3027</code></pre>
+<pre><code>[1] 0.302661</code></pre>
 </div>
 <p>Likewise we can ask the same question for when stiffness == “Low”</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -2137,7 +2146,7 @@ I’ve used likelihood weighting here(method = “lw”) which is an approximate
 <span class='op'>)</span>
 </code></pre>
 </div>
-<pre><code>[1] 0.176</code></pre>
+<pre><code>[1] 0.1759626</code></pre>
 </div>
 <p>We can see that High stiffness almost doubles the probability of injury.</p>
 <p>Now, this can get a little repetitive when you want to investigate lots of variables with different combinations, so I created a function that enables multiple variables to be passed in. It’s a bit lengthy and could probably be simplified a little, but it does the job…!</p>
@@ -2672,7 +2681,7 @@ I’ve used likelihood weighting here(method = “lw”) which is an approximate
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://robsonfernandes.net/bnviewer/'>bnviewer</a></span><span class='op'>)</span>
-  
+
 
 <span class='fu'><a href='https://rdrr.io/pkg/bnviewer/man/strength.viewer.html'>strength.viewer</a></span><span class='op'>(</span>
   bayesianNetwork <span class='op'>=</span> <span class='va'>avg30</span>,
@@ -2699,7 +2708,7 @@ I’ve used likelihood weighting here(method = “lw”) which is an approximate
             border <span class='op'>=</span> <span class='st'>"#2b7ce9"</span>,
             highlight <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>background <span class='op'>=</span> <span class='st'>"#e91eba"</span>,
                     border <span class='op'>=</span> <span class='st'>"#2b7ce9"</span><span class='op'>)</span><span class='op'>)</span>,
-  
+
   node.font <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>color <span class='op'>=</span> <span class='st'>"lightgreen"</span>, face<span class='op'>=</span><span class='st'>"Arial"</span><span class='op'>)</span>,
   edges.dashes <span class='op'>=</span> <span class='cn'>FALSE</span>
 <span class='op'>)</span>
@@ -2718,7 +2727,7 @@ I’ve used likelihood weighting here(method = “lw”) which is an approximate
 <li><p><a href="https://bookdown.org/robertness/causalml/docs/tutorial-probabilistic-modeling-with-bayesian-networks-and-bnlearn.html" class="uri">https://bookdown.org/robertness/causalml/docs/tutorial-probabilistic-modeling-with-bayesian-networks-and-bnlearn.html</a> another good starting point covering the basics</p></li>
 <li><p><a href="https://www.frontiersin.org/articles/10.3389/fvets.2020.00073/full" class="uri">https://www.frontiersin.org/articles/10.3389/fvets.2020.00073/full</a> Kratzer et al., (2020) paper I found while writing this post that gives a great walkthough, although not using bnlearn.</p></li>
 </ul>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
 <div id="ref-Fuster-Parra2017" class="csl-entry" role="doc-biblioentry">
 Fuster-Parra, P., J. Vidal-Conti, P. A. Borràs, and P. Palou. 2017. <span>“<span class="nocase">Bayesian networks to identify statistical dependencies. A case study of Spanish university students’ habits</span>.”</span> <em>Informatics for Health and Social Care</em> 42 (2): 166–79. <a href="https://doi.org/10.1080/17538157.2016.1178117">https://doi.org/10.1080/17538157.2016.1178117</a>.
