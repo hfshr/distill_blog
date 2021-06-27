@@ -373,11 +373,18 @@ hr {
 }
 
 
+.btn-outline-dark {
+  border-color: var(--main-text-color);
+}
+
 .btn-outline-dark:hover {
     color: var(--main-text-color);
     background-color: var(--surface1);
-    border-color: #f8f8f8;
+    border-color: var(--main-link);
 }
+
+
+
 
 
 d-byline {
