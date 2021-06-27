@@ -1,0 +1,13 @@
+[[headers]]
+   for = "/*"
+   [headers.values]
+      Access-Control-Allow-Origin = "*"
+
+[[redirects]]
+  from = "https://www.hfshr.xyz/posts/2020-06-07-variable-inportance-with-fastshap/"
+  to = "https://www.hfshr.xyz/posts/2020-06-07-variable-importance-with-fastshap/"
+  status = 301
+  force = false
+
+
+
