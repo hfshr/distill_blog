@@ -1,0 +1,19 @@
+---
+title: "Software"
+---
+
+I enjoy tinkering with things in R - below are a few of my latest efforts!
+
+### R packages
+
+[{bitmexr}](https://CRAN.R-project.org/package=bitmexr): R Client for the BitMEX Exchange [![CRAN status](https://www.r-pkg.org/badges/version/bitmexr)](https://CRAN.R-project.org/package=bitmexr)
+
+- An API wrapper for popular cryptocurrency exchange [BitMEX](https://www.bitmex.com/). Buy and sell Bitcoin from the comfort of RStudio!
+
+[{poweRof10}](https://github.com/hfshr/poweRof10): Tools to scrape data from www.thepowerof10.info [![](https://img.shields.io/badge/just-for%20fun-blue.svg)](https://github.com/hfshr/poweRof10) 
+
+- Access data on performances from the UK's athletic ranking website.
+
+[{qbr}](https://github.com/hfshr/qbr/): R interface to jQuery QueryBuilder [![R-CMD-check](https://github.com/hfshr/qbr/workflows/R-CMD-check/badge.svg)](https://github.com/hfshr/qbr/actions)
+
+- A shiny widget useful for creating complex filter queries, built around the excellent [queryBuilder jQuery library](https://querybuilder.js.org/).

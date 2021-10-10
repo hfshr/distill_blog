@@ -3,23 +3,17 @@ title: "Hello World"
 description: "\\> whoami"
 ---
 
-Hi! My name is Harry Fisher, thanks for visiting my site. I currently work as a research data scientist at [Pharmatelligence](http://www.pharmatelligence.co.uk/our-experts.php) based in Cardiff, Wales. I enjoy using R and recently became a RStudio [certified instructor](https://education.rstudio.com/trainers/people/fisher+harry/). Previously, I completed my [PhD](https://github.com/hfshr/phd-thesis/blob/master/full_phd.pdf) at Cardiff Metropolitan University in December 2019, investigating risk factors associated with sports injury. I enjoy writing about things I'm working on and try to share some interesting things I discover on my blog.
-
-Feel free to get in touch if any of the posts catch your interest!
-
-### R packages
-
-{bitmexr}: R Client for the BitMEX Exchange [![CRAN status](https://www.r-pkg.org/badges/version/bitmexr)](https://CRAN.R-project.org/package=bitmexr)
-
-{poweRof10}: Tools to scrape data from www.thepowerof10.info [![](https://img.shields.io/badge/just-for%20fun-blue.svg)](https://github.com/hfshr/poweRof10) 
-
-{qbr}: R interface to jQuery QueryBuilder [![R-CMD-check](https://github.com/hfshr/qbr/workflows/R-CMD-check/badge.svg)](https://github.com/hfshr/qbr/actions)
+Hi! My name is Harry Fisher, thanks for visiting my site. I currently work as a Senior R Engineer at [Seven Bridges](https://www.sevenbridges.com/). Previously, I have worked as a data scientist in pharmaceutical and financial crime and compliance sectors. I am very enthusiastic about the R programming language, and enjoy trying to solve challenging problems and learning new tricks. I've also recently become a RStudio [certified instructor](https://education.rstudio.com/trainers/people/fisher+harry/) for working with the tidyverse. I occasionally write about things I'm working and hopefully share interesting things on my blog. Feel free to get in touch if any of the posts catch your interest!
 
 ### Research
-  
+
+In a different life, I completed my [Ph.D.](https://github.com/hfshr/phd-thesis/blob/master/full_phd.pdf) at Cardiff Metropolitan University where I was investigating risk factors associated with sports injury from an interdisciplinary perspective. Below are some research articles that I published along the way.
+
 * Fisher et al. 2020. An interdisciplinary examination of stress and injury in athletes. [[Link]](https://www.frontiersin.org/articles/10.3389/fspor.2020.595619/abstract)
   
 * Fisher et al. 2016. Relationship between Force Production during Isometric Squats and Knee Flexion Angles during Landing. Journal of Strength and Conditioning. [[pdf]](data/pdfs/fisher-2016.pdf)
+
+### Contact
 
 <div class="mylinks">
 <p style="text-align: center;">

@@ -1,0 +1,33 @@
+---
+title: "All posts"
+description: "Title says it all"
+---
+
+# 2021
+
+- [2021-06-20-qbr](posts/2021-06-20-qbr/index.html)
+- [2021-05-03-dm-is-fantastic](posts/2021-05-03-dm-is-fantastic/index.html)
+- [2021-04-04-learning-rcpp](posts/2021-04-04-learning-rcpp/index.html)
+- [2021-01-29-many-models-many-plots](posts/2021-01-29-many-models-many-plots/index.html)
+- [2021-01-17-rstudio-certification](posts/2021-01-17-rstudio-certification/index.html)
+
+# 2020
+
+- [2020-12-26-powerof10-covid](posts/2020-12-26-powerof10-covid/index.html)
+- [2020-11-30-model-stacking](posts/2020-11-30-model-stacking/index.html)
+- [2020-11-22-bitmexr-logo](posts/2020-11-22-bitmexr-logo/index.html)
+- [2020-10-22-introducing-powerof10](posts/2020-10-22-introducing-powerof10/index.html)
+- [2020-08-02-python-package](posts/2020-08-02-python-package/index.html)
+- [2020-07-14-deploy-model](posts/2020-07-14-deploy-model/index.html)
+- [2020-06-21-penguins-and-nakedpipes](posts/2020-06-21-penguins-and-nakedpipes/index.html)
+- [2020-06-07-variable-importance-with-fastshap]( posts/2020-06-07-variable-importance-with-fastshap/index.html)
+- [2020-05-25-bitmexr-updates](posts/2020-05-25-bitmexr-updates/index.html)
+- [2020-05-23-tidymodel-notes](posts/2020-05-23-tidymodel-notes/index.html)
+- [2020-05-02-pretty-tables-with-gt](posts/2020-05-02-pretty-tables-with-gt/index.html)
+- [2020-04-13-bitmexr](posts/2020-04-13-bitmexr/index.html)
+- [2020-03-22-bitcoin](posts/2020-03-22-bitcoin/index.html)
+- [2020-03-14-writing-a-thesis-in-r-markdown](posts/2020-03-14-writing-a-thesis-in-r-markdown/index.html)
+- [2020-03-08-athletics-rankings](posts/2020-03-08-athletics-rankings/index.html)
+- [2020-03-07-first-post-again](posts/2020-03-07-first-post-again/index.html)
+
+

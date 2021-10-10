@@ -480,7 +480,7 @@ d-title {
 
 </style>
 
-<script src="../../site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="../../site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <link href="../../site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet"/>
 <link href="../../site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet"/>
 <script src="../../site_libs/headroom-0.9.4/headroom.min.js"></script>
@@ -1927,12 +1927,15 @@ gtag('config', 'UA-145834792-2');
 }
 
 .distill-site-footer {
+  position: fixed;
+  height: 60px;
+  bottom: 0px;
   color: #eeeeee;
   background-color: #393e46;
   font-size: 20px;
   font-weight: 400;
-  padding-top: 0px;
-  padding-bottom: 10px;
+  padding-top: 15px;
+  padding-bottom: 5px;
 }
 
 .distill-site-footer p {
@@ -1997,6 +2000,11 @@ gtag('config', 'UA-145834792-2');
 }
 
 /*##################################################*/
+
+
+body {
+  margin-bottom:60px;
+}
 
 body, p {
   font-family: var(--text-font-family);
@@ -2452,6 +2460,9 @@ d-article blockquote {
 }  
 
 
+.bold {
+  font-weight: 800;
+}
 </style>
 <!--/radix_placeholder_site_in_header-->
 
@@ -2480,14 +2491,17 @@ d-article blockquote {
 <a href="../../blog.html">
 <i class="fas fa-pencil-alt" aria-hidden="true"></i>
 </a>
+<a href="../../all_posts.html">
+<i class="fas fa-book" aria-hidden="true"></i>
+</a>
 <a href="../../about.html">
 <i class="fas fa-address-card" aria-hidden="true"></i>
 </a>
+<a href="../../software.html">
+<i class="fas fa-wrench" aria-hidden="true"></i>
+</a>
 <a href="https://github.com/hfshr">
 <i class="fab fa-github" aria-hidden="true"></i>
-</a>
-<a href="https://twitter.com/harryfishr">
-<i class="fab fa-twitter" aria-hidden="true"></i>
 </a>
 <a href="../../blog.xml">
 <i class="fas fa-rss" aria-hidden="true"></i>
@@ -2506,10 +2520,6 @@ d-article blockquote {
 <div class="d-title">
 <h1>How has Covid-19 affected UK athletics rankings in 2020?</h1>
 <!--radix_placeholder_categories-->
-<div class="dt-tags">
-  <a href="../../blog.html#category:R" class="dt-tag">R</a>
-  <a href="../../blog.html#category:athletics" class="dt-tag">athletics</a>
-</div>
 <!--/radix_placeholder_categories-->
 <p><p>A look into how Covid has impacted the breadth and depth of athletic performances in the UK in 2020.</p></p>
 </div>

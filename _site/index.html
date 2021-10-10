@@ -355,7 +355,7 @@
 
           </style>
 
-          <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+          <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
           <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet"/>
           <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet"/>
           <script src="site_libs/headroom-0.9.4/headroom.min.js"></script>
@@ -469,12 +469,15 @@
           }
 
           .distill-site-footer {
+            position: fixed;
+            height: 60px;
+            bottom: 0px;
             color: #eeeeee;
             background-color: #393e46;
             font-size: 20px;
             font-weight: 400;
-            padding-top: 0px;
-            padding-bottom: 10px;
+            padding-top: 15px;
+            padding-bottom: 5px;
           }
 
           .distill-site-footer p {
@@ -539,6 +542,11 @@
           }
 
           /*##################################################*/
+
+
+          body {
+            margin-bottom:60px;
+          }
 
           body, p {
             font-family: var(--text-font-family);
@@ -994,6 +1002,9 @@
           }  
 
 
+          .bold {
+            font-weight: 800;
+          }
           </style>
           <!--/radix_placeholder_site_in_header-->
           
@@ -1021,14 +1032,17 @@
           <a href="blog.html">
           <i class="fas fa-pencil-alt" aria-hidden="true"></i>
           </a>
+          <a href="all_posts.html">
+          <i class="fas fa-book" aria-hidden="true"></i>
+          </a>
           <a href="about.html">
           <i class="fas fa-address-card" aria-hidden="true"></i>
           </a>
+          <a href="software.html">
+          <i class="fas fa-wrench" aria-hidden="true"></i>
+          </a>
           <a href="https://github.com/hfshr">
           <i class="fab fa-github" aria-hidden="true"></i>
-          </a>
-          <a href="https://twitter.com/harryfishr">
-          <i class="fab fa-twitter" aria-hidden="true"></i>
           </a>
           <a href="blog.xml">
           <i class="fas fa-rss" aria-hidden="true"></i>
@@ -1047,26 +1061,16 @@
     <div class="container min-vh-100">
       <div class="row min-vh-100 justify-content-center align-items-center">
         <div class="col-12 text-center">
-          <img src=data/images/harryf-min2.png style="height:10rem" class="rounded-circle">
+          <img src=data/images/me2.jpg style="height:10rem" class="rounded-circle">
           <div class="mt-3">
             <h1></h1>
           </div>
           <div class="row justify-content-center align-items-center">
             <div class="col-6 mt-3 text-center d-none d-sm-block">
-              <ul>
-              <li>I’m Harry, a data scientist with a love for <a href = "https://www.r-project.org/">R</a> and good coffee ☕</li>
-              <li>I occasionally write about things I am working on <a href = "blog.html">here</a> 📝</li>
-              <li>If you like, you can find out more about me <a href = "about.html">here</a> 🙋</li>
-              <li>Or get in touch using the links below 📩</li>
-              </ul>
+              <p><b style = "font-weight: 800;"> Harry Fisher </b> <br> <a href = "https://www.r-project.org/">R</a> engineer at <a href="https://www.sevenbridges.com/">Seven Bridges</a> // <br> Prolific tinkerer // Runner // Coffee addict <br><br> <a href="blog.html">Top Posts</a> 📝 // <a href="_site/all_posts.html">All posts</a> 📚 <br> <a href="about.html">About</a> 🙋 <br> <a href="software.html">Software</a> 🛠</p>
             </div>
             <div class="col-11 mt-3 text-center d-block d-sm-none">
-              <ul>
-              <li>I’m Harry, a data scientist with a love for <a href = "https://www.r-project.org/">R</a> and good coffee ☕</li>
-              <li>I occasionally write about things I am working on <a href = "blog.html">here</a> 📝</li>
-              <li>If you like, you can find out more about me <a href = "about.html">here</a> 🙋</li>
-              <li>Or get in touch using the links below 📩</li>
-              </ul>
+              <p><b style = "font-weight: 800;"> Harry Fisher </b> <br> <a href = "https://www.r-project.org/">R</a> engineer at <a href="https://www.sevenbridges.com/">Seven Bridges</a> // <br> Prolific tinkerer // Runner // Coffee addict <br><br> <a href="blog.html">Top Posts</a> 📝 // <a href="_site/all_posts.html">All posts</a> 📚 <br> <a href="about.html">About</a> 🙋 <br> <a href="software.html">Software</a> 🛠</p>
             </div>
           </div>
 

@@ -1,6 +1,6 @@
 ---
 title: ""
-image: "data/images/harryf-min2.png"
+image: "data/images/me2.jpg"
 links:
   - label: '<i class="fab fa-twitter fa-3x"></i>'
     url: "https://twitter.com/harryfishr"
@@ -16,7 +16,14 @@ output: postcards::jolla
 site: distill::distill_website
 ---
 
-* I'm Harry, a data scientist with a love for <a href = "https://www.r-project.org/">R</a> and good coffee ☕
-* I occasionally write about things I am working on <a href = "blog.html">here</a> 📝
-* If you like, you can find out more about me <a href = "about.html">here</a> 🙋
-* Or get in touch using the links below 📩
+<b style = "font-weight: 800;"> Harry Fisher </b>
+<br>
+<a href = "https://www.r-project.org/">R</a> engineer at [Seven Bridges](https://www.sevenbridges.com/) //
+<br>
+Prolific tinkerer // Runner // Coffee addict
+<br><br>
+[Top Posts](blog.html) 📝 // [All posts](_site/all_posts.html) 📚
+<br>
+[About](about.html) 🙋
+<br>
+[Software](software.html) 🛠
