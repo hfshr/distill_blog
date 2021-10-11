@@ -18,9 +18,9 @@ site: distill::distill_website
 
 <b style = "font-weight: 800;"> Harry Fisher </b>
 <br>
-<a href = "https://www.r-project.org/">R</a> engineer at [Seven Bridges](https://www.sevenbridges.com/) //
+<a href = "https://www.r-project.org/">R</a> engineer at [Seven Bridges](https://www.sevenbridges.com/)
 <br>
-Prolific tinkerer // Runner // Coffee addict
+Prolific tinkerer // Runner // Penchant for coffee
 <br><br>
 [Top Posts](blog.html) 📝 // [All posts](_site/all_posts.html) 📚
 <br>
