@@ -1,11 +1,11 @@
 ---
 title: "Featured posts"  
-listing:
-  posts:
-    - 2021-05-03-dm-is-fantastic
-    - 2020-11-30-model-stacking
-    - 2020-06-07-variable-importance-with-fastshap
-    - 2020-05-23-tidymodel-notes
-    - 2020-04-13-bitmexr
-    - 2020-03-14-writing-a-thesis-in-r-markdown 
+listing: posts
+  # posts:
+  #   - 2021-05-03-dm-is-fantastic
+  #   - 2020-11-30-model-stacking
+  #   - 2020-06-07-variable-importance-with-fastshap
+  #   - 2020-05-23-tidymodel-notes
+  #   - 2020-04-13-bitmexr
+  #   - 2020-03-14-writing-a-thesis-in-r-markdown 
 ---

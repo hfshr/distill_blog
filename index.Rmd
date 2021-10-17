@@ -22,7 +22,7 @@ site: distill::distill_website
 <br>
 Prolific tinkerer // Runner // Penchant for coffee
 <br><br>
-[Top Posts](blog.html) 📝 // [All posts](_site/all_posts.html) 📚
+[Posts](blog.html) 📝
 <br>
 [About](about.html) 🙋
 <br>
