@@ -2246,7 +2246,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   }
 
   /* Highlight code in text but not in code chunk */
-  p code {
+  p code, li code {
       color: #eee;
       font-size: 1.0em;
       background: #7d828a;
@@ -2256,6 +2256,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
       word-wrap: break-word;
       letter-spacing: normal;
   } 
+
+
    
 
   d-article div.sourceCode {
@@ -2618,6 +2620,20 @@ function init_posts_list() {
 <div class="posts-container posts-with-sidebar posts-apply-limit l-screen-inset">
 <div class="posts-list">
 <h1 class="posts-list-caption" data-caption="Featured posts">Featured posts</h1>
+<a href="posts/2021-10-31-oh-drat/" class="post-preview">
+<script class="post-metadata" type="text/json">{"categories":[]}</script>
+<div class="metadata">
+<div class="publishedDate">Oct. 31, 2021</div>
+</div>
+<div class="thumbnail">
+<img src="posts/2021-10-31-oh-drat/books.jpeg"/>
+</div>
+<div class="description">
+<h2>Oh {drat}!</h2>
+<div class="dt-tags"></div>
+<p>A quick look at creating your own CRAN-like repository and implementing some github actions to automate the process of adding and updating packages.</p>
+</div>
+</a>
 <a href="posts/2021-06-20-qbr/" class="post-preview">
 <script class="post-metadata" type="text/json">{"categories":["R","javascript"]}</script>
 <div class="metadata">
@@ -2688,7 +2704,7 @@ function init_posts_list() {
 <div class="publishedDate">Jan. 17, 2021</div>
 </div>
 <div class="thumbnail">
-<img src="posts/2021-01-17-rstudio-certification/blackboard.jpeg"/>
+<img data-src="posts/2021-01-17-rstudio-certification/blackboard.jpeg"/>
 </div>
 <div class="description">
 <h2>Musings on the RStudio instructor training process</h2>
@@ -2986,7 +3002,7 @@ Follow me on <a href="https://twitter.com/harryfishr" target="_blank" class="fab
 <ul>
 <li>
 <a href="#category:Articles">Articles</a>
-<span class="category-count">(21)</span>
+<span class="category-count">(22)</span>
 </li>
 <li>
 <a href="#category:athletics">athletics</a>

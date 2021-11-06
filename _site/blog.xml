@@ -12,7 +12,16 @@
       <link>https://hfshr.xyz/</link>
     </image>
     <generator>Distill</generator>
-    <lastBuildDate>Sun, 20 Jun 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 31 Oct 2021 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Oh {drat}!</title>
+      <dc:creator>Harry Fisher</dc:creator>
+      <link>https://hfshr.xyz/posts/2021-10-31-oh-drat</link>
+      <description>A quick look at creating your own CRAN-like repository and implementing some github actions to automate the process of adding and updating packages.</description>
+      <guid>https://hfshr.xyz/posts/2021-10-31-oh-drat</guid>
+      <pubDate>Sun, 31 Oct 2021 00:00:00 +0000</pubDate>
+      <media:content url="https://hfshr.xyz/posts/2021-10-31-oh-drat/books.jpeg" medium="image" type="image/jpeg"/>
+    </item>
     <item>
       <title>Introducing {qbr}</title>
       <dc:creator>Harry Fisher</dc:creator>
