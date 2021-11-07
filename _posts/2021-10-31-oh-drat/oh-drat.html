@@ -1483,7 +1483,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 <div class="d-article">
 <h1 id="drat">Drat</h1>
-<p>Recently, I’ve been investigating some approaches for creating your own CRAN-like repository for sharing a specific set of packages. There are a variety of solutions available for this problem<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>, however I wanted to focus specifically on the great <a href="https://eddelbuettel.github.io/drat/">{drat}</a> package by Dirk Eddelbuettel.</p>
+<p>Recently, I’ve been investigating some approaches for creating your own CRAN-like repository for sharing a specific set of packages. There are a variety of solutions available for this problem (For example; <a href="https://packagemanager.rstudio.com/client/#/">RStudio package manager</a>, <a href="https://www.openanalytics.eu/tags/rdepot/">RDepot</a> and <a href="https://cran.r-project.org/web/packages/miniCRAN/index.html">MiniCran</a>), however I wanted to focus specifically on the great <a href="https://eddelbuettel.github.io/drat/">{drat}</a> package by Dirk Eddelbuettel.</p>
 <p>Creating your own CRAN(ish) can sound a bit scary, at least it did to me before I started digging a bit deeper into {drat}, but fear not! There is great documentation and the steps are relatively easy to follow. I’ve jotted down a few notes on how I did it, in the hope they might be of use for someone else trying to implement a similar thing.</p>
 <h2 id="initial-setup">Initial setup</h2>
 <p>To get started, you have two options:</p>
@@ -1604,12 +1604,6 @@ Checkout <code>?drat::initRepo()</code> for more information.
 </ol>
 <p>Now any time I update one of my packages that have the first github action implemented, the drat repo will also be updated! Pretty cool 😎 (Well I thought so anyway..!) I’m sure this could be refined further, so any suggestions are more than welcome!</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
-<section class="footnotes" role="doc-endnotes">
-<hr />
-<ol>
-<li id="fn1" role="doc-endnote"><p>For example; <a href="https://packagemanager.rstudio.com/client/#/">RStudio package manager</a>, <a href="https://www.openanalytics.eu/tags/rdepot/">RDepot</a> and <a href="https://cran.r-project.org/web/packages/miniCRAN/index.html">MiniCran</a><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-</ol>
-</section>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

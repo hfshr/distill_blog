@@ -19,7 +19,7 @@ knitr::opts_chunk$set(echo = FALSE)
 
 # Drat
 
-Recently, I've been investigating some approaches for creating your own CRAN-like repository for sharing a specific set of packages. There are a variety of solutions available for this problem^[For example; [RStudio package manager](https://packagemanager.rstudio.com/client/#/), [RDepot](https://www.openanalytics.eu/tags/rdepot/) and [MiniCran](https://cran.r-project.org/web/packages/miniCRAN/index.html)], however I wanted to focus specifically on the great [{drat}](https://eddelbuettel.github.io/drat/) package by Dirk Eddelbuettel. 
+Recently, I've been investigating some approaches for creating your own CRAN-like repository for sharing a specific set of packages. There are a variety of solutions available for this problem (For example; [RStudio package manager](https://packagemanager.rstudio.com/client/#/), [RDepot](https://www.openanalytics.eu/tags/rdepot/) and [MiniCran](https://cran.r-project.org/web/packages/miniCRAN/index.html)), however I wanted to focus specifically on the great [{drat}](https://eddelbuettel.github.io/drat/) package by Dirk Eddelbuettel. 
 
 Creating your own CRAN(ish) can sound a bit scary, at least it did to me before I started digging a bit deeper into {drat}, but fear not! There is great documentation and the steps are relatively easy to follow. I've jotted down a few notes on how I did it, in the hope they might be of use for someone else trying to implement a similar thing.
 
