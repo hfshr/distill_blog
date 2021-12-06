@@ -87,380 +87,39 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 
   <!--radix_placeholder_meta_tags-->
-  <title>Data, Code &amp; Coffee: Hello World</title>
+  <title>vscode &amp; {golem}: A shiny supercouple?</title>
 
-  <meta property="description" itemprop="description" content="\&gt; whoami"/>
+  <meta property="description" itemprop="description" content="Combining the powers of vscode and {golem} for R Shiny development."/>
 
-  <link rel="icon" type="image/vnd.microsoft.icon" href="favicon.ico"/>
 
+  <!--  https://schema.org/Article -->
+  <meta property="article:published" itemprop="datePublished" content="2021-11-13"/>
+  <meta property="article:created" itemprop="dateCreated" content="2021-11-13"/>
+  <meta name="article:author" content="Harry Fisher"/>
 
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content="Data, Code &amp; Coffee: Hello World"/>
+  <meta property="og:title" content="vscode &amp; {golem}: A shiny supercouple?"/>
   <meta property="og:type" content="article"/>
-  <meta property="og:description" content="\&gt; whoami"/>
+  <meta property="og:description" content="Combining the powers of vscode and {golem} for R Shiny development."/>
   <meta property="og:locale" content="en_US"/>
-  <meta property="og:site_name" content="Data, Code &amp; Coffee"/>
 
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content="Data, Code &amp; Coffee: Hello World"/>
-  <meta property="twitter:description" content="\&gt; whoami"/>
+  <meta property="twitter:title" content="vscode &amp; {golem}: A shiny supercouple?"/>
+  <meta property="twitter:description" content="Combining the powers of vscode and {golem} for R Shiny development."/>
 
   <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description"]}},"value":[{"type":"character","attributes":{},"value":["Hello World"]},{"type":"character","attributes":{},"value":["\\> whoami"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","preview","draft","output"]}},"value":[{"type":"character","attributes":{},"value":["vscode & {golem}: A shiny supercouple?"]},{"type":"character","attributes":{},"value":["Combining the powers of vscode and {golem} for R Shiny development.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Harry Fisher"]},{"type":"character","attributes":{},"value":["https://hfshr.xyz"]}]}]},{"type":"character","attributes":{},"value":["2021-11-13"]},{"type":"character","attributes":{},"value":["vsgolem.jpg"]},{"type":"logical","attributes":{},"value":[true]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
-  <!--radix_placeholder_navigation_in_header-->
-  <meta name="distill:offset" content=""/>
-
-  <script type="application/javascript">
-
-    window.headroom_prevent_pin = false;
-
-    window.document.addEventListener("DOMContentLoaded", function (event) {
-
-      // initialize headroom for banner
-      var header = $('header').get(0);
-      var headerHeight = header.offsetHeight;
-      var headroom = new Headroom(header, {
-        tolerance: 5,
-        onPin : function() {
-          if (window.headroom_prevent_pin) {
-            window.headroom_prevent_pin = false;
-            headroom.unpin();
-          }
-        }
-      });
-      headroom.init();
-      if(window.location.hash)
-        headroom.unpin();
-      $(header).addClass('headroom--transition');
-
-      // offset scroll location for banner on hash change
-      // (see: https://github.com/WickyNilliams/headroom.js/issues/38)
-      window.addEventListener("hashchange", function(event) {
-        window.scrollTo(0, window.pageYOffset - (headerHeight + 25));
-      });
-
-      // responsive menu
-      $('.distill-site-header').each(function(i, val) {
-        var topnav = $(this);
-        var toggle = topnav.find('.nav-toggle');
-        toggle.on('click', function() {
-          topnav.toggleClass('responsive');
-        });
-      });
-
-      // nav dropdowns
-      $('.nav-dropbtn').click(function(e) {
-        $(this).next('.nav-dropdown-content').toggleClass('nav-dropdown-active');
-        $(this).parent().siblings('.nav-dropdown')
-           .children('.nav-dropdown-content').removeClass('nav-dropdown-active');
-      });
-      $("body").click(function(e){
-        $('.nav-dropdown-content').removeClass('nav-dropdown-active');
-      });
-      $(".nav-dropdown").click(function(e){
-        e.stopPropagation();
-      });
-    });
+  
+  <script type="text/json" id="radix-resource-manifest">
+  {"type":"character","attributes":{},"value":["color_picker.gif","vscode-golem_files/anchor-4.2.2/anchor.min.js","vscode-golem_files/bowser-1.9.3/bowser.min.js","vscode-golem_files/distill-2.2.21/template.v2.js","vscode-golem_files/header-attrs-2.11.3/header-attrs.js","vscode-golem_files/jquery-3.6.0/jquery-3.6.0.js","vscode-golem_files/jquery-3.6.0/jquery-3.6.0.min.js","vscode-golem_files/jquery-3.6.0/jquery-3.6.0.min.map","vscode-golem_files/popper-2.6.0/popper.min.js","vscode-golem_files/tippy-6.2.7/tippy-bundle.umd.min.js","vscode-golem_files/tippy-6.2.7/tippy-light-border.css","vscode-golem_files/tippy-6.2.7/tippy.css","vscode-golem_files/tippy-6.2.7/tippy.umd.min.js","vscode-golem_files/webcomponents-2.0.0/webcomponents.js","vsgolem.jpg"]}
   </script>
-
-  <style type="text/css">
-
-  /* Theme (user-documented overrideables for nav appearance) */
-
-  .distill-site-nav {
-    color: rgba(255, 255, 255, 0.8);
-    background-color: #0F2E3D;
-    font-size: 15px;
-    font-weight: 300;
-  }
-
-  .distill-site-nav a {
-    color: inherit;
-    text-decoration: none;
-  }
-
-  .distill-site-nav a:hover {
-    color: white;
-  }
-
-  @media print {
-    .distill-site-nav {
-      display: none;
-    }
-  }
-
-  .distill-site-header {
-
-  }
-
-  .distill-site-footer {
-
-  }
-
-
-  /* Site Header */
-
-  .distill-site-header {
-    width: 100%;
-    box-sizing: border-box;
-    z-index: 3;
-  }
-
-  .distill-site-header .nav-left {
-    display: inline-block;
-    margin-left: 8px;
-  }
-
-  @media screen and (max-width: 768px) {
-    .distill-site-header .nav-left {
-      margin-left: 0;
-    }
-  }
-
-
-  .distill-site-header .nav-right {
-    float: right;
-    margin-right: 8px;
-  }
-
-  .distill-site-header a,
-  .distill-site-header .title {
-    display: inline-block;
-    text-align: center;
-    padding: 14px 10px 14px 10px;
-  }
-
-  .distill-site-header .title {
-    font-size: 18px;
-    min-width: 150px;
-  }
-
-  .distill-site-header .logo {
-    padding: 0;
-  }
-
-  .distill-site-header .logo img {
-    display: none;
-    max-height: 20px;
-    width: auto;
-    margin-bottom: -4px;
-  }
-
-  .distill-site-header .nav-image img {
-    max-height: 18px;
-    width: auto;
-    display: inline-block;
-    margin-bottom: -3px;
-  }
-
-
-
-  @media screen and (min-width: 1000px) {
-    .distill-site-header .logo img {
-      display: inline-block;
-    }
-    .distill-site-header .nav-left {
-      margin-left: 20px;
-    }
-    .distill-site-header .nav-right {
-      margin-right: 20px;
-    }
-    .distill-site-header .title {
-      padding-left: 12px;
-    }
-  }
-
-
-  .distill-site-header .nav-toggle {
-    display: none;
-  }
-
-  .nav-dropdown {
-    display: inline-block;
-    position: relative;
-  }
-
-  .nav-dropdown .nav-dropbtn {
-    border: none;
-    outline: none;
-    color: rgba(255, 255, 255, 0.8);
-    padding: 16px 10px;
-    background-color: transparent;
-    font-family: inherit;
-    font-size: inherit;
-    font-weight: inherit;
-    margin: 0;
-    margin-top: 1px;
-    z-index: 2;
-  }
-
-  .nav-dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: white;
-    min-width: 200px;
-    border: 1px solid rgba(0,0,0,0.15);
-    border-radius: 4px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
-    z-index: 1;
-    margin-top: 2px;
-    white-space: nowrap;
-    padding-top: 4px;
-    padding-bottom: 4px;
-  }
-
-  .nav-dropdown-content hr {
-    margin-top: 4px;
-    margin-bottom: 4px;
-    border: none;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  }
-
-  .nav-dropdown-active {
-    display: block;
-  }
-
-  .nav-dropdown-content a, .nav-dropdown-content .nav-dropdown-header {
-    color: black;
-    padding: 6px 24px;
-    text-decoration: none;
-    display: block;
-    text-align: left;
-  }
-
-  .nav-dropdown-content .nav-dropdown-header {
-    display: block;
-    padding: 5px 24px;
-    padding-bottom: 0;
-    text-transform: uppercase;
-    font-size: 14px;
-    color: #999999;
-    white-space: nowrap;
-  }
-
-  .nav-dropdown:hover .nav-dropbtn {
-    color: white;
-  }
-
-  .nav-dropdown-content a:hover {
-    background-color: #ddd;
-    color: black;
-  }
-
-  .nav-right .nav-dropdown-content {
-    margin-left: -45%;
-    right: 0;
-  }
-
-  @media screen and (max-width: 768px) {
-    .distill-site-header a, .distill-site-header .nav-dropdown  {display: none;}
-    .distill-site-header a.nav-toggle {
-      float: right;
-      display: block;
-    }
-    .distill-site-header .title {
-      margin-left: 0;
-    }
-    .distill-site-header .nav-right {
-      margin-right: 0;
-    }
-    .distill-site-header {
-      overflow: hidden;
-    }
-    .nav-right .nav-dropdown-content {
-      margin-left: 0;
-    }
-  }
-
-
-  @media screen and (max-width: 768px) {
-    .distill-site-header.responsive {position: relative; min-height: 500px; }
-    .distill-site-header.responsive a.nav-toggle {
-      position: absolute;
-      right: 0;
-      top: 0;
-    }
-    .distill-site-header.responsive a,
-    .distill-site-header.responsive .nav-dropdown {
-      display: block;
-      text-align: left;
-    }
-    .distill-site-header.responsive .nav-left,
-    .distill-site-header.responsive .nav-right {
-      width: 100%;
-    }
-    .distill-site-header.responsive .nav-dropdown {float: none;}
-    .distill-site-header.responsive .nav-dropdown-content {position: relative;}
-    .distill-site-header.responsive .nav-dropdown .nav-dropbtn {
-      display: block;
-      width: 100%;
-      text-align: left;
-    }
-  }
-
-  /* Site Footer */
-
-  .distill-site-footer {
-    width: 100%;
-    overflow: hidden;
-    box-sizing: border-box;
-    z-index: 3;
-    margin-top: 30px;
-    padding-top: 30px;
-    padding-bottom: 30px;
-    text-align: center;
-  }
-
-  /* Headroom */
-
-  d-title {
-    padding-top: 6rem;
-  }
-
-  @media print {
-    d-title {
-      padding-top: 4rem;
-    }
-  }
-
-  .headroom {
-    z-index: 1000;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-  }
-
-  .headroom--transition {
-    transition: all .4s ease-in-out;
-  }
-
-  .headroom--unpinned {
-    top: -100px;
-  }
-
-  .headroom--pinned {
-    top: 0;
-  }
-
-  /* adjust viewport for navbar height */
-  /* helps vertically center bootstrap (non-distill) content */
-  .min-vh-100 {
-    min-height: calc(100vh - 100px) !important;
-  }
-
-  </style>
-
-  <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
-  <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet"/>
-  <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet"/>
-  <script src="site_libs/headroom-0.9.4/headroom.min.js"></script>
+  <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
   <!--radix_placeholder_distill-->
 
@@ -1779,671 +1438,19 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </script>
 
   <!--/radix_placeholder_distill-->
-  <script src="site_libs/header-attrs-2.11.3/header-attrs.js"></script>
-  <script src="site_libs/popper-2.6.0/popper.min.js"></script>
-  <link href="site_libs/tippy-6.2.7/tippy.css" rel="stylesheet" />
-  <link href="site_libs/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
-  <script src="site_libs/tippy-6.2.7/tippy.umd.min.js"></script>
-  <script src="site_libs/anchor-4.2.2/anchor.min.js"></script>
-  <script src="site_libs/bowser-1.9.3/bowser.min.js"></script>
-  <script src="site_libs/webcomponents-2.0.0/webcomponents.js"></script>
-  <script src="site_libs/distill-2.2.21/template.v2.js"></script>
+  <script src="vscode-golem_files/header-attrs-2.11.3/header-attrs.js"></script>
+  <script src="vscode-golem_files/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+  <script src="vscode-golem_files/popper-2.6.0/popper.min.js"></script>
+  <link href="vscode-golem_files/tippy-6.2.7/tippy.css" rel="stylesheet" />
+  <link href="vscode-golem_files/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
+  <script src="vscode-golem_files/tippy-6.2.7/tippy.umd.min.js"></script>
+  <script src="vscode-golem_files/anchor-4.2.2/anchor.min.js"></script>
+  <script src="vscode-golem_files/bowser-1.9.3/bowser.min.js"></script>
+  <script src="vscode-golem_files/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="vscode-golem_files/distill-2.2.21/template.v2.js"></script>
   <!--radix_placeholder_site_in_header-->
-
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      if (!/posts/.test(location.pathname)) {
-        return;
-      }
-
-      var script = document.createElement("script");
-      script.src = "https://utteranc.es/client.js";
-      script.setAttribute("repo", "hfshr/distill_blog");
-      script.setAttribute("issue-term", "og:title");
-      script.setAttribute("crossorigin", "anonymous");
-      script.setAttribute("label", "comment_thread");
-
-      /* wait for article to load, append script to article element */
-      var observer = new MutationObserver(function (mutations, observer) {
-        var article = document.querySelector("d-article");
-        if (article) {
-          observer.disconnect();
-          /* HACK: article scroll */
-          article.setAttribute("style", "overflow-y: hidden");
-          article.appendChild(script);
-        }
-      });
-
-      observer.observe(document.body, { childList: true });
-    });
-    </script>
-
-  <script type="text/javascript" cookie-consent="tracking" async src="https://www.googletagmanager.com/gtag/js?id=UA-145834792-2"></script>
-  <script type="text/javascript" cookie-consent="tracking">
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'UA-145834792-2');
-  </script>
-  <style type="text/css">
-  @import url('https://fonts.googleapis.com/css2?family=Lato');
-  @import url('https://fonts.googleapis.com/css2?family=Roboto');
-  @import url(https://fonts.googleapis.com/css?family=Noto+Sans:400,400i,700,700i&display=swap);
-  @import url('https://fonts.googleapis.com/css2?family=Fira+Mono');
-
-
-  /* #222831 */
-  :root {
-    --text-font-family: 'Noto Sans';
-    --text-header: 'Lato';
-    --main-text-color: #eeeeee;
-    --secondary-text-color: #72faca;
-    --surface1: #262626;
-    --surface2: #393e46;
-    --main-link: #72faca;
-    --boarder: rgba(255, 255, 255, 0.31);
-    
-  }
-
-
-  .light {
-    --surface1: white;
-    --surface2: #333333;
-    --main-text-color: #373D3F;
-    --main-link: #0bbd7e;
-    --secondary-text-color: #0bbd7e;
-    --boarder: rgba(0, 0, 0, 0.31);
-  }
-
-
-  /* nav bar */
-
-  .distill-site-nav {
-    font-family: var(--text-header), sans-serif;
-    color: #fff;
-    background-color: var(--surface2);
-    font-size: 25px;
-    font-weight: 400;
-  }
-
-
-  .distill-site-nav a {
-    font-family: var(--text-header), sans-serif;
-    font-weight: 500;
-    font-size: 25px;
-    color: #fff;
-  }
-
-  .distill-site-header .logo img {
-      display: block;
-      max-height: 25px;
-      width: auto;
-  }
-
-  .distill-site-header .title {
-      font-size: 25px;
-      min-width: 150px;
-      font-weight: 700;
-  }
-
-  /* https://codepen.io/sdthornton/pen/wBZdXq */
-  .distill-site-header {
-    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
-    font-family: 'Lato', sans-serif;
-    color: #fff;
-    background-color: #393e46;
-    font-size: 20px;
-    font-weight: 400;
-  }
-
-  .distill-site-footer {
-    position: fixed;
-    height: 45px;
-    bottom: 0px;
-    color: #eeeeee;
-    background-color: #393e46;
-    font-size: 20px;
-    font-weight: 400;
-    padding-top: 8px;
-    padding-bottom: 5px;
-  }
-
-  .distill-site-footer p {
-    color: #eeeeee;
-    background-color: #393e46;
-    font-size: 20px;
-    font-weight: 400;
-    padding-top: 0px;
-    padding-bottom: 5px;
-  }
-
-  .distill-site-footer a {
-    font-size: 20px;
-    background-color: #393e46;
-    color: #72faca;
-  }
-
-  .distill-site-footer svg {
-    height: 20px;
-    fill: #72faca;
-  }
-
-  .d-footnote {
-    background-color: var(--surface1);
-    color: var(--main-text-color);
-  }
-
-  /*####################################################*/
-
-
-  .posts-list .post-preview .thumbnail img { 
-    max-width: 60%;
-    max-height: 60%;
-    display: block;
-    margin: 0 auto;
-    vertical-align: middle;
-  }
-
-  .posts-list .post-preview {
-    border-bottom: 0.5px solid var(--boarder);
-  }
-
-  .posts-list h1 {
-     font-family: 'Lato';
-     font-weight: 600;
-  }
-
-
-  .posts-list .description p {
-      font-family: var(--text-font-family);
-  }
-
-  .posts-list .description h2 {
-      font-family: 'Lato';
-  }
-
-  .posts-list .post-preview .metadata {
-      float: left;
-      width: 15%;
-      margin-top: 8px;
-  }
-
-  .posts-list .metadata {
-      font-size: 16px;
-      line-height: 1.4em;
-      margin-bottom: 18px;
-  }
-
-  /*##################################################*/
-
-
-  body {
-    margin-bottom:60px;
-  }
-
-  body, p {
-    font-family: var(--text-font-family);
-    text-transform: none;
-    font-weight: 200;
-    line-height: 1.6; 
-    font-size: 1em;
-    background-color: var(--surface1);
-    color: var(--main-text-color);
-    font-style: normal;
-  }
-
-
-  strong {
-    font-weight: bold;
-  }
-
-
-  d-article {
-     color: var(--main-text-color);
-     border-top: 1px solid var(--boarder);
-  }
-
-
-  d-article h1, d-article h2 {
-      border-bottom: 1px solid var(--boarder);
-      padding-bottom: 5px;
-  }
-
-    
-
-  d-article a {
-      border-bottom: none;
-      text-decoration: none;
-  }
-
-  d-article a:hover  {
-    text-decoration: none;
-    border-bottom: none;
-    cursor: pointer;
-    color: var(--secondary-text-color);
-  }
-
-  .d-contents nav > ul > li > a {
-      font-weight: 200;
-      text-decoration: none;
-      border-bottom: none;
-      color:var(--main-text-color);
-      font-size: 16px;
-  }
-
-  d-article table th {
-      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-      border-top: 1px solid rgba(255, 255, 255, 0.2);
-  }
-
-  d-article table tr:last-of-type td {
-      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-  }
-
-  h1.posts-list-caption {
-    border-bottom: none;
-  }
-
-
-  html a {
-      text-decoration: none;
-      background-image: linear-gradient(currentColor, currentColor);
-      background-position: 0% 100%;
-      background-repeat: no-repeat;
-      background-size: 0% 2px;
-      color: var(--main-link);
-      transition: background-size .3s;
-  }
-
-  html a:hover, html a:focus {
-    background-size: 100% 2px;
-  }
-
-  a:hover {
-      text-decoration: none;
-  }
-
-  .categories .category-count {
-      color: var(--main-link);
-  }
-
-  a.post-preview {
-    color: var(--main-text-color);
-  }
-
-  .distill-site-nav a {
-    background-image: none;
-  }
-
-  .distill-site-nav a:hover {
-    color: var(--main-link);
-  }
-
-  /*##################################################*/
-
-  /*SIDE BAR*/
-
-  .sidebar-section-custom{
-    font-size: 15px;
-    text-align: justify;
-    line-height: 1.6; 
-  }
-
-  .sidebar-section-custom h2{
-    font-family: var(--text-header);
-    text-align: center;
-    font-size: 25px;
-    border-bottom: 1px solid rgb(255 255 255 / 30%);
-    
-  }
-
-  .sidebar-section.subscribe {
-    font-size: 15px;
-    text-align: justify;
-    line-height: 1.7; 
-    
-  }
-
-  .sidebar-section.subscribe h3{
-    font-family: var(--text-header);
-    font-weight: 700;
-    
-  }
-
-  .sidebar-section.categories h3{
-    font-family: var(--text-header);
-    font-weight: 700;
-  }
-
-
-
-  /* colour tags */
-  .dt-tags .dt-tag {
-      display: inline-block;
-      color: var(--main-text-color);
-      padding: 0.3em 0.4em;
-      margin-right: 0.2em;
-      margin-bottom: 0.4em;
-      font-size: 14px;
-      border: 1px solid var(--main-text-color);
-      background-color: var(--surface1);
-      border-radius: 3px;
-      text-transform: uppercase;
-      font-weight: 900;
-  }
-
-  .posts-list .dt-tags .dt-tag {
-      color: var(--main-text-color);
-      border: 1px solid var(--main-text-color);
-      font-size: 14px;
-  }
-
-
-  .categories li > a:hover {
-      color: var(--secondary-text-color); 
-      border-bottom: none;
-  }
-
-
-
-  img[alt=badge] { 
-    width: 85px; 
-    height: 20px; 
-    float: left;
-  }
-
-  img[alt$="<"] {
-    float: left;
-  }
-
-  .mylinks a{
-    color: var(--main-text-color);
-    
-  }
-
-  .center{
-    text-align: center;
-  }
-
-
-  .col-6.mt-3.text-center.d-none.d-sm-block {
-    
-      background-color: var(--surface1); /* Changing background color */
-      color: var(--main-text-color);
-      border-radius: 10px; /* Making border radius */
-      box-sizing: content-box; /* Making auto-sizable width */
-      height: auto; /* Making auto-sizable height */
-      padding: 10px 0px 0px 0px;
-      font-size: 18px;
-    
-  }
-
-  .col-6.mt-3.text-center.d-none.d-sm-block p{
-      color: var(--main-text-color);
-  }
-
-  /*
-  .col-6.mt-3.text-center.d-none.d-sm-block a{
-      color: #eeeeee;
-      text-decoration: underline;
-  }
-
-  */
-  .col-6.mt-3.text-center.d-none.d-sm-block a:hover{
-      color: var(--secondary-text-color);
-      text-decoration: none;
-  }
-
-
-  .btn {
-    background-color: var(--surface1);
-    color: var(--main-text-color);
-  }
-
-  hr {
-      box-sizing: content-box;
-      height: 0;
-      overflow: visible;
-      border-top: 1px solid var(--boarder);
-  }
-
-
-
-  .mt-3, .my-3 {
-      margin-top: 0rem !important;
-  }
-
-
-  .btn-outline-dark {
-    border-color: var(--main-text-color);
-  }
-
-  .btn-outline-dark:hover {
-      color: var(--main-text-color);
-      background-color: var(--surface1);
-      border-color: var(--main-link);
-  }
-
-
-
-
-
-  d-byline {
-      color: var(--main-text-color);
-      border-top: 1px solid var(--boarder);
-  }
-
-  d-byline h3 {
-      font-size: 1rem;
-      font-weight: 400;
-      color: var(--main-text-color);
-      margin: 0;
-      text-transform: uppercase;
-  }
-
-
-  /*##########################################################*/
-
-  /* code chunks */
-
-  /* CODE FORMATTING */
-
-  code {
-    font-size: 1.2em;
-  }
-
-  /* Highlight code in text but not in code chunk */
-  p code, li code {
-      color: #eee;
-      font-size: 1.0em;
-      background: #7d828a;
-      border-radius: 3px;
-      padding: 0 3px;
-      margin: 0 4px;
-      word-wrap: break-word;
-      letter-spacing: normal;
-  } 
-
-
-   
-
-  d-article div.sourceCode {
-      background-color: var(--surface1);
-      border-left: 2px solid var(--boarder);
-  }
-
-  pre {
-    word-wrap: normal;
-    word-break: normal;
-    /*border: 1px solid #eee;*/
-    border: 0px !important;
-  }
-
-  pre, code {
-    background-color: var(--surface1);
-  }
-
-  pre code {
-    overflow: auto;
-    word-wrap: normal;
-    white-space: pre;
-  }
-
-  pre .img {
-    margin: 5px 0;
-  }
-
-  pre .img img {
-    background-color: #aaa;
-    display: block;
-    height: auto;
-  }
-
-  code a, pre a {
-    font-family: ui-monospace, SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
-    color: #85AACC;
-    background-image: none;
-    text-decoration: none;
-  }
-
-  a.sourceLine:hover {
-    text-decoration: none;
-  }
-
-  .fl      {color: #ae81ff;}
-  .fu      {color: #636fa5;} /* function */
-  .ch,.st  {color: #33b374;} /* string */
-  .kw      {color: #f92672;} /* keyword */
-  .co      {color: #696d70;} /* comment */
-  .va      {color: #e27a00;} /* values */
-
-  .message { color: #eeeeee;   font-weight: bolder;}
-  .error   { color: orange;  font-weight: bolder;}
-  .warning { color: #6A0366; font-weight: bolder;}
-
-  code span.va {
-      color: #e27a00;
-  }
-
-  code span.st {
-      color: #33b374;
-  }
-
-  code span.op {
-      color: var(--main-text-color);
-  }
-
-  code span.fl {
-      color: #ff0202;
-  }
-
-  code span.fu {
-      color: #768eff;
-  }
-
-  code span.co {
-      color: #adadad;
-  }
-
-  d-article pre {
-    color:var(--main-text-color);
-  }
-
-  /* Appendix */
-
-  d-appendix {
-    color: var(--main-text-color);
-    font-size: 14px;
-    border-top: 1px solid rgba(255, 255, 255, 0.31);
-    font-size: 1em;
-  }
-
-
-  d-appendix h3{
-    color: var(--main-text-color);
-    font-size: 1rem;
-  }
-
-  .social_footer {
-      margin-top: 30px;
-      margin-bottom: 0;
-      color: var(--main-text-color);
-  }
-
-  d-article aside {
-      color: var(--main-text-color);
-  }
-
-  /* ############################################## */
-
-  /* MISC */
-
-  figcaption, .figcaption {
-      color: var(--main-text-color);
-      font-size: 12px;
-      line-height: 1.5em;
-  }
-
-
-
-  .ReactTable {
-      height: 100%;
-      background-color: #383c3b00;
-  }
-
-  /*
-  svg {
-    background-color: white;
-  }
-  */
-
-  div#i4VSD54I16UA7LSG1UCX8 {
-    background-color: white;
-  }
-
-  d-article blockquote {
-      border-left: 2px solid rgba(255, 255, 255, 0.2);
-      
-  }
-
-
-  .figure .caption {
-      color: var(--main-text-color)  ;
-      font-size: 12px;
-      line-height: 1.5em;
-  }
-
-  .niceNetwork{
-    color: var(--main-text-color);
-  }
-
-  .utterances {
-    height: 267px;
-  }
-
-  .col-6 {
-      flex: none;
-      max-width: max-content;
-
-  }
-
-  .col-6 ul li {
-    list-style-type: '>  ';
-    }
-    
-  .col-6 ul {
-    text-align: center;
-    list-style-position: inside;
-  }  
-
-
-  .bold {
-    font-weight: 800;
-  }
-  </style>
   <!--/radix_placeholder_site_in_header-->
 
-  <link rel="stylesheet" href="style.css" type="text/css"/>
 
 </head>
 
@@ -2452,69 +1459,116 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Hello World","description":"\\> whoami","authors":[]}
+{"title":"vscode & {golem}: A shiny supercouple?","description":"Combining the powers of vscode and {golem} for R Shiny development.","authors":[{"author":"Harry Fisher","authorURL":"https://hfshr.xyz","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2021-11-13T00:00:00.000+00:00","citationText":"Fisher, 2021"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
 <!--radix_placeholder_navigation_before_body-->
-<header class="header header--fixed" role="banner">
-<nav class="distill-site-nav distill-site-header">
-<div class="nav-left">
-<a href="index.html" class="title">Data, Code &amp; Coffee</a>
-</div>
-<div class="nav-right">
-<a href="index.html">
-<i class="fas fa-home" aria-hidden="true"></i>
-</a>
-<a href="blog.html">
-<i class="fas fa-pencil-alt" aria-hidden="true"></i>
-</a>
-<a href="about.html">
-<i class="fas fa-address-card" aria-hidden="true"></i>
-</a>
-<a href="software.html">
-<i class="fas fa-wrench" aria-hidden="true"></i>
-</a>
-<a href="https://github.com/hfshr">
-<i class="fab fa-github" aria-hidden="true"></i>
-</a>
-<a href="blog.xml">
-<i class="fas fa-rss" aria-hidden="true"></i>
-</a>
-<a>
-<i class="far fa-lightbulb" aria-hidden="true"></i>
-</a>
-<a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
-</div>
-</nav>
-</header>
 <!--/radix_placeholder_navigation_before_body-->
 <!--radix_placeholder_site_before_body-->
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>Hello World</h1>
+<h1>vscode &amp; {golem}: A shiny supercouple?</h1>
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
-<p>&gt; whoami</p>
+<p><p>Combining the powers of vscode and {golem} for R Shiny development.</p></p>
 </div>
 
+<div class="d-byline">
+  Harry Fisher <a href="https://hfshr.xyz" class="uri">https://hfshr.xyz</a> 
+  
+<br/>2021-11-13
+</div>
 
 <div class="d-article">
-<p>Hi! My name is Harry Fisher, thanks for visiting my site. I currently work as a Senior R Engineer at <a href="https://www.sevenbridges.com/">Seven Bridges</a>, developing and maintaining a range of R packages and shiny applications. Previously, I have worked as a data scientist in the pharmaceutical, and financial crime &amp; compliance sectors. I am very enthusiastic about the R programming language, and enjoy trying to solve challenging problems and learning new tricks. I have also recently become a RStudio <a href="https://education.rstudio.com/trainers/people/fisher+harry/">certified instructor</a> for working with the tidyverse. I occasionally write about things I’m working and hopefully share interesting things on my blog. Feel free to get in touch if any of the posts catch your interest!</p>
-<h3 id="research">Research</h3>
-<p>In a different life, I completed my <a href="https://github.com/hfshr/phd-thesis/blob/master/full_phd.pdf">Ph.D.</a> at Cardiff Metropolitan University where I investigated risk factors associated with sports injury from an interdisciplinary perspective. Below are some research articles that I published along the way.</p>
+<p>In this post I wanted to explore Shiny app development with Visual Studio Code (vscode) and the fantastic {golem} package. vscode has become a viable alternative to RStudio for development in R thanks to the excellent work by Yuki Ueda and Run Kun et al., <a href="https://github.com/REditorSupport" class="uri">https://github.com/REditorSupport</a> <a href="https://marketplace.visualstudio.com/items?itemName=Ikuyadeu.r">VSCode-R extension</a> . While it’s probably safe to say RStudio’s IDE will remain the go-to for the majority of R users, vscode does offer some unique features that may be appeal for the adventurous R developer.</p>
+<h3 id="setup">Setup</h3>
+<p>The <a href="https://github.com/REditorSupport/vscode-R#getting-started">VSCode-R extension readme</a> is the best place to get started. Follow the instructions here to get all the necessary components installed.</p>
 <ul>
-<li><p>Fisher et al. 2020. An interdisciplinary examination of stress and injury in athletes. <a href="https://www.frontiersin.org/articles/10.3389/fspor.2020.595619/abstract">[Link]</a></p></li>
-<li><p>Fisher et al. 2016. Relationship between Force Production during Isometric Squats and Knee Flexion Angles during Landing. Journal of Strength and Conditioning. <a href="data/pdfs/fisher-2016.pdf">[pdf]</a></p></li>
+<li><a href="https://code.visualstudio.com/">vscode</a></li>
+<li>R &gt;= 3.4 (If you didn’t have R already..!)</li>
+<li><code>install.packages("languageserver")</code></li>
 </ul>
-<h3 id="contact">Contact</h3>
-<div class="mylinks">
-<p style="text-align: center;">
-<a href="https://github.com/hfshr" target="_blank" class="fa fa-github"  style="font-size:36px;"></a> <a href="mailto:harryfisher21@gmail.com" target="_blank" class="fa fa-envelope" style="font-size:36px;"></a> <a href="https://www.linkedin.com/in/drharryfisher/" target="_blank" class="fa fa-linkedin-square" style="font-size:36px;"></a> <a href="https://twitter.com/harryfishr" target="_blank" class="fa fa-twitter" style="font-size:36px;"></a>
-</p>
+<p>and of course <a href="https://github.com/ThinkR-open/golem/">{golem}</a> for shiny development.</p>
+<p>Optional but recommended for vscode</p>
+<ul>
+<li><a href="https://github.com/randy3k/radian">radian</a>: Fancy R console</li>
+<li><a href="https://github.com/ManuelHentschel/VSCode-R-Debugger">VSCode-R-Debugger</a>: Bug finder</li>
+<li><a href="https://github.com/nx10/httpgd">{httpgd}</a>: Nice plots!</li>
+</ul>
+<h3 id="creating-a-new-golem-project">Creating a new golem project</h3>
+<p>Two options here, you could first use RStudio to create a golem project using the new project GUI and then open the directory in vscode, OR, you can use <code>golem::create_golem()</code> to programatically create a new golem project from an R console and then open the directory in vscode.</p>
+<aside>
+I feel like there could be a vscode-native way to do this but I couldn’t find it…!
+</aside>
+<h3 id="keyboard-shortcuts">Keyboard shortcuts</h3>
+<p>There are several keyboard shortcuts you will likely want to add - <code>golem::run_dev()</code> is pretty much a must when creating a golem app! Below is an example of the entry you need to specify in your keyboard shortcuts json file:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ot">[</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>     <span class="fu">{</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;description&quot;</span><span class="fu">:</span> <span class="st">&quot;golem::run_dev()&quot;</span><span class="fu">,</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;key&quot;</span><span class="fu">:</span> <span class="st">&quot;ctrl+alt+r&quot;</span><span class="fu">,</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;command&quot;</span><span class="fu">:</span> <span class="st">&quot;r.runCommand&quot;</span><span class="fu">,</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;when&quot;</span><span class="fu">:</span> <span class="st">&quot;editorTextFocus&quot;</span><span class="fu">,</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;args&quot;</span><span class="fu">:</span> <span class="st">&quot;golem::run_dev()&quot;</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="ot">]</span></span></code></pre></div>
+<p>See appendix for a few more shortcuts that I have found useful to have.</p>
+<h2 id="colour-picker">Colour picker</h2>
+<p>This is quite a small feature but definitely something I think is lacking from RStudio - the ability to see a preview of the colours used</p>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="color_picker.gif" /><!-- --></p>
 </div>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<h2 id="live-share-feature">Live share feature</h2>
+<p>vscode has a great feature for pair programming through the use of live share.</p>
+<p>Something similar is available in RStudio workbench (paid/enterprise version of RStudio), but having the ability to use this feature for free is really nice. Here is an excellent post talking about it in more detail …</p>
+<h2 id="managing-libraries">Managing libraries</h2>
+<p>Although I haven’t personally run into this issue yet, I can see</p>
+<p><a href="https://jozef.io/r300-language-server-setup/" class="uri">https://jozef.io/r300-language-server-setup/</a></p>
+<h1 id="appendix">Appendix</h1>
+<h3 id="shortcuts">Shortcuts</h3>
+<div class="sourceCode" id="cb2"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ot">[</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;key&quot;</span><span class="fu">:</span> <span class="st">&quot;alt+-&quot;</span><span class="fu">,</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;command&quot;</span><span class="fu">:</span> <span class="st">&quot;type&quot;</span><span class="fu">,</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;when&quot;</span><span class="fu">:</span> <span class="st">&quot;editorLangId == r || editorLangId == rmd &amp;&amp; editorTextFocus&quot;</span><span class="fu">,</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;args&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;text&quot;</span><span class="fu">:</span> <span class="st">&quot; &lt;- &quot;</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>        <span class="fu">}</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;key&quot;</span><span class="fu">:</span> <span class="st">&quot;ctrl+shift+m&quot;</span><span class="fu">,</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;command&quot;</span><span class="fu">:</span> <span class="st">&quot;type&quot;</span><span class="fu">,</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;when&quot;</span><span class="fu">:</span> <span class="st">&quot;editorLangId == r || editorLangId == rmd &amp;&amp; editorTextFocus&quot;</span><span class="fu">,</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;args&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;text&quot;</span><span class="fu">:</span> <span class="st">&quot; %&gt;% &quot;</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>        <span class="fu">}</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;key&quot;</span><span class="fu">:</span> <span class="st">&quot;ctrl+shift+i&quot;</span><span class="fu">,</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;command&quot;</span><span class="fu">:</span> <span class="st">&quot;editor.action.insertSnippet&quot;</span><span class="fu">,</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;when&quot;</span><span class="fu">:</span> <span class="st">&quot;editorTextFocus&quot;</span><span class="fu">,</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;args&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;snippet&quot;</span><span class="fu">:</span> <span class="st">&quot;```{r}</span><span class="ch">\n</span><span class="st">$0</span><span class="ch">\n</span><span class="st">```&quot;</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>        <span class="fu">}</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;description&quot;</span><span class="fu">:</span> <span class="st">&quot;golem::run_dev()&quot;</span><span class="fu">,</span></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;key&quot;</span><span class="fu">:</span> <span class="st">&quot;ctrl+alt+r&quot;</span><span class="fu">,</span></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;command&quot;</span><span class="fu">:</span> <span class="st">&quot;r.runCommand&quot;</span><span class="fu">,</span></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;when&quot;</span><span class="fu">:</span> <span class="st">&quot;editorTextFocus&quot;</span><span class="fu">,</span></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;args&quot;</span><span class="fu">:</span> <span class="st">&quot;golem::run_dev()&quot;</span></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span></span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;description&quot;</span><span class="fu">:</span> <span class="st">&quot;devtools::load_all()&quot;</span><span class="fu">,</span></span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;key&quot;</span><span class="fu">:</span> <span class="st">&quot;ctrl+shift+l&quot;</span><span class="fu">,</span></span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;command&quot;</span><span class="fu">:</span> <span class="st">&quot;r.loadAll&quot;</span><span class="fu">,</span></span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;when&quot;</span><span class="fu">:</span> <span class="st">&quot;editorTextFocus&quot;</span><span class="fu">,</span></span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;args&quot;</span><span class="fu">:</span> <span class="st">&quot;devtools::load_all()&quot;</span></span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a><span class="ot">]</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
@@ -2524,63 +1578,12 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 
 <!--radix_placeholder_site_after_body-->
-<script>
-const toggle = document.getElementsByClassName("far fa-lightbulb")[0];
-
-let theme = localStorage.getItem("theme");
-
-if (!theme) {
-  if (window.matchMedia("(prefers-color-scheme: dark)").matches ) {
-    theme = "dark";
-  } else {
-    theme = "dark";
-  }
-}
-setTheme();
-
-function switchTheme() {
-  if (theme === "light") {
-    theme = "dark";
-  } else {
-    theme = "light";
-  }
-  localStorage.setItem("theme", theme);
-  setTheme();
-  console.log(theme);
-}
-
-function setTheme() {
-  if (theme === "light") {
-    
-    document.body.classList.remove('light');
-  } else {
-    document.body.classList.add('light');
-  }
-}
-
-toggle.addEventListener('click', switchTheme)
-
-</script>
-
 <!--/radix_placeholder_site_after_body-->
 <!--radix_placeholder_appendices-->
 <div class="appendix-bottom"></div>
 <!--/radix_placeholder_appendices-->
 <!--radix_placeholder_navigation_after_body-->
-<div class="distill-site-nav distill-site-footer">
-<div class="distill-site-footer" style = "font-size: small;">
-
-<p style = "font-size: medium;">
-  
-Made with the <a href="https://cran.r-project.org/"><svg viewBox="0 0 581 512"><path d="M581 226.6C581 119.1 450.9 32 290.5 32S0 119.1 0 226.6C0 322.4 103.3 402 239.4 418.1V480h99.1v-61.5c24.3-2.7 47.6-7.4 69.4-13.9L448 480h112l-67.4-113.7c54.5-35.4 88.4-84.9 88.4-139.7zm-466.8 14.5c0-73.5 98.9-133 220.8-133s211.9 40.7 211.9 133c0 50.1-26.5 85-70.3 106.4-2.4-1.6-4.7-2.9-6.4-3.7-10.2-5.2-27.8-10.5-27.8-10.5s86.6-6.4 86.6-92.7-90.6-87.9-90.6-87.9h-199V361c-74.1-21.5-125.2-67.1-125.2-119.9zm225.1 38.3v-55.6c57.8 0 87.8-6.8 87.8 27.3 0 36.5-38.2 28.3-87.8 28.3zm-.9 72.5H365c10.8 0 18.9 11.7 24 19.2-16.1 1.9-33 2.8-50.6 2.9v-22.1z"/></svg></a> <a href="https://github.com/rstudio/distill" style = "font-size: medium;">Distill</a> package // Last updated on October 17, 2021.
-
-</p>
-
-
-</div>
-</div>
 <!--/radix_placeholder_navigation_after_body-->
-
 
 </body>
 
