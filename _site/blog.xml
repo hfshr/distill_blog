@@ -12,7 +12,18 @@
       <link>https://hfshr.xyz/</link>
     </image>
     <generator>Distill</generator>
-    <lastBuildDate>Sun, 31 Oct 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 09 Feb 2022 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>qbr v1.0.0</title>
+      <dc:creator>Harry Fisher</dc:creator>
+      <link>https://hfshr.xyz/posts/2022-02-05-qbr-update</link>
+      <description>Quick post to highligh some of the major updates in {qbr} v1.0.0</description>
+      <category>R</category>
+      <category>javascript</category>
+      <guid>https://hfshr.xyz/posts/2022-02-05-qbr-update</guid>
+      <pubDate>Wed, 09 Feb 2022 00:00:00 +0000</pubDate>
+      <media:content url="https://hfshr.xyz/posts/2022-02-05-qbr-update/hex2-qbr.png" medium="image" type="image/png" width="527" height="610"/>
+    </item>
     <item>
       <title>Oh {drat}!</title>
       <dc:creator>Harry Fisher</dc:creator>

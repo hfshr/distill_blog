@@ -85,6 +85,7 @@ code span.vs { color: #20794d; } /* VerbatimString */
 code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </style>
 
+
   <!--radix_placeholder_meta_tags-->
   <title>Introducing {qbr}</title>
 
@@ -116,7 +117,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["qbr_files/anchor-4.2.2/anchor.min.js","qbr_files/bowser-1.9.3/bowser.min.js","qbr_files/distill-2.2.21/template.v2.js","qbr_files/figure-html5/unnamed-chunk-2-1.png","qbr_files/header-attrs-2.8/header-attrs.js","qbr_files/header-attrs-2.9.1/header-attrs.js","qbr_files/jquery-1.11.3/jquery.min.js","qbr_files/popper-2.6.0/popper.min.js","qbr_files/tippy-6.2.7/tippy-bundle.umd.min.js","qbr_files/tippy-6.2.7/tippy-light-border.css","qbr_files/tippy-6.2.7/tippy.css","qbr_files/tippy-6.2.7/tippy.umd.min.js","qbr_files/webcomponents-2.0.0/webcomponents.js","qbr.png"]}
+  {"type":"character","attributes":{},"value":["qbr_files/anchor-4.2.2/anchor.min.js","qbr_files/bowser-1.9.3/bowser.min.js","qbr_files/distill-2.2.21/template.v2.js","qbr_files/figure-html5/unnamed-chunk-2-1.png","qbr_files/header-attrs-2.11.3/header-attrs.js","qbr_files/header-attrs-2.8/header-attrs.js","qbr_files/header-attrs-2.9.1/header-attrs.js","qbr_files/jquery-1.11.3/jquery.min.js","qbr_files/jquery-3.6.0/jquery-3.6.0.js","qbr_files/jquery-3.6.0/jquery-3.6.0.min.js","qbr_files/jquery-3.6.0/jquery-3.6.0.min.map","qbr_files/popper-2.6.0/popper.min.js","qbr_files/tippy-6.2.7/tippy-bundle.umd.min.js","qbr_files/tippy-6.2.7/tippy-light-border.css","qbr_files/tippy-6.2.7/tippy.css","qbr_files/tippy-6.2.7/tippy.umd.min.js","qbr_files/webcomponents-2.0.0/webcomponents.js","qbr.png"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1437,8 +1438,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </script>
 
   <!--/radix_placeholder_distill-->
-  <script src="qbr_files/header-attrs-2.9.1/header-attrs.js"></script>
-  <script src="qbr_files/jquery-1.11.3/jquery.min.js"></script>
+  <script src="qbr_files/header-attrs-2.11.3/header-attrs.js"></script>
+  <script src="qbr_files/jquery-3.6.0/jquery-3.6.0.min.js"></script>
   <script src="qbr_files/popper-2.6.0/popper.min.js"></script>
   <link href="qbr_files/tippy-6.2.7/tippy.css" rel="stylesheet" />
   <link href="qbr_files/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
@@ -1485,6 +1486,9 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </div>
 
 <div class="d-article">
+<p><strong>Feburary 2022 Update</strong></p>
+<p>Dear reader, if you’ve just landed on this page, there have been some major changes the <code>qbr</code> since this post was written and you should checkout <a href="https://www.hfshr.xyz/posts/2021-06-20-qbr-update">this post</a>, or the <a href="https://hfshr.github.io/qbr/#/">documentation</a> to get up to speed with the current version!</p>
+<hr />
 <p>I’ve been spending quite a bit of time in the world of shiny recently, and a particular problem I was facing meant I decided to dip my toe into the seemingly magical world of <a href="https://www.htmlwidgets.org/">htmlwidgets</a>. In brief, I needed a way for users to interactively construct complex queries that would be used to interrogate a large database. While this is certainly possible to do using native shiny inputs, I <del>was being lazy</del> wanted to see if I could leverage something that had already been created. After a bit of googling I came across <a href="https://querybuilder.js.org/index.html">queryBuilder</a>, a jquery plugin that provides UI component to create queries and filters. After playing around with the demos on the site, I was very impressed with the functionality and, and even better, someone had already made an R wrapper for the library! (See <a href="https://github.com/harveyl888/queryBuilder">harveyl888/queryBuilder</a> and <a href="https://github.com/Yannael/queryBuildR">Yannael/queryBuildR</a>).</p>
 <p>However this was where I started to run into some problems. The original queryBuilder has a vast array of settings that can be configured, including additional plugins and widgets that help add additional functionality to the builder. The existing R wrappers for queryBuilder only implemented a few of these settings, and I found myself wanting to access other settings which were not yet implemented. So I thought I’d have a go at creating my own version, taking inspiration from <a href="https://github.com/harveyl888/queryBuilder">harveyl888/queryBuilder</a> with the aim of including as much of the functionality as possible of the original queryBuilder.</p>
 <h2 id="example">Example</h2>
@@ -1508,7 +1512,7 @@ Show code
 </summary>
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://shiny.rstudio.com/'>shiny</a></span><span class='op'>)</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>qbr</span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/hfshr/qbr'>qbr</a></span><span class='op'>)</span>
 
 <span class='va'>ui</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/fluidPage.html'>fluidPage</a></span><span class='op'>(</span>
   <span class='co'># Application title</span>
@@ -1517,7 +1521,7 @@ Show code
     <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/fluidPage.html'>fluidRow</a></span><span class='op'>(</span>
       <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/column.html'>column</a></span><span class='op'>(</span>
         <span class='fl'>8</span>,
-        <span class='fu'><a href='https://rdrr.io/pkg/qbr/man/queryBuilder-shiny.html'>queryBuilderOutput</a></span><span class='op'>(</span><span class='st'>"querybuilder"</span>,
+        <span class='fu'>queryBuilderOutput</span><span class='op'>(</span><span class='st'>"querybuilder"</span>,
           width <span class='op'>=</span> <span class='fl'>620</span>,
           height <span class='op'>=</span> <span class='fl'>300</span>
         <span class='op'>)</span>
@@ -1597,8 +1601,8 @@ Show code
     <span class='op'>}</span>
   <span class='op'>}</span><span class='op'>)</span>
 
-  <span class='va'>output</span><span class='op'>$</span><span class='va'>querybuilder</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/qbr/man/queryBuilder-shiny.html'>renderQueryBuilder</a></span><span class='op'>(</span><span class='op'>{</span>
-    <span class='fu'><a href='https://rdrr.io/pkg/qbr/man/queryBuilder.html'>queryBuilder</a></span><span class='op'>(</span>
+  <span class='va'>output</span><span class='op'>$</span><span class='va'>querybuilder</span> <span class='op'>&lt;-</span> <span class='fu'>renderQueryBuilder</span><span class='op'>(</span><span class='op'>{</span>
+    <span class='fu'>queryBuilder</span><span class='op'>(</span>
       filters <span class='op'>=</span> <span class='va'>filters</span>,
       plugins <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
         <span class='st'>"sortable"</span> <span class='op'>=</span> <span class='cn'>NA</span>,
@@ -1615,7 +1619,7 @@ Show code
 
   <span class='va'>output</span><span class='op'>$</span><span class='va'>txtFilterList</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/renderPrint.html'>renderPrint</a></span><span class='op'>(</span><span class='op'>{</span>
     <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/req.html'>req</a></span><span class='op'>(</span><span class='va'>input</span><span class='op'>$</span><span class='va'>querybuilder_validate</span><span class='op'>)</span>
-    <span class='fu'><a href='https://rdrr.io/pkg/qbr/man/filterTable.html'>filterTable</a></span><span class='op'>(</span>
+    <span class='fu'>filterTable</span><span class='op'>(</span>
       filters <span class='op'>=</span> <span class='va'>input</span><span class='op'>$</span><span class='va'>querybuilder_out</span>,
       data <span class='op'>=</span> <span class='fu'>palmerpenguins</span><span class='fu'>::</span><span class='va'><a href='https://allisonhorst.github.io/palmerpenguins/reference/penguins.html'>penguins</a></span>,
       output <span class='op'>=</span> <span class='st'>"text"</span>
@@ -1626,7 +1630,7 @@ Show code
   <span class='va'>output</span><span class='op'>$</span><span class='va'>txtFilterResult</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/renderDataTable.html'>renderDataTable</a></span><span class='op'>(</span>
     <span class='op'>{</span>
       <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/req.html'>req</a></span><span class='op'>(</span><span class='va'>input</span><span class='op'>$</span><span class='va'>querybuilder_validate</span><span class='op'>)</span>
-      <span class='fu'><a href='https://rdrr.io/pkg/qbr/man/filterTable.html'>filterTable</a></span><span class='op'>(</span>
+      <span class='fu'>filterTable</span><span class='op'>(</span>
         filters <span class='op'>=</span> <span class='va'>input</span><span class='op'>$</span><span class='va'>querybuilder_out</span>,
         data <span class='op'>=</span> <span class='fu'>palmerpenguins</span><span class='fu'>::</span><span class='va'><a href='https://allisonhorst.github.io/palmerpenguins/reference/penguins.html'>penguins</a></span>,
         output <span class='op'>=</span> <span class='st'>"table"</span>

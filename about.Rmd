@@ -3,7 +3,11 @@ title: "Hello World"
 description: "\\> whoami"
 ---
 
-Hi! My name is Harry Fisher, thanks for visiting my site. I currently work as a Senior R Engineer at [Seven Bridges](https://www.sevenbridges.com/), developing and maintaining a range of R packages and shiny applications. Previously, I have worked as a data scientist in the pharmaceutical, and financial crime & compliance sectors. I am very enthusiastic about the R programming language, and enjoy trying to solve challenging problems and learning new tricks. I have also recently become a RStudio [certified instructor](https://education.rstudio.com/trainers/people/fisher+harry/) for working with the tidyverse. I occasionally write about things I'm working and hopefully share interesting things on my blog. Feel free to get in touch if any of the posts catch your interest!
+Hi! My name is Harry, thanks for visiting my site. I currently work as a Senior R Engineer at [Seven Bridges](https://www.sevenbridges.com/), developing and maintaining a range of R packages and Shiny applications. Previously, I have worked as a data scientist in the pharmaceutical, and financial crime & compliance sectors. 
+
+I am very enthusiastic about the R programming language, and enjoy trying to solve challenging problems and learning new tricks. I have also recently become a RStudio [certified instructor](https://education.rstudio.com/trainers/people/fisher+harry/) for working with the [tidyverse](https://www.tidyverse.org/). 
+
+I occasionally write about things I'm working and hopefully share some interesting things on my blog. Feel free to get in touch if any of the posts catch your interest!
 
 ### Research
 

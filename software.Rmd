@@ -17,3 +17,11 @@ I enjoy tinkering with things in R - below are a few of my latest efforts!
 [{qbr}](https://github.com/hfshr/qbr/): R interface to jQuery QueryBuilder [![R-CMD-check](https://github.com/hfshr/qbr/workflows/R-CMD-check/badge.svg)](https://github.com/hfshr/qbr/actions)
 
 - A shiny widget useful for creating complex filter queries, built around the excellent [queryBuilder jQuery library](https://querybuilder.js.org/).
+
+
+### Shiny
+
+[{shinyvuer}](https://harryfish.shinyapps.io/shinyvuer/): Example of using Shiny and Vue together.
+
+
+[{qbr demo}](https://harryfish.shinyapps.io/qbr_demo/): Small app highlighting some of the functionalities in {qbr}.
