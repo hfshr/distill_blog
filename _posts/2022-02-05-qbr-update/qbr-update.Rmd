@@ -19,7 +19,7 @@ output:
 
 Recently I made some major changes to the `qbr` package I released back in June 2020. As a quick refresher, `qbr` is an R wrapper around the popular javascript library [queryBuilder](https://querybuilder.js.org/). In short, it provides a nice UI for constructing queries that can be used to filter data and also plays nicely with Shiny as its two main dependencies are bootstrap and jquery. 
 
-I initially developed `qbr` using the `htmlwidgets` framework, guided by an earlier attempt at integrating the library with R by [\@harveyl888](https://github.com/harveyl888/queryBuilder). However after using `qbr` in a couple of projects at work, I found there were a few limitations, particularly when it came to updating the widget with new filters. So this latest attempt moves away from the `htmlwidget` approach and instead uses a custom input binding for Shiny, and implements some additional functionality, all with the aim of making the library easier to use and customise as required. 
+I initially developed `qbr` using the `htmlwidgets` framework, guided by an earlier attempt at integrating the library with R by [\@harveyl888](https://github.com/harveyl888/queryBuilder). However after using `qbr` in a couple of projects at work, I found there were a few limitations, particularly when it came to updating the widget with new filters. So this latest attempt moves away from the `htmlwidgets` approach and instead uses a custom input binding for Shiny, and implements some additional functionality, all with the aim of making the library easier to use and customise as required. 
 
 ## So, whats new?
 
