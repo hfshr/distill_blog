@@ -22,7 +22,7 @@ website:
       - icon: github
         href: https://www.github.com/hfshr
       - icon: twitter
-        href: https://www.twitter.com/hfshr
+        href: https://www.twitter.com/harryfishr
   search:
     location: navbar
     type: overlay
