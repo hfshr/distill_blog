@@ -45,13 +45,31 @@ a:hover {
 }
 
 #quarto-document-content {
-  text-align: left;
+  text-align: center;
   margin-bottom: 0;
 }
 
 #quarto-content > div > div { 
-  flex-direction: column;
+  flex-direction: row;
   column-gap: 0.8em;
   row-gap: 15px;
   flex-wrap: wrap;
+}
+
+
+div.quarto-about-jolla .about-link {
+    font-size: 1.8em;
+    padding: 0.25em 0.5em;
+    border-radius: 4px;
+}
+
+#quarto-content > div > hr {
+  margin-top: 0;
+  margin-bottom: 28.5px;
+}
+
+
+div.quarto-about-jolla .about-link i.bi {
+    margin-right: 0.15em;
+    margin-left: 0.15rem;
 }

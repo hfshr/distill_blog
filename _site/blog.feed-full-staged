@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss  xmlns:atom="http://www.w3.org/2005/Atom" 
+      xmlns:media="http://search.yahoo.com/mrss/" 
+      xmlns:content="http://purl.org/rss/1.0/modules/content/" 
+      xmlns:dc="http://purl.org/dc/elements/1.1/" 
+      version="2.0">
+<channel>
+<title>Data Code & Coffee</title>
+<link>https://www.hfshr.xyz/blog.html</link>
+<atom:link href="https://www.hfshr.xyz/blog.xml" rel="self" type="application/rss+xml"/>
+<description></description>
+<generator>quarto-0.9.272</generator>
+<lastBuildDate>Wed, 09 Feb 2022 00:00:00 GMT</lastBuildDate>
+<item>
+  <title>{B4F502887207:/posts/2022-02-05-qbr-update/index.html}</title>
+  <link>https://www.hfshr.xyz/posts/2022-02-05-qbr-update/index.html</link>
+  <description>{B4F502887207:/posts/2022-02-05-qbr-update/index.html}</description>
+  <category>R</category>
+  <category>javascript</category>
+  <guid>https://www.hfshr.xyz/posts/2022-02-05-qbr-update/index.html</guid>
+  <pubDate>Wed, 09 Feb 2022 00:00:00 GMT</pubDate>
+  <media:content url="https://www.hfshr.xyz//posts/2022-02-05-qbr-update/hex2-qbr.png" medium="image" type="image/png" height="167" width="144"/>
+</item>
+<item>
+  <title>{B4F502887207:/posts/2021-10-31-oh-drat/index.html}</title>
+  <link>https://www.hfshr.xyz/posts/2021-10-31-oh-drat/index.html</link>
+  <description>{B4F502887207:/posts/2021-10-31-oh-drat/index.html}</description>
+  <guid>https://www.hfshr.xyz/posts/2021-10-31-oh-drat/index.html</guid>
+  <pubDate>Sat, 30 Oct 2021 23:00:00 GMT</pubDate>
+  <media:content url="https://www.hfshr.xyz//posts/2021-10-31-oh-drat/books.jpeg" medium="image" type="image/jpeg"/>
+</item>
+<item>
+  <title>{B4F502887207:/posts/2021-06-20-qbr/index.html}</title>
+  <link>https://www.hfshr.xyz/posts/2021-06-20-qbr/index.html</link>
+  <description>{B4F502887207:/posts/2021-06-20-qbr/index.html}</description>
+  <category>R</category>
+  <category>javascript</category>
+  <guid>https://www.hfshr.xyz/posts/2021-06-20-qbr/index.html</guid>
+  <pubDate>Sat, 19 Jun 2021 23:00:00 GMT</pubDate>
+  <media:content url="https://www.hfshr.xyz//posts/2021-06-20-qbr/qbr.png" medium="image" type="image/png" height="55" width="144"/>
+</item>
+<item>
+  <title>{B4F502887207:/posts/2021-05-03-dm-is-fantastic/index.html}</title>
+  <link>https://www.hfshr.xyz/posts/2021-05-03-dm-is-fantastic/index.html</link>
+  <description>{B4F502887207:/posts/2021-05-03-dm-is-fantastic/index.html}</description>
+  <category>R</category>
+  <category>SQL</category>
+  <guid>https://www.hfshr.xyz/posts/2021-05-03-dm-is-fantastic/index.html</guid>
+  <pubDate>Sat, 08 May 2021 23:00:00 GMT</pubDate>
+  <media:content url="https://www.hfshr.xyz//posts/2021-05-03-dm-is-fantastic/dm.png" medium="image" type="image/png" height="81" width="144"/>
+</item>
+<item>
+  <title>{B4F502887207:/posts/2021-04-04-learning-rcpp/index.html}</title>
+  <link>https://www.hfshr.xyz/posts/2021-04-04-learning-rcpp/index.html</link>
+  <description>{B4F502887207:/posts/2021-04-04-learning-rcpp/index.html}</description>
+  <category>Rcpp</category>
+  <guid>https://www.hfshr.xyz/posts/2021-04-04-learning-rcpp/index.html</guid>
+  <pubDate>Sat, 03 Apr 2021 23:00:00 GMT</pubDate>
+  <media:content url="https://www.hfshr.xyz//posts/2021-04-04-learning-rcpp/rcpp-logo-blue-dial.png" medium="image" type="image/png" height="149" width="144"/>
+</item>
+<item>
+  <title>{B4F502887207:/posts/2021-01-29-many-models-many-plots/index.html}</title>
+  <link>https://www.hfshr.xyz/posts/2021-01-29-many-models-many-plots/index.html</link>
+  <description>{B4F502887207:/posts/2021-01-29-many-models-many-plots/index.html}</description>
+  <guid>https://www.hfshr.xyz/posts/2021-01-29-many-models-many-plots/index.html</guid>
+  <pubDate>Fri, 29 Jan 2021 00:00:00 GMT</pubDate>
+  <media:content url="https://www.hfshr.xyz//posts/2021-01-29-many-models-many-plots/giphy.gif" medium="image" type="image/gif"/>
+</item>
+<item>
+  <title>{B4F502887207:/posts/2021-01-17-rstudio-certification/index.html}</title>
+  <link>https://www.hfshr.xyz/posts/2021-01-17-rstudio-certification/index.html</link>
+  <description>{B4F502887207:/posts/2021-01-17-rstudio-certification/index.html}</description>
+  <category>R</category>
+  <category>Teaching</category>
+  <guid>https://www.hfshr.xyz/posts/2021-01-17-rstudio-certification/index.html</guid>
+  <pubDate>Sun, 17 Jan 2021 00:00:00 GMT</pubDate>
+  <media:content url="https://www.hfshr.xyz//posts/2021-01-17-rstudio-certification/blackboard.jpeg" medium="image" type="image/jpeg"/>
+</item>
+<item>
+  <title>{B4F502887207:/posts/2020-12-26-powerof10-covid/index.html}</title>
+  <link>https://www.hfshr.xyz/posts/2020-12-26-powerof10-covid/index.html</link>
+  <description>{B4F502887207:/posts/2020-12-26-powerof10-covid/index.html}</description>
+  <category>R</category>
+  <category>athletics</category>
+  <guid>https://www.hfshr.xyz/posts/2020-12-26-powerof10-covid/index.html</guid>
+  <pubDate>Sat, 26 Dec 2020 00:00:00 GMT</pubDate>
+  <media:content url="https://www.hfshr.xyz//posts/2020-12-26-powerof10-covid/preview.png" medium="image" type="image/png" height="144" width="144"/>
+</item>
+<item>
+  <title>{B4F502887207:/posts/2020-11-30-model-stacking/index.html}</title>
+  <link>https://www.hfshr.xyz/posts/2020-11-30-model-stacking/index.html</link>
+  <description>{B4F502887207:/posts/2020-11-30-model-stacking/index.html}</description>
+  <category>R</category>
+  <category>Machine learning</category>
+  <guid>https://www.hfshr.xyz/posts/2020-11-30-model-stacking/index.html</guid>
+  <pubDate>Mon, 30 Nov 2020 00:00:00 GMT</pubDate>
+  <media:content url="https://www.hfshr.xyz//posts/2020-11-30-model-stacking/giphy.gif" medium="image" type="image/gif"/>
+</item>
+<item>
+  <title>{B4F502887207:/posts/2020-11-22-bitmexr-logo/index.html}</title>
+  <link>https://www.hfshr.xyz/posts/2020-11-22-bitmexr-logo/index.html</link>
+  <description>{B4F502887207:/posts/2020-11-22-bitmexr-logo/index.html}</description>
+  <category>R</category>
+  <category>Bitcoin</category>
+  <category>bitmexr</category>
+  <guid>https://www.hfshr.xyz/posts/2020-11-22-bitmexr-logo/index.html</guid>
+  <pubDate>Sun, 22 Nov 2020 00:00:00 GMT</pubDate>
+  <media:content url="https://www.hfshr.xyz//posts/2020-11-22-bitmexr-logo/hex2.png" medium="image" type="image/png" height="167" width="144"/>
+</item>
+<item>
+  <title>{B4F502887207:/posts/2020-11-01-bayesian-networks-with-bnlearn/index.html}</title>
+  <link>https://www.hfshr.xyz/posts/2020-11-01-bayesian-networks-with-bnlearn/index.html</link>
+  <description>{B4F502887207:/posts/2020-11-01-bayesian-networks-with-bnlearn/index.html}</description>
+  <category>R</category>
+  <category>Bayesian Network</category>
+  <guid>https://www.hfshr.xyz/posts/2020-11-01-bayesian-networks-with-bnlearn/index.html</guid>
+  <pubDate>Tue, 17 Nov 2020 00:00:00 GMT</pubDate>
+  <media:content url="https://www.hfshr.xyz//posts/2020-11-01-bayesian-networks-with-bnlearn/bn.png" medium="image" type="image/png" height="104" width="144"/>
+</item>
+<item>
+  <title>{B4F502887207:/posts/2020-10-22-introducing-powerof10/index.html}</title>
+  <link>https://www.hfshr.xyz/posts/2020-10-22-introducing-powerof10/index.html</link>
+  <description>{B4F502887207:/posts/2020-10-22-introducing-powerof10/index.html}</description>
+  <category>R</category>
+  <category>athletics</category>
+  <guid>https://www.hfshr.xyz/posts/2020-10-22-introducing-powerof10/index.html</guid>
+  <pubDate>Fri, 23 Oct 2020 23:00:00 GMT</pubDate>
+  <media:content url="https://www.hfshr.xyz//posts/2020-10-22-introducing-powerof10/po10.jpg" medium="image" type="image/jpeg"/>
+</item>
+<item>
+  <title>{B4F502887207:/posts/2020-07-14-deploy-model/index.html}</title>
+  <link>https://www.hfshr.xyz/posts/2020-07-14-deploy-model/index.html</link>
+  <description>{B4F502887207:/posts/2020-07-14-deploy-model/index.html}</description>
+  <category>R</category>
+  <category>Python</category>
+  <guid>https://www.hfshr.xyz/posts/2020-07-14-deploy-model/index.html</guid>
+  <pubDate>Mon, 13 Jul 2020 23:00:00 GMT</pubDate>
+  <media:content url="https://www.hfshr.xyz//posts/2020-07-14-deploy-model/preview.png" medium="image" type="image/png" height="47" width="144"/>
+</item>
+<item>
+  <title>{B4F502887207:/posts/2020-06-21-penguins-and-nakedpipes/index.html}</title>
+  <link>https://www.hfshr.xyz/posts/2020-06-21-penguins-and-nakedpipes/index.html</link>
+  <description>{B4F502887207:/posts/2020-06-21-penguins-and-nakedpipes/index.html}</description>
+  <category>R</category>
+  <guid>https://www.hfshr.xyz/posts/2020-06-21-penguins-and-nakedpipes/index.html</guid>
+  <pubDate>Sat, 20 Jun 2020 23:00:00 GMT</pubDate>
+  <media:content url="https://www.hfshr.xyz//posts/2020-06-21-penguins-and-nakedpipes/preview.png" medium="image" type="image/png" height="84" width="144"/>
+</item>
+<item>
+  <title>{B4F502887207:/posts/2020-06-07-variable-importance-with-fastshap/index.html}</title>
+  <link>https://www.hfshr.xyz/posts/2020-06-07-variable-importance-with-fastshap/index.html</link>
+  <description>{B4F502887207:/posts/2020-06-07-variable-importance-with-fastshap/index.html}</description>
+  <category>R</category>
+  <category>Machine learning</category>
+  <guid>https://www.hfshr.xyz/posts/2020-06-07-variable-importance-with-fastshap/index.html</guid>
+  <pubDate>Sat, 06 Jun 2020 23:00:00 GMT</pubDate>
+  <media:content url="https://www.hfshr.xyz//posts/2020-06-07-variable-importance-with-fastshap/funky.png" medium="image" type="image/png" height="107" width="144"/>
+</item>
+<item>
+  <title>{B4F502887207:/posts/2020-05-25-bitmexr-updates/index.html}</title>
+  <link>https://www.hfshr.xyz/posts/2020-05-25-bitmexr-updates/index.html</link>
+  <description>{B4F502887207:/posts/2020-05-25-bitmexr-updates/index.html}</description>
+  <category>bitmexr</category>
+  <category>R</category>
+  <guid>https://www.hfshr.xyz/posts/2020-05-25-bitmexr-updates/index.html</guid>
+  <pubDate>Sun, 24 May 2020 23:00:00 GMT</pubDate>
+  <media:content url="https://www.hfshr.xyz//posts/2020-05-25-bitmexr-updates/update.jpg" medium="image" type="image/jpeg"/>
+</item>
+<item>
+  <title>{B4F502887207:/posts/2020-05-23-tidymodel-notes/index.html}</title>
+  <link>https://www.hfshr.xyz/posts/2020-05-23-tidymodel-notes/index.html</link>
+  <description>{B4F502887207:/posts/2020-05-23-tidymodel-notes/index.html}</description>
+  <category>R</category>
+  <category>Machine learning</category>
+  <guid>https://www.hfshr.xyz/posts/2020-05-23-tidymodel-notes/index.html</guid>
+  <pubDate>Fri, 22 May 2020 23:00:00 GMT</pubDate>
+  <media:content url="https://www.hfshr.xyz//posts/2020-05-23-tidymodel-notes/tb.jpeg" medium="image" type="image/jpeg"/>
+</item>
+<item>
+  <title>{B4F502887207:/posts/2020-05-02-pretty-tables-with-gt/index.html}</title>
+  <link>https://www.hfshr.xyz/posts/2020-05-02-pretty-tables-with-gt/index.html</link>
+  <description>{B4F502887207:/posts/2020-05-02-pretty-tables-with-gt/index.html}</description>
+  <category>Bitcoin</category>
+  <category>gt</category>
+  <category>ggplot</category>
+  <category>bitmexr</category>
+  <category>R</category>
+  <guid>https://www.hfshr.xyz/posts/2020-05-02-pretty-tables-with-gt/index.html</guid>
+  <pubDate>Fri, 01 May 2020 23:00:00 GMT</pubDate>
+  <media:content url="https://www.hfshr.xyz//posts/2020-05-02-pretty-tables-with-gt/nice_table.png" medium="image" type="image/png" height="78" width="144"/>
+</item>
+<item>
+  <title>{B4F502887207:/posts/2020-04-13-bitmexr/index.html}</title>
+  <link>https://www.hfshr.xyz/posts/2020-04-13-bitmexr/index.html</link>
+  <description>{B4F502887207:/posts/2020-04-13-bitmexr/index.html}</description>
+  <category>Bitcoin</category>
+  <category>R</category>
+  <guid>https://www.hfshr.xyz/posts/2020-04-13-bitmexr/index.html</guid>
+  <pubDate>Sun, 12 Apr 2020 23:00:00 GMT</pubDate>
+  <media:content url="https://www.hfshr.xyz//posts/2020-04-13-bitmexr/images/price.gif" medium="image" type="image/gif"/>
+</item>
+<item>
+  <title>{B4F502887207:/posts/2020-03-22-bitcoin/index.html}</title>
+  <link>https://www.hfshr.xyz/posts/2020-03-22-bitcoin/index.html</link>
+  <description>{B4F502887207:/posts/2020-03-22-bitcoin/index.html}</description>
+  <category>Bitcoin</category>
+  <category>gganimate</category>
+  <guid>https://www.hfshr.xyz/posts/2020-03-22-bitcoin/index.html</guid>
+  <pubDate>Sun, 22 Mar 2020 00:00:00 GMT</pubDate>
+  <media:content url="https://media.giphy.com/media/RgxAkfVQWwkjS/giphy.gif" medium="image" type="image/gif"/>
+</item>
+</channel>
+</rss>

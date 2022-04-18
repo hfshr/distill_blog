@@ -29,7 +29,7 @@ format:
   html:
     theme:
       light: solar
-    css: styles.scss
+    css: styles.css
 
 
 
