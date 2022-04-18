@@ -14,7 +14,7 @@ about:
 
 Hi 👋 I'm Harry, thanks for visiting my site. 
 
-I have a [my blog](/blog.html) that is infrequently updated 📝
+I have a [blog](/blog.html) that is infrequently updated 📝
 
 See my [projects](/software/) for some things I've been working 🛠
 
