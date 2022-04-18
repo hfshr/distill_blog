@@ -1,8 +1,8 @@
 on:
   push:
-    branches: main
+    branches: quarto
   pull_request:
-    branches: main
+    branches: quarto
   # to be able to trigger a manual build
   workflow_dispatch:
 
