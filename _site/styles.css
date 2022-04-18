@@ -44,10 +44,9 @@ a:hover {
   font-weight: bold;
 }
 
-#quarto-document-content {
-  text-align: center;
-  margin-bottom: 0;
-}
+#quarto-document-content > p:nth-child(1)
+
+
 
 #quarto-content > div > div { 
   flex-direction: row;
@@ -56,6 +55,10 @@ a:hover {
   flex-wrap: wrap;
 }
 
+div.quarto-about-jolla {
+  text-align: center;
+  margin-bottom: 0;
+}
 
 div.quarto-about-jolla .about-link {
     font-size: 1.8em;
