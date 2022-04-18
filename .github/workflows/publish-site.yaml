@@ -6,7 +6,7 @@ on:
   # to be able to trigger a manual build
   workflow_dispatch:
 
-name: Render and deploy Book to Netlify
+name: Render and deploy site to Netlify
 
 jobs:
   build-deploy:

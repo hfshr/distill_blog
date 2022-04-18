@@ -8,7 +8,6 @@ listing:
   contents: posts
   sort-ui: false
   filter-ui: false
-  feed: true
   sort: "date desc"
   type: table
   categories: true
