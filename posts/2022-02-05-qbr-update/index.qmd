@@ -1,0 +1,66 @@
+---
+title: "qbr v1.0.0"
+description: |
+  Quick post to highligh some of the major updates in {qbr} v1.0.0
+date: 2022/02/09
+image: hex2-qbr.png
+categories:
+  - R
+  - javascript
+---
+
+## {qbr} v1.0.0
+
+Recently I made some major changes to the `qbr` package I released back in June 2020. As a quick refresher, `qbr` is an R wrapper around the popular javascript library [queryBuilder](https://querybuilder.js.org/). In short, it provides a nice UI for constructing queries that can be used to filter data and also plays nicely with Shiny as its two main dependencies are bootstrap and jquery. 
+
+I initially developed `qbr` using the `htmlwidgets` framework, guided by an earlier attempt at integrating the library with R by [\@harveyl888](https://github.com/harveyl888/queryBuilder). However after using `qbr` in a couple of projects at work, I found there were a few limitations, particularly when it came to updating the widget with new filters. So this latest attempt moves away from the `htmlwidgets` approach and instead uses a custom input binding for Shiny, and implements some additional functionality, all with the aim of making the library easier to use and customise as required. 
+
+## So, whats new?
+
+Below are just a few of the highlights in the new version of `qbr` - checkout the [documentation](https://hfshr.github.io/qbr/#/) for more details!
+
+**Support for different bootstrap versions**
+
+While not "officially" supported by the original js library, some kind folk have made suggested some fixes that enable the library to be used with bootstrap 4+. Within the new `useQueryBuilder()` function you can set `bs_version` to one of "3", "4" or "5" (default is "3") in order to make sure the builder looks and functions ok with newer versions of boostrap. This is especially useful if you're using `bslib` to update the bootstrap version used by shiny!
+
+**Easily update the builder with** `updateQueryBuilder()`
+
+The original library has many methods that can used to on an existing builder. Currently `updateQueryBuilder()` supports the following, 
+
+- `reset`: Removes all rules from the builder, 
+- `destroy`: Self explanatory..!, 
+- `setRules`: Load a predetermined set of rules into the builder.
+- `setFilters`: Remove all existing filters and add a new set of filters to the builder
+- `addFilter`: Add a filter to the existing filters
+
+I've found these to be particularly useful when you need to builder to update depending on the data or a users actions in the app.
+
+**Choose your output**
+
+In the `queryBuilderInput()` function, you can use the `return_value` argument to choose the output that gets returned to shiny. This can be one of:
+
+- `"r_rules"`: Returns the filter condition formatted for R
+- `"sql_rules"`: Returns the filter condition formatted for SQL
+- `"rules"`: list of conditions, default output from original queryBuilder library
+- `"all"`: Return all of the above in a named list.
+
+The aim here is to try and give the user more control over what output is returned.
+
+**Conditional dependencies for widgets**
+
+queryBuilder supports many different plugins and widgets that depend on additional dependencies. In the previous version of qbr, all of these dependencies were loaded in when you used the builder, even if you didn't use any of the plugins or widgets! This led to a noticeable increase in loading time, and was just unnecessary. Now, only the dependencies for the requested plugins will be loaded, which should improve the loading time of the builder and is generally more efficient.
+
+### Demo
+
+Below is a demo app using a couple of different configurations available. 
+
+
+::: {.column-screen-inset}
+<iframe src ="https://harryfish.shinyapps.io/qbr_demo/" allowfullscreen =""
+scrolling="yes" width = "100%" height = "800px" frameboarder="0"  data-external="1"></iframe>
+:::
+
+
+### Summary
+
+So there it is! I still have a few ideas that I'd like to implement and generally make the package more robust, but in the mean time I'd love any feedback on the package, so feel free to drop a comment or [open an issue](https://github.com/hfshr/qbr/issues) on github. Thanks for reading! 

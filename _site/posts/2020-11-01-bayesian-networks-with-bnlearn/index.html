@@ -1,0 +1,1505 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-0.9.272">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2020-11-17">
+<meta name="description" content="This post explores the use of Bayesian networks with the excellent {bnlearn} package to examine the relationship between different risk factors and the probability of sustaining a sports injury.">
+
+<title>Data Code &amp; Coffee - Investigating sports injuries with Bayesian networks using {bnlearn}.</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<link href="../../favicon.ico" rel="icon">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link id="quarto-text-highlighting-styles" href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+<script src="../../site_libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<link href="../../site_libs/vis-9.1.0/vis-network.min.css" rel="stylesheet">
+<script src="../../site_libs/vis-9.1.0/vis-network.min.js"></script>
+<script src="../../site_libs/visNetwork-binding-2.1.1/visNetwork.js"></script>
+<link href="../../site_libs/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="../../styles.scss">
+</head>
+
+<body class="floating nav-fixed slimcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Data Code &amp; Coffee</span>
+  </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../blog.html">Blog</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../software/index.html">Projects</a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.github.com/hfshr"><i class="bi bi-github" role="img">
+</i> 
+ </a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.twitter.com/hfshr"><i class="bi bi-twitter" role="img">
+</i> 
+ </a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#so-what-is-a-bayesian-network" id="toc-so-what-is-a-bayesian-network" class="nav-link" data-scroll-target="#so-what-is-a-bayesian-network">So what is a Bayesian network?</a></li>
+  <li><a href="#enough-theory-some-examples" id="toc-enough-theory-some-examples" class="nav-link" data-scroll-target="#enough-theory-some-examples">Enough theory, some examples!</a></li>
+  <li><a href="#network-preparation" id="toc-network-preparation" class="nav-link" data-scroll-target="#network-preparation">Network preparation</a></li>
+  <li><a href="#fitting-the-network" id="toc-fitting-the-network" class="nav-link" data-scroll-target="#fitting-the-network">Fitting the network</a></li>
+  <li><a href="#interrogating-the-network" id="toc-interrogating-the-network" class="nav-link" data-scroll-target="#interrogating-the-network">Interrogating the network</a></li>
+  <li><a href="#bonus-visulaisation-with-bnviewer" id="toc-bonus-visulaisation-with-bnviewer" class="nav-link" data-scroll-target="#bonus-visulaisation-with-bnviewer">Bonus visulaisation with {bnviewer}</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a>
+  <ul class="collapse">
+  <li><a href="#resources" id="toc-resources" class="nav-link" data-scroll-target="#resources">Resources</a></li>
+  </ul></li>
+  </ul>
+</nav>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+    </div>
+<!-- main -->
+<main class="content page-columns page-full" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Investigating sports injuries with Bayesian networks using {bnlearn}.</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">R</div>
+    <div class="quarto-category">Bayesian Network</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    <p>This post explores the use of Bayesian networks with the excellent {bnlearn} package to examine the relationship between different risk factors and the probability of sustaining a sports injury.</p>
+  </div>
+</div>
+
+
+
+
+<div class="quarto-title-meta">
+
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">11/17/2020</p>
+    </div>
+  </div>
+    
+  </div>
+  
+
+</header>
+
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>In this post I want to share a few details about the humble Bayesian Network (BN). While not generally considered one of the “mainstream” forms of analysis, Bayesian networks have several features that make them an interesting choice, including their flexibility, interpretability and visually appealing nature. I used BNs during PhD, and was fortunate enough to receive some guidance from <a href="https://www.bnlearn.com/about/">Marco Scutari</a>, the author of <code>bnlearn</code>, and who is a leading expert in the field when it comes to all things BN. From the outset, I want to clarify that I am by no means an expert in Bayesian networks (far from it!), and encourage any reader who wants to learn more about the theory underlying BNs, or to see more in depth examples, to visit Marco’s site which is a fantastic place to start. I have also included a list of resources I found helpful when learning about BNs at the end of the post. That said, in this post I hope to show a motivating example that might spark some ideas about how BNs can be used!</p>
+</section>
+<section id="so-what-is-a-bayesian-network" class="level1">
+<h1>So what is a Bayesian network?</h1>
+<p>Wikipedia actually provides a nice overview, so I’ll <del>cheat</del> paraphrase from there…</p>
+<blockquote class="blockquote">
+<p>A Bayesian network is a probabilistic graphical model that represents a set of variables and their conditional dependencies via a directed acyclic graph (DAG). Bayesian networks are ideal for taking an event that occurred and predicting the likelihood that any one of several possible known causes was the contributing factor. For example, a Bayesian network could represent the probabilistic relationships between diseases and symptoms. Given symptoms, the network can be used to compute the probabilities of the presence of various diseases.</p>
+</blockquote>
+<p>So in really simple terms, a Bayesian network allows us to ask questions like “if the value of variable A is x and the value of variable B is y, what is the probability variable C of being value z?” Or, if the weather is looking overcast, and it rained yesterday, what is the probability the it will rain today?</p>
+<p>There are some other important features that I am going to bullet point here for brevity:</p>
+<ul>
+<li>Nodes are variables in the networks, arcs are links between nodes.</li>
+<li>Networks can be discrete (all variables are categorical), or continuous or a hybrid of both.</li>
+<li>The structure of a network can be specified ahead of time if it is known, or it can learnt from the data, or a hybrid approach where both “expert knowledge” and a data driven approach to learning can be combined.</li>
+<li>There are a range of different algorithms in <code>bnlearn</code> that can be used to learn a structure of a network from the data.</li>
+<li>Once a network has been learnt, it can be queried or used for predictions.</li>
+</ul>
+<p>For me personally, the visual nature of Bayesian networks is really appealing, something which I’ll hopefully demonstrate in the following examples.</p>
+</section>
+<section id="enough-theory-some-examples" class="level1">
+<h1>Enough theory, some examples!</h1>
+<p>The data I’ve used here comes from my PhD, where I was investigating the relationships between stress-related factors and the risk of sports injury. I have simplified the data slightly here just to make the examples clearer. If interested in the full study, you can find the paper in published form <a href="https://www.frontiersin.org/articles/10.3389/fspor.2020.595619/abstract"><strong>here</strong></a> and the git repo for the paper <a href="https://github.com/hfshr/frontiers-paper"><strong>here</strong></a>.</p>
+<p>The data contains the following variables:</p>
+<ul>
+<li>injured: Whether an injury was sustained during the study period</li>
+<li>pi: Previous injury, whether the participant had sustained an injury in the 6 months preceding the study</li>
+<li>gender: Gender of the participant</li>
+<li>ind_team: Whether the participant competes in an individual or team sport</li>
+<li>clevel: Competitive level, The highest level the participant had reached in competition</li>
+<li>hours: Number of hours spent training per week</li>
+<li>nlebase: Baseline negative life events</li>
+<li>ri: Reward Interest (personalty characteristic)</li>
+<li>fffs: Fight-Flight-Freeze System (personalty characteristic)</li>
+<li>bis: Behavioural Inhibition System (personalty characteristic)</li>
+<li>stiffness: Sum of all lower body stiffness locations</li>
+<li>balance: Score on a balance test, higher score = poorer balance.</li>
+<li>hrv: Heart rate variability, Root mean squared difference of successive RR intervals.</li>
+</ul>
+<p>Data can be found here: <a href="https://raw.githubusercontent.com/hfshr/distill_blog/master/_posts/2020-11-01-bayesian-networks-with-bnlearn/injuries.csv" class="uri">https://raw.githubusercontent.com/hfshr/distill_blog/master/_posts/2020-11-01-bayesian-networks-with-bnlearn/injuries.csv</a></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bnlearn)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>injuries <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"injuries.csv"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.character), as.factor))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Each variable has two levels, as shown below:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>injuries <span class="sc">%&gt;%</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gather</span>(var, value) <span class="sc">%&gt;%</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(var, value) <span class="sc">%&gt;%</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>n) <span class="sc">%&gt;%</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">level =</span> <span class="fu">ifelse</span>(<span class="fu">row_number</span>() <span class="sc">%%</span> <span class="dv">2</span> <span class="sc">==</span> <span class="dv">0</span>, <span class="st">"Level 1"</span>, <span class="st">"Level 2"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> level, <span class="at">values_from =</span> <span class="st">"value"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="at">Variable =</span> var, <span class="st">"Level 1"</span>, <span class="st">"Level 2"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="soxrvpvypw" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#soxrvpvypw .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#soxrvpvypw .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#soxrvpvypw .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#soxrvpvypw .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 6px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#soxrvpvypw .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#soxrvpvypw .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#soxrvpvypw .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#soxrvpvypw .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#soxrvpvypw .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#soxrvpvypw .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#soxrvpvypw .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#soxrvpvypw .gt_group_heading {
+  padding: 8px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#soxrvpvypw .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#soxrvpvypw .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#soxrvpvypw .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#soxrvpvypw .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#soxrvpvypw .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 12px;
+}
+
+#soxrvpvypw .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#soxrvpvypw .gt_first_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+}
+
+#soxrvpvypw .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#soxrvpvypw .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#soxrvpvypw .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#soxrvpvypw .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#soxrvpvypw .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#soxrvpvypw .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding: 4px;
+}
+
+#soxrvpvypw .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#soxrvpvypw .gt_sourcenote {
+  font-size: 90%;
+  padding: 4px;
+}
+
+#soxrvpvypw .gt_left {
+  text-align: left;
+}
+
+#soxrvpvypw .gt_center {
+  text-align: center;
+}
+
+#soxrvpvypw .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#soxrvpvypw .gt_font_normal {
+  font-weight: normal;
+}
+
+#soxrvpvypw .gt_font_bold {
+  font-weight: bold;
+}
+
+#soxrvpvypw .gt_font_italic {
+  font-style: italic;
+}
+
+#soxrvpvypw .gt_super {
+  font-size: 65%;
+}
+
+#soxrvpvypw .gt_footnote_marks {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 65%;
+}
+</style>
+<table class="gt_table">
+  
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">Variable</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">Level 1</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">Level 2</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td class="gt_row gt_left">balance</td>
+<td class="gt_row gt_left">Low</td>
+<td class="gt_row gt_left">High</td></tr>
+    <tr><td class="gt_row gt_left">bis</td>
+<td class="gt_row gt_left">Low</td>
+<td class="gt_row gt_left">High</td></tr>
+    <tr><td class="gt_row gt_left">clevel</td>
+<td class="gt_row gt_left">national_international</td>
+<td class="gt_row gt_left">club_university_county</td></tr>
+    <tr><td class="gt_row gt_left">fffs</td>
+<td class="gt_row gt_left">Low</td>
+<td class="gt_row gt_left">High</td></tr>
+    <tr><td class="gt_row gt_left">gender</td>
+<td class="gt_row gt_left">male</td>
+<td class="gt_row gt_left">female</td></tr>
+    <tr><td class="gt_row gt_left">hours</td>
+<td class="gt_row gt_left">Low</td>
+<td class="gt_row gt_left">High</td></tr>
+    <tr><td class="gt_row gt_left">hrv</td>
+<td class="gt_row gt_left">Low</td>
+<td class="gt_row gt_left">High</td></tr>
+    <tr><td class="gt_row gt_left">ind_team</td>
+<td class="gt_row gt_left">team</td>
+<td class="gt_row gt_left">individual</td></tr>
+    <tr><td class="gt_row gt_left">injured</td>
+<td class="gt_row gt_left">injured</td>
+<td class="gt_row gt_left">healthy</td></tr>
+    <tr><td class="gt_row gt_left">nlebase</td>
+<td class="gt_row gt_left">Low</td>
+<td class="gt_row gt_left">High</td></tr>
+    <tr><td class="gt_row gt_left">pi</td>
+<td class="gt_row gt_left">no injury</td>
+<td class="gt_row gt_left">injury</td></tr>
+    <tr><td class="gt_row gt_left">ri</td>
+<td class="gt_row gt_left">Low</td>
+<td class="gt_row gt_left">High</td></tr>
+    <tr><td class="gt_row gt_left">stiffness</td>
+<td class="gt_row gt_left">Low</td>
+<td class="gt_row gt_left">High</td></tr>
+  </tbody>
+  
+  
+</table>
+</div>
+</div>
+</div>
+</section>
+<section id="network-preparation" class="level1">
+<h1>Network preparation</h1>
+<p>To start, I simply extract the names of the variables into two character strings, one for the “explanatory” variables and one for the “control” variables. I’ll use these character vectors in later steps.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># select names of measured variables</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>explanatory_vars <span class="ot">&lt;-</span> injuries <span class="sc">%&gt;%</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(stiffness<span class="sc">:</span>fffs, injured) <span class="sc">%&gt;%</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">names</span>()</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co"># select names of "explanatory" variables, e.g., gender</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>control_vars <span class="ot">&lt;-</span> injuries <span class="sc">%&gt;%</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(pi<span class="sc">:</span>hours) <span class="sc">%&gt;%</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">names</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Next, I create a blacklist to restrict certain arcs between specific nodes from being learnt in the network. Specifically, I restrict the direction of the arcs from control <span class="math inline">\(\rightarrow\)</span> explanatory and restrict some arcs between the control variables, as these are not of interest.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="do">## create blacklist</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>black_list <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">from =</span> explanatory_vars,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">to =</span> control_vars</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_rows</span>(</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    .,</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">data.frame</span>(</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">from =</span> <span class="fu">c</span>(<span class="st">"clevel"</span>, <span class="st">"nlebase"</span>, <span class="st">"nlebase"</span>),</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">to =</span> <span class="fu">c</span>(<span class="st">"gender"</span>, <span class="st">"ind_team"</span>, <span class="st">"gender"</span>)</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>I also enforce a relationship between <code>nlebase</code> <span class="math inline">\(\rightarrow\)</span> <code>injured</code>. This is a relationship is often found in the literature, although for reasons I won’t get into here wasn’t apparent in the data I collected, but I still wanted to include this relationship in my analysis.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="do">## create whitelist</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>white_list <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">from =</span> <span class="fu">c</span>(<span class="st">"nlebase"</span>),</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">to =</span> <span class="fu">c</span>(<span class="st">"injured"</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="fitting-the-network" class="level1 page-columns page-full">
+<h1>Fitting the network</h1>
+<p>In bnlearn there are several algorithms available that can be used to learn the structure (for the full list see <a href="https://www.bnlearn.com/" class="uri">https://www.bnlearn.com/</a>). In this example, I have chosen the tabu search algorithm - a score-based algorithm that explores the search space starting from a simple network structure and adding, deleting, or reversing one arc at a time until the score can no longer be improved <span class="citation" data-cites="Olmedilla2018">(<a href="#ref-Olmedilla2018" role="doc-biblioref">Olmedilla et al. 2018</a>)</span>. I have also used the <code>boot.strength</code> function that allows <em>n</em> networks to be learnt via bootstrap samples. This enables the strength of each arc to be estimated by the number of times that particular arc is learnt during the sampling process.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p>I’ve only used 100 repeats here for speed, in the real world you might consider using more to ensure robustness.</p>
+</div></div><div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># set seed for reproducibility</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">122</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>str_network <span class="ot">&lt;-</span> <span class="fu">boot.strength</span>(</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  injuries,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">algorithm =</span> <span class="st">"tabu"</span>,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">algorithm.args =</span> <span class="fu">list</span>(</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">blacklist =</span> black_list,</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">whitelist =</span> white_list,</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">tabu =</span> <span class="dv">100</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Using the <code>averaged.network</code> function, I select all the arcs that were present in at least 30% of the learnt networks, this is equivalent to an arc strength of 0.3. An arc strength of 1 indicates that the arc was always present in the network, with the value decreasing as arcs were found in fewer networks.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>avg30 <span class="ot">&lt;-</span> <span class="fu">averaged.network</span>(str_network, <span class="at">threshold =</span> <span class="fl">0.30</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We can now plot the network to visualise the relationships that have been learnt. I use the <code>strength.plot</code> function which shows the strength of the relationship between arcs via different line styles in the plot. Thin, dashed arcs indicate the weakest arcs (arc strength below 0.50), whereas thick solid arcs indicate the strongest arcs (arc strengths approaching 1).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Rgraphviz)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>gR <span class="ot">&lt;-</span> <span class="fu">strength.plot</span>(</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  avg30,</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  str_network,</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">shape =</span> <span class="st">"rectangle"</span>,</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">render =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">groups =</span> <span class="fu">list</span>(explanatory_vars, control_vars),</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">layout =</span> <span class="st">"dot"</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Colour the variables of interest</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="fu">nodeRenderInfo</span>(gR)<span class="sc">$</span>fill[explanatory_vars] <span class="ot">&lt;-</span> <span class="st">"deepskyblue"</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Colour the main outcome variable</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="fu">nodeRenderInfo</span>(gR)<span class="sc">$</span>fill[<span class="st">"injured"</span>] <span class="ot">&lt;-</span> <span class="st">"gold"</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Show me the network!</span></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a><span class="fu">renderGraph</span>(gR)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="interrogating-the-network" class="level1 page-columns page-full">
+<h1>Interrogating the network</h1>
+<p>Now we have learnt the network structure, we can use the network to answer queries about the probabilistic relationships in the network. This is achieved thorough using the conditional probabilities tables that give us the probability of an event, given other events. For example, take the stiffness node from the network above. We see there are two arcs linked to the stiffness node, pi <span class="math inline">\(\rightarrow\)</span> stiffness and gender <span class="math inline">\(\rightarrow\)</span> stiffness. To see these probability tables we can simple use:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># fit the network to the data</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>fitted <span class="ot">&lt;-</span> <span class="fu">bn.fit</span>(<span class="fu">cextend</span>(avg30), injuries)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Conditional probabilities for the stiffness node</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>fitted<span class="sc">$</span>stiffness<span class="sc">$</span>prob</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>, , gender = female
+
+         pi
+stiffness    injury no injury
+     High 0.7333333 0.1304348
+     Low  0.2666667 0.8695652
+
+, , gender = male
+
+         pi
+stiffness    injury no injury
+     High 0.6336634 0.6086957
+     Low  0.3663366 0.3913043</code></pre>
+</div>
+</div>
+<p>We can use this information to make a number of statements, for example, females with a previous injury (pi) are more likely to have “High” stiffness compared to males.</p>
+<p>We may want to be a little more specific with our queries, for example say we want to know what the probability of an injury when stiffness == “High”. We can use <code>bnlearn::cpquery()</code> to ask this very question.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p>I’ve used likelihood weighting here(method = “lw”) which is an approximate inference algorithm based on Monte Carlo simulations, so you may get slightly different results when running this. Use <code>?bnlearn::cpquery</code> to see the different options available for sampling.</p>
+</div></div><div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ask the query</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cpquery</span>(fitted,</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">event =</span> (injured <span class="sc">==</span> <span class="st">"injured"</span>),</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">evidence =</span> <span class="fu">list</span>(<span class="at">stiffness =</span> <span class="st">"High"</span>),</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"lw"</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>[1] 0.302661</code></pre>
+</div>
+</div>
+<p>Likewise we can ask the same question for when stiffness == “Low”</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cpquery</span>(fitted,</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">event =</span> (injured <span class="sc">==</span> <span class="st">"injured"</span>),</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">evidence =</span> <span class="fu">list</span>(<span class="at">stiffness =</span> <span class="st">"Low"</span>),</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"lw"</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>[1] 0.1759626</code></pre>
+</div>
+</div>
+<p>We can see that High stiffness almost doubles the probability of injury.</p>
+<p>Now, this can get a little repetitive when you want to investigate lots of variables with different combinations, so I created a function that enables multiple variables to be passed in. It’s a bit lengthy and could probably be simplified a little, but it does the job…!</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>probability_generator <span class="ot">&lt;-</span> <span class="cf">function</span>(.data, vars, outcome, state, model, <span class="at">repeats =</span> <span class="dv">500000</span>) {</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  all.levels <span class="ot">&lt;-</span> <span class="cf">if</span> (<span class="fu">any</span>(<span class="fu">length</span>(vars) <span class="sc">&gt;</span> <span class="dv">1</span>)) {</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lapply</span>(.data[, (<span class="fu">names</span>(.data) <span class="sc">%in%</span> vars)], levels)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    all.levels <span class="ot">&lt;-</span> .data <span class="sc">%&gt;%</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>      <span class="fu">select</span>(<span class="fu">all_of</span>(vars)) <span class="sc">%&gt;%</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">sapply</span>(levels) <span class="sc">%&gt;%</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">as_tibble</span>()</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  combos <span class="ot">&lt;-</span> <span class="fu">do.call</span>(<span class="st">"expand.grid"</span>, <span class="fu">c</span>(all.levels, <span class="fu">list</span>(<span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>))) <span class="co"># al combiations</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># generate character strings for all combinations</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>  str1 <span class="ot">&lt;-</span> <span class="st">""</span></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq</span>(<span class="fu">nrow</span>(combos))) {</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>    str1[i] <span class="ot">&lt;-</span> <span class="fu">paste</span>(combos <span class="sc">%&gt;%</span> <span class="fu">names</span>(), <span class="st">" = '"</span>,</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>      combos[i, ] <span class="sc">%&gt;%</span> <span class="fu">sapply</span>(as.character), <span class="st">"'"</span>,</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>      <span class="at">sep =</span> <span class="st">""</span>, <span class="at">collapse =</span> <span class="st">", "</span></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>  <span class="co"># repeat the string for more than one outcome</span></span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>  str1 <span class="ot">&lt;-</span> <span class="fu">rep</span>(str1, <span class="at">times =</span> <span class="fu">length</span>(outcome))</span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>  str1 <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="st">"list("</span>, str1, <span class="st">")"</span>, <span class="at">sep =</span> <span class="st">""</span>)</span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>  <span class="co"># repeat loop for outcome variables (can have more than one outcome)</span></span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>  all.levels.outcome <span class="ot">&lt;-</span> <span class="cf">if</span> (<span class="fu">any</span>(<span class="fu">length</span>(outcome) <span class="sc">&gt;</span> <span class="dv">1</span>)) {</span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lapply</span>(.data[, (<span class="fu">names</span>(.data) <span class="sc">%in%</span> outcome)], levels)</span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a>    all.levels <span class="ot">&lt;-</span> .data <span class="sc">%&gt;%</span></span>
+<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a>      <span class="fu">select</span>(<span class="fu">all_of</span>(outcome)) <span class="sc">%&gt;%</span></span>
+<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a>      <span class="fu">sapply</span>(levels) <span class="sc">%&gt;%</span></span>
+<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a>      <span class="fu">as_tibble</span>()</span>
+<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a>  combos.outcome <span class="ot">&lt;-</span> <span class="fu">do.call</span>(<span class="st">"expand.grid"</span>, <span class="fu">c</span>(all.levels.outcome))</span>
+<span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-36"><a href="#cb15-36" aria-hidden="true" tabindex="-1"></a>  <span class="co"># repeat each outcome for the length of combos</span></span>
+<span id="cb15-37"><a href="#cb15-37" aria-hidden="true" tabindex="-1"></a>  str3 <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">paste</span>(<span class="st">"("</span>, outcome, <span class="st">" == '"</span>, state, <span class="st">"')"</span>, <span class="at">sep =</span> <span class="st">""</span>), <span class="at">each =</span> <span class="fu">length</span>(str1) <span class="sc">/</span> <span class="fu">length</span>(outcome))</span>
+<span id="cb15-38"><a href="#cb15-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-39"><a href="#cb15-39" aria-hidden="true" tabindex="-1"></a>  <span class="co"># fit the model with bayes method</span></span>
+<span id="cb15-40"><a href="#cb15-40" aria-hidden="true" tabindex="-1"></a>  fitted <span class="ot">&lt;-</span> <span class="fu">bn.fit</span>(<span class="fu">cextend</span>(model), .data, <span class="at">method =</span> <span class="st">"bayes"</span>, <span class="at">iss =</span> <span class="dv">1</span>)</span>
+<span id="cb15-41"><a href="#cb15-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-42"><a href="#cb15-42" aria-hidden="true" tabindex="-1"></a>  <span class="co"># join all elements of string together</span></span>
+<span id="cb15-43"><a href="#cb15-43" aria-hidden="true" tabindex="-1"></a>  cmd <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="st">"cpquery(fitted, "</span>, str3, <span class="st">", "</span>, str1, <span class="st">", method = 'lw', n = "</span>, repeats, <span class="st">")"</span>, <span class="at">sep =</span> <span class="st">""</span>)</span>
+<span id="cb15-44"><a href="#cb15-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-45"><a href="#cb15-45" aria-hidden="true" tabindex="-1"></a>  prob <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">0</span>, <span class="fu">length</span>(str1)) <span class="co"># empty vector for probabilities</span></span>
+<span id="cb15-46"><a href="#cb15-46" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq</span>(<span class="fu">length</span>(cmd))) {</span>
+<span id="cb15-47"><a href="#cb15-47" aria-hidden="true" tabindex="-1"></a>    prob[i] <span class="ot">&lt;-</span> <span class="fu">eval</span>(<span class="fu">parse</span>(<span class="at">text =</span> cmd[i]))</span>
+<span id="cb15-48"><a href="#cb15-48" aria-hidden="true" tabindex="-1"></a>  } <span class="co"># for each combination of strings, what is the probability of outcome</span></span>
+<span id="cb15-49"><a href="#cb15-49" aria-hidden="true" tabindex="-1"></a>  res <span class="ot">&lt;-</span> <span class="fu">cbind</span>(combos, prob)</span>
+<span id="cb15-50"><a href="#cb15-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-51"><a href="#cb15-51" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(res)</span>
+<span id="cb15-52"><a href="#cb15-52" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now, we know that the <code>injured</code> node is of the most interest here, so we might want to know what effect all the nodes that are connected to the injured node have on the probability of being injured. To find out what these other nodes are we can find the “Markov blanket” for the injured node. A Markov blanket contains all the nodes that make the node of interest conditionally independent from the rest of the network <span class="citation" data-cites="Fuster-Parra2017">(<a href="#ref-Fuster-Parra2017" role="doc-biblioref">Fuster-Parra et al. 2017</a>)</span>, and we can use the <code>bnlearn::mb</code> to find these nodes.</p>
+<p>For example for the injured node we can do:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mb</span>(avg30, <span class="st">"injured"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>[1] "nlebase"   "clevel"    "hours"     "stiffness" "balance"  </code></pre>
+</div>
+</div>
+<p>and we find five nodes of interest.</p>
+<p>With our <code>probability_generator</code> function, we can now pass in these nodes and find out the probability of the injured node being in the injured state for every combination of the nodes in the markov blanket. Remember each node can contains only two possible states, so we should end up with 2^5 = 32 combinations.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>markov_blanket <span class="ot">&lt;-</span> <span class="fu">mb</span>(avg30, <span class="st">"injured"</span>)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">probability_generator</span>(injuries,</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">vars =</span> markov_blanket,</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">outcome =</span> <span class="st">"injured"</span>,</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">state =</span> <span class="st">"injured"</span>,</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> avg30</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Check number of rows, should = 32</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(res)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>[1] 32</code></pre>
+</div>
+</div>
+<p>32 combinations may be a bit much to look at, so here I make a quick function to get the top 3 highest and lowest probabilities for comparison.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>toptail <span class="ot">&lt;-</span> <span class="cf">function</span>(data, n) {</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  data <span class="sc">%&gt;%</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">top_n</span>(n, prob) <span class="sc">%&gt;%</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">bind_rows</span>(., data <span class="sc">%&gt;%</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>      <span class="fu">top_n</span>(n, <span class="sc">-</span>prob))</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>res <span class="sc">%&gt;%</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">toptail</span>(., <span class="dv">3</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(prob)) <span class="sc">%&gt;%</span></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="at">Probability =</span> prob, <span class="fu">everything</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_row_group</span>(</span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">group =</span> <span class="st">"Low risk"</span>,</span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">rows =</span> Probability <span class="sc">&lt;=</span> <span class="fl">0.25</span></span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_row_group</span>(</span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">group =</span> <span class="st">"High risk"</span>,</span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">rows =</span> Probability <span class="sc">&gt;</span> <span class="fl">0.25</span></span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_options</span>(<span class="at">row_group.font.weight =</span> <span class="st">"bold"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_align</span>(<span class="st">"center"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_number</span>(<span class="at">columns =</span> <span class="st">"Probability"</span>, <span class="at">decimals =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="vhtivxcuks" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#vhtivxcuks .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#vhtivxcuks .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#vhtivxcuks .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#vhtivxcuks .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 6px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#vhtivxcuks .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#vhtivxcuks .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#vhtivxcuks .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#vhtivxcuks .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#vhtivxcuks .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#vhtivxcuks .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#vhtivxcuks .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#vhtivxcuks .gt_group_heading {
+  padding: 8px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: bold;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#vhtivxcuks .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: bold;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#vhtivxcuks .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#vhtivxcuks .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#vhtivxcuks .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#vhtivxcuks .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 12px;
+}
+
+#vhtivxcuks .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#vhtivxcuks .gt_first_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+}
+
+#vhtivxcuks .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#vhtivxcuks .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#vhtivxcuks .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#vhtivxcuks .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#vhtivxcuks .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#vhtivxcuks .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding: 4px;
+}
+
+#vhtivxcuks .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#vhtivxcuks .gt_sourcenote {
+  font-size: 90%;
+  padding: 4px;
+}
+
+#vhtivxcuks .gt_left {
+  text-align: left;
+}
+
+#vhtivxcuks .gt_center {
+  text-align: center;
+}
+
+#vhtivxcuks .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#vhtivxcuks .gt_font_normal {
+  font-weight: normal;
+}
+
+#vhtivxcuks .gt_font_bold {
+  font-weight: bold;
+}
+
+#vhtivxcuks .gt_font_italic {
+  font-style: italic;
+}
+
+#vhtivxcuks .gt_super {
+  font-size: 65%;
+}
+
+#vhtivxcuks .gt_footnote_marks {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 65%;
+}
+</style>
+<table class="gt_table">
+  
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">Probability</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">nlebase</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">clevel</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">hours</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">stiffness</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">balance</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr class="gt_group_heading_row">
+      <td colspan="6" class="gt_group_heading">High risk</td>
+    </tr>
+    <tr><td class="gt_row gt_center">0.51</td>
+<td class="gt_row gt_center">Low</td>
+<td class="gt_row gt_center">club_university_county</td>
+<td class="gt_row gt_center">High</td>
+<td class="gt_row gt_center">High</td>
+<td class="gt_row gt_center">High</td></tr>
+    <tr><td class="gt_row gt_center">0.43</td>
+<td class="gt_row gt_center">Low</td>
+<td class="gt_row gt_center">national_international</td>
+<td class="gt_row gt_center">High</td>
+<td class="gt_row gt_center">High</td>
+<td class="gt_row gt_center">Low</td></tr>
+    <tr><td class="gt_row gt_center">0.41</td>
+<td class="gt_row gt_center">Low</td>
+<td class="gt_row gt_center">national_international</td>
+<td class="gt_row gt_center">High</td>
+<td class="gt_row gt_center">High</td>
+<td class="gt_row gt_center">High</td></tr>
+    <tr class="gt_group_heading_row">
+      <td colspan="6" class="gt_group_heading">Low risk</td>
+    </tr>
+    <tr><td class="gt_row gt_center">0.05</td>
+<td class="gt_row gt_center">Low</td>
+<td class="gt_row gt_center">national_international</td>
+<td class="gt_row gt_center">Low</td>
+<td class="gt_row gt_center">Low</td>
+<td class="gt_row gt_center">Low</td></tr>
+    <tr><td class="gt_row gt_center">0.05</td>
+<td class="gt_row gt_center">Low</td>
+<td class="gt_row gt_center">national_international</td>
+<td class="gt_row gt_center">Low</td>
+<td class="gt_row gt_center">Low</td>
+<td class="gt_row gt_center">High</td></tr>
+    <tr><td class="gt_row gt_center">0.04</td>
+<td class="gt_row gt_center">Low</td>
+<td class="gt_row gt_center">club_university_county</td>
+<td class="gt_row gt_center">Low</td>
+<td class="gt_row gt_center">Low</td>
+<td class="gt_row gt_center">Low</td></tr>
+  </tbody>
+  
+  
+</table>
+</div>
+</div>
+</div>
+<p>So from this we can conclude those athlete who have “High” combination of training hours, muscle stiffness and poor balance (“High” in this case means a worse score on a balance test) have a much higher risk of injury than those athletes with the opposite profile. Coaches or athletes could use this information to try and reduce their risk of injury by improving their balance or lowering their training hours in a run up to competition. The simple interpretations make this a particularly useful tool in applied settings, which I think is really important.</p>
+</section>
+<section id="bonus-visulaisation-with-bnviewer" class="level1 page-columns page-full">
+<h1>Bonus visulaisation with {bnviewer}</h1>
+<p>I recently found the <code>bnviewer</code> package which provides an alternative way to visualising networks generated in <code>bnlearn</code> by leveraging the powerful <code>visNetwork</code> package (that uses vis.js under the hood). Below I plot our network using <code>strength.viewer</code> function, and the results are pretty cool!</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p>You can drag the nodes around and hover over them for more information regarding the arcs. Also looks better in dark mode - click the light bulb in the site header!</p>
+</div></div><div class="niceNetwork page-columns page-full">
+<div class="cell page-columns page-full">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bnviewer)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="fu">strength.viewer</span>(</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">bayesianNetwork =</span> avg30,</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">bayesianNetwork.boot.strength =</span> str_network,</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">bayesianNetwork.arc.strength.threshold.expression =</span> <span class="fu">c</span>(</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"@threshold &gt; 0 &amp; @threshold &lt; 0.5"</span>,</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"@threshold &gt;= 0.5 &amp; @threshold &lt;= 0.8"</span>,</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"@threshold &gt; 0.8 &amp; @threshold &lt;= 1"</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">bayesianNetwork.arc.strength.threshold.expression.color  =</span> <span class="fu">c</span>(</span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>      <span class="st">"red"</span>, <span class="st">"yellow"</span>, <span class="st">"blue"</span>),</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">bayesianNetwork.arc.strength.label =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">bayesianNetwork.arc.strength.label.prefix =</span> <span class="st">""</span>,</span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">bayesianNetwork.arc.strength.tooltip =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">bayesianNetwork.edge.scale.label.min =</span> <span class="dv">14</span>,</span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">bayesianNetwork.edge.scale.label.max =</span> <span class="dv">14</span>,</span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">bayesianNetwork.width =</span> <span class="st">"100%"</span>,</span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">bayesianNetwork.height =</span> <span class="st">"800px"</span>,</span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">bayesianNetwork.layout =</span> <span class="st">"layout_with_sugiyama"</span>,</span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">node.colors =</span> <span class="fu">list</span>(<span class="at">background =</span> <span class="st">"gray"</span>,</span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a>                        <span class="at">border =</span> <span class="st">"#2b7ce9"</span>,</span>
+<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a>                        <span class="at">highlight =</span> <span class="fu">list</span>(<span class="at">background =</span> <span class="st">"#e91eba"</span>,</span>
+<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">border =</span> <span class="st">"#2b7ce9"</span>)),</span>
+<span id="cb21-26"><a href="#cb21-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-27"><a href="#cb21-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">node.font =</span> <span class="fu">list</span>(<span class="at">face=</span><span class="st">"Arial"</span>),</span>
+<span id="cb21-28"><a href="#cb21-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">edges.dashes =</span> <span class="cn">FALSE</span></span>
+<span id="cb21-29"><a href="#cb21-29" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display column-screen-inset-shaded">
+<div id="htmlwidget-1a7a8dc6e06c020cfab1" style="width:100%;height:800px;" class="visNetwork html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1a7a8dc6e06c020cfab1">{"x":{"nodes":{"id":["injured","pi","nlebase","gender","ind_team","clevel","hours","stiffness","ri","bis","hrv","balance","fffs"],"label":[" injured"," pi"," nlebase"," gender"," ind_team"," clevel"," hours"," stiffness"," ri"," bis"," hrv"," balance"," fffs"],"x":[-0.428571428571429,-1,-0.142857142857143,0.714285714285714,-0.285714285714286,-1,-0.142857142857143,-0.714285714285714,-0.142857142857143,1,0.428571428571429,-0.428571428571429,1],"y":[0.333333333333333,-0.333333333333333,-0.333333333333333,-1,-0.666666666666667,0,-1,0,1,0,0,0.666666666666667,0.333333333333333]},"edges":{"from":["injured","pi","pi","nlebase","nlebase","nlebase","nlebase","gender","gender","ind_team","ind_team","clevel","clevel","hours","hours","hours","stiffness","bis","balance"],"to":["balance","clevel","stiffness","injured","ri","bis","hrv","stiffness","fffs","pi","nlebase","pi","balance","injured","ind_team","hrv","injured","fffs","ri"],"smooth":[true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true],"dashes":[false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false],"value":[0.33,0.355,0.585,1,0.9,0.57,0.415,0.74,0.425,0.335,0.835,0.355,0.59,0.32,0.895,0.325,0.54,0.985,0.32],"width":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],"color":["red","red","yellow","blue","blue","yellow","red","yellow","red","red","blue","red","yellow","red","blue","red","yellow","blue","red"],"title":["<br><b> Causal Relationships : <\/b>injured &rarr; balance<br><br><b> Edge Strength : <\/b>0.33<br><br>","<br><b> Causal Relationships : <\/b>pi &rarr; clevel<br><br><b> Edge Strength : <\/b>0.355<br><br>","<br><b> Causal Relationships : <\/b>pi &rarr; stiffness<br><br><b> Edge Strength : <\/b>0.585<br><br>","<br><b> Causal Relationships : <\/b>nlebase &rarr; injured<br><br><b> Edge Strength : <\/b>1<br><br>","<br><b> Causal Relationships : <\/b>nlebase &rarr; ri<br><br><b> Edge Strength : <\/b>0.9<br><br>","<br><b> Causal Relationships : <\/b>nlebase &rarr; bis<br><br><b> Edge Strength : <\/b>0.57<br><br>","<br><b> Causal Relationships : <\/b>nlebase &rarr; hrv<br><br><b> Edge Strength : <\/b>0.415<br><br>","<br><b> Causal Relationships : <\/b>gender &rarr; stiffness<br><br><b> Edge Strength : <\/b>0.74<br><br>","<br><b> Causal Relationships : <\/b>gender &rarr; fffs<br><br><b> Edge Strength : <\/b>0.425<br><br>","<br><b> Causal Relationships : <\/b>ind_team &rarr; pi<br><br><b> Edge Strength : <\/b>0.335<br><br>","<br><b> Causal Relationships : <\/b>ind_team &rarr; nlebase<br><br><b> Edge Strength : <\/b>0.835<br><br>","<br><b> Causal Relationships : <\/b>clevel &rarr; pi<br><br><b> Edge Strength : <\/b>0.355<br><br>","<br><b> Causal Relationships : <\/b>clevel &rarr; balance<br><br><b> Edge Strength : <\/b>0.59<br><br>","<br><b> Causal Relationships : <\/b>hours &rarr; injured<br><br><b> Edge Strength : <\/b>0.32<br><br>","<br><b> Causal Relationships : <\/b>hours &rarr; ind_team<br><br><b> Edge Strength : <\/b>0.895<br><br>","<br><b> Causal Relationships : <\/b>hours &rarr; hrv<br><br><b> Edge Strength : <\/b>0.325<br><br>","<br><b> Causal Relationships : <\/b>stiffness &rarr; injured<br><br><b> Edge Strength : <\/b>0.54<br><br>","<br><b> Causal Relationships : <\/b>bis &rarr; fffs<br><br><b> Edge Strength : <\/b>0.985<br><br>","<br><b> Causal Relationships : <\/b>balance &rarr; ri<br><br><b> Edge Strength : <\/b>0.32<br><br>"],"label":[" 0.33"," 0.355"," 0.585"," 1"," 0.9"," 0.57"," 0.415"," 0.74"," 0.425"," 0.335"," 0.835"," 0.355"," 0.59"," 0.32"," 0.895"," 0.325"," 0.54"," 0.985"," 0.32"]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot","color":{"background":"gray","border":"#2b7ce9","highlight":{"background":"#e91eba","border":"#2b7ce9"}},"font":{"face":"Arial"},"physics":false},"manipulation":{"enabled":false},"edges":{"arrows":"to","color":[],"scaling":{"min":1,"max":5,"label":{"enabled":true,"min":14,"max":14}},"smooth":false},"physics":{"stabilization":false}},"groups":null,"width":"100%","height":"800px","idselection":{"enabled":false,"style":"width: 150px; height: 26px","useLabels":true,"main":"Select by id"},"byselection":{"enabled":false,"style":"width: 150px; height: 26px","multiple":false,"hideColor":"rgba(200,200,200,0.5)","highlight":false},"main":{"text":"","style":"font-family:Georgia, Times New Roman, Times, serif;font-weight:bold;font-size:20px;text-align:center;"},"submain":{"text":"","style":"font-family:Georgia, Times New Roman, Times, serif;font-size:12px;text-align:center;"},"footer":{"text":"","style":"font-family:Georgia, Times New Roman, Times, serif;font-size:12px;text-align:center;"},"background":null,"iconsRedraw":true,"highlight":{"enabled":true,"hoverNearest":false,"degree":1,"algorithm":"all","hideColor":"rgba(200,200,200,0.5)","labelOnly":true},"collapse":{"enabled":false,"fit":false,"resetHighlight":true,"clusterOptions":null,"keepCoord":true,"labelSuffix":"(cluster)"},"igraphlayout":{"type":"square"}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</div>
+</section>
+<section id="summary" class="level1">
+<h1>Summary</h1>
+<p>So that was a very quick intro to Bayesian Networks! As promised, below I have included some resources that I’d highly recommend if you want to take a deeper dive into Bayesian networks. Thanks for reading!</p>
+
+</section>
+
+<div id="quarto-appendix" class="default"><section id="resources" class="level2 appendix"><h2 class="quarto-appendix-heading">Resources</h2><div class="quarto-appendix-contents">
+
+<ul>
+<li><p><a href="https://www.bnlearn.com/" class="uri">https://www.bnlearn.com/</a> - Marco’s / bnlearn website</p></li>
+<li><p><a href="https://kevintshoemaker.github.io/NRES-746/BayesianNetworks-1.html" class="uri">https://kevintshoemaker.github.io/NRES-746/BayesianNetworks-1.html</a> - a great blog post about BNs</p></li>
+<li><p><a href="https://bookdown.org/robertness/causalml/docs/tutorial-probabilistic-modeling-with-bayesian-networks-and-bnlearn.html" class="uri">https://bookdown.org/robertness/causalml/docs/tutorial-probabilistic-modeling-with-bayesian-networks-and-bnlearn.html</a> another good starting point covering the basics</p></li>
+<li><p><a href="https://www.frontiersin.org/articles/10.3389/fvets.2020.00073/full" class="uri">https://www.frontiersin.org/articles/10.3389/fvets.2020.00073/full</a> Kratzer et al., (2020) paper I found while writing this post that gives a great walkthough, although not using bnlearn.</p></li>
+</ul>
+
+
+
+</div></section><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="ref-Fuster-Parra2017" class="csl-entry" role="doc-biblioentry">
+Fuster-Parra, P., J. Vidal-Conti, P. A. Borràs, and P. Palou. 2017. <span>“<span class="nocase">Bayesian networks to identify statistical dependencies. A case study of Spanish university students’ habits</span>.”</span> <em>Informatics for Health and Social Care</em> 42 (2): 166–79. <a href="https://doi.org/10.1080/17538157.2016.1178117">https://doi.org/10.1080/17538157.2016.1178117</a>.
+</div>
+<div id="ref-Olmedilla2018" class="csl-entry" role="doc-biblioentry">
+Olmedilla, Aurelio, Víctor J. Rubio, Pilar Fuster-Parra, Constanza Pujals, and Alexandre García-Mas. 2018. <span>“<span class="nocase">A Bayesian approach to sport injuries likelihood: Does player’s self-efficacy and environmental factors plays the main role?</span>”</span> <em>Frontiers in Psychology</em> 9: 1–10. <a href="https://doi.org/10.3389/fpsyg.2018.01174">https://doi.org/10.3389/fpsyg.2018.01174</a>.
+</div>
+</div></section></div></main> <!-- /main -->
+<script type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    setTimeout(function() {
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+<script src="https://utteranc.es/client.js" repo="hfshr/distill_blog" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

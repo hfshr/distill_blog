@@ -1,0 +1,198 @@
+---
+title: "Introducing {qbr}."
+description: |
+  An R interface to jquery Query-Builder.
+date: 06/20/2021
+image: qbr.png
+categories:
+  - R
+  - javascript
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+**Feburary 2022 Update**
+
+Dear reader, if you've just landed on this page, there have been some major changes the `qbr` since this post was written and you should checkout [this post](https://www.hfshr.xyz/posts/2021-06-20-qbr-update), or the [documentation](https://hfshr.github.io/qbr/#/) to get up to speed with the current version!
+
+---
+
+I've been spending quite a bit of time in the world of shiny recently, and a particular problem I was facing meant I decided to dip my toe into the seemingly magical world of [htmlwidgets](https://www.htmlwidgets.org/). In brief, I needed a way for users to interactively construct complex queries that would be used to interrogate a large database. While this is certainly possible to do using native shiny inputs, I ~~was being lazy~~ wanted to see if I could leverage something that had already been created. After a bit of googling I came across [queryBuilder](https://querybuilder.js.org/index.html), a jquery plugin that provides UI component to create queries and filters. After playing around with the demos on the site, I was very impressed with the functionality and, and even better, someone had already made an R wrapper for the library! (See [harveyl888/queryBuilder](https://github.com/harveyl888/queryBuilder) and [Yannael/queryBuildR](https://github.com/Yannael/queryBuildR)).
+
+However this was where I started to run into some problems. The original queryBuilder has a vast array of settings that can be configured, including additional plugins and widgets that help add additional functionality to the builder. The existing R wrappers for queryBuilder only implemented a few of these settings, and I found myself wanting to access other settings which were not yet implemented. So I thought I'd have a go at creating my own version, taking inspiration from [harveyl888/queryBuilder](https://github.com/harveyl888/queryBuilder) with the aim of including as much of the functionality as possible of the original queryBuilder. 
+
+## Example
+
+You can install `qbr` from github:
+
+```{r eval = FALSE}
+#install.packages("remotes")
+remotes::install_github("hfshr/qbr")
+```
+
+and also check out the repository here: [hfshr/qbr](https://github.com/hfshr/qbr)
+
+Here is a quick example in shiny filtering the palmer penguins dataset with a few of the different settings configured. Code for the app is also below.
+
+::: {.column-margin}
+[https://harryfish.shinyapps.io/qbr_demo/](https://harryfish.shinyapps.io/qbr_demo/)
+:::
+
+```{r eval = FALSE, code_folding = TRUE}
+library(shiny)
+library(qbr)
+
+ui <- fluidPage(
+  # Application title
+  titlePanel("QueryBuilder demo"),
+  mainPanel(
+    fluidRow(
+      column(
+        8,
+        queryBuilderOutput("querybuilder",
+          width = 620,
+          height = 300
+        )
+      ),
+      column(
+        4,
+        uiOutput("txtValidation")
+      )
+    )
+  ),
+  fluidRow(
+    column(
+      width = 6,
+      h3("dplyr filter"),
+      verbatimTextOutput("txtFilterList"),
+    ),
+    column(
+      width = 6,
+      h3("SQL filter"),
+      verbatimTextOutput("txtSQL")
+    )
+  ),
+  fluidRow(
+    column(
+      width = 12,
+      h3("dplyr filter applied to a table"),
+      dataTableOutput("txtFilterResult")
+    )
+  )
+)
+
+# Define server logic required to draw a histogram
+server <- function(input, output) {
+  filters <- list(
+    list(
+      id = "species",
+      label = "Species",
+      type = "string",
+      input = "select",
+      description = "Shift-click to select multiple!",
+      values = list("Adelie", "Gentoo", "Chinstrap"),
+      multiple = TRUE,
+      operators = c("equal", "not_equal", "in")
+    ),
+    list(
+      id = "sex",
+      label = "Sex",
+      input = "checkbox",
+      values = list(
+        "male",
+        "female"
+      ),
+      operators = c("equal", "not_equal", "in")
+    ),
+    list(
+      id = "bill_length_mm",
+      label = "Bill length",
+      type = "integer",
+      validation = list(
+        min = 0,
+        max = 100
+      ),
+      plugin = "slider",
+      plugin_config = list(
+        min = 0,
+        max = 100,
+        value = 0
+      )
+    )
+  )
+
+  output$txtValidation <- renderUI({
+    if (isFALSE(input$querybuilder_validate) || is.null(input$querybuilder_validate)) {
+      h3("INVALID QUERY", style = "color:red")
+    } else {
+      h3("VALID QUERY", style = "color:green")
+    }
+  })
+
+  output$querybuilder <- renderQueryBuilder({
+    queryBuilder(
+      filters = filters,
+      plugins = list(
+        "sortable" = NA,
+        "bt-tooltip-errors" = NA,
+        "bt-checkbox" = list("color" = "primary"),
+        "filter-description" = list("mode" = "bootbox"),
+        "unique-filter" = NA
+      ),
+      display_errors = TRUE,
+      allow_empty = FALSE,
+      select_placeholder = "###"
+    )
+  })
+
+  output$txtFilterList <- renderPrint({
+    req(input$querybuilder_validate)
+    filterTable(
+      filters = input$querybuilder_out,
+      data = palmerpenguins::penguins,
+      output = "text"
+    )
+  })
+
+
+  output$txtFilterResult <- renderDataTable(
+    {
+      req(input$querybuilder_validate)
+      filterTable(
+        filters = input$querybuilder_out,
+        data = palmerpenguins::penguins,
+        output = "table"
+      )
+    },
+    options = list(
+      pageLength = 5,
+      scrollY = "200px",
+      scrollX = TRUE
+    )
+  )
+
+  output$txtSQL <- renderPrint({
+    req(input$querybuilder_validate)
+    input$querybuilder_sql
+  })
+}
+
+# Run the application
+shinyApp(ui = ui, server = server)
+
+```
+
+
+::: {.column-screen-inset}
+<iframe src ="https://harryfish.shinyapps.io/qbr_demo/" allowfullscreen =""
+scrolling="yes" width = "100%" height = "800px" frameboarder="0"  data-external="1"></iframe>
+:::
+
+## Summary
+
+These settings barely scratch the surface of what is possible and the original queryBuilder site (https://querybuilder.js.org/) is well worth a visit to see the full potential of the widget. Also a special thanks to [harveyl888/queryBuilder](https://github.com/harveyl888/queryBuilder) on which `qbr` is heavily based. If you find something that isn't implemented feel free to open an issue [hfshr/qbr](https://github.com/hfshr/qbr/issues).
+
+Thanks for reading!
+

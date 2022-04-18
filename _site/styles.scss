@@ -1,0 +1,57 @@
+.navbar-dark {
+  background-color: #0d3640;
+}
+
+
+#posts> table, td {
+  --bs-table-accent-bg: 0;
+  --bs-table-bg: #002b36;
+  border-color: rgba(255, 0, 0, 0.0);
+  border-collapse:collapse
+}
+
+#posts > table > thead {
+  border-bottom: 0px;
+  display: none;
+  border-bottom-color: rgba(255, 0, 0, 0.0);
+}
+
+#posts >table>:not(:first-child) {
+    border-top-width: 0px;
+    border-top-color: #073642;
+}
+
+a {
+    text-decoration: none;
+    background-image: linear-gradient(currentColor, currentColor);
+    background-position: 0% 100%;
+    background-repeat: no-repeat;
+    background-size: 0% 2px;
+    color: #03dece;
+    transition: background-size .3s;
+}
+
+a:hover, a:focus {
+  background-size: 100% 2px;
+  color: #83fff6;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+.card-title {
+  font-weight: bold;
+}
+
+#quarto-document-content {
+  text-align: left;
+  margin-bottom: 0;
+}
+
+#quarto-content > div > div { 
+  flex-direction: column;
+  column-gap: 0.8em;
+  row-gap: 15px;
+  flex-wrap: wrap;
+}

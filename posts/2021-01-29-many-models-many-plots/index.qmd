@@ -1,0 +1,95 @@
+---
+title: "Many models, many plots, many pages!"
+description: |
+  A quick post showing a cool {knitr} trick you can use when creating a pdf with many plots and many pages.
+date: 01/29/2021
+image: giphy.gif
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval = FALSE)
+```
+
+I wanted to share a cool `knitr` trick I recently discovered thanks to [this excellent SO post](https://stackoverflow.com/questions/52788015/looping-through-a-list-of-ggplots-and-giving-each-a-figure-caption-using-knitr).
+
+## The problem
+
+* You have some data that has many groups. 
+* You want to fit a model and create a plot of the result for each group.
+* You want to create a pdf output that has each plot for each group on a new page, with the correct figure title and list of figures.
+* You _don't_ want to write each code chunk out manually.
+
+## The solution
+
+For a quick demonstration, lets use the `survival::verteran` dataset. We want to fit a survival model for each `celltype` and use `ggsurvplot` to create a survival curve for each model. Finally we want to print out each of the plots on a new page in a pdf document.
+
+```{r eval=TRUE}
+library(tidyverse)
+library(survival)
+library(survminer)
+
+# fit model for each celltype
+
+by_celltype <- veteran %>% 
+  nest_by(celltype) %>% 
+  mutate(model = list(survfit(Surv(time, status) ~ trt, data = data)),
+         plot = list(ggsurvplot(model, data = data)),
+         name = str_glue("Survival curve by treatmeant for celltype: {celltype}"))
+```
+
+
+If you haven't seen `nest_by` in action before, I'd highly recommend checking out this [dplyr article](https://dplyr.tidyverse.org/articles/rowwise.html#modelling). 
+
+Next we extract the list-column `by_celltype$plot` as a list, and give each element the name that was created using `str_glue` in the previous step.
+
+
+```{r eval=TRUE}
+
+all_plots <- as.list(by_celltype$plot)
+
+names(all_plots) <- by_celltype$name
+
+names(all_plots)
+```
+
+These will be used as our figure captions in the pdf.
+
+In this final step, we can pass in the names of the list to the `fig.cap` option in the knitr chunk, and set `results = 'asis'` like so
+
+````
+```{r fig.cap=names(all_plots), results='asis'}`r ''`
+```
+
+````
+
+In that chunk we can use a loop that prints each element in our list (in this case our plots) and also a `\newpage` command after each plot. 
+
+::: {.column-margin}
+
+Note that we need to use two `\\` in order escape the single `\` in markdown.
+
+:::
+
+```{r fig.cap=names(all_plots), results='asis'}
+
+for(plot in names(all_plots)){
+  print(all_plots[[plot]])
+  cat('\\newpage')
+}
+
+```
+
+
+Below is an example of the output.
+
+<iframe frameborder="0" scrolling="no"
+     width="640" height="480"
+     src="many-plots-demo.pdf">
+</iframe>
+
+Now, this was only with three groups, so it probably wouldn't have been too much trouble to write out manually. However with 50 or 100 groups, this workflow can come in very handy!
+
+## Acknowledgments {.appendix}
+
+All thanks goes to [Michael Harper](https://mikeyharper.uk/) for his great answer to this stack overflow post: https://stackoverflow.com/questions/52788015/looping-through-a-list-of-ggplots-and-giving-each-a-figure-caption-using-knitr

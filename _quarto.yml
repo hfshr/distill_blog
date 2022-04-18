@@ -1,0 +1,35 @@
+project:
+  type: website
+  repo-url: https://www.github.com/hfshr/distill_blog
+  
+
+
+website:
+  title: "Data Code & Coffee"
+  favicon: favicon.ico
+  site-url: https://www.hfshr.xyz
+  repo-url: https://github.com/hfshr/distill_blog
+  repo-branch: quarto
+  page-navigation: true
+  navbar:
+    background: primary
+    right:
+      - href: blog.qmd
+        text: Blog
+      - href: software/index.qmd
+        text: Projects
+      - icon: github
+        href: https://www.github.com/hfshr
+      - icon: twitter
+        href: https://www.twitter.com/hfshr
+  search: 
+    location: navbar
+    type: overlay
+format:
+  html:
+    theme:
+      light: solar
+    css: styles.scss
+
+
+

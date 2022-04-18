@@ -1,0 +1,16 @@
+{
+  "hash": "9a5ddc1334096250942b6f5f633f844d",
+  "result": {
+    "markdown": "---\ntitle: \"Demo\"\noutput: pdf_document\nlof: true\n---\n\n\n\n\\newpage\n\n::: {.cell}\n\n```{.r .cell-code}\nlibrary(tidyverse)\nlibrary(survival)\nlibrary(survminer)\n\nby_celltype <- veteran %>% \n  nest_by(celltype) %>% \n  mutate(model = list(survfit(Surv(time, status) ~ trt, data = data)),\n         name = str_glue(\"Survival curve by treatmeant for celltype: {celltype}\"),\n         plot = list(ggsurvplot(model, data)))\n\nall_plots <- as.list(by_celltype$plot)\nnames(all_plots) <- by_celltype$name\n```\n:::\n\n\n```{.r .cell-code}\nfor(plot in names(all_plots)){\n  print(all_plots[[plot]])\n  cat('\\n\\n')\n}\n```\n\n::: {.cell-output-display}\n![Survival curve by treatmeant for celltype: squamous](many-plots-demo_files/figure-html/unnamed-chunk-4-1.png){width=672}\n:::\n\n\n\n::: {.cell-output-display}\n![Survival curve by treatmeant for celltype: smallcell](many-plots-demo_files/figure-html/unnamed-chunk-4-2.png){width=672}\n:::\n\n\n\n::: {.cell-output-display}\n![Survival curve by treatmeant for celltype: adeno](many-plots-demo_files/figure-html/unnamed-chunk-4-3.png){width=672}\n:::\n\n\n\n::: {.cell-output-display}\n![Survival curve by treatmeant for celltype: large](many-plots-demo_files/figure-html/unnamed-chunk-4-4.png){width=672}\n:::\n\n\\newpage",
+    "supporting": [
+      "many-plots-demo_files"
+    ],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": [],
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": null
+  }
+}

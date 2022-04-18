@@ -1,0 +1,29 @@
+```{=html}
+
+<% for (const item of items) { %>
+<h2><%- item.category %></h2>
+<div class="list grid" style="column-gap: 10px;">
+<% for (const tile of item.tiles) { %>
+  <div class="card border-2 rounded-3 g-col-12 g-col-sm-6 g-col-md-4 mb-2" <%= metadataAttrs(tile) %>>
+    <a href="<%- tile.href %>">
+      <img src="<%- tile.thumbnail %>" alt="<%= tile.description %>" class="card-img-top"/>
+    </a>
+    <div class="card-body bg-light">
+    <a href="<%- tile.href %>" title="View source code" 
+        class="source-code card-text float-end inline-block">
+        <i class="bi-code-slash"></i>
+      </a>
+      <h5 class="card-title"><%= tile.title %></h5>
+       
+      <p class="card-text"><%= tile.subtitle %></p>
+      
+   </div>
+  
+  </div>
+<% } %>
+</div>
+<% } %>
+
+```
+
+

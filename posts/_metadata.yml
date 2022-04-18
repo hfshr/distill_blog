@@ -1,0 +1,8 @@
+freeze: true
+page-layout: article
+comments:
+  utterances:
+      repo: hfshr/distill_blog
+toc: true
+toc-depth: 2
+toc-location: "left"

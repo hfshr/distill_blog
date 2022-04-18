@@ -1,0 +1,14 @@
+{
+  "hash": "ce7644af433957c3ddf5eee7c4c31685",
+  "result": {
+    "markdown": "---\ntitle: \"{bitmexr} gets a hex logo!\"\ndescription: |\n   Steps to create a simple hex logo using the {hexSticker} package.\n\nimage: hex2.png    \ndate: 11/22/2020\ncategories:\n  - R\n  - Bitcoin\n  - bitmexr\n---\n\n\n\nHex logos are ubiquitous with R packages, and I had been meaning to create one for my `bitmexr` package for a while. For one reason or another I never quite got round to it, but that changes today! I thought I'd note down the steps I took here for future reference.\n\nA quick google of \"how to create R hex logo\" pointed me towards the `hexSticker` package, which I promptly installed and set to work. After having a look at some of the examples on https://github.com/GuangchuangYu/hexSticker, I opted for a really simple design (I was never much of an artist 😆) using the following code:\n\n::: {.cell}\n\n```{.r .cell-code}\nlibrary(hexSticker)\n\nsticker(\"/home/harry/Desktop/Bitcoin-Logo.png\",\n        package=\"bitmexr\",\n        p_size=20,\n        s_x=1,\n        s_y=0.75,\n        s_width = 0.9,\n        s_height = 0.9,\n        h_fill = \"#000000\",\n        h_color = \"#f2a900\",\n        asp = 0.9,\n        filename=\"hex.png\")\n```\n:::\n\nThe end result looks like this\n\n::: {.cell layout-align=\"center\"}\n\n```{.r .cell-code}\nknitr::include_graphics(\"hex.png\")\n```\n\n::: {.cell-output-display}\n![](hex.png){fig-align='center' width=259}\n:::\n:::\n\nNot particularly imaginative, but I'm happy with it as a first attempt! \n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": [],
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": null
+  }
+}

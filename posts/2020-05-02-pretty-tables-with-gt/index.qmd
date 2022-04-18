@@ -1,0 +1,311 @@
+---
+title: Pretty tables with {gt}.
+description: |
+  Traditionally I have been an ardent user of kable + kableExtra when it comes to creating tables. These packages have served me well, however the CRAN release of a new player in the table package space - gt - promted me to try it out and explore some of the features it had to offer.
+date: 05/02/2020
+format: html
+image: nice_table.png
+categories:
+  - Bitcoin
+  - gt
+  - ggplot
+  - bitmexr
+  - R
+bibliography: r-references.bib  
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(dplyr)
+library(bitmexr)
+library(gt)
+library(tidyverse)
+library(tidyquant)
+papaja::r_refs(file = "r-references.bib")
+```
+
+`gt` [@R-gt] has been under development for a while, but a stable version has recently been released to CRAN. In order to try the package out we first need some data for creating tables.
+I'll be using some Bitcoin price data (shameless self plug for my `bitmexr` [@R-bitmexr] package that has just landed on CRAN - check it out [here](https://cran.r-project.org/web/packages/bitmexr/index.html)).
+
+For demonstration purposes, I pulled the OHLC prices for the last 10 days.
+
+```{r}
+bitcoin <- bucket_trades(
+  binSize = "1d",
+  startTime = "2020-04-23",
+  endTime = "2020-05-02"
+) %>%
+  select(1:8) %>%
+  select(-symbol)
+
+
+head(bitcoin)
+```
+
+The most basic table without any formatting applied looks like this:
+
+```{r}
+bitcoin %>%
+  gt()
+```
+
+
+To get started, I borrowed some ideas straight from an example on https://gt.rstudio.com/ and applied some simple formatting to the raw data in the table. 
+
+- Added a header containing the title and subtitle of the table
+- Format the price columns with the appropriate currency symbol
+- Format the date column
+- Format the trades and volume column with appropriate suffixes
+
+```{r}
+start_date <- format(min(bitcoin$timestamp), "%d/%m/%Y")
+end_date <- format(max(bitcoin$timestamp), "%d/%m/%Y")
+
+tab <- bitcoin %>%
+  mutate(timestamp = as.character(timestamp)) %>%
+  gt() %>%
+  tab_header(
+    title = md("**Bitcoin price**"),
+    subtitle = glue::glue("{start_date} to {end_date}")
+  ) %>%
+  fmt_currency(
+    columns = vars(open, high, low, close),
+    currency = "USD"
+  ) %>%
+  fmt_number(
+    columns = vars(trades, volume),
+    suffixing = TRUE
+  ) %>%
+  fmt_date(
+    columns = vars(timestamp),
+    date_style = 9
+  )
+
+tab
+```
+
+
+Starting to look a little more presentable. Next, I
+
+- Added some colour to highlight changes in the trades and volume columns
+- Applied some formatting to the column names.
+- I also changed the number of decimal places to 0 (2 decimal places seemd overkill for this example).
+
+A cool feature of `gt` is that you can rename the column labels to something different, but refer to the original labels for any further manipulation. 
+
+
+```{r}
+tab <- tab %>%
+  tab_spanner(
+    label = "Price",
+    columns = vars(open, high, low, close)
+  ) %>%
+  data_color(
+    columns = vars(trades, volume),
+    colors = scales::col_numeric("Greens", domain = NULL)
+  ) %>%
+  cols_align(
+    align = "center",
+    columns = vars(trades, volume)
+  ) %>%
+  cols_label(
+    timestamp = "Date",
+    open = md("**Open**"),
+    high = "High",
+    low = "Low",
+    close = md("**Close**"),
+    trades = "Trades",
+    volume = "Volume"
+  ) %>%
+  fmt_currency(
+    columns = vars(open, high, low, close),
+    currency = "USD",
+    decimals = 0
+  )
+
+
+tab
+```
+
+
+
+
+Finally, it is also very easy to add custom html to the tables using the `text_transformations()` function (again inspired by https://gt.rstudio.com/). 
+The rocket and sad face indicate whether the closing price was greater or less than the opening price for each dat
+
+```{r}
+rocket <- "<span style=\"color:green\">&#128640;</span>"
+sadface <- "<span style=\"color:red\">&#128546;</span>"
+
+tab <- tab %>%
+  text_transform(
+    locations = cells_body(
+      columns = "close",
+      rows = close > open
+    ),
+    fn = function(x) paste(x, rocket)
+  ) %>%
+  text_transform(
+    locations = cells_body(
+      columns = "close",
+      rows = close < open
+    ),
+    fn = function(x) paste(x, sadface)
+  )
+
+tab
+```
+
+Looks good! I've barely scratched the surface of what `gt` can do here and the [package website](https://gt.rstudio.com/) is well worth a look if you are interested.  
+
+## Bonus table
+
+One experimental feature in `gt` is the ability to add a ggplot (or any image for that matter) to a table. Yes thats right, a ggplot in a table. I did have to do a bit of rummaging in the package repo to get this to work, but the idea is really cool.
+
+To demonstrate this functionality I pulled some new Bitcoin price data - the hourly OHLC for the whole on April 2020. The goal is to summarise this information for weekly intervals, with the total volume and trades and a plot of the price action for that week.
+
+First I define a few functions that will help in creating the table/plot combo.
+
+```{r}
+# helper for summary data
+oc <- function(name, df) {
+  df %>%
+    summarise(
+      open = dplyr::first(open),
+      close = dplyr::last(close),
+      volume = sum(volume),
+      trades = sum(trades),
+      date = dplyr::first(timestamp)
+    )
+}
+
+# ggplot for each week
+plot_group <- function(name, df) {
+  plot_object <-
+    ggplot(
+      data = df,
+      aes(x = timestamp, y = close)
+    ) +
+    geom_barchart(
+      aes(open = open, high = high, low = low, close = close),
+      fill_up = "green",
+      fill_down = "red",
+      colour_up = "green",
+      colour_down = "red"
+    ) +
+    theme_minimal() +
+    theme(
+      legend.position = "none",
+      axis.title = element_blank(),
+      axis.text = element_blank()
+    )
+  return(plot_object)
+}
+
+# combine ggplot within table
+fmt_ggplot <- fmt_gg <- function(
+  data,
+  columns,
+  rows = NULL,
+  height = 100,
+  aspect_ratio = 1.0
+) {
+  rows <- rlang::enquo(rows)
+
+  fmt(
+    data = data,
+    columns = columns,
+    rows = !!rows,
+    fns = list(
+      html = function(x) {
+        map(
+          x,
+          ggplot_image,
+          height = height,
+          aspect_ratio = aspect_ratio
+        )
+      }
+    )
+  )
+}
+```
+
+1. The first is just a simple helper function which generates some summary information for the final table
+
+2. The second is the ggplot object that will be used to visualise each weeks data.
+
+3. ~~The third was borrowed straight from gt's repo [here](https://github.com/rstudio/gt/pull/155/commits/fb862bdd16a8c7236727e51ddeff700cd2540b75). I think some of this functionality is still under development, so is not yet available in the CRAN release.~~
+
+2022 update: It is now much easier to support ggplot objects in gt tables! See [here](https://gt.rstudio.com/reference/ggplot_image.html)
+
+We're now ready to prepare the data for the table.
+
+```{r}
+newdata <- map_bucket_trades(
+  start_date = "2020-04-01",
+  end_date = "2020-04-28",
+  binSize = "1h"
+) %>%
+  mutate(week = lubridate::week(timestamp)) %>%
+  select(week, timestamp, open, high, low, close, volume, trades) %>%
+  group_by(week) %>%
+  nest() %>%
+  mutate(
+    plot = map2(week, data, plot_group),
+    info = map2(week, data, oc)
+  ) %>%
+  unnest(info)
+
+head(newdata)
+```
+
+
+Now the data is ready, we can make the table. 
+
+```{r}
+
+newdata %>%
+  ungroup() %>%
+  select(date, volume, trades, open, close, plot) %>%
+  mutate(date = as.character(date)) %>%
+  gt() %>%
+  text_transform(
+    locations = cells_body(columns = plot),
+    fn = function(x) {
+      newdata$plot %>% 
+        ggplot_image(height = px(200))
+    }
+  ) %>%
+  fmt_number(
+    columns = c(trades, volume),
+    suffixing = TRUE
+  ) %>%
+  fmt_date(
+    columns = c(date),
+    date_style = 8
+  ) %>%
+  cols_align(
+    align = "center"
+  ) %>%
+  fmt_currency(
+    columns = c(open, close)
+  ) %>%
+  tab_header(
+    title = md("**Price action summary for April 2020**")
+  ) %>%
+  cols_label(
+    date = "Week beginning",
+    open = "Open",
+    close = "Close",
+    trades = "Trades",
+    volume = "Volume",
+    plot = "Price action"
+  ) %>%
+  tab_spanner(
+    label = "Summary",
+    columns = c(volume, trades, open, close)
+  )
+```
+
+
+Pretty cool! The possibilities are endless with this and it was good fun trying to get it to work. 

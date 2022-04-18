@@ -1,0 +1,102 @@
+---
+title: "bitmexr 0.3.0: Place, modify and cancel your orders on BitMEX without leaving R! "
+description: |
+  bitmexr 0.3.0 brings some exciting new features to the package. bitmexr now            supports placing, editing and cancelling orders through BitMEX's API.
+  In addition, the testnet version of the API is now supported soyou can try out         managing orders using the package in a risk free environment!
+date: 05/25/2020
+format: html
+image: update.jpg
+categories: 
+  - bitmexr
+  - R
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(bitmexr)
+```
+
+Install the latest release from CRAN:
+
+```{r eval=FALSE}
+install.packages("bitmexr")
+```
+
+Package site: https://hfshr.github.io/bitmexr/
+
+# bitmexr 0.3.0 - Whats new?
+
+The latest CRAN release of `bitmexr` supports placing, editing and cancelling orders on the BitMEX exchange. These actions are supported by the following functions:
+
+- `place_order()`
+- `edit_order()`
+- `cancel_order` or  `cancel_all_orders()`
+
+See the [package documentation](https://hfshr.github.io/bitmexr/reference/index.html) or the [BitMEX website](https://www.bitmex.com/api/explorer/) for details on what arguments can be used with each function.
+
+# Practice on the Testnet
+
+BitMEX has a fully functional Testnet exchange that lets you use a "practice" version of the live exchange. This is great for trying out a new trading idea or using trying these functions out in a risk free environment that is identical to the real thing.  Every function in `bitmexr` has a Testnet equivalent - simply use the "tn_" prefix to access the Testnet version of the function. For example:
+
+```{r eval=FALSE}
+place_order(symbol = "XBTUSD", price = 5000, orderQty = 100)
+```
+
+Will place an order on the live exchange, whereas:
+
+```{r eval=FALSE}
+tn_place_order(symbol = "XBTUSD", price = 5000, orderQty = 100)
+```
+
+Will place the order on the Testnet exchange.
+
+# Authentication needed!
+
+In order to use these new functions you must first obtain an API key and secret for the account you wish to use with `bitmexr`. With API key and secret in hand, you can add these to your ~/.Renviron file using:
+```
+bitmex_apikey = "api key"
+bitmex_apisecret = "api secret"
+```
+for the live exchange or
+```
+testnet_bitmex_apikey = "testnet api key"
+testnet_bitmex_apisecret = "tetsnet api secret"
+```
+for the Testnet exchange. 
+
+See the [Authentication vignette](https://hfshr.github.io/bitmexr/articles/authentication.html) for more details.
+
+# Extras
+
+## Speed boost 
+
+With authentication set up, `map_trades()` and `map_bucket_trades()` get a speed boost due to increased API limit when using authentication. Simply set `use_auth = TRUE` to get these functions running at 60 API call per minute.
+
+## Additional API endpoints
+
+For additional API endpoints that don't have a dedicated API wrapper in `bitmexr`, it is possible use either:
+
+- `get_bitmex()` for additional GET requests
+
+and
+
+- `post_bitmex()` for additional POST requests.
+
+These functions just need the path to the API endpoint and a named list of valid parameters for that endpoint. For example, you could use:
+
+```{r eval=FALSE}
+chat <- get_bitmex(path = "/chat", 
+                   args = list(channelID = 1, 
+                              reverse = "true"))
+```
+
+To get the latest English trollbox chat data (not sure why anyone would want this, but it is possible!).
+
+# What next?
+
+Current ideas for a future release:
+
+- Support for easily placing bulk orders 
+- Rstudio addin for easy order submission
+
+Of course, any feedback / ideas are more than welcome! (https://www.github.com/hfshr/bitmexr)

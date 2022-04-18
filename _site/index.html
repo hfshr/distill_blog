@@ -1,1212 +1,200 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+<meta charset="utf-8">
+<meta name="generator" content="quarto-0.9.272">
 
-    <title></title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+
+<title>Data Code &amp; Coffee</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<link href="./favicon.ico" rel="icon">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link id="quarto-text-highlighting-styles" href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="styles.scss">
+</head>
+
+<body class="nav-fixed fullcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Data Code &amp; Coffee</span>
+  </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./blog.html">Blog</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./software/index.html">Projects</a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.github.com/hfshr"><i class="bi bi-github" role="img">
+</i> 
+ </a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.twitter.com/hfshr"><i class="bi bi-twitter" role="img">
+</i> 
+ </a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
     
-          <!--radix_placeholder_navigation_in_header-->
-          <meta name="distill:offset" content=""/>
-
-          <script type="application/javascript">
-
-            window.headroom_prevent_pin = false;
-
-            window.document.addEventListener("DOMContentLoaded", function (event) {
-
-              // initialize headroom for banner
-              var header = $('header').get(0);
-              var headerHeight = header.offsetHeight;
-              var headroom = new Headroom(header, {
-                tolerance: 5,
-                onPin : function() {
-                  if (window.headroom_prevent_pin) {
-                    window.headroom_prevent_pin = false;
-                    headroom.unpin();
-                  }
-                }
-              });
-              headroom.init();
-              if(window.location.hash)
-                headroom.unpin();
-              $(header).addClass('headroom--transition');
-
-              // offset scroll location for banner on hash change
-              // (see: https://github.com/WickyNilliams/headroom.js/issues/38)
-              window.addEventListener("hashchange", function(event) {
-                window.scrollTo(0, window.pageYOffset - (headerHeight + 25));
-              });
-
-              // responsive menu
-              $('.distill-site-header').each(function(i, val) {
-                var topnav = $(this);
-                var toggle = topnav.find('.nav-toggle');
-                toggle.on('click', function() {
-                  topnav.toggleClass('responsive');
-                });
-              });
-
-              // nav dropdowns
-              $('.nav-dropbtn').click(function(e) {
-                $(this).next('.nav-dropdown-content').toggleClass('nav-dropdown-active');
-                $(this).parent().siblings('.nav-dropdown')
-                   .children('.nav-dropdown-content').removeClass('nav-dropdown-active');
-              });
-              $("body").click(function(e){
-                $('.nav-dropdown-content').removeClass('nav-dropdown-active');
-              });
-              $(".nav-dropdown").click(function(e){
-                e.stopPropagation();
-              });
-            });
-          </script>
-
-          <style type="text/css">
-
-          /* Theme (user-documented overrideables for nav appearance) */
-
-          .distill-site-nav {
-            color: rgba(255, 255, 255, 0.8);
-            background-color: #0F2E3D;
-            font-size: 15px;
-            font-weight: 300;
-          }
-
-          .distill-site-nav a {
-            color: inherit;
-            text-decoration: none;
-          }
-
-          .distill-site-nav a:hover {
-            color: white;
-          }
-
-          @media print {
-            .distill-site-nav {
-              display: none;
-            }
-          }
-
-          .distill-site-header {
-
-          }
-
-          .distill-site-footer {
-
-          }
-
-
-          /* Site Header */
-
-          .distill-site-header {
-            width: 100%;
-            box-sizing: border-box;
-            z-index: 3;
-          }
-
-          .distill-site-header .nav-left {
-            display: inline-block;
-            margin-left: 8px;
-          }
-
-          @media screen and (max-width: 768px) {
-            .distill-site-header .nav-left {
-              margin-left: 0;
-            }
-          }
-
-
-          .distill-site-header .nav-right {
-            float: right;
-            margin-right: 8px;
-          }
-
-          .distill-site-header a,
-          .distill-site-header .title {
-            display: inline-block;
-            text-align: center;
-            padding: 14px 10px 14px 10px;
-          }
-
-          .distill-site-header .title {
-            font-size: 18px;
-            min-width: 150px;
-          }
-
-          .distill-site-header .logo {
-            padding: 0;
-          }
-
-          .distill-site-header .logo img {
-            display: none;
-            max-height: 20px;
-            width: auto;
-            margin-bottom: -4px;
-          }
-
-          .distill-site-header .nav-image img {
-            max-height: 18px;
-            width: auto;
-            display: inline-block;
-            margin-bottom: -3px;
-          }
-
-
-
-          @media screen and (min-width: 1000px) {
-            .distill-site-header .logo img {
-              display: inline-block;
-            }
-            .distill-site-header .nav-left {
-              margin-left: 20px;
-            }
-            .distill-site-header .nav-right {
-              margin-right: 20px;
-            }
-            .distill-site-header .title {
-              padding-left: 12px;
-            }
-          }
-
-
-          .distill-site-header .nav-toggle {
-            display: none;
-          }
-
-          .nav-dropdown {
-            display: inline-block;
-            position: relative;
-          }
-
-          .nav-dropdown .nav-dropbtn {
-            border: none;
-            outline: none;
-            color: rgba(255, 255, 255, 0.8);
-            padding: 16px 10px;
-            background-color: transparent;
-            font-family: inherit;
-            font-size: inherit;
-            font-weight: inherit;
-            margin: 0;
-            margin-top: 1px;
-            z-index: 2;
-          }
-
-          .nav-dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: white;
-            min-width: 200px;
-            border: 1px solid rgba(0,0,0,0.15);
-            border-radius: 4px;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
-            z-index: 1;
-            margin-top: 2px;
-            white-space: nowrap;
-            padding-top: 4px;
-            padding-bottom: 4px;
-          }
-
-          .nav-dropdown-content hr {
-            margin-top: 4px;
-            margin-bottom: 4px;
-            border: none;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-          }
-
-          .nav-dropdown-active {
-            display: block;
-          }
-
-          .nav-dropdown-content a, .nav-dropdown-content .nav-dropdown-header {
-            color: black;
-            padding: 6px 24px;
-            text-decoration: none;
-            display: block;
-            text-align: left;
-          }
-
-          .nav-dropdown-content .nav-dropdown-header {
-            display: block;
-            padding: 5px 24px;
-            padding-bottom: 0;
-            text-transform: uppercase;
-            font-size: 14px;
-            color: #999999;
-            white-space: nowrap;
-          }
-
-          .nav-dropdown:hover .nav-dropbtn {
-            color: white;
-          }
-
-          .nav-dropdown-content a:hover {
-            background-color: #ddd;
-            color: black;
-          }
-
-          .nav-right .nav-dropdown-content {
-            margin-left: -45%;
-            right: 0;
-          }
-
-          @media screen and (max-width: 768px) {
-            .distill-site-header a, .distill-site-header .nav-dropdown  {display: none;}
-            .distill-site-header a.nav-toggle {
-              float: right;
-              display: block;
-            }
-            .distill-site-header .title {
-              margin-left: 0;
-            }
-            .distill-site-header .nav-right {
-              margin-right: 0;
-            }
-            .distill-site-header {
-              overflow: hidden;
-            }
-            .nav-right .nav-dropdown-content {
-              margin-left: 0;
-            }
-          }
-
-
-          @media screen and (max-width: 768px) {
-            .distill-site-header.responsive {position: relative; min-height: 500px; }
-            .distill-site-header.responsive a.nav-toggle {
-              position: absolute;
-              right: 0;
-              top: 0;
-            }
-            .distill-site-header.responsive a,
-            .distill-site-header.responsive .nav-dropdown {
-              display: block;
-              text-align: left;
-            }
-            .distill-site-header.responsive .nav-left,
-            .distill-site-header.responsive .nav-right {
-              width: 100%;
-            }
-            .distill-site-header.responsive .nav-dropdown {float: none;}
-            .distill-site-header.responsive .nav-dropdown-content {position: relative;}
-            .distill-site-header.responsive .nav-dropdown .nav-dropbtn {
-              display: block;
-              width: 100%;
-              text-align: left;
-            }
-          }
-
-          /* Site Footer */
-
-          .distill-site-footer {
-            width: 100%;
-            overflow: hidden;
-            box-sizing: border-box;
-            z-index: 3;
-            margin-top: 30px;
-            padding-top: 30px;
-            padding-bottom: 30px;
-            text-align: center;
-          }
-
-          /* Headroom */
-
-          d-title {
-            padding-top: 6rem;
-          }
-
-          @media print {
-            d-title {
-              padding-top: 4rem;
-            }
-          }
-
-          .headroom {
-            z-index: 1000;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-          }
-
-          .headroom--transition {
-            transition: all .4s ease-in-out;
-          }
-
-          .headroom--unpinned {
-            top: -100px;
-          }
-
-          .headroom--pinned {
-            top: 0;
-          }
-
-          /* adjust viewport for navbar height */
-          /* helps vertically center bootstrap (non-distill) content */
-          .min-vh-100 {
-            min-height: calc(100vh - 100px) !important;
-          }
-
-          </style>
-
-          <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
-          <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet"/>
-          <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet"/>
-          <script src="site_libs/headroom-0.9.4/headroom.min.js"></script>
-          <!--/radix_placeholder_navigation_in_header-->
-          <!--radix_placeholder_site_in_header-->
-
-          <script>
-            document.addEventListener("DOMContentLoaded", function () {
-              if (!/posts/.test(location.pathname)) {
-                return;
-              }
-
-              var script = document.createElement("script");
-              script.src = "https://utteranc.es/client.js";
-              script.setAttribute("repo", "hfshr/distill_blog");
-              script.setAttribute("issue-term", "og:title");
-              script.setAttribute("crossorigin", "anonymous");
-              script.setAttribute("label", "comment_thread");
-
-              /* wait for article to load, append script to article element */
-              var observer = new MutationObserver(function (mutations, observer) {
-                var article = document.querySelector("d-article");
-                if (article) {
-                  observer.disconnect();
-                  /* HACK: article scroll */
-                  article.setAttribute("style", "overflow-y: hidden");
-                  article.appendChild(script);
-                }
-              });
-
-              observer.observe(document.body, { childList: true });
-            });
-            </script>
-
-          <script type="text/javascript" cookie-consent="tracking" async src="https://www.googletagmanager.com/gtag/js?id=UA-145834792-2"></script>
-          <script type="text/javascript" cookie-consent="tracking">
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', 'UA-145834792-2');
-          </script>
-          <style type="text/css">
-          @import url('https://fonts.googleapis.com/css2?family=Lato');
-          @import url('https://fonts.googleapis.com/css2?family=Roboto');
-          @import url(https://fonts.googleapis.com/css?family=Noto+Sans:400,400i,700,700i&display=swap);
-          @import url('https://fonts.googleapis.com/css2?family=Fira+Mono');
-
-
-          /* #222831 */
-          :root {
-            --text-font-family: 'Noto Sans';
-            --text-header: 'Lato';
-            --main-text-color: #eeeeee;
-            --secondary-text-color: #72faca;
-            --surface1: #262626;
-            --surface2: #393e46;
-            --main-link: #72faca;
-            --boarder: rgba(255, 255, 255, 0.31);
-            
-          }
-
-
-          .light {
-            --surface1: white;
-            --surface2: #333333;
-            --main-text-color: #373D3F;
-            --main-link: #0bbd7e;
-            --secondary-text-color: #0bbd7e;
-            --boarder: rgba(0, 0, 0, 0.31);
-          }
-
-
-          /* nav bar */
-
-          .distill-site-nav {
-            font-family: var(--text-header), sans-serif;
-            color: #fff;
-            background-color: var(--surface2);
-            font-size: 25px;
-            font-weight: 400;
-          }
-
-
-          .distill-site-nav a {
-            font-family: var(--text-header), sans-serif;
-            font-weight: 500;
-            font-size: 25px;
-            color: #fff;
-          }
-
-          .distill-site-header .logo img {
-              display: block;
-              max-height: 25px;
-              width: auto;
-          }
-
-          .distill-site-header .title {
-              font-size: 25px;
-              min-width: 150px;
-              font-weight: 700;
-          }
-
-          /* https://codepen.io/sdthornton/pen/wBZdXq */
-          .distill-site-header {
-            box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
-            font-family: 'Lato', sans-serif;
-            color: #fff;
-            background-color: #393e46;
-            font-size: 20px;
-            font-weight: 400;
-          }
-
-          .distill-site-footer {
-            position: fixed;
-            height: 45px;
-            bottom: 0px;
-            color: #eeeeee;
-            background-color: #393e46;
-            font-size: 20px;
-            font-weight: 400;
-            padding-top: 8px;
-            padding-bottom: 5px;
-          }
-
-          .distill-site-footer p {
-            color: #eeeeee;
-            background-color: #393e46;
-            font-size: 20px;
-            font-weight: 400;
-            padding-top: 0px;
-            padding-bottom: 5px;
-          }
-
-          .distill-site-footer a {
-            font-size: 20px;
-            background-color: #393e46;
-            color: #72faca;
-          }
-
-          .distill-site-footer svg {
-            height: 20px;
-            fill: #72faca;
-          }
-
-          .d-footnote {
-            background-color: var(--surface1);
-            color: var(--main-text-color);
-          }
-
-          /*####################################################*/
-
-
-          .posts-list .post-preview .thumbnail img { 
-            max-width: 60%;
-            max-height: 60%;
-            display: block;
-            margin: 0 auto;
-            vertical-align: middle;
-          }
-
-          .posts-list .post-preview {
-            border-bottom: 0.5px solid var(--boarder);
-          }
-
-          .posts-list h1 {
-             font-family: 'Lato';
-             font-weight: 600;
-          }
-
-
-          .posts-list .description p {
-              font-family: var(--text-font-family);
-          }
-
-          .posts-list .description h2 {
-              font-family: 'Lato';
-          }
-
-          .posts-list .post-preview .metadata {
-              float: left;
-              width: 15%;
-              margin-top: 8px;
-          }
-
-          .posts-list .metadata {
-              font-size: 16px;
-              line-height: 1.4em;
-              margin-bottom: 18px;
-          }
-
-          /*##################################################*/
-
-
-          body {
-            margin-bottom:60px;
-          }
-
-          body, p {
-            font-family: var(--text-font-family);
-            text-transform: none;
-            font-weight: 200;
-            line-height: 1.6; 
-            font-size: 1em;
-            background-color: var(--surface1);
-            color: var(--main-text-color);
-            font-style: normal;
-          }
-
-
-          strong {
-            font-weight: bold;
-          }
-
-
-          d-article {
-             color: var(--main-text-color);
-             border-top: 1px solid var(--boarder);
-          }
-
-
-          d-article h1, d-article h2 {
-              border-bottom: 1px solid var(--boarder);
-              padding-bottom: 5px;
-          }
-
-            
-
-          d-article a {
-              border-bottom: none;
-              text-decoration: none;
-          }
-
-          d-article a:hover  {
-            text-decoration: none;
-            border-bottom: none;
-            cursor: pointer;
-            color: var(--secondary-text-color);
-          }
-
-          .d-contents nav > ul > li > a {
-              font-weight: 200;
-              text-decoration: none;
-              border-bottom: none;
-              color:var(--main-text-color);
-              font-size: 16px;
-          }
-
-          d-article table th {
-              border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-              border-top: 1px solid rgba(255, 255, 255, 0.2);
-          }
-
-          d-article table tr:last-of-type td {
-              border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-          }
-
-          h1.posts-list-caption {
-            border-bottom: none;
-          }
-
-
-          html a {
-              text-decoration: none;
-              background-image: linear-gradient(currentColor, currentColor);
-              background-position: 0% 100%;
-              background-repeat: no-repeat;
-              background-size: 0% 2px;
-              color: var(--main-link);
-              transition: background-size .3s;
-          }
-
-          html a:hover, html a:focus {
-            background-size: 100% 2px;
-          }
-
-          a:hover {
-              text-decoration: none;
-          }
-
-          .categories .category-count {
-              color: var(--main-link);
-          }
-
-          a.post-preview {
-            color: var(--main-text-color);
-          }
-
-          .distill-site-nav a {
-            background-image: none;
-          }
-
-          .distill-site-nav a:hover {
-            color: var(--main-link);
-          }
-
-          /*##################################################*/
-
-          /*SIDE BAR*/
-
-          .sidebar-section-custom{
-            font-size: 15px;
-            text-align: justify;
-            line-height: 1.6; 
-          }
-
-          .sidebar-section-custom h2{
-            font-family: var(--text-header);
-            text-align: center;
-            font-size: 25px;
-            border-bottom: 1px solid rgb(255 255 255 / 30%);
-            
-          }
-
-          .sidebar-section.subscribe {
-            font-size: 15px;
-            text-align: justify;
-            line-height: 1.7; 
-            
-          }
-
-          .sidebar-section.subscribe h3{
-            font-family: var(--text-header);
-            font-weight: 700;
-            
-          }
-
-          .sidebar-section.categories h3{
-            font-family: var(--text-header);
-            font-weight: 700;
-          }
-
-
-
-          /* colour tags */
-          .dt-tags .dt-tag {
-              display: inline-block;
-              color: var(--main-text-color);
-              padding: 0.3em 0.4em;
-              margin-right: 0.2em;
-              margin-bottom: 0.4em;
-              font-size: 14px;
-              border: 1px solid var(--main-text-color);
-              background-color: var(--surface1);
-              border-radius: 3px;
-              text-transform: uppercase;
-              font-weight: 900;
-          }
-
-          .posts-list .dt-tags .dt-tag {
-              color: var(--main-text-color);
-              border: 1px solid var(--main-text-color);
-              font-size: 14px;
-          }
-
-
-          .categories li > a:hover {
-              color: var(--secondary-text-color); 
-              border-bottom: none;
-          }
-
-
-
-          img[alt=badge] { 
-            width: 85px; 
-            height: 20px; 
-            float: left;
-          }
-
-          img[alt$="<"] {
-            float: left;
-          }
-
-          .mylinks a{
-            color: var(--main-text-color);
-            
-          }
-
-          .center{
-            text-align: center;
-          }
-
-
-          .col-6.mt-3.text-center.d-none.d-sm-block {
-            
-              background-color: var(--surface1); /* Changing background color */
-              color: var(--main-text-color);
-              border-radius: 10px; /* Making border radius */
-              box-sizing: content-box; /* Making auto-sizable width */
-              height: auto; /* Making auto-sizable height */
-              padding: 10px 0px 0px 0px;
-              font-size: 18px;
-            
-          }
-
-          .col-6.mt-3.text-center.d-none.d-sm-block p{
-              color: var(--main-text-color);
-          }
-
-          /*
-          .col-6.mt-3.text-center.d-none.d-sm-block a{
-              color: #eeeeee;
-              text-decoration: underline;
-          }
-
-          */
-          .col-6.mt-3.text-center.d-none.d-sm-block a:hover{
-              color: var(--secondary-text-color);
-              text-decoration: none;
-          }
-
-
-          .btn {
-            background-color: var(--surface1);
-            color: var(--main-text-color);
-          }
-
-          hr {
-              box-sizing: content-box;
-              height: 0;
-              overflow: visible;
-              border-top: 1px solid var(--boarder);
-          }
-
-
-
-          .mt-3, .my-3 {
-              margin-top: 0rem !important;
-          }
-
-
-          .btn-outline-dark {
-            border-color: var(--main-text-color);
-          }
-
-          .btn-outline-dark:hover {
-              color: var(--main-text-color);
-              background-color: var(--surface1);
-              border-color: var(--main-link);
-          }
-
-
-
-
-
-          d-byline {
-              color: var(--main-text-color);
-              border-top: 1px solid var(--boarder);
-          }
-
-          d-byline h3 {
-              font-size: 1rem;
-              font-weight: 400;
-              color: var(--main-text-color);
-              margin: 0;
-              text-transform: uppercase;
-          }
-
-
-          /*##########################################################*/
-
-          /* code chunks */
-
-          /* CODE FORMATTING */
-
-          code {
-            font-size: 1.2em;
-          }
-
-          /* Highlight code in text but not in code chunk */
-          p code, li code {
-              color: #eeeeee;
-              font-size: 1.0em;
-              background: #939393;
-               border-radius:5px;
-              padding: 3px;
-              margin: 0 4px;
-              word-wrap: break-word;
-              letter-spacing: normal;
-          } 
-
-
-           
-
-          d-article div.sourceCode {
-              background-color: var(--surface1);
-              border-left: 2px solid var(--boarder);
-          }
-
-          pre {
-            word-wrap: normal;
-            word-break: normal;
-            /*border: 1px solid #eee;*/
-            border: 0px !important;
-          }
-
-          pre, code {
-            background-color: var(--surface1);
-          }
-
-          pre code {
-            overflow: auto;
-            border-radius: 0px;
-            word-wrap: normal;
-            white-space: pre;
-          }
-
-          pre .img {
-            margin: 5px 0;
-          }
-
-          pre .img img {
-            background-color: #aaa;
-            display: block;
-            height: auto;
-          }
-
-          code a, pre a {
-            font-family: ui-monospace, SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
-            color: #85AACC;
-            background-image: none;
-            text-decoration: none;
-          }
-
-          a.sourceLine:hover {
-            text-decoration: none;
-          }
-
-          .fl      {color: #ae81ff;}
-          .fu      {color: #636fa5;} /* function */
-          .ch,.st  {color: #33b374;} /* string */
-          .kw      {color: #f92672;} /* keyword */
-          .co      {color: #696d70;} /* comment */
-          .va      {color: #e27a00;} /* values */
-
-          .message { color: #eeeeee;   font-weight: bolder;}
-          .error   { color: orange;  font-weight: bolder;}
-          .warning { color: #6A0366; font-weight: bolder;}
-
-          code span.va {
-              color: #e27a00;
-          }
-
-          code span.st {
-              color: #33b374;
-          }
-
-          code span.op {
-              color: var(--main-text-color);
-          }
-
-          code span.fl {
-              color: #ff0202;
-          }
-
-          code span.fu {
-              color: #768eff;
-          }
-
-          code span.co {
-              color: #adadad;
-          }
-
-          d-article pre {
-            color:var(--main-text-color);
-          }
-
-          /* Appendix */
-
-          d-appendix {
-            color: var(--main-text-color);
-            font-size: 14px;
-            border-top: 1px solid rgba(255, 255, 255, 0.31);
-            font-size: 1em;
-          }
-
-
-          d-appendix h3{
-            color: var(--main-text-color);
-            font-size: 1rem;
-          }
-
-          .social_footer {
-              margin-top: 30px;
-              margin-bottom: 0;
-              color: var(--main-text-color);
-          }
-
-          d-article aside {
-              color: var(--main-text-color);
-          }
-
-          /* ############################################## */
-
-          /* MISC */
-
-          figcaption, .figcaption {
-              color: var(--main-text-color);
-              font-size: 12px;
-              line-height: 1.5em;
-          }
-
-
-
-          .ReactTable {
-              height: 100%;
-              background-color: #383c3b00;
-          }
-
-          /*
-          svg {
-            background-color: white;
-          }
-          */
-
-          div#i4VSD54I16UA7LSG1UCX8 {
-            background-color: white;
-          }
-
-          d-article blockquote {
-              border-left: 2px solid rgba(255, 255, 255, 0.2);
-              
-          }
-
-
-          .figure .caption {
-              color: var(--main-text-color)  ;
-              font-size: 12px;
-              line-height: 1.5em;
-          }
-
-          .niceNetwork{
-            color: var(--main-text-color);
-          }
-
-          .utterances {
-            height: 267px;
-          }
-
-          .col-6 {
-              flex: none;
-              max-width: max-content;
-
-          }
-
-          .col-6 ul li {
-            list-style-type: '>  ';
-            }
-            
-          .col-6 ul {
-            text-align: center;
-            list-style-position: inside;
-          }  
-
-
-          .bold {
-            font-weight: 800;
-          }
-          </style>
-          <!--/radix_placeholder_site_in_header-->
-          
-          <style type="text/css">
-          body {
-            padding-top: 60px;
-          }
-          </style>
-          <script src="/home/harry/R/x86_64-pc-linux-gnu-library/4.1/rmarkdown/rmd/h/pandoc/header-attrs.js"></script>
-    
-    
-  </head>
-  <body>
-
-          <!--radix_placeholder_navigation_before_body-->
-          <header class="header header--fixed" role="banner">
-          <nav class="distill-site-nav distill-site-header">
-          <div class="nav-left">
-          <a href="index.html" class="title">Data, Code &amp; Coffee</a>
-          </div>
-          <div class="nav-right">
-          <a href="index.html">
-          <i class="fas fa-home" aria-hidden="true"></i>
-          </a>
-          <a href="blog.html">
-          <i class="fas fa-pencil-alt" aria-hidden="true"></i>
-          </a>
-          <a href="about.html">
-          <i class="fas fa-address-card" aria-hidden="true"></i>
-          </a>
-          <a href="software.html">
-          <i class="fas fa-wrench" aria-hidden="true"></i>
-          </a>
-          <a href="https://github.com/hfshr">
-          <i class="fab fa-github" aria-hidden="true"></i>
-          </a>
-          <a href="blog.xml">
-          <i class="fas fa-rss" aria-hidden="true"></i>
-          </a>
-          <a>
-          <i class="far fa-lightbulb" aria-hidden="true"></i>
-          </a>
-          <a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
-          </div>
-          </nav>
-          </header>
-          <!--/radix_placeholder_navigation_before_body-->
-          <!--radix_placeholder_site_before_body-->
-          <!--/radix_placeholder_site_before_body-->
-    
-    <div class="container min-vh-100">
-      <div class="row min-vh-100 justify-content-center align-items-center">
-        <div class="col-12 text-center">
-          <img src=data/images/me2.jpg style="height:10rem" class="rounded-circle">
-          <div class="mt-3">
-            <h1></h1>
-          </div>
-          <div class="row justify-content-center align-items-center">
-            <div class="col-6 mt-3 text-center d-none d-sm-block">
-              <p><b style = "font-weight: 800;"> Harry Fisher </b> <br> <a href = "https://www.r-project.org/">R</a> engineer at <a href="https://www.sevenbridges.com/">Seven Bridges</a> <br> Prolific tinkerer // Runner // Penchant for coffee <br><br> <a href="blog.html">Posts</a> 📝 <br> <a href="about.html">About</a> 🙋 <br> <a href="software.html">Software</a> 🛠</p>
-            </div>
-            <div class="col-11 mt-3 text-center d-block d-sm-none">
-              <p><b style = "font-weight: 800;"> Harry Fisher </b> <br> <a href = "https://www.r-project.org/">R</a> engineer at <a href="https://www.sevenbridges.com/">Seven Bridges</a> <br> Prolific tinkerer // Runner // Penchant for coffee <br><br> <a href="blog.html">Posts</a> 📝 <br> <a href="about.html">About</a> 🙋 <br> <a href="software.html">Software</a> 🛠</p>
-            </div>
-          </div>
-
-          <hr style="width:60%;"/>
-
-          <div class="row justify-content-center align-items-center">
-            <div class="col-8 text-center d-none d-sm-block">
-              <ul class="list-inline">
-                                <li class="list-inline-item">
-                  <a href=https://twitter.com/harryfishr>
-                    <button type="button" class="btn btn-outline-dark mb-2">
-                      <i class="fab fa-twitter fa-3x"></i>
-                    </button>
-                  </a>
-                </li>
-                                <li class="list-inline-item">
-                  <a href=https://github.com/hfshr>
-                    <button type="button" class="btn btn-outline-dark mb-2">
-                      <i class="fab fa-github fa-3x"></i>
-                    </button>
-                  </a>
-                </li>
-                                <li class="list-inline-item">
-                  <a href=mailto:harryfisher21@email.com>
-                    <button type="button" class="btn btn-outline-dark mb-2">
-                      <i class="far fa-envelope fa-3x"></i>
-                    </button>
-                  </a>
-                </li>
-                                <li class="list-inline-item">
-                  <a href=https://www.linkedin.com/in/drharryfisher/>
-                    <button type="button" class="btn btn-outline-dark mb-2">
-                      <i class="fab fa-linkedin-in fa-3x"></i>
-                    </button>
-                  </a>
-                </li>
-                              </ul>
-            </div>
-          </div>
-
-          <div class="row justify-content-center align-items-center">
-            <div class="col-8 m-1 text-center d-block d-sm-none">
-              <div class="list-group">
-                                <a href=https://twitter.com/harryfishr>
-                  <button type="button" class="list-group-item list-group-item-action my-1 rounded">
-                    <i class="fab fa-twitter fa-3x"></i>
-                  </button>
-                </a>
-                                <a href=https://github.com/hfshr>
-                  <button type="button" class="list-group-item list-group-item-action my-1 rounded">
-                    <i class="fab fa-github fa-3x"></i>
-                  </button>
-                </a>
-                                <a href=mailto:harryfisher21@email.com>
-                  <button type="button" class="list-group-item list-group-item-action my-1 rounded">
-                    <i class="far fa-envelope fa-3x"></i>
-                  </button>
-                </a>
-                                <a href=https://www.linkedin.com/in/drharryfisher/>
-                  <button type="button" class="list-group-item list-group-item-action my-1 rounded">
-                    <i class="fab fa-linkedin-in fa-3x"></i>
-                  </button>
-                </a>
-                              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
-
-          <!--radix_placeholder_site_after_body-->
-          <script>
-          const toggle = document.getElementsByClassName("far fa-lightbulb")[0];
-
-          let theme = localStorage.getItem("theme");
-
-          if (!theme) {
-            if (window.matchMedia("(prefers-color-scheme: dark)").matches ) {
-              theme = "dark";
-            } else {
-              theme = "dark";
-            }
-          }
-          setTheme();
-
-          function switchTheme() {
-            if (theme === "light") {
-              theme = "dark";
-            } else {
-              theme = "light";
-            }
-            localStorage.setItem("theme", theme);
-            setTheme();
-            console.log(theme);
-          }
-
-          function setTheme() {
-            if (theme === "light") {
-              
-              document.body.classList.remove('light');
-            } else {
-              document.body.classList.add('light');
-            }
-          }
-
-          toggle.addEventListener('click', switchTheme)
-
-          </script>
-
-          <!--/radix_placeholder_site_after_body-->
-          <!--radix_placeholder_navigation_after_body-->
-          <div class="distill-site-nav distill-site-footer">
-          <div class="distill-site-footer" style = "font-size: small;">
-
-          <p style = "font-size: medium;">
-            
-          Made with the <a href="https://cran.r-project.org/"><svg viewBox="0 0 581 512"><path d="M581 226.6C581 119.1 450.9 32 290.5 32S0 119.1 0 226.6C0 322.4 103.3 402 239.4 418.1V480h99.1v-61.5c24.3-2.7 47.6-7.4 69.4-13.9L448 480h112l-67.4-113.7c54.5-35.4 88.4-84.9 88.4-139.7zm-466.8 14.5c0-73.5 98.9-133 220.8-133s211.9 40.7 211.9 133c0 50.1-26.5 85-70.3 106.4-2.4-1.6-4.7-2.9-6.4-3.7-10.2-5.2-27.8-10.5-27.8-10.5s86.6-6.4 86.6-92.7-90.6-87.9-90.6-87.9h-199V361c-74.1-21.5-125.2-67.1-125.2-119.9zm225.1 38.3v-55.6c57.8 0 87.8-6.8 87.8 27.3 0 36.5-38.2 28.3-87.8 28.3zm-.9 72.5H365c10.8 0 18.9 11.7 24 19.2-16.1 1.9-33 2.8-50.6 2.9v-22.1z"/></svg></a> <a href="https://github.com/rstudio/distill" style = "font-size: medium;">Distill</a> package // Last updated on February 9, 2022.
-
-          </p>
-
-
-          </div>
-          </div>
-          <!--/radix_placeholder_navigation_after_body-->
-
-    
-  </body>
-</html>
+<!-- main -->
+<div class="quarto-about-jolla">
+ <main class="content" id="quarto-document-content">
+<p>Hi 👋 I’m Harry, thanks for visiting my site.</p>
+<p>I have a <a href="./blog.html">my blog</a> that is infrequently updated 📝</p>
+<p>See my <a href="./software/">projects</a> for some things I’ve been working 🛠</p>
+<p>Feel free to get in contact below ⬇️</p>
+
+
+</main> 
+  <hr class="about-sep">
+   <div class="about-links">
+  <a href="https://www.twitter.com/harryfishr" class="about-link">Twitter</a>
+  <a href="https://www.linkedin.com/in/drharryfisher/" class="about-link">LinkedIn</a>
+  <a href="https://www.github.com/hfshr" class="about-link">Github</a>
+</div>
+</div>
+ <!-- /main -->
+<script type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    setTimeout(function() {
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

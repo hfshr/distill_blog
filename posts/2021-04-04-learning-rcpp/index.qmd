@@ -1,0 +1,201 @@
+---
+title: "Zero to consciously incompetent with {Rcpp}."
+description: |
+  Exploring the world of {Rcpp} through the eyes of a complete novice.
+date: 04/04/2021
+image: rcpp-logo-blue-dial.png   
+categories:
+  - Rcpp
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+opts_chunk$set(echo = TRUE)
+opts_knit$set(progress = TRUE, verbose = TRUE)
+```
+
+I was skimming through Hadley's advanced R over Easter (as one does) and ended up spending quite a bit of time reading through the last chapter (anyone else read books back to front?), "Rewriting R code in c++". My understanding of c++ was (is?) pretty much non-existent, but whenever I try to learn something new I find the process of writing about it helps things stick. So this post is exactly that, me fumbling my way through some very basic c++ using {Rcpp}. 
+
+::: {.column-margin}
+
+This post is pretty much a rewrite of the early sections in chapter 25 of Advanced R, so don't expect anything too exciting!
+
+:::
+
+# What & why
+
+For a general introduction / overview to c++, I found https://www.learncpp.com/ to be a great place, and assumes no previous knowledge at all. Also [this presentation](https://dirk.eddelbuettel.com/papers/rcpp_rfinance_may2017.pdf) by Dirk Eddelbuettel gives a great introduction from an R perspective. [Rcpp for everyone](https://teuder.github.io/rcpp4everyone_en/) by Masaki E. Tsuda is another fantastic resource and does a great job at showing all the different possibilities with Rcpp.
+
+So, why would one use R with c++? 
+
+1. When things gotta go fast (and R is slow)
+2. Solve a problem in a new way
+3. Make R do something new / extend R
+
+I was particularly interested in point number 1, as who doesn't enjoy trying to make things go fast?
+
+# How
+
+The `Rcpp` package makes the process of R and c++ working together "easier, yet also more robust"^[https://cran.r-project.org/web/packages/Rcpp/vignettes/Rcpp-introduction.pdf]so we'll be using this throughout the following examples. 
+When writing c++ for a package, you'd use the .cpp file extension, however we can also include c++ chunks in rmarkdown (pretty cool) so here are a few examples...
+
+::: {.column-margin}
+You can use the `Rcpp` chunk setting, or set the chunk option engine = "Rcpp" to get things working in Rmarkdown
+:::
+
+Say we want a simple function that doubles whatever number we put in, we could writing something like
+
+```{r, engine='Rcpp'}
+// [[Rcpp::export]]
+int doubleUP(int x) {
+  int y = x * 2;
+  return y;
+}
+```
+
+
+Now there are a few things going on here, most notably we need to define the data type. In this case we use `int` for integer. Other options include doubles, strings, and logicals. We also need to use a semi-colon at the end of each statement. The `// [[Rcpp::export]]` bit makes the c++ function available to use in R, so lets do a quick test...
+
+```{r}
+doubleUP(10)
+```
+
+Great! Now a single value is fine, but say we have a _vector_ of values that we want to double. Would this work?
+
+```{r error = TRUE}
+doubleUP(c(10, 20, 30))
+```
+
+Oh dear. Looks like we need to make some adjustments to our function so it will accept more than one number.
+
+Fortunately, we can use one of the Vector classes from Rcpp, NumericVector, IntegerVector, CharacterVector, and LogicalVector to make our function accept a vector. Here is the adjusted function... 
+
+
+```{Rcpp}
+#include <Rcpp.h>
+using namespace Rcpp;
+
+// [[Rcpp::export]]
+NumericVector doubleUPPP (NumericVector x) {
+  int n = x.size();
+  NumericVector result(n);
+  
+  for(int i = 0; i < n; ++i) {
+    result[i] = x[i] * 2;
+  }
+  return result;
+}
+```
+
+Few extra things have happened and I'll attempt to explain... First we create `result` which is a numeric vector the size of the vector that we pass in to the function. Then we use a for loop with the syntax `for(init; check; increment)`. We initiate the loop with a new variable `i = 0` and keep looping while i is less than n (the size of our vector). Finally the `++i` tells the loop to increment the value of i each time the loop completes.
+
+::: {.column-margin}
+doubleUPPP has three P's to indicate it accepts a vector. Maybe this naming convention will catch on?
+:::
+
+We've also added the following lines to the chunk:
+
+```
+#include <Rcpp.h>
+using namespace Rcpp;
+
+```
+
+which I think is a bit like using `library(package)` in R so we're making the functions(?) from Rcpp available in our c++ code. Alternatively, we could have written `Rcpp::NumericVector` each time.
+
+So, does it work?
+
+```{r error = TRUE}
+doubleUPPP(c(10, 20, 30))
+```
+
+
+:). We could write a similar function in R and compare performance.
+
+```{r}
+doubleR <- function(x) {
+  
+  total <- vector(mode = mode(x), length = length(x))
+  
+  for (i in seq_along(x)) {
+    total[i] <- x[i] * 2
+  }
+  total
+}
+
+```
+
+And if we compare:
+
+```{r}
+big_vector <- runif(1e6)
+
+bench::mark(
+  doubleR(big_vector),
+  doubleUPPP(big_vector),
+
+)[1:6]
+
+
+```
+
+Quite the improvement! Now lets just ignore for a moment that we could simply use `big_vector + big_vector` to get the same result (and is faster than both `doubleR` and `doubleUPPP`...).  
+
+Rcpp also provides some familiar R classes such as List and DataFrame. Here is a useless function that accepts a DataFrame, multiplies two columns together and returns a DataFrame with the two columns and the result.
+
+```{Rcpp}
+#include <Rcpp.h>
+using namespace Rcpp;
+
+// [[Rcpp::export]]
+DataFrame carFacts(DataFrame df, std::string var1, std::string var2) {
+
+  NumericVector var_1 = as<NumericVector>(df[var1]);
+  NumericVector var_2 = as<NumericVector>(df[var2]);
+  
+  DataFrame data = DataFrame::create( Named(var1) = var_1,         
+                                      Named(var2) = var_2,
+                                      Named("Product") = var_1 * var_2); 
+  return data;
+}
+```
+
+Here it is in action with our old friend `mtcars`:
+
+```{r}
+carFacts(mtcars, var1 = "hp", var2 = "mpg")[1:10,]
+```
+
+Nice! (Although my function is pretty useless in practice...) 
+
+Another cool feature is the ability to use R functions in c++ code. Here is another completely useless example using the `emo::ji` function with a string input.
+
+```{Rcpp}
+#include <Rcpp.h>
+using namespace Rcpp;
+
+// [[Rcpp::export]]
+RObject cppEMOJI(Function f, std::string x) {
+  return f(x);
+}
+```
+
+Here we've used the `RObject` class as a catchall for the output type (as we may not know it in advance). We've also used `std::string` as our input type. `std` refers to the standard library, from which we are using the `string` identifier. We could also use `using namespace std;` like we did for Rcpp.
+
+If we run our function in R we get:
+
+```{r}
+library(emo)
+cppEMOJI(ji, "smile")
+```
+Incredible.
+
+# Wrapping up
+
+Before embarrassing myself any further with these useless functions, I think I'll leave it there. The resources for learning about Rcpp are absolutely fantastic and if you're interested I'd highly recommend starting with Hadley's Advanced R chapter and the great Rcpp vignettes. There are also a whole load of [showcase examples](https://gallery.rcpp.org/) that you can use for inspiration.
+
+Thanks for reading!
+
+## Acknowledgments {.appendix}
+
+Preview image from https://github.com/RcppCore/Rcpp/issues/827, made by https://github.com/coatless

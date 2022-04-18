@@ -1,0 +1,26 @@
+---
+format: 
+  html: 
+    page-layout: full
+
+listing:
+  id: posts
+  contents: posts
+  sort-ui: false
+  filter-ui: false
+  feed: true
+  sort: "date desc"
+  type: table
+  categories: true
+  table-striped: false
+  fields: ['image', 'title', 'date']
+  
+---
+
+Some words I wrote
+
+
+:::{#posts}
+:::
+
+

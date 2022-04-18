@@ -1,0 +1,17 @@
+---
+pageTitle: "Software"
+format:
+  html:
+    toc: false
+listing:
+  - id: software
+    template: template.ejs
+    contents: software.yml
+  
+---
+
+Some things I made
+
+
+:::{#software}
+:::

@@ -1,0 +1,29 @@
+- category: R packages
+  tiles:
+    - title: qbr
+      subtitle: R interface to jquery QueryBuilder
+      href: https://www.github.com/hfshr/qbr
+      thumbnail: img/hex-qbr.png
+    - title: poweRof10
+      subtitle: Access data from athletics rankings database www.powerof10.info
+      href: https://www.github.com/hfshr
+      thumbnail: img/hex-poweRof10.png
+    - title: bitmexr
+      subtitle: API wrapper for www.bitmex.com
+      href: https://www.github.com/hfshr/bitmexr
+      thumbnail: img/bitmexr.png
+
+      
+- category: Shiny
+  tiles:
+    - title: shinyvuer 
+      subtitle: Demo of using Shiny and Vue together
+      href: https://www.github.com/hfshr/shinyvuer
+      thumbnail: img/shiny-vue.png
+    - title: qbr demo
+      subtitle: Example of {qbr} in action.
+      href: https://harryfish.shinyapps.io/qbr_demo
+      thumbnail: img/query.png
+  
+      
+      
