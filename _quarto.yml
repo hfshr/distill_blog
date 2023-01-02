@@ -3,14 +3,18 @@ project:
   repo-url: https://www.github.com/hfshr/distill_blog
 
 website:
-  title: "Data Code & Coffee"
+  title: "Data, Code & Coffee"
   favicon: favicon.ico
+  open-graph: true
+  twitter-card:
+    creator: "@hfshr"
+    site: "Data, Code & Coffee"
   site-url: https://www.hfshr.xyz
   repo-url: https://github.com/hfshr/distill_blog
   repo-branch: quarto
   page-navigation: true
   google-analytics:
-    tracking-id: "UA-145834792-2"
+    tracking-id: "G-J9HB1CE8QQ"
     anonymize-ip: true
   navbar:
     background: primary
@@ -18,7 +22,7 @@ website:
       - href: blog.qmd
         text: Blog
       - href: software/index.qmd
-        text: Projects
+        text: Software
       - icon: github
         href: https://www.github.com/hfshr
       - icon: twitter

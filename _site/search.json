@@ -2,16 +2,16 @@
   {
     "objectID": "blog.html",
     "href": "blog.html",
-    "title": "Data Code & Coffee",
+    "title": "Data, Code & Coffee",
     "section": "",
     "text": "Title\n\n\nDate\n\n\n\n\n\n\n\n\n\nqbr v1.0.0\n\n\nFeb 9, 2022\n\n\n\n\n\n\n\nOh {drat}!\n\n\nOct 31, 2021\n\n\n\n\n\n\n\nIntroducing {qbr}.\n\n\nJun 20, 2021\n\n\n\n\n\n\n\n{dm} is fantastic!\n\n\nMay 9, 2021\n\n\n\n\n\n\n\nZero to consciously incompetent with {Rcpp}.\n\n\nApr 4, 2021\n\n\n\n\n\n\n\nMany models, many plots, many pages!\n\n\nJan 29, 2021\n\n\n\n\n\n\n\nMusings on the RStudio instructor training process\n\n\nJan 17, 2021\n\n\n\n\n\n\n\nHow has Covid-19 affected UK athletics rankings in 2020?\n\n\nDec 26, 2020\n\n\n\n\n\n\n\nWhen one model is not enough: Stacking models with {stacks}.\n\n\nNov 30, 2020\n\n\n\n\n\n\n\n{bitmexr} gets a hex logo!\n\n\nNov 22, 2020\n\n\n\n\n\n\n\nInvestigating sports injuries with Bayesian networks using {bnlearn}.\n\n\nNov 17, 2020\n\n\n\n\n\n\n\nIntroducing {poweRof10}.\n\n\nOct 24, 2020\n\n\n\n\n\n\n\nBuild with R, deploy with Python (and Heroku).\n\n\nJul 14, 2020\n\n\n\n\n\n\n\nPenguins and nakedpipes\n\n\nJun 21, 2020\n\n\n\n\n\n\n\nOpening the black box: Exploring xgboost models with {fastshap} in R\n\n\nJun 7, 2020\n\n\n\n\n\n\n\nbitmexr 0.3.0: Place, modify and cancel your orders on BitMEX without leaving R!\n\n\nMay 25, 2020\n\n\n\n\n\n\n\n{tidymodels} workflow with Bayesian optimisation\n\n\nMay 23, 2020\n\n\n\n\n\n\n\nPretty tables with {gt}.\n\n\nMay 2, 2020\n\n\n\n\n\n\n\nbitmexr: An R client for BitMEX cryptocurrency exchange.\n\n\nApr 13, 2020\n\n\n\n\n\n\n\nExploring the recent Bitcoin crash with {tidyquant} and {gganimate}.\n\n\nMar 22, 2020\n\n\n\n\n\n\n\nWriting a thesis in R Markdown\n\n\nMar 14, 2020\n\n\n\n\n\n\n\nAthletics rankings\n\n\nMar 8, 2020\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "Data Code & Coffee",
+    "title": "Data, Code & Coffee",
     "section": "",
-    "text": "I have a my blog that is infrequently updated 📝\nSee my projects for some things I’ve been working 🛠\nFeel free to get in contact below"
+    "text": "I have a blog that is infrequently updated 📝\nSee my projects for some things I’ve been working 🛠\nFeel free to get in contact below"
   },
   {
     "objectID": "posts/2020-11-01-bayesian-networks-with-bnlearn/index.html",
@@ -371,9 +371,51 @@
     "text": "Acknowledgments\n\nAs always, big thanks to the powerof10 team who provide an invaluable source for athletes and fans alike!"
   },
   {
+    "objectID": "drafts/2023-01-01-shiny-python-penguins/index.html",
+    "href": "drafts/2023-01-01-shiny-python-penguins/index.html",
+    "title": "Shiny python penguins",
+    "section": "",
+    "text": "Shiny python"
+  },
+  {
+    "objectID": "drafts/2022-04-23-distill-quarto/index.html",
+    "href": "drafts/2022-04-23-distill-quarto/index.html",
+    "title": "So long {Distill}, Hello {quarto}.",
+    "section": "",
+    "text": "So quarto has been out for a while now and I wanted to have a play around with it to see what is was all about. I was initially very impressed with how easy it was to get going, mostly due to the excellent documentation available and examples that I kept seeing on github. After dipping my toes in I actually ended up rebuilding this whole site using quarto (sorry distill) and haven’t had any regrets (yet).\nCue cringy meme\nsorry.\nAnyway, below ate three things I found cool while trying it out."
+  },
+  {
+    "objectID": "drafts/2022-04-23-distill-quarto/index.html#custom-templates",
+    "href": "drafts/2022-04-23-distill-quarto/index.html#custom-templates",
+    "title": "So long {Distill}, Hello {quarto}.",
+    "section": "1. Custom templates",
+    "text": "1. Custom templates\nquarto supports the use of custom templates through EJS. What is EJS you ask…\n\nWhat is the “E” for? “Embedded?” Could be. How about “Effective,” “Elegant,” or just “Easy”? EJS is a simple templating language that lets you generate HTML markup with plain JavaScript. No religiousness about how to organize things. No reinvention of iteration and control-flow. It’s just plain JavaScript. - https://ejs.co/\n\nEssentially, this allows you to create custom elements that can be populated with any values you provide. See the quarto site for a better explanation, but with a bit of imagination you could get pretty creative with this.\nThe software page on this site uses a custom template that gets populated with the values in a .yml file. I unashamidly stole borrowed this idea from the quarto site, specifically the gallery page, but with a better imagination than I, you could do some really cool stuff with ejs templates and quarto."
+  },
+  {
+    "objectID": "drafts/2022-04-23-distill-quarto/index.html#interativity-with-observable",
+    "href": "drafts/2022-04-23-distill-quarto/index.html#interativity-with-observable",
+    "title": "So long {Distill}, Hello {quarto}.",
+    "section": "2. Interativity with observable",
+    "text": "2. Interativity with observable\nrmarkdown and quarto both provide the option for including interactivity in documents with Shiny, however this require you to consider how you are going to host your document. This is easy enough to do with the likes of shinyapps.io / rstudio connect / shiny server but sometimes you might not want the hassel of going down that route, and you might just want to share a document via email with interactivity baked into the document itself. Fortunately, quarto supports observable JS which makes it possible to do just that.\nHere is a really simple (not particularly useful) example using the mtcars dataset which I was able to throw together without too much idea of what I was doing. So with a bit of understanding you could create some really cool interactive plots without having to worry out hosting the document anywhere!\n\ncars = FileAttachment(\"cars.csv\").csv({typed: true})\n\nviewof hp = Inputs.range(\n  [57, 335], \n  {value: 100, step: 1, label: \"Horse Power (HP):\"}\n)\n\ncars_filtered = cars.filter(car => hp > car.hp)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nPlotData\n\n\n\nPlot.plot({\n  grid: true,\n  x: {domain: [0, 7]},\n  y: {domain: [0, 40]},\n  facet: {\n    data: cars_filtered,\n    x: \"cyl\"\n  },\n  marks: [\n    Plot.frame(),\n    Plot.dot(cars_filtered, {x: \"wt\", y: \"mpg\", color: \"model\", fill: \"model\", r: 6}),\n    // Plot.text(cars_filtered, \n    //       {x: \"wt\", y: \"mpg\", text: \"model\",fill: \"model\", fontSize: 12 })\n    ],\n    style: {\n      backgroundColor: \"#000000\"\n    },\n   color: {\n    legend: true\n  },\n  })\n\n\n\n\n\n\n\n\nYou can also search of values in the table by typing into the search box!\n\nviewof search = Inputs.search(cars_filtered)\nInputs.table(search)"
+  },
+  {
+    "objectID": "drafts/2022-04-23-distill-quarto/index.html#support-for-rstudio-and-vs-code",
+    "href": "drafts/2022-04-23-distill-quarto/index.html#support-for-rstudio-and-vs-code",
+    "title": "So long {Distill}, Hello {quarto}.",
+    "section": "3. Support for RStudio and VS Code",
+    "text": "3. Support for RStudio and VS Code\nRStudio has excellent support for quarto and more recent versions have a lot of supporting features builtin."
+  },
+  {
+    "objectID": "drafts/2022-04-23-distill-quarto/index.html#check-these-out",
+    "href": "drafts/2022-04-23-distill-quarto/index.html#check-these-out",
+    "title": "So long {Distill}, Hello {quarto}.",
+    "section": "Check these out",
+    "text": "Check these out\nInstead of making this any longer, I would encourage any interested reader to check out some of the following resources. I’ve learnt lots of useful things from these and much better writing\n\nWith Quarto Coming, is R Markdown Going Away? No. by Yihui Xie\nPorting a distill blog to quarto https://blog.djnavarro.ne\n <>"
+  },
+  {
     "objectID": "software/index.html",
     "href": "software/index.html",
-    "title": "Data Code & Coffee",
+    "title": "Data, Code & Coffee",
     "section": "",
     "text": "R packages\n\n  \n    \n      \n    \n    \n    \n        \n      \n      qbr\n      R interface to jquery QueryBuilder\n   \n  \n  \n    \n      \n    \n    \n    \n        \n      \n      poweRof10\n      Access data from athletics rankings database www.powerof10.info\n   \n  \n  \n    \n      \n    \n    \n    \n        \n      \n      bitmexr\n      API wrapper for www.bitmex.com\n   \n  \n\nShiny\n\n  \n    \n      \n    \n    \n    \n        \n      \n      shinyvuer\n      Demo of using Shiny and Vue together\n   \n  \n  \n    \n      \n    \n    \n    \n        \n      \n      qbr demo\n      Example of {qbr} in action.\n   \n  \n\n\nNo matching items"
   }

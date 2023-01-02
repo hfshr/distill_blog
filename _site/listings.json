@@ -1,0 +1,33 @@
+[
+  {
+    "listing": "/blog.html",
+    "items": [
+      "/posts/2022-02-05-qbr-update/index.html",
+      "/posts/2021-10-31-oh-drat/index.html",
+      "/posts/2021-06-20-qbr/index.html",
+      "/posts/2021-05-03-dm-is-fantastic/index.html",
+      "/posts/2021-04-04-learning-rcpp/index.html",
+      "/posts/2021-01-29-many-models-many-plots/index.html",
+      "/posts/2021-01-17-rstudio-certification/index.html",
+      "/posts/2020-12-26-powerof10-covid/index.html",
+      "/posts/2020-11-30-model-stacking/index.html",
+      "/posts/2020-11-22-bitmexr-logo/index.html",
+      "/posts/2020-11-01-bayesian-networks-with-bnlearn/index.html",
+      "/posts/2020-10-22-introducing-powerof10/index.html",
+      "/posts/2020-07-14-deploy-model/index.html",
+      "/posts/2020-06-21-penguins-and-nakedpipes/index.html",
+      "/posts/2020-06-07-variable-importance-with-fastshap/index.html",
+      "/posts/2020-05-25-bitmexr-updates/index.html",
+      "/posts/2020-05-23-tidymodel-notes/index.html",
+      "/posts/2020-05-02-pretty-tables-with-gt/index.html",
+      "/posts/2020-04-13-bitmexr/index.html",
+      "/posts/2020-03-22-bitcoin/index.html",
+      "/posts/2020-03-14-writing-a-thesis-in-r-markdown/index.html",
+      "/posts/2020-03-08-athletics-rankings/index.html"
+    ]
+  },
+  {
+    "listing": "/software/index.html",
+    "items": []
+  }
+]
